@@ -1,0 +1,331 @@
+name: Retrieve from Salesforce
+
+on:
+  workflow_dispatch:
+    inputs:
+      deployment_type:
+        description: "Retrieve Type"
+        required: true
+        type: choice
+        options:
+          - specific-metadata
+          - full-retrieve
+        default: "specific-metadata"
+
+jobs:
+  retrieve:
+    runs-on: ubuntu-latest
+
+    # Automatically select the GitHub Environment
+    # based on the branch from which the workflow is run.
+    environment: ${{ github.ref_name }}
+
+    permissions:
+      contents: write
+
+    steps:
+
+      # ============================================================
+      # 1. Display Retrieval Information
+      # ============================================================
+      - name: Display Retrieval Info
+        run: |
+          echo "========================================="
+          echo "RETRIEVAL INFORMATION"
+          echo "========================================="
+          echo "Branch:        ${{ github.ref_name }}"
+          echo "Environment:   ${{ github.ref_name }}"
+          echo "Retrieve Type: ${{ github.event.inputs.deployment_type }}"
+          echo "Triggered By:  ${{ github.actor }}"
+          echo "========================================="
+
+
+      # ============================================================
+      # 2. Checkout Repository
+      # ============================================================
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+
+      # ============================================================
+      # 3. Install Salesforce CLI
+      # ============================================================
+      - name: Install Salesforce CLI
+        run: |
+          npm install --global @salesforce/cli
+          sf --version
+
+
+      # ============================================================
+      # 4. Verify Salesforce Project Structure
+      # ============================================================
+      - name: Verify Salesforce project structure
+        run: |
+          echo "========================================="
+          echo "VERIFYING SALESFORCE PROJECT"
+          echo "========================================="
+
+          echo "Current directory:"
+          pwd
+
+          echo ""
+          echo "Repository contents:"
+          ls -la
+
+          # Check sfdx-project.json
+          if [ ! -f "sfdx-project.json" ]; then
+            echo ""
+            echo "ERROR: sfdx-project.json was not found!"
+            echo "Make sure the GitHub Action is running from the Salesforce project root."
+            exit 1
+          fi
+
+          echo ""
+          echo "sfdx-project.json found."
+
+          echo ""
+          echo "Contents of sfdx-project.json:"
+          cat sfdx-project.json
+
+          # Check manifest
+          if [ ! -f "manifest/package.xml" ]; then
+            echo ""
+            echo "ERROR: manifest/package.xml was not found!"
+            exit 1
+          fi
+
+          echo ""
+          echo "manifest/package.xml found."
+
+          # Salesforce CLI requires the package directory
+          # specified in sfdx-project.json.
+          if [ ! -d "force-app" ]; then
+            echo ""
+            echo "WARNING: force-app directory does not exist."
+            echo "Creating force-app/main/default..."
+
+            mkdir -p force-app/main/default
+          fi
+
+          echo ""
+          echo "Salesforce project directories:"
+          find . -maxdepth 4 -type d | sort
+
+          echo ""
+          echo "Salesforce project verification completed."
+
+
+      # ============================================================
+      # 5. Authenticate to Salesforce
+      # ============================================================
+      - name: Authenticate to Salesforce
+        env:
+          SALESFORCE_AUTH_URL: ${{ secrets.SALESFORCE_AUTH_URL }}
+        run: |
+          echo "========================================="
+          echo "AUTHENTICATING TO SALESFORCE"
+          echo "========================================="
+
+          if [ -z "$SALESFORCE_AUTH_URL" ]; then
+            echo "ERROR: SALESFORCE_AUTH_URL secret is empty or not configured."
+            exit 1
+          fi
+
+          echo "$SALESFORCE_AUTH_URL" > authfile.txt
+
+          sf org login sfdx-url \
+            --sfdx-url-file authfile.txt \
+            --alias retrieval-org \
+            --set-default
+
+          rm -f authfile.txt
+
+          echo ""
+          echo "Salesforce authentication completed."
+
+          echo ""
+          echo "Authenticated org:"
+          sf org display --target-org retrieval-org
+
+
+      # ============================================================
+      # 6. Retrieve Specific Metadata
+      # ============================================================
+      - name: Retrieve - Specific Metadata
+        if: ${{ github.event.inputs.deployment_type == 'specific-metadata' }}
+        run: |
+          echo "========================================="
+          echo "SPECIFIC METADATA RETRIEVAL"
+          echo "========================================="
+
+          echo "Retrieving metadata specified in:"
+          echo "manifest/package.xml"
+
+          if [ ! -f "manifest/package.xml" ]; then
+            echo "ERROR: manifest/package.xml not found!"
+            exit 1
+          fi
+
+          echo ""
+          echo "Package manifest:"
+          cat manifest/package.xml
+
+          echo ""
+          echo "Starting Salesforce metadata retrieval..."
+
+          sf project retrieve start \
+            --manifest manifest/package.xml \
+            --target-org retrieval-org \
+            --wait 30
+
+          echo ""
+          echo "Specific metadata retrieval completed."
+
+
+      # ============================================================
+      # 7. Retrieve Full Salesforce Metadata
+      # ============================================================
+      - name: Retrieve - Full Retrieve
+        if: ${{ github.event.inputs.deployment_type == 'full-retrieve' }}
+        run: |
+          echo "========================================="
+          echo "FULL METADATA RETRIEVAL"
+          echo "========================================="
+
+          echo "Retrieving all metadata from Salesforce..."
+
+          sf project retrieve start \
+            --target-org retrieval-org \
+            --wait 30
+
+          echo ""
+          echo "Full metadata retrieval completed."
+
+
+      # ============================================================
+      # 8. Show Retrieved Changes
+      # ============================================================
+      - name: Show Retrieved Changes
+        if: always()
+        run: |
+          echo "========================================="
+          echo "GIT STATUS AFTER RETRIEVAL"
+          echo "========================================="
+
+          git status --short
+
+          echo ""
+          echo "Changed files:"
+          git diff --name-only
+
+          echo ""
+          echo "Untracked files:"
+          git ls-files --others --exclude-standard
+
+
+      # ============================================================
+      # 9. Check for Changes
+      # ============================================================
+      - name: Check for changes
+        id: check_changes
+        run: |
+          if [[ -n "$(git status --porcelain)" ]]; then
+            echo "changes_detected=true" >> "$GITHUB_OUTPUT"
+
+            echo "========================================="
+            echo "CHANGES DETECTED"
+            echo "========================================="
+
+            git status --short
+          else
+            echo "changes_detected=false" >> "$GITHUB_OUTPUT"
+
+            echo "========================================="
+            echo "NO CHANGES DETECTED"
+            echo "========================================="
+
+            echo "Salesforce org is already in sync with GitHub."
+          fi
+
+
+      # ============================================================
+      # 10. Commit and Push Retrieved Metadata
+      # ============================================================
+      - name: Commit and Push changes to GitHub
+        if: steps.check_changes.outputs.changes_detected == 'true'
+        run: |
+          echo "========================================="
+          echo "COMMITTING RETRIEVED METADATA"
+          echo "========================================="
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          echo ""
+          echo "Files to be committed:"
+          git status --short
+
+          # Add Salesforce source metadata.
+          git add force-app/
+
+          # Also add manifest and project configuration
+          # if they were changed.
+          if [ -d "manifest" ]; then
+            git add manifest/
+          fi
+
+          if [ -f "sfdx-project.json" ]; then
+            git add sfdx-project.json
+          fi
+
+          # Check whether anything is staged.
+          if git diff --cached --quiet; then
+            echo "No Salesforce metadata changes are staged."
+            exit 0
+          fi
+
+          git commit \
+            -m "Retrieve Salesforce metadata from ${{ github.ref_name }} [skip ci]"
+
+          echo ""
+          echo "Pushing changes to branch:"
+          echo "${{ github.ref_name }}"
+
+          git push origin "HEAD:${{ github.ref_name }}"
+
+          echo ""
+          echo "Changes successfully pushed to GitHub."
+
+
+      # ============================================================
+      # 11. No Changes Summary
+      # ============================================================
+      - name: No Changes Summary
+        if: steps.check_changes.outputs.changes_detected == 'false'
+        run: |
+          echo "========================================="
+          echo "NO CHANGES TO COMMIT"
+          echo "========================================="
+          echo "Salesforce org is in sync with repository."
+          echo "========================================="
+
+
+      # ============================================================
+      # 12. Retrieval Summary
+      # ============================================================
+      - name: Retrieval Summary
+        if: always()
+        run: |
+          echo ""
+          echo "========================================="
+          echo "RETRIEVAL SUMMARY"
+          echo "========================================="
+          echo "Branch:        ${{ github.ref_name }}"
+          echo "Environment:   ${{ github.ref_name }}"
+          echo "Retrieve Type: ${{ github.event.inputs.deployment_type }}"
+          echo "Changes:       ${{ steps.check_changes.outputs.changes_detected }}"
+          echo "Triggered By:  ${{ github.actor }}"
+          echo "Timestamp:     $(date)"
+          echo "========================================="
