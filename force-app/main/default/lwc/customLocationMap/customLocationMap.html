@@ -1,0 +1,27 @@
+<template>
+    <lightning-card title="Retailer Location Map" icon-name="utility:location">
+        <template if:true={hasCoordinates}>
+            <lightning-map
+                map-markers={mapMarkers}
+                zoom-level="15"
+                markers-title="Retailer Location"
+                center={mapCenter}><!--onmarkerselect={openInGoogleMaps}-->
+            </lightning-map>
+
+            <div class="slds-m-top_small slds-align_absolute-center">
+                  <a href={mapUrl} target="_system" class="taggedbutton">
+        Open in Google Maps
+    </a>
+                <!--<lightning-button
+                    label="Open in Google Maps"
+                    onclick={openInGoogleMaps}
+                    variant="brand">
+                </lightning-button>-->
+            </div>
+        </template>
+
+        <template if:false={hasCoordinates}>
+            <p class="slds-p-around_medium">Latitude and Longitude not available for this Account.</p>
+        </template>
+    </lightning-card>
+</template>

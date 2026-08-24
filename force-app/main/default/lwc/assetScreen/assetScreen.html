@@ -1,0 +1,167 @@
+<template>
+  <div class="main-container">
+    <!-- Asset Cards -->
+    <template if:false={showScannedDetail}>
+      <template if:true={isLoading}>
+        <div class="spinner-container">
+          <lightning-spinner alternative-text="Saving..." size="medium"></lightning-spinner>
+        </div>
+      </template>
+      <!--No Assets Found -->
+      <template if:true={noAssets}>
+        <div class="asset-card no-data-card">
+          <p class="no-data-text">No Asset Found !!</p>
+        </div>
+      </template>
+      <!--Asset List -->
+      <template if:false={noAssets}>
+        <template for:each={assets} for:item="asset">
+          <div key={asset.id} class={asset.cardClass}>
+            <div class="top-section">
+              <img src={asset.finalImage} class="asset-image" />
+              <div class="status-badge">{asset.status}</div>
+            </div>
+            <div class="asset-id">{asset.qrCode}</div>
+            <div class="info-row">
+              <div class="info-col">
+                <span class="label">Freezer ID</span>
+                <span class="value">{asset.freezerId}</span>
+              </div>
+              <div class="divider"></div>
+              <div class="info-col">
+                <span class="label">Model No.</span>
+                <span class="value">{asset.attributes.Model}</span>
+              </div>
+              <div class="divider"></div>
+              <div class="info-col">
+                <span class="label">QR Code</span>
+                <span class="value">{asset.qrCode}</span>
+              </div>
+            </div>
+            <div class="dates-section">
+              <p class="date-title">Dates</p>
+              <p>📅 Allocation Date : {asset.allocationDate}</p>
+              <p>📅 Last Audit : {asset.lastAuditDate}</p>
+            </div>
+            <div class="btn-row">
+              <template if:true={asset.isAuditedToday}>
+                <template if:true={asset.isSkipped}>
+                  <button class="skipped-btn" disabled> Skipped </button>
+                </template>
+                <template if:true={asset.isScanned}>
+                  <button class="scaned-btn" disabled> Scanned </button>
+                </template>
+              </template>
+              <template if:false={asset.isAuditedToday}>
+                <button class="skip-btn" data-id={asset.mappingId} onclick={handleSkipClick}>Skip</button>
+                <button class="scan-btn" data-id={asset.mappingId} onclick={handleScanClick}>Scan</button>
+              </template>
+            </div>
+          </div>
+        </template>
+      </template>
+    </template>
+    <!-- CASESCREEN STYLE POPUP -->
+    <template if:true={showSkipModal}>
+      <div class="modal-backdrop" onclick={closeModal}></div>
+      <div class="modal">
+        <div class="modal-header">
+          <span class="close-btn" onclick={closeModal}>✕</span>
+        </div>
+        <div class="search-box">
+          <label class="input-label">Select Reason</label>
+          <div class="input-wrapper">
+            <input type="text" placeholder="Select Reason" value={searchReason} onclick={handleReasonClick} oninput={handleReasonSearch} />
+            <template if:false={selectedReason}>
+              <span class="icon" onclick={handleReasonClick}>▼</span>
+            </template>
+            <template if:true={selectedReason}>
+              <span class="icon clear-icon" onclick={clearReason}>✕</span>
+            </template>
+          </div>
+        </div>
+        <template if:true={showReasonDropdown}>
+          <div class="dropdown">
+            <template for:each={filteredReasons} for:item="reason">
+              <div key={reason} class="type-item" data-value={reason} onclick={selectReason}> {reason} </div>
+            </template>
+          </div>
+        </template>
+        <button class="submit-btn" onclick={handleSkipSubmit}> Submit </button>
+      </div>
+    </template>
+    <template if:true={showScanPopup}>
+      <div class="modal-backdrop"></div>
+      <div class="scan-modal">
+        <div class="modal-header">
+          <span class="close-btn" onclick={handleCancelScan}>✕</span>
+        </div>
+        <div class="scan-icon">📷</div>
+        <h2>Scan Asset QR Code</h2>
+        <p> To proceed, please scan the QR code on the asset. </p>
+        <button class="scan-now-btn" onclick={handleScanNow}> Scan Now </button>
+        <button class="manual-btn" onclick={handleManualFill}> Manual </button>
+        <button class="cancel-btn" onclick={handleCancelScan}> Cancel </button>
+      </div>
+    </template>
+    <template if:true={showManualEntry}>
+      <div class="modal-backdrop" onclick={closeManual}></div>
+      <div class="modal">
+        <div class="modal-header">
+          <span class="close-btn" onclick={handleCancelScan}>✕</span>
+        </div>
+        <div class="search-box">
+          <label class="input-label">Enter QR Code Number</label>
+          <div class="input-wrapper">
+            <input type="text" placeholder="Enter QR Code Number" value={manualSerial} oninput={handleManualInput} />
+          </div>
+        </div>
+        <button class="submit-btn" onclick={handleManualNext}> Next </button>
+      </div>
+    </template>
+    <template if:true={showScannedDetail}>
+      <div>
+        <div class="detail-header">
+          <button class="back-icon-btn" onclick={handleBack}>
+            <span class="arrow-icon"></span>
+          </button>
+        </div>
+        <div class="detail-screen">
+          <img src={scannedAsset.finalImage} class="detail-img" />
+          <div class="status-green">This Asset is Active</div>
+          <div class="detail-box">
+            <p>
+              <b> Asset Serial No.</b>
+              <br />{scannedAsset.serialNo}
+            </p>
+            <p>
+              <b>QR Code</b>
+              <br />{scannedAsset.qrCode}
+            </p>
+            <p>
+              <b>Freezer Id</b>
+              <br />{scannedAsset.freezerId}
+            </p>
+            <template for:each={attributeList} for:item="attr">
+              <p key={attr.label}>
+                <b>{attr.label}</b>
+                <br />{attr.value}
+              </p>
+            </template>
+          </div>
+        </div>
+      </div>
+    </template>
+  </div>
+  <!--  FIXED FOOTER -->
+  <template if:false={showScannedDetail}>
+    <div class="footer">
+      <button class="footer-back" onclick={handleBack}> Back </button>
+    </div>
+  </template>
+  <template if:true={showScannedDetail}>
+    <div class="footer detail-footer">
+      <button class="audit-btn" onclick={handleAuditClick}> Submit Audit </button>
+    </div>
+  </template>
+</template>

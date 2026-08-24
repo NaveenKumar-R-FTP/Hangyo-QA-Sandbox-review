@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>Approved_1</fullName>
+        <description>Approved 1</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Email_for_Approvals/Expense_Is_Approved</template>
+    </alerts>
+    <alerts>
+        <fullName>Expense_Approved_2</fullName>
+        <description>Expense Approved 2</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Email_for_Approvals/Expense_Is_Approved</template>
+    </alerts>
+    <alerts>
+        <fullName>Expense_is_Reject</fullName>
+        <description>Expense is Reject</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Email_for_Approvals/Expense_Is_Rejected</template>
+    </alerts>
+    <alerts>
+        <fullName>Expesne_is_Approved_3</fullName>
+        <description>Expesne is Approved 3</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Email_for_Approvals/Expense_Is_Approved</template>
+    </alerts>
+    <alerts>
+        <fullName>Expesne_is_Approved_4</fullName>
+        <description>Expesne is Approved 4</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Email_for_Approvals/Expense_Is_Approved</template>
+    </alerts>
+    <alerts>
+        <fullName>Expesne_is_Approved_5</fullName>
+        <description>Expesne is Approved 5</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Email_for_Approvals/Expense_Is_Approved</template>
+    </alerts>
+    <alerts>
+        <fullName>Expesne_is_Approved_6</fullName>
+        <description>Expesne is Approved 6</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Email_for_Approvals/Expense_Is_Approved</template>
+    </alerts>
+    <alerts>
+        <fullName>Expesne_is_Approved_7</fullName>
+        <description>Expesne is Approved 7</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Email_for_Approvals/Expense_Is_Approved</template>
+    </alerts>
+    <alerts>
+        <fullName>Expesne_is_Approved_8</fullName>
+        <description>Expesne is Approved 8</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Email_for_Approvals/Expense_Is_Approved</template>
+    </alerts>
+    <alerts>
+        <fullName>Expesne_is_Approved_9</fullName>
+        <description>Expesne is Approved 9</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Email_for_Approvals/Expense_Is_Approved</template>
+    </alerts>
+    <fieldUpdates>
+        <fullName>Approved1</fullName>
+        <field>Approval_Status__c</field>
+        <literalValue>Approved</literalValue>
+        <name>Approved1</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Reject</fullName>
+        <field>Approval_Status__c</field>
+        <literalValue>Rejected</literalValue>
+        <name>Reject</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Status_Update</fullName>
+        <field>Status__c</field>
+        <literalValue>Submitte_for_Approval</literalValue>
+        <name>Status Update</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Submit_for_Approval</fullName>
+        <field>Approval_Status__c</field>
+        <literalValue>Submitted</literalValue>
+        <name>Submit for Approval</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Status_Field</fullName>
+        <field>Status__c</field>
+        <literalValue>Approved</literalValue>
+        <name>Update Status Field</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Status_Field_Rejected</fullName>
+        <field>Status__c</field>
+        <literalValue>Reject</literalValue>
+        <name>Update Status Field Rejected</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+</Workflow>

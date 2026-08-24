@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Condition --></label>
+    <name>Condition__c</name>
+    <picklistValues>
+        <masterLabel>Damage</masterLabel>
+        <translation><!-- Damage --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Missing</masterLabel>
+        <translation><!-- Missing --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Present</masterLabel>
+        <translation><!-- Present --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

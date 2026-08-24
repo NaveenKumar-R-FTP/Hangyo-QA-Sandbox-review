@@ -1,0 +1,68 @@
+<template>
+    <template if:false={showDetailsModal}>
+        <lightning-card>
+
+            <div class="card-header">
+                <span class="card-title">User Summary</span>
+                <button class="details-btn" onclick={navigateToDetails}>See Details</button>
+            </div>
+
+            <template if:true={loaded}>
+                <div class="summary-section">
+
+                    <div class="summary-row">
+                        <div class="status-header">
+                            <span class="status-label">Absent</span>
+                            <span class="status-count-top">{absentCount}</span>
+                        </div>
+                        <div class="status-bar-bg">
+                            <div class="status-bar absent" style={absentWidth}></div>
+                        </div>
+                    </div>
+                     <div class="summary-row">
+                        <div class="status-header">
+                            <span class="status-label">Leave</span>
+                            <span class="status-count-top">{leaveCount}</span>
+                        </div>
+                        <div class="status-bar-bg">
+                            <div class="status-bar absent" style={leaveWidth}></div>
+                        </div>
+                    </div>
+
+
+                    <div class="summary-row">
+                        <div class="status-header">
+                            <span class="status-label">Present</span>
+                            <span class="status-count-top">{presentCount}</span>
+                        </div>
+                        <div class="status-bar-bg">
+                            <div class="status-bar present" style={presentWidth}></div>
+                        </div>
+                    </div>
+
+                    <div class="summary-row">
+                        <div class="status-header">
+                            <span class="status-label">Official Work</span>
+                            <span class="status-count-top">{officialCount}</span>
+                        </div>
+                        <div class="status-bar-bg">
+                            <div class="status-bar official" style={officialWidth}></div>
+                        </div>
+                    </div>
+
+                    <div class="summary-row">
+                        <div class="status-header">
+                            <span class="status-label">Retailing</span>
+                            <span class="status-count-top">{retailingCount}</span>
+                        </div>
+                        <div class="status-bar-bg">
+                            <div class="status-bar retailing" style={retailingWidth}></div>
+                        </div>
+                    </div>
+
+                </div>
+            </template>
+
+        </lightning-card>
+    </template>
+</template>

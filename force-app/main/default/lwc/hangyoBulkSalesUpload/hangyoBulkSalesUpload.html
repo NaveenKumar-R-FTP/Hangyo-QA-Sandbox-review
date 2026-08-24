@@ -1,0 +1,437 @@
+<template>
+    <template lwc:if={showContent}>
+    <div class="bulkUploadMount">
+        <div class="uploadShell">
+            <header class="dashHeader">
+                <h1 class="dashTitle">Secondary Sales Bulk Upload</h1>
+            </header>
+
+            <section class="uploadCard" aria-label="Bulk upload">
+            
+            <div class="formStack">
+                <div class="formRow">
+                    <div class="formSection formSection_col">
+                        <span class="sectionLabel">Upload Type</span>
+                        <div class="controlShell">
+                            <select
+                                class="uploadTypeSelect"
+                                name="uploadType"
+                                aria-label="Upload Type"
+                                data-id="upload-type-select"
+                                required
+                                onchange={handleUploadTypeChange}
+                            >
+                                <option value="" disabled selected hidden>
+                                    Select upload type
+                                </option>
+                                <template for:each={uploadTypeOptions} for:item="option">
+                                    <option key={option.value} value={option.value}>
+                                        {option.label}
+                                    </option>
+                                </template>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="formSection formSection_col">
+                        <span class="sectionLabel">Choose File</span>
+                        <div class="controlShell">
+                            <div class="filePickerRow">
+                            <div class="fileDropZone">
+                                <span class={fileTextClass} title={fileDisplayText}>
+                                    {fileDisplayText}
+                                </span>
+                                <template lwc:if={hasValidFile}>
+                                    <lightning-icon
+                                        icon-name="utility:check"
+                                        size="x-small"
+                                        class="fileValidIcon"
+                                        alternative-text="Valid file"
+                                    ></lightning-icon>
+                                </template>
+                            </div>
+                            <label
+                                class="chooseFileBtn"
+                                role="button"
+                                tabindex="0"
+                                onclick={handleChooseFileClick}
+                            >
+                                Choose File
+                            </label>
+                            <template lwc:if={showFileInput}>
+                                <input
+                                    data-id="bulk-file-input"
+                                    type="file"
+                                    class="hiddenFileInput"
+                                    accept=".xlsx,.xls"
+                                    onchange={handleFileChange}
+                                />
+                            </template>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="formHintRow">
+                    <span class="formHintSpacer" aria-hidden="true"></span>
+                    <p class="hintText">Accepted formats: .xls, .xlsx</p>
+                </div>
+
+                <template lwc:if={clientValidationMessage}>
+                    <div class="clientErrorBanner" role="alert">
+                        {clientValidationMessage}
+                    </div>
+                </template>
+
+                <div class="uploadBtnWrap">
+                    <button
+                        type="button"
+                        class="hangyoButton hangyoButtonUpload"
+                        onclick={handleNext}
+                        disabled={isNextDisabled}
+                    >
+                        {nextButtonLabel}
+                    </button>
+                    <button
+                        type="button"
+                        class="hangyoButton hangyoButtonUpload"
+                        onclick={handleDownloadFormat}
+                        disabled={isDownloadDisabled}
+                        title="Select an upload type to enable download"
+                    >
+                        {downloadButtonLabel}
+                    </button>
+                    <button
+                        type="button"
+                        class="hangyoButton hangyoButtonClear"
+                        onclick={handleClear}
+                        disabled={isValidating}
+                    >
+                        Clear
+                    </button>
+                </div>
+            </div>
+        </section>
+        </div>
+
+        <!-- Upload result card -->
+        <template lwc:if={showUploadResult}>
+            <section class="resultCard" aria-label="Upload result">
+                <header class="resultHeader">
+                    <h2 class="cardTitle">Upload Result</h2>
+                </header>
+
+                <div class="resultTabs" role="tablist">
+                    <button
+                        type="button"
+                        role="tab"
+                        class={errorsTabClass}
+                        aria-selected={isErrorsTabActive}
+                        onclick={handleErrorsTab}
+                    >
+                        Validation Errors ({errorCount})
+                    </button>
+                    <button
+                        type="button"
+                        role="tab"
+                        class={successTabClass}
+                        aria-selected={isSuccessTabActive}
+                        onclick={handleSuccessTab}
+                    >
+                        Success
+                    </button>
+                </div>
+
+                <template lwc:if={isErrorsTabActive}>
+                    <template lwc:if={hasValidationErrors}>
+                        <div class="errorTableWrap">
+                            <table class="errorTable">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Row No.</th>
+                                        <th scope="col">Column Name</th>
+                                        <th scope="col">Error Message</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={validationErrors} for:item="err">
+                                        <tr key={err.key}>
+                                            <td>{err.rowNo}</td>
+                                            <td>{err.columnName}</td>
+                                            <td class="errorMessageCell">
+                                                {err.errorMessage}
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                    </template>
+                    <template lwc:else>
+                        <p class="emptyTabMessage">No validation errors.</p>
+                    </template>
+                </template>
+
+                <template lwc:if={isSuccessTabActive}>
+                    <template lwc:if={uploadSuccess}>
+                        <div class="successBanner" role="status">
+                            <lightning-icon
+                                icon-name="utility:success"
+                                size="small"
+                                class="successBannerIcon"
+                                alternative-text="Success"
+                            ></lightning-icon>
+                            <p class="successBannerDetail">{successSummaryText}</p>
+                        </div>
+
+                        <template lwc:if={hasGroupedSummaries}>
+                            <template lwc:if={isOrderUpload}>
+                                <div class="summaryTableWrap">
+                                    <table class="summaryTable">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" class="summarySerialCol">S.No.</th>
+                                                <th scope="col">Ref Order No.</th>
+                                                <th scope="col">Order Date</th>
+                                                <th scope="col">Retailer Name</th>
+                                                <th scope="col">Quantity</th>
+                                                <th scope="col">Grand Total</th>
+                                                <th scope="col">Total GST</th>
+                                                <th scope="col" class="summaryExpandCol"></th>
+                                            </tr>
+                                        </thead>
+                                        <template for:each={groupedSummaries} for:item="group">
+                                            <tbody key={group.key}>
+                                                <tr class="summaryGroupRow">
+                                                    <td class="summarySerialCol">{group.serialNo}</td>
+                                                    <td>{group.refNo}</td>
+                                                    <td>{group.orderDate}</td>
+                                                    <td>{group.retailerName}</td>
+                                                    <td>{group.totalQuantity}</td>
+                                                    <td>{group.formattedGrandTotal}</td>
+                                                    <td>{group.formattedTotalGst}</td>
+                                                    <td class="summaryExpandCol">
+                                                        <button
+                                                            type="button"
+                                                            class="summaryExpandBtn"
+                                                            data-key={group.key}
+                                                            onclick={handleToggleGroup}
+                                                            aria-label="Toggle line items"
+                                                        >
+                                                            <lightning-icon
+                                                                icon-name={group.expandIcon}
+                                                                size="x-small"
+                                                                alternative-text="Expand"
+                                                            ></lightning-icon>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                <template lwc:if={group.isExpanded}>
+                                                    <tr class="summaryLineRow">
+                                                        <td colspan="8">
+                                                            <div class="summaryLineTableWrap">
+                                                                <table class="summaryLineTable">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th scope="col" class="summarySerialCol">S.No.</th>
+                                                                            <th scope="col">Product Code</th>
+                                                                            <th scope="col">Product Name</th>
+                                                                            <th scope="col">Quantity</th>
+                                                                            <th scope="col">Price</th>
+                                                                            <th scope="col">Amount</th>
+                                                                            <th scope="col">Taxable Amount</th>
+                                                                            <th scope="col">Total GST</th>
+                                                                            <th scope="col">Total Amount (Incl Tax)</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <template for:each={group.lineItems} for:item="line">
+                                                                            <tr key={line.key}>
+                                                                                <td class="summarySerialCol">{line.serialNo}</td>
+                                                                                <td>{line.productCode}</td>
+                                                                                <td>{line.productName}</td>
+                                                                                <td>{line.quantity}</td>
+                                                                                <td>{line.formattedPrice}</td>
+                                                                                <td>{line.formattedAmount}</td>
+                                                                                <td>{line.formattedTaxableAmount}</td>
+                                                                                <td>{line.formattedTotalGst}</td>
+                                                                                <td>{line.formattedTotalAmountInclTax}</td>
+                                                                            </tr>
+                                                                        </template>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </template>
+                                            </tbody>
+                                        </template>
+                                    </table>
+                                </div>
+                            </template>
+
+                            <template lwc:if={isInvoiceUpload}>
+                                <div class="summaryTableWrap">
+                                    <table class="summaryTable">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" class="summarySerialCol">S.No.</th>
+                                                <th scope="col">Ref Invoice No.</th>
+                                                <th scope="col">Invoice Date</th>
+                                                <th scope="col">Retailer Name</th>
+                                                <th scope="col">Order No</th>
+                                                <th scope="col">Quantity</th>
+                                                <th scope="col">Grand Total</th>
+                                                <th scope="col">Total GST</th>
+                                                <th scope="col">Status</th>
+                                                <th scope="col" class="summaryExpandCol"></th>
+                                            </tr>
+                                        </thead>
+                                        <template for:each={groupedSummaries} for:item="group">
+                                            <tbody key={group.key}>
+                                                <tr class="summaryGroupRow">
+                                                    <td class="summarySerialCol">{group.serialNo}</td>
+                                                    <td>{group.refNo}</td>
+                                                    <td>{group.invoiceDate}</td>
+                                                    <td>{group.retailerName}</td>
+                                                    <td>{group.orderNumber}</td>
+                                                    <td>{group.totalQuantity}</td>
+                                                    <td>{group.formattedGrandTotal}</td>
+                                                    <td>{group.formattedTotalGst}</td>
+                                                    <td>{group.status}</td>
+                                                    <td class="summaryExpandCol">
+                                                        <button
+                                                            type="button"
+                                                            class="summaryExpandBtn"
+                                                            data-key={group.key}
+                                                            onclick={handleToggleGroup}
+                                                            aria-label="Toggle line items"
+                                                        >
+                                                            <lightning-icon
+                                                                icon-name={group.expandIcon}
+                                                                size="x-small"
+                                                                alternative-text="Expand"
+                                                            ></lightning-icon>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                <template lwc:if={group.isExpanded}>
+                                                    <tr class="summaryLineRow">
+                                                        <td colspan="10">
+                                                            <div class="summaryLineTableWrap">
+                                                                <table class="summaryLineTable">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th scope="col" class="summarySerialCol">S.No.</th>
+                                                                            <th scope="col">Product Code</th>
+                                                                            <th scope="col">Product Name</th>
+                                                                            <th scope="col">Quantity</th>
+                                                                            <th scope="col">Price</th>
+                                                                            <th scope="col">Amount</th>
+                                                                            <th scope="col">TOD</th>
+                                                                            <th scope="col">Discount 2%</th>
+                                                                            <th scope="col">Discount 2 Amount</th>
+                                                                            <th scope="col">Taxable Amount</th>
+                                                                            <th scope="col">Total GST</th>
+                                                                            <th scope="col">Total Amount (Incl Tax)</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <template for:each={group.lineItems} for:item="line">
+                                                                            <tr key={line.key}>
+                                                                                <td class="summarySerialCol">{line.serialNo}</td>
+                                                                                <td>{line.productCode}</td>
+                                                                                <td>{line.productName}</td>
+                                                                                <td>{line.quantity}</td>
+                                                                                <td>{line.formattedPrice}</td>
+                                                                                <td>{line.formattedAmount}</td>
+                                                                                <td>{line.formattedTod}</td>
+                                                                                <td>{line.formattedDiscountPercent}</td>
+                                                                                <td>{line.formattedDiscountAmount}</td>
+                                                                                <td>{line.formattedTaxableAmount}</td>
+                                                                                <td>{line.formattedTotalGst}</td>
+                                                                                <td>{line.formattedTotalAmountInclTax}</td>
+                                                                            </tr>
+                                                                        </template>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </template>
+                                            </tbody>
+                                        </template>
+                                    </table>
+                                </div>
+                            </template>
+
+                            <div class="saveBtnWrap">
+                                <button
+                                    type="button"
+                                    class="hangyoButton hangyoButtonUpload"
+                                    onclick={handleSave}
+                                    disabled={isSaveDisabled}
+                                >
+                                    {saveButtonLabel}
+                                </button>
+                            </div>
+                        </template>
+                    </template>
+                    <template lwc:else>
+                        <p class="emptyTabMessage">No successful upload yet.</p>
+                    </template>
+                </template>
+            </section>
+        </template>
+    </div>
+
+    <!-- Duplicate reference confirmation modal (new requirement) -->
+    <template lwc:if={showDuplicateModal}>
+        <section
+            role="dialog"
+            tabindex="-1"
+            aria-modal="true"
+            aria-labelledby="duplicateModalHeading"
+            class="duplicateModalContainer"
+        >
+            <div class="duplicateModalBackdrop"></div>
+            <div class="duplicateModalDialog">
+                <header class="duplicateModalHeader">
+                    <h2 id="duplicateModalHeading" class="duplicateModalTitle">
+                        Existing Record(s) Found
+                    </h2>
+                </header>
+                <div class="duplicateModalBody">
+                    <p class="duplicateModalMessage">{duplicateRefsMessage}</p>
+
+                    <template lwc:if={hasDuplicateRefs}>
+                        <ul class="duplicateRefList">
+                            <template for:each={duplicateRefsList} for:item="refItem" for:index="refIndex">
+                                <li key={refItem} class="duplicateRefListItem">
+                                    {refItem}
+                                </li>
+                            </template>
+                        </ul>
+                    </template>
+                </div>
+                <footer class="duplicateModalFooter">
+                    <button
+                        type="button"
+                        class="hangyoButton hangyoButtonClear"
+                        onclick={handleDuplicateModalCancel}
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        type="button"
+                        class="hangyoButton hangyoButtonUpload"
+                        onclick={handleDuplicateModalConfirmSave}
+                    >
+                        Save
+                    </button>
+                </footer>
+            </div>
+        </section>
+    </template>
+    </template>
+</template>

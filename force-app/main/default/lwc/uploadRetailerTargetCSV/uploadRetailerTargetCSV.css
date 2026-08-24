@@ -1,0 +1,93 @@
+/*Styling for Unique font across the component*/
+.unique-font{
+    font-family: amaranth regular;
+}
+/*Styling for Heading*/
+.heading{
+    text-align:center;
+}
+
+/*Styling for center alignment*/
+.horizontal-center {
+    position: absolute;
+    left: 50%;
+    height: 100%;
+    width: 100%; 
+    max-height: 600px; 
+
+}
+
+
+/*Styling for the workspace scalaton */
+.no-scroll {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; 
+    max-height: 100vh; 
+    overflow: hidden; 
+    padding: 0 30px; 
+    box-sizing: border-box;
+    max-height: 600px; 
+    margin-top: -10%;
+}
+
+/*Styling for Buttons*/
+    .custom-button {
+        margin-bottom: 10px; 
+        padding: 5px 10px; 
+        background-color: #C1206B;
+        color: #FFFFFF;
+        font-size: 0.9375rem; 
+        border-radius: 0.25rem;
+        border: #C1206B;    
+        text-align: center;
+    }
+
+    /*Styling for Warning message*/
+    .Warning {
+        color: red;
+        font-size: 1.1rem;
+        font-weight: bold;
+    }
+
+    /*Styling for suggestion text*/
+    .green {
+        color: #0133f3;
+        font-size: 1.1rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    /*Styling for file upload*/
+    .upload{
+        border: 1px solid #C1206B;
+        background-color: white;
+    }
+
+    /*Styling for file upload*/
+    input[type="file"]::file-selector-button {
+        border-radius: 4px;
+        padding: 0 16px;
+        height: 28px;
+        cursor: pointer;
+        background-color: #C1206B;
+        border: 1px solid rgba(0, 0, 0, 0.16);
+        box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.05);
+        margin-right: 16px;
+        transition: background-color 200ms;
+        color: #FFFFFF;
+      }
+      
+      /* file upload button hover state */
+      input[type="file"]::file-selector-button:hover {
+        background-color: #f3f4f6;
+      }
+
+      /*Styling for file upload icon*/
+      .upload-icon {
+        margin-top: 2.5px;
+        margin-right: 0.5rem;
+        --slds-c-icon-color-foreground-default: #C1206B;
+    }

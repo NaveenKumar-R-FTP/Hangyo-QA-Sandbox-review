@@ -1,0 +1,726 @@
+.about-section{
+    z-index: 150;
+  }
+  
+  .forceBrandBand {
+    padding: 0rem !important;
+  }
+  
+  .icn {
+    fill : white!important;
+  }
+  
+  header.slds-card__header.slds-grid{
+    padding-top:0px;
+  } 
+  /*.slds-modal__container {
+    max-width: 80rem !important;
+    width: 80% !important;
+  }*/
+  .filter-icon .slds-icon {
+      fill: white;
+     
+  }
+  .card {
+    /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);*/
+    max-width: 200px;
+    margin: auto;
+    /*text-align: center;*/
+    font-family: arial;
+  }
+  
+  .card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  }
+  
+  .cartCard {
+    /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);*/
+    max-width: 300px;
+    margin: auto;
+    /*text-align: center;*/
+    font-family: arial;
+  }
+  
+  .cartCard:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  }
+   
+  .price {
+    color: grey;
+    font-size: 22px;
+  }
+   
+  .card button {
+    
+  }
+  
+  .addCartButton{
+    border: none;
+    outline: 0;
+   /* padding: 4px;*/
+    color: white;
+    background-color:#C1206B ;
+    text-align: center;
+    cursor: pointer;
+    font-size: 13px;
+    margin-right: 16px;
+   margin-left: 10px;
+  }
+   
+  .card button:hover {
+    opacity: 0.7;
+  }
+  
+  body {
+    font-family: "Lato", sans-serif;
+  }
+  
+  .sidenav {
+    height: 100%;
+    width: 0px;
+    position: fixed;
+    transform:(0,0,0);
+    z-index: 103;
+    left: 0;
+    background-color: rgb(255, 254, 254);
+    overflow-x: hidden;
+  }
+  
+  .sidenav a {
+    padding: 6px 6px 6px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+  }
+  
+  .sidenav a:hover {
+    color: #f1f1f1;
+  }
+  
+  .main {
+    margin-left: 200px; /* Same as the width of the sidenav */
+    position: fixed;
+  
+  
+  }
+  
+  @media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+  }
+  
+  .class1{
+    height: 70%;
+    width: 325px;
+    position: fixed;
+    z-index: 103;
+    background-color: #fff;
+    overflow-x: hidden;
+  
+  }
+  
+  .genderDiv {
+    text-decoration: none;
+    font-size: 25px;
+    color: white;
+    display: block;
+  }
+  
+  .genderDiv:hover {
+    color: #f1f1f1;
+  }
+  
+  
+  /* Style the header */
+  .header {
+    /*padding: 0 16px;*/
+    margin-top: -12px;
+    margin-bottom: -12px;
+    background: #555;
+  }
+  
+  /* Page content */
+  .content {
+    margin-top: 0px;
+    position: relative;
+    z-index: 1; /* added by fuzail - ensure content stays below dropdown */
+  }
+  
+  /* The sticky class is added to the header with JS when it reaches its scroll position */
+  .sticky {
+    position: fixed;
+    top: 0;
+    width: 100%
+  }
+  
+  /* Add some top padding to the page content to prevent sudden quick movement (as the header gets a new position at the top of the page (position:fixed and top:0) */
+  .sticky + .content {
+    padding-top: 102px;
+  }
+  
+  .affixDiv{
+    margin: 0;
+    width: 100%;
+    z-index: 101;
+    position: -webkit-sticky;
+    background: #4a7580;
+  
+  }
+  
+  .spanCorner{
+    font-size:30px;
+    cursor:pointer;
+    /*position:fixed;*/
+    transform:(0,0,0);
+    z-index:102;
+    color:white;
+    margin-left:5px;
+    -webkit-backface-visibility: hidden;
+  
+  }
+  
+  .lgc-bg {
+    background-color: rgb(242, 242, 242);
+  }
+  
+  .quantity {
+    display: inline-block; 
+  }
+  
+   
+   .quantity .input-text.qty {
+    width: 45px;
+    height: 24px;
+    padding: 0 5px;
+    text-align: center;
+    background-color: white;
+    border: 1px solid #efefef;
+   }
+   
+   .quantity.buttons_added {
+    text-align: center;
+    position: relative;
+    white-space: nowrap;
+    vertical-align: 0px; }
+   
+   .quantity.buttons_added input {
+    display: inline-block;
+    margin: 0;
+    vertical-align: top;
+    box-shadow: none;
+   }
+   
+   .quantity.buttons_added .minus,
+   .quantity.buttons_added .plus {
+    padding: 0px 10px 8px;
+    font-size: 18px;
+    color: rgb(0, 0, 0);
+    /*width:20px;*/
+    height: 24px;
+    background-color: #ffffff;
+    border: 1px solid #efefef;
+    cursor:pointer;}
+   
+   .quantity.buttons_added .minus {
+    border-right: 0; }
+   
+   .quantity.buttons_added .plus {
+    border-left: 0; }
+   
+   .quantity.buttons_added .minus:hover,
+   .quantity.buttons_added .plus:hover {
+    background: #eeeeee; }
+   
+   .quantity input::-webkit-outer-spin-button,
+   .quantity input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    margin: 0; }
+    
+    .quantity.buttons_added .minus:focus,
+   .quantity.buttons_added .plus:focus {
+    outline: none;
+   }
+  
+  
+  
+  
+   .quantityCart {
+    /*display: inline-block; */
+  }
+  
+   
+   .quantityCart .input-text.qty {
+    width: 55px;
+    height: 39px;
+    padding: 0 5px;
+    text-align: center;
+    background-color: white;
+    border: 1px solid #efefef;
+   }
+   
+   .quantityCart.buttons_added {
+    text-align: left;
+    position: relative;
+    white-space: nowrap;
+    vertical-align: top; }
+   
+   .quantityCart.buttons_added input {
+    display: inline-block;
+    margin: 0;
+    vertical-align: top;
+    box-shadow: none;
+   }
+   
+   .quantityCart.buttons_added .minus,
+   .quantityCart.buttons_added .plus {
+    padding: 0px 10px 8px;
+    font-size: 30px;
+    color: rgb(0, 0, 0);
+    width:55px;
+    height: 40px;
+    background-color: #ffffff;
+    border: 1px solid #efefef;
+    cursor:pointer;}
+   
+   .quantityCart.buttons_added .minus {
+    border-right: 0; }
+   
+   .quantityCart.buttons_added .plus {
+    border-left: 0; }
+   
+   .quantityCart.buttons_added .minus:hover,
+   .quantityCart.buttons_added .plus:hover {
+    background: #eeeeee; }
+   
+   .quantityCart input::-webkit-outer-spin-button,
+   .quantity input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    margin: 0; }
+    
+    .quantityCart.buttons_added .minus:focus,
+   .quantityCart.buttons_added .plus:focus {
+    outline: none;
+   }
+  
+   .fixed{
+         top: 0px;
+        padding: 0;
+        width: 100%;
+      
+       position: sticky;
+        background:linear-gradient(to right, rgba(255, 242, 177, 0.719),rgb(253, 238, 163));
+        z-index: 10000; /* added by fuzail - ensure fixed container is above content */
+        /*background:repeating-linear-gradient(45deg, rgb(90 110 145), rgb(84,105,141) 20px, rgba(84,105,141,.97) 20px, rgba(84,105,141,.97) 40px);*/
+    }
+
+    
+  
+ 
+.footer {
+    display: flex;
+    justify-content: space-between; /* Places buttons on opposite sides */
+    align-items: center; /* Aligns buttons vertically */
+    margin-left: 10px;
+    width: 95.5%;
+    padding: 5px;
+    background: #ffffff; /* Light gray footer background (optional) */
+}
+
+.custom-button {
+    background: #C1206B; /* Button background color */
+    color: white; /* Text color */
+    border: none;
+    padding: 8px 16px;
+    border-radius: 7px; /* Rounded corners */
+    font-size: 13px;
+    cursor:pointer;
+    font-weight:300;
+    font-family: arial;
+}
+
+
+.custom-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+
+
+  
+    @media screen and (min-width: 1024px){
+      .fixedCard{
+       position: fixed;   /* Keeps the component fixed */
+    top: 115px;        /* Adjust this value to set distance from the top */
+    left: 0;           /* Align to the left */
+    width: 100%;       /* Make it full width */
+    height: calc(100vh - 115px); /* Adjust height based on viewport */
+    background-color: white; /* Change as needed */
+    overflow: auto;    /* Enables scrolling inside the component if needed */
+    z-index: 1000;     /* Keeps it above other elements */
+    }
+  }
+  
+  .customEyewear{
+    /*width:100%;
+    max-height: 210px;*/
+   width: 89%;
+      max-height: 149px;
+  }
+  
+  .customWatchAndJewellery{
+    width:100%;
+    max-height: 242px;
+  
+  }
+  
+  .dollars:before { content:'Rs.'; }
+  
+  
+  .loader {
+    border: 5px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 5px solid #3498db;
+    width: 60px;
+    height: 60px;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+    z-index: 100001;
+  }
+  
+  /* Safari */
+  @-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  .spinner {
+    border: 1px solid;
+    position: fixed;
+    z-index: 10001;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 50 50'%3E%3Cpath d='M28.43 6.378C18.27 4.586 8.58 11.37 6.788 21.533c-1.791 10.161 4.994 19.851 15.155 21.643l.707-4.006C14.7 37.768 9.392 30.189 10.794 22.24c1.401-7.95 8.981-13.258 16.93-11.856l.707-4.006z'%3E%3CanimateTransform attributeType='xml' attributeName='transform' type='rotate' from='0 25 25' to='360 25 25' dur='0.6s' repeatCount='indefinite'/%3E%3C/path%3E%3C/svg%3E") center / 50px no-repeat;
+  }
+
+/* Target images inside the lightning-formatted-rich-text */
+/* Target images within the rich-text-container */
+.rich-text-container {
+    max-width : 200px;  /*Adjust the width as needed */
+   height: 150px; /* Maintain aspect ratio */
+   /*   overflow: hidden; /* Prevent extra spacing */
+   
+  
+}
+
+.rich-text-container img {
+  max-width: 200px;
+  height: 190px;
+    object-fit: cover; /* Ensure the entire image fits within the box */
+   
+}
+.footerCart {
+    position: fixed; /* Keep footer pinned */
+    bottom: 0;
+    left: 0;  /* Stretch across full width */
+    right: 0;
+    width: 100%;
+    background-color: #f9f6f8;  /* Footer background color */
+    padding: 10px 20px; /* Spacing inside footer */
+    display: flex;
+    justify-content: space-between; /* Push left + right items apart */
+    align-items: center; /* Vertical centering */
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow */
+    z-index: 1001; /* Keep on top */
+}
+.tabset-container{
+     width: 98% !important;
+     z-index: 2 !important; /* added by fuzail - ensure dropdown container is above content within fixed container */
+     position: relative !important;
+}
+
+/* added by Fuzail */
+.brand-dropdown-item:hover {
+    background-color: #f3f3f3;
+}
+
+/* Custom tab styling - All and Available Stock tabs */
+.custom-tab-container {
+    display: inline-flex;
+    position: relative;
+    align-items: flex-end;
+    vertical-align: bottom;
+    z-index: 3; /* added by fuzail - ensure dropdown container is above content within tabset-container */
+}
+
+.custom-tab-button {
+    border-radius: 4px 0 0 0;
+    border: none;
+    border-bottom: 2px solid #C1206B;
+    padding: 0.5rem 0.75rem;
+    font-family: Arial;
+    background: transparent !important;
+    color: #C1206B;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin: 0;
+    vertical-align: bottom;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    box-sizing: border-box;
+    line-height: 1;
+    font-size: 0.875rem;
+}
+
+.custom-tab-button:hover {
+    background: transparent !important;
+}
+
+.custom-tab-arrow {
+    border-radius: 0 4px 0 0;
+    border: none;
+    border-bottom: 2px solid #C1206B;
+    border-left: 1px solid #e0e0e0;
+    padding: 0.5rem 0.4rem;
+    font-family: Arial;
+    background: transparent !important;
+    color: #C1206B;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin: 0;
+    min-width: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: bottom;
+    height: 36px;
+    box-sizing: border-box;
+}
+
+.custom-tab-arrow:hover {
+    background: transparent !important;
+}
+
+.tabset-container lightning-tabset {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+.tabset-container lightning-tabset::part(content) {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+/* Remove gap between buttons */
+.custom-tab-button + .custom-tab-arrow {
+    margin-left: 0;
+}
+
+/* OLD - Search By row (commented by Fuzail for alignment fix)
+.search-by-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    justify-content: center;
+}
+.search-by-dropdown-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+.search-by-label {
+    font-family: Arial;
+    font-size: 0.875rem;
+    color: #C1206B;
+    font-weight: 500;
+}
+.search-by-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.35rem 0.5rem;
+    font-family: Arial;
+    font-size: 0.8125rem;
+    color: #C1206B;
+    background: white;
+    border: 1px solid #d8dde6;
+    border-radius: 4px;
+    cursor: pointer;
+    min-width: 70px;
+}
+*/
+
+/* added by Fuzail - Search By row aligned with search bar */
+.search-by-row {
+    display: flex;
+    align-items: flex-end; /* changed by Fuzail - align to bottom for better vertical alignment */
+    gap: 0.5rem;
+    margin-top: -20px;
+    margin-bottom: 4px;
+    justify-content: center;
+}
+.search-by-dropdown-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    flex-shrink: 0;
+    margin-bottom: 2px; /* added by Fuzail - fine-tune vertical alignment with search bar */
+}
+/* added by Fuzail - label aligned with search bar */
+.search-by-label {
+    font-family: Arial;
+    font-size: 0.875rem;
+    color: #C1206B;
+    font-weight: 500;
+}
+/* added by Fuzail - search-by-trigger aligned with search bar height */
+.search-by-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.5rem 0.5rem;
+    font-family: Arial;
+    font-size: 0.8125rem;
+    color: #C1206B;
+    background: white;
+    border: 1px solid #d8dde6;
+    border-radius: 4px;
+    cursor: pointer;
+    min-width: 70px;
+    height: 32px; /* added by Fuzail - match search bar height */
+    box-sizing: border-box; /* added by Fuzail - include padding in height */
+}
+.search-by-trigger:hover {
+    background: #f3f3f3;
+}
+.search-by-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 2px;
+    background: white;
+    border: 1px solid #d8dde6;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    z-index: 1000;
+    min-width: 100px;
+}
+.search-by-item {
+    padding: 0.5rem 0.75rem;
+    font-family: Arial;
+    font-size: 0.8125rem;
+    cursor: pointer;
+    border-bottom: 1px solid #f3f3f3;
+}
+.search-by-item:last-child {
+    border-bottom: none;
+}
+.search-by-item:hover {
+    background: #f3f3f3;
+}
+/* OLD - search input (commented by Fuzail for alignment fix)
+.search-input-inline {
+    flex: 1;
+    max-width: 70%;
+    font-family: Arial;
+}
+*/
+
+/* added by Fuzail - search input aligned with Search By dropdown */
+.search-input-inline {
+    flex: 1;
+    max-width: 70%;
+    font-family: Arial;
+    align-self: flex-end; /* added by Fuzail - align to bottom to match Search By */
+    margin-bottom: 0; /* added by Fuzail - ensure no extra margin at bottom */
+}
+
+.serial-number-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.serial-number {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: #C1206B;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+}
+  /*.slds-modal {
+    
+    position: absolute !important;
+    top: 0 !important;
+    
+    left: 0 !important;
+    z-index: 9001 !important;
+  }
+  .slds-modal__container{
+    display: inline-block !important;
+    position: fixed !important;
+    left: 25% !important;
+    
+  }*/
+
+/* Bring dropdown in front of quantity selector - added by fuzail */
+.brand-dropdown {
+    z-index: 10 !important; /* High z-index within custom-tab-container to appear above quantity selectors */
+    position: absolute !important;
+}
+
+/* Cart container styling - added by fuzail */
+.cart-container {
+    z-index: 3;
+    margin-right: 5px;
+    float: right;
+    cursor: pointer;
+    position: relative;
+}
+
+.hangyoButtonDownload {
+    background-color: #f2f2f2;
+    color: #b3b3b3;
+    border: 1px solid #b3b3b3;
+    cursor: not-allowed;
+}
+
+.hangyoButtonDownload:disabled {
+    background-color: #f2f2f2;
+    color: #b3b3b3;
+    border: 1px solid #b3b3b3;
+    cursor: not-allowed;
+}
+
+/* Enabled state (upload type selected) — light green with matching border */
+.hangyoButtonDownload:not(:disabled) {
+    background-color: #eaf7ee;
+    color: #2e7d32;
+    border: 1px solid #2e7d32;
+    cursor: pointer;
+}
+
+.hangyoButtonDownload:not(:disabled):hover {
+    background-color: #2e7d32;
+    color: #ffffff;
+    border: 1px solid #2e7d32;
+}

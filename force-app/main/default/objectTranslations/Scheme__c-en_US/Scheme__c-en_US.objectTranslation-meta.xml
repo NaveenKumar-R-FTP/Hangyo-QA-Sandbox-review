@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Scheme</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Schemes</value>
+    </caseValues>
+    <layouts>
+        <layout>SFA Scheme Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Scheme Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <quickActions>
+        <label><!-- Add Applicability --></label>
+        <name>Add_Applicability</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Add Scheme Hierarchy --></label>
+        <name>Add_Scheme_Hierarchy</name>
+    </quickActions>
+    <recordTypes>
+        <label><!-- Quantity scheme --></label>
+        <name>Quantity_scheme</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- Value scheme --></label>
+        <name>Value_scheme</name>
+    </recordTypes>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- A scheme can be applicable to either Under SS or Retailers, not both. --></errorMessage>
+        <name>A_scheme_can_be_applicable_to_only_one</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Discount Mode is required for Flat Discount schemes. --></errorMessage>
+        <name>Discount_Mode_required_for_Flat_Discount</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &quot;Please enter either &apos;Discount Amount&apos; or &apos;Discount Percentage&apos;.&quot; --></errorMessage>
+        <name>Discount_type_should_not_be_blank</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &quot;Please fill only one from &apos;Discount Amount&apos; or &apos;Discount Percentage&apos;.&quot; --></errorMessage>
+        <name>Only_one_discount_type_can_be_selected</name>
+    </validationRules>
+</CustomObjectTranslation>

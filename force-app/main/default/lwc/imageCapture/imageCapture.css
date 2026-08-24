@@ -1,0 +1,35 @@
+/* Style for the Buttons */
+    .custom-buttonSelfie {
+        background-color: #C1206B; /* Exact pink color */
+        color: white; /* White text color */
+        border: none; /* Remove border */
+        padding: 0.5rem 1rem; /* Adjust padding */
+        font-size: 16px; /* Standard font size */
+        font-weight: bold;
+        border-radius: 0.8rem; /* Fully rounded button */
+        cursor: pointer;
+        outline: none; /* Remove default outline */
+        box-shadow: 0 0 3px 2px #791746; /* Blue outline shadow */
+        margin-bottom: 4rem;   
+    }
+    
+    /* Style for the button hover */
+    .custom-buttonSelfie:hover {
+        background-color: #A6195C; /* Slightly darker for hover effect */
+    }
+    /* Style for the button focus */
+    .custom-buttonSelfie:focus {
+        outline: none; /* Remove focus outline */
+        box-shadow: 0 0 5px 3px #791746; /* Increase focus shadow */
+    }
+
+    .video-feed {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 10px;
+    max-height:400px;
+}
+
+.hidden-canvas {
+    display: none !important;
+}

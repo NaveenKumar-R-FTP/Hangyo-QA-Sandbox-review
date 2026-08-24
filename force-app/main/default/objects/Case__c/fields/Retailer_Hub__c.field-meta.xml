@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Retailer_Hub__c</fullName>
+    <label>Retailer Hub</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Andhra Pradesh</fullName>
+                <default>false</default>
+                <label>Andhra Pradesh</label>
+            </value>
+            <value>
+                <fullName>Aurangabad</fullName>
+                <default>false</default>
+                <label>Aurangabad</label>
+            </value>
+            <value>
+                <fullName>Bangalore</fullName>
+                <default>false</default>
+                <label>Bangalore</label>
+            </value>
+            <value>
+                <fullName>Central Karnataka</fullName>
+                <default>false</default>
+                <label>Central Karnataka</label>
+            </value>
+            <value>
+                <fullName>Dhule</fullName>
+                <default>false</default>
+                <label>Dhule</label>
+            </value>
+            <value>
+                <fullName>Goa</fullName>
+                <default>false</default>
+                <label>Goa</label>
+            </value>
+            <value>
+                <fullName>Hubli</fullName>
+                <default>false</default>
+                <label>Hubli</label>
+            </value>
+            <value>
+                <fullName>Kolhapur</fullName>
+                <default>false</default>
+                <label>Kolhapur</label>
+            </value>
+            <value>
+                <fullName>Konkan Maharashtra</fullName>
+                <default>false</default>
+                <label>Konkan Maharashtra</label>
+            </value>
+            <value>
+                <fullName>Latur</fullName>
+                <default>false</default>
+                <label>Latur</label>
+            </value>
+            <value>
+                <fullName>Mumbai</fullName>
+                <default>false</default>
+                <label>Mumbai</label>
+            </value>
+            <value>
+                <fullName>Mysore</fullName>
+                <default>false</default>
+                <label>Mysore</label>
+            </value>
+            <value>
+                <fullName>Nanded</fullName>
+                <default>false</default>
+                <label>Nanded</label>
+            </value>
+            <value>
+                <fullName>Nasik</fullName>
+                <default>false</default>
+                <label>Nasik</label>
+            </value>
+            <value>
+                <fullName>North Kanara</fullName>
+                <default>false</default>
+                <label>North Kanara</label>
+            </value>
+            <value>
+                <fullName>North Karnataka</fullName>
+                <default>false</default>
+                <label>North Karnataka</label>
+            </value>
+            <value>
+                <fullName>North Kerala</fullName>
+                <default>false</default>
+                <label>North Kerala</label>
+            </value>
+            <value>
+                <fullName>PCMC</fullName>
+                <default>false</default>
+                <label>PCMC</label>
+            </value>
+            <value>
+                <fullName>Pune</fullName>
+                <default>false</default>
+                <label>Pune</label>
+            </value>
+            <value>
+                <fullName>Pune City</fullName>
+                <default>false</default>
+                <label>Pune City</label>
+            </value>
+            <value>
+                <fullName>Pune UPC</fullName>
+                <default>false</default>
+                <label>Pune UPC</label>
+            </value>
+            <value>
+                <fullName>Solapur</fullName>
+                <default>false</default>
+                <label>Solapur</label>
+            </value>
+            <value>
+                <fullName>South Kanara</fullName>
+                <default>false</default>
+                <label>South Kanara</label>
+            </value>
+            <value>
+                <fullName>South Kerala</fullName>
+                <default>false</default>
+                <label>South Kerala</label>
+            </value>
+            <value>
+                <fullName>Tamilnadu</fullName>
+                <default>false</default>
+                <label>Tamilnadu</label>
+            </value>
+            <value>
+                <fullName>Telangana</fullName>
+                <default>false</default>
+                <label>Telangana</label>
+            </value>
+            <value>
+                <fullName>Kolahpur</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Kolahpur</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

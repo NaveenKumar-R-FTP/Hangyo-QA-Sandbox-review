@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Primary_Order_Under_SS__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <label>Primary Order Under SS</label>
+    <referenceTo>Order__c</referenceTo>
+    <relationshipLabel>Primary order Under SS</relationshipLabel>
+    <relationshipName>Primary_order_under_SS</relationshipName>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

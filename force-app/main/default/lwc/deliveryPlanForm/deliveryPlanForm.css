@@ -1,0 +1,82 @@
+.custom-container{
+	color : black;
+}
+
+/* deliveryPlanForm.css */
+.custom-button {
+    background-color: #C1206B;
+    color: #ffffff;
+    border: none;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 0.25rem;
+}
+
+.custom-button:hover {
+    background-color: #C1206B;
+}
+
+.slds-modal__footer .custom-button {
+    margin-left: 0.5rem;
+}
+
+.slds-table {
+    width: 100%;
+    text-align: left;
+}
+
+.slds-table tr:hover {
+    background-color:rgba(255, 182, 193, 0.42); 
+}
+
+.slds-table th,
+.slds-table td {
+    padding: 0.5rem;
+}
+
+.slds-modal__content {
+    max-height: 60vh;
+    overflow: auto;
+}
+
+.invoice-container {
+        border-bottom: 1px solid #d8dde6; /* Light gray border */
+        margin-bottom: 1rem; /* Optional spacing */
+        padding-bottom: 1rem; /* Optional padding for visual balance */
+    }
+
+.custom-bordered-table {
+        border: 2px solid #d8dde6; /* Outer border thickness and color */
+        border-collapse: collapse; /* Ensure seamless inner borders */
+    }
+
+    .custom-bordered-table th,
+    .custom-bordered-table td {
+        border: 1px solid #d8dde6; /* Inner cell borders */
+        padding: 8px; /* Add some padding for better readability */
+    }
+
+:host {
+    --slds-c-tabs-item-color-border-active: #C1206B;
+    --slds-c-tabs-item-color-border-hover: #C1206B;
+    --slds-c-tabs-list-color-border: #C1206B;
+    --slds-c-tabs-item-text-color: black;
+    --slds-c-tabs-item-text-color-active: #C1206B;
+}
+
+.slds-is-active .slds-tabs_scoped__link{
+    color: #C1206B !important;
+}
+
+/* Custom space around tabset */
+.custom-tabset-spacing {
+    margin: 20px;
+}
+
+td {
+    
+    white-space: normal;
+    word-wrap: break-word;
+}

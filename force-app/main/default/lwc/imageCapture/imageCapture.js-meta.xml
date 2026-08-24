@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+	<apiVersion>62.0</apiVersion>
+	<isExposed>true</isExposed>
+	<targets>
+		<target>lightning__AppPage</target>
+		<target>lightning__HomePage</target>
+		<target>lightning__RecordPage</target>
+		<target>lightning__RecordAction</target>
+		<target>lightning__FlowScreen</target>
+		<target>lightning__Tab</target>
+	</targets>
+	
+       <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <property name="fileId" type="String" label="File Id" role="outputOnly"/>
+              <property name="fileName" type="String" label="Uploaded File Name" role="outputOnly" />
+			  <property name="captureTime" type="String" label="Capture Time" role="outputOnly"/>
+        </targetConfig>
+  </targetConfigs>
+</LightningComponentBundle>

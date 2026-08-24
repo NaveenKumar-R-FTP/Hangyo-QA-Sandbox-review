@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Under_SS_Secondary_Order</fullName>
+    <active>true</active>
+    <label>Under SS Secondary Order</label>
+    <picklistValues>
+        <picklist>GRN_Status__c</picklist>
+        <values>
+            <fullName>Completed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fully GRN</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Partially GRN</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Received</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Invoice_Created__c</picklist>
+        <values>
+            <fullName>Invoice Created</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Invoice Not Created</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Price_Type__c</picklist>
+        <values>
+            <fullName>Dealer Price</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MRP</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Sale_Type__c</picklist>
+        <values>
+            <fullName>Cash Sales</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Event</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Status__c</picklist>
+        <values>
+            <fullName>Delivered</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Invoiced</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Order Placed</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Partially Invoiced</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Type__c</picklist>
+        <values>
+            <fullName>Counter Order</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DMS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Field Order</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Under Super Stockist</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

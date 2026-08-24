@@ -1,0 +1,56 @@
+<template>
+    <div class="backgroundcolor">
+        <div class="visitplanner">
+            <h1>Create Visit Tasks</h1>
+        </div>
+        
+        <!-- Loading spinner  -->
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+        </template>
+
+        <template if:true={showCreateVisitForm}>
+            <div class="Retailer-Grid">
+                <div class="slds-grid slds-wrap slds-m-around_medium">
+                    <!-- added by fuzail - Dropdown filter for Retailer/Distributor selection -->
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-combobox
+                            label="Type"
+                            value={selectedType}
+                            options={typeOptions}
+                            onchange={handleTypeChange}>
+                        </lightning-combobox>
+                    </div>
+                    <!-- added by fuzail - Dynamic search label based on selected type -->
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-input 
+                            type="search"  
+                            label={searchLabel}
+                            value={searchKey} 
+                            onchange={handleRetailerNameBeatNameChange}>
+                        </lightning-input>
+                    </div>
+                </div>
+            </div>
+
+            <div class="datatable-container">
+                <!-- added by fuzail - Dynamic table title based on selected type -->
+                <p class="Table-Title">{tableTitle}</p>
+                <lightning-datatable
+                    key-field="id"
+                    data={retailers}
+                    columns={columns}
+                    selected-rows={selectedRetailers}
+                    max-row-selection="1"
+                    onrowselection={handleRowSelection}>
+                </lightning-datatable>
+            </div>
+            <br/>
+
+            <div class="button-container">
+                <button class="buttons" onclick={handleBackIconClick}>Back</button>
+                <button class="buttons" onclick={handleSave} disabled={isButtonDisabled}>Save</button>
+            </div>
+        </template>
+    </div>
+</template>

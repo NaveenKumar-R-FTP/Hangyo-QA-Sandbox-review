@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Transaction Type (Purchase) --></label>
+    <name>Transaction_Type_Purchase__c</name>
+    <picklistValues>
+        <masterLabel>Purchased from Hangyo</masterLabel>
+        <translation><!-- Purchased from Hangyo --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Purchased from Super Stockist</masterLabel>
+        <translation><!-- Purchased from Super Stockist --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

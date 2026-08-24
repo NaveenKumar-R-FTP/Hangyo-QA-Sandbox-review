@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Case</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Cases</value>
+    </caseValues>
+    <layouts>
+        <layout>Case Layout</layout>
+        <sections>
+            <label><!-- Approval Details --></label>
+            <section>Approval Details</section>
+        </sections>
+        <sections>
+            <label><!-- Asset Details --></label>
+            <section>Asset Details</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Inventory Details --></label>
+            <section>Inventory Details</section>
+        </sections>
+        <sections>
+            <label><!-- Issue/Complaint Details --></label>
+            <section>Issue/Complaint Details</section>
+        </sections>
+        <sections>
+            <label><!-- Sales &amp; Delivery --></label>
+            <section>Sales &amp; Delivery</section>
+        </sections>
+        <sections>
+            <label><!-- Signage Details --></label>
+            <section>Signage Details</section>
+        </sections>
+        <sections>
+            <label><!-- Stakeholder Details --></label>
+            <section>Stakeholder Details</section>
+        </sections>
+        <sections>
+            <label><!-- Transfer Details --></label>
+            <section>Transfer Details</section>
+        </sections>
+        <sections>
+            <label><!-- Transfer From --></label>
+            <section>Transfer From</section>
+        </sections>
+        <sections>
+            <label><!-- Transfer To --></label>
+            <section>Transfer To</section>
+        </sections>
+        <sections>
+            <label><!-- Warehouse / Processing --></label>
+            <section>Warehouse / Processing</section>
+        </sections>
+    </layouts>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- New Asset Code is required when Case Type is &apos;Existing Outlet New Asset Request&apos;. --></errorMessage>
+        <name>NewAssetCo_Required_For_ExistingOutlet</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Please enter only numbers (0–9) in Asset Code.Special characters or letters are not allowed. --></errorMessage>
+        <name>NewAssetCode_Only_Alphanumeric</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Old Asset Code is required when Case Type is &apos;Existing Outlet New Asset Request&apos;. --></errorMessage>
+        <name>OldAssetCo_Required_For_ExistingOutlet</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Old Asset Code can only contain letters and numbers. Special characters are not allowed. --></errorMessage>
+        <name>OldAssetCode_Only_Alphanumeric</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Please enter a valid PIN code using numbers only. --></errorMessage>
+        <name>PIN_Code_Numeric_Only</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Select the Vendor and the Branding Return Status before completing this return case. --></errorMessage>
+        <name>Return_Case_Completion_Needs_Vendor</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Select the Branding Asset being returned and its Condition. --></errorMessage>
+        <name>Return_Case_Requires_Asset_And_Condition</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Serial Number can only contain letters and numbers. Special characters are not allowed. --></errorMessage>
+        <name>Serial_Number_Only_Alphanumeric</name>
+    </validationRules>
+</CustomObjectTranslation>

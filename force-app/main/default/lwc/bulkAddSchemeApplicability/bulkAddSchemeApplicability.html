@@ -1,0 +1,93 @@
+<template>
+    <lightning-card title="Add Scheme Applicability" icon-name="standard:entitlement_process">
+        <div class="slds-p-around_medium">
+            <lightning-radio-group
+                name="entityType"
+                label="Entity Type"
+                options={entityTypeOptions}
+                value={entityType}
+                onchange={handleEntityTypeChange}
+                type="button">
+            </lightning-radio-group>
+
+            <template if:true={isProductMode}>
+                <div class="slds-m-top_medium">
+                    <lightning-input
+                        type="search"
+                        label="Search Products"
+                        value={searchTerm}
+                        onchange={handleSearchChange}
+                        placeholder="Type at least 2 characters...">
+                    </lightning-input>
+
+                    <template if:true={hasSearchResults}>
+                        <div class="slds-m-top_small slds-scrollable_y" style="max-height: 260px;">
+                            <template for:each={searchResults} for:item="opt">
+                                <div key={opt.id} class="slds-p-vertical_xx-small">
+                                    <lightning-input
+                                        type="checkbox"
+                                        label={opt.displayLabel}
+                                        data-id={opt.id}
+                                        checked={opt.selected}
+                                        onchange={handleProductToggle}>
+                                    </lightning-input>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+
+                    <template if:true={hasSelectedProducts}>
+                        <p class="slds-m-top_small slds-text-body_small">
+                            {selectedProductCount} product(s) selected
+                        </p>
+                    </template>
+                </div>
+            </template>
+
+            <template if:true={isBrandMode}>
+                <div class="slds-m-top_medium">
+                    <lightning-input
+                        type="search"
+                        label="Search Brands"
+                        value={brandSearchTerm}
+                        onchange={handleBrandSearchChange}
+                        placeholder="Type at least 2 characters...">
+                    </lightning-input>
+
+                    <template if:true={hasBrandSearchResults}>
+                        <div class="slds-m-top_small slds-scrollable_y" style="max-height: 260px;">
+                            <template for:each={brandSearchResults} for:item="opt">
+                                <div key={opt.value} class="slds-p-vertical_xx-small">
+                                    <lightning-input
+                                        type="checkbox"
+                                        label={opt.value}
+                                        data-brand={opt.value}
+                                        checked={opt.selected}
+                                        onchange={handleBrandToggle}>
+                                    </lightning-input>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+
+                    <template if:true={hasSelectedBrands}>
+                        <p class="slds-m-top_small slds-text-body_small">
+                            {selectedBrandCount} brand(s) selected
+                        </p>
+                    </template>
+                </div>
+            </template>
+
+            <template if:true={errorMessage}>
+                <div class="slds-m-top_medium slds-text-color_error">
+                    {errorMessage}
+                </div>
+            </template>
+        </div>
+
+        <div slot="footer" class="slds-align_absolute-center">
+            <lightning-button label="Cancel" onclick={handleCancel} class="slds-m-right_small"></lightning-button>
+            <lightning-button variant="brand" label="Save" onclick={handleSave} disabled={isSaveDisabled}></lightning-button>
+        </div>
+    </lightning-card>
+</template>

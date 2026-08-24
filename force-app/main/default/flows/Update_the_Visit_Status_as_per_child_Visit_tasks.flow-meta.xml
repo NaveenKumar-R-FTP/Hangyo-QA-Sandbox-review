@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>62.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <decisions>
+        <name>check_Count_of_child_Complete_Category</name>
+        <label>check Count of child Complete Category</label>
+        <locationX>600</locationX>
+        <locationY>393</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>check_Counts_of_child_Complete_Category</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Visit__r.Total_Tasks_for_Visit__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>CheckCompleteCategoryCount</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Visit</targetReference>
+            </connector>
+            <label>check Counts of child Complete Category</label>
+        </rules>
+    </decisions>
+    <environments>Default</environments>
+    <formulas>
+        <name>CheckCompleteCategoryCount</name>
+        <dataType>Number</dataType>
+        <expression>{!$Record.Visit__r.Count_of_Cancelled_Task__c} + {!$Record.Visit__r.Count_of_Completed_No_Order_Task__c} + {!$Record.Visit__r.Count_of_Completed_Order_Task__c}</expression>
+        <scale>0</scale>
+    </formulas>
+    <interviewLabel>Update the Visit Status as per child Visit tasks {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Update the Visit Status as per child Visit tasks</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Update_Visit</name>
+        <label>Update Visit</label>
+        <locationX>388</locationX>
+        <locationY>417</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Visit__r.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Status__c</field>
+            <value>
+                <stringValue>Completed</stringValue>
+            </value>
+        </inputAssignments>
+        <object>Visit__c</object>
+    </recordUpdates>
+    <start>
+        <locationX>458</locationX>
+        <locationY>48</locationY>
+        <connector>
+            <targetReference>check_Count_of_child_Complete_Category</targetReference>
+        </connector>
+        <object>Visit_Task__c</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

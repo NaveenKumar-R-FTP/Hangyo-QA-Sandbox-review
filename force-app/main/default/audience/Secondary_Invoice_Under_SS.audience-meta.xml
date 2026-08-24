@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Audience xmlns="http://soap.sforce.com/2006/04/metadata">
+    <audienceName>Secondary Invoice - Under SS</audienceName>
+    <container>Distributor Management System</container>
+    <criteria>
+        <criterion>
+            <criteriaNumber>1</criteriaNumber>
+            <criterionValue>
+                <entityField>Contact.Account.$Account.Distributor_Type__c</entityField>
+                <entityType>User</entityType>
+                <fieldValue>Under Super Stockist</fieldValue>
+            </criterionValue>
+            <operator>Equal</operator>
+            <type>FieldBased</type>
+        </criterion>
+        <criterion>
+            <criteriaNumber>1</criteriaNumber>
+            <criterionValue>
+                <entityField>Contact.Account.$Account.Distributor_Type__c</entityField>
+                <entityType>User</entityType>
+                <fieldValue>Direct Distributor</fieldValue>
+            </criterionValue>
+            <operator>Equal</operator>
+            <type>FieldBased</type>
+        </criterion>
+        <criterion>
+            <criteriaNumber>2</criteriaNumber>
+            <criterionValue>
+                <entityField>RecordType.Name</entityField>
+                <entityType>Invoice__c</entityType>
+                <fieldValue>Secondary Invoice Under SS</fieldValue>
+            </criterionValue>
+            <operator>Equal</operator>
+            <type>FieldBased</type>
+        </criterion>
+        <criterion>
+            <criteriaNumber>2</criteriaNumber>
+            <criterionValue>
+                <entityField>RecordType.Name</entityField>
+                <entityType>Invoice__c</entityType>
+                <fieldValue>Secondary_Invoice_Under_SS</fieldValue>
+            </criterionValue>
+            <operator>Equal</operator>
+            <type>FieldBased</type>
+        </criterion>
+    </criteria>
+    <formulaFilterType>AllCriteriaMatch</formulaFilterType>
+    <isDefaultAudience>false</isDefaultAudience>
+</Audience>

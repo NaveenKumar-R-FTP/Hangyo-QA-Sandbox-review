@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Claim Line Item</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Claim Line Items</value>
+    </caseValues>
+    <layouts>
+        <layout>Claim Line Item Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- You must enter a value --></errorMessage>
+        <name>ASM_Remarks_Required</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- You must enter a value --></errorMessage>
+        <name>Head_Remarks_Required</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- You must enter a value --></errorMessage>
+        <name>MIS_Remarks_Required</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- You must enter a value --></errorMessage>
+        <name>RSM_Remarks_Required</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- You can modify Only L1 Remarks. --></errorMessage>
+        <name>You_can_modify_Only_ASM_Remarks</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- You can modify Only L5 Remarks. --></errorMessage>
+        <name>You_can_modify_Only_Head_Remarks</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- You can modify Only L4 Remarks. --></errorMessage>
+        <name>You_can_modify_Only_MIS_Remarks</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- You can modify Only L2 Remarks. --></errorMessage>
+        <name>You_can_modify_Only_RSM_Remarks</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- You can modify Only L3 Remarks. --></errorMessage>
+        <name>You_can_modify_Only_ZSM_Remarks</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- You must enter a value --></errorMessage>
+        <name>ZSM_Remarks_Required</name>
+    </validationRules>
+</CustomObjectTranslation>

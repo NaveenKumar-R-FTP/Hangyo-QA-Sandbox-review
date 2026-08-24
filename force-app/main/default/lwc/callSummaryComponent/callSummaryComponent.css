@@ -1,0 +1,83 @@
+.card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 14px 18px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    max-width: 420px;
+    width: 100%;
+}
+
+/* Optional: center card in region */
+/* :host {
+    display: flex;
+    justify-content: flex-start;  // or center
+} */
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #222222;
+}
+
+/* VIEW label + dropdown */
+.toggle-container {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.toggle-label {
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+    /* stronger bluish-grey for better visibility */
+    color: #3f5b8a;
+}
+
+.toggle-select {
+    font-size: 11px;
+    padding: 2px 10px;
+    border-radius: 16px;
+    border: 1px solid #c0c4d4;
+    background: #ffffff;
+    outline: none;
+    min-width: 64px;
+}
+
+/* metrics row */
+.metrics {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: 6px;
+}
+
+.metric {
+    display: flex;
+    flex-direction: column;
+    min-width: 60px;
+}
+
+/* TC / PC / SC / NET VALUE labels */
+.metric-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+    font-weight: 600;
+    /* same accent color as VIEW for consistency */
+    color: #3f5b8a;
+}
+
+/* values: 3, 0, 0, ₹0 etc. */
+.metric-value {
+    font-size: 16px;
+    font-weight: 600;
+    color: #222222;
+}

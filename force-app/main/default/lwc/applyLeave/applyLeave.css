@@ -1,0 +1,113 @@
+/* Unique font across the page */ 
+ .font-class{
+    font-family: amaranth regular;
+  }
+/* Style for the card header */
+  .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1rem;
+    background-color: #f4f6f9; /* Light background for header */
+    border-bottom: 1px solid #d8dde6; /* Light border for separation */
+    border-radius: 10px 10px 10px 10px;
+  }
+/* Style for fileUpload input */
+  .selfie{
+    size: small; 
+    padding-left: 40px;
+  }
+/* Style for the Title header */
+  .title-text {
+    font-size: 1.6rem; /* Larger font size for title */
+    font-weight: bold;
+    color: #333; /* Dark text color for contrast */
+    margin: 0;
+  }
+
+  /* Container for the leave balance items */
+  .leave-container {
+    background-color: rgb(255, 255, 255); /* Light background */
+    padding: 15px;
+  }
+
+  /* Reduced card size and vertical layout */
+  .leave-card {
+    display: block; /* Stack items vertically */
+    gap: 5px; /* Space between items */
+    width: 100%; /* Full width */
+    max-width: 400px; /* Max card width to reduce the size */
+    margin: 0 auto; /* Center the card */
+  }
+
+  /* Styling each leave balance block */
+  .leave-item {
+    margin-bottom: 7px; /* Space between leave items */
+  }
+
+  /* Block that contains each leave balance */
+  .leave-block {
+    background-color: #C1206B; /* Block background */
+    padding: 8px; /* Smaller padding for compactness */
+    border-radius: 8px; /* Rounded corners */
+    text-align: center;
+    color: white; /* Yellow font color */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 40px; /* Reduced height for compact cards */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  }
+
+  /* Title of each leave type */
+  .title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: white;
+  }
+
+  /* Leave balance count */
+  .count {
+    font-size: 16px;
+    font-weight: bold;
+    color: #ffffff;
+  }
+
+  /* Additional spacing and styling for input fields */
+  .slds-p-around_medium {
+    margin-top: 7px;
+  }
+
+  /* Button styling */
+  lightning-button {
+    width: 100%;
+    margin-top: 10px;
+    padding: 12px;
+  }
+/* Style for Button */
+  .custom-button {
+    background-color: #C1206B; /* Exact pink color */
+    color: white; /* White text color */
+    border: none; /* Remove border */
+    padding: 0.5rem 1rem; /* Adjust padding */
+    font-size: 16px; /* Standard font size */
+    font-family: amaranth regular;
+    font-weight: bold;
+    border-radius: 0.8rem; /* Fully rounded button */
+    cursor: pointer;
+    outline: none; /* Remove default outline */
+    box-shadow: 0 0 3px 2px white; /*  outline shadow */
+    position: absolute; bottom: 10px; right: 10px;
+  }
+/* Style for the button hover */
+  .custom-button:hover {
+    background-color: #A6195C; /* Slightly darker for hover effect */
+  }
+/* Style for the Button focus*/
+  .custom-button:focus {
+    outline: none; /* Remove focus outline */
+    box-shadow: 0 0 5px 3px rgb(54, 54, 55); /* Increase focus shadow */
+  }

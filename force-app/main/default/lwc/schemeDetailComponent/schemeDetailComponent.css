@@ -1,0 +1,183 @@
+.headingOrder {
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    color: #4b60b7;
+    text-align: center;
+    font-weight: bold;
+}
+.dark-box {
+    margin-right: 10px;
+    margin-left: 5px;
+    background-color: #f3f3f3; /* Light gray background */
+   
+    /* Optionally add a border to distinguish the box */
+    border: 1px solid #716f6f; /* Light border for contrast */
+}
+
+.schemeQuantity-details {
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    line-height: 1.6; /* Adjusts spacing for readability */
+}
+
+.schemeQuantity-details p {
+    margin: 0 0 5px 0; /* Reduces spacing between paragraphs */
+}
+
+.schemeQuantity-details strong {
+    display: inline-block;
+    width: 100px; /* Ensures consistent alignment of labels */
+    vertical-align: top; /* Aligns labels with values */
+    white-space: nowrap; /* Prevents labels from wrapping */
+}
+
+.schemeQuantity-details .schemeQuantity-value {
+    display: inline-block;
+    max-width: calc(100% - 120px); /* Ensures values stay within the container */
+    word-wrap: break-word; /* Allows long text to wrap gracefully */
+    vertical-align: top; /* Aligns with the label */
+}
+
+
+.no-schemes-message {
+    margin-left: 40px; /* Adjust the value as needed */
+    color: #000;
+}
+
+.schemevalue-details {
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    line-height: 1.6; /* Adjusts spacing for readability */
+}
+
+.schemevalue-details p {
+    margin: 0 0 5px 0; /* Reduces spacing between paragraphs */
+}
+
+.schemevalue-details strong {
+    display: inline-block;
+    width: 120px; /* Ensures consistent alignment of labels */
+    vertical-align: top; /* Aligns labels with values */
+    white-space: nowrap; /* Prevents labels from wrapping */
+}
+
+.schemevalue-details .schemevalue-value {
+    display: inline-block;
+    max-width: calc(100% - 120px); /* Ensures values stay within the container */
+    word-wrap: break-word; /* Allows long text to wrap gracefully */
+    vertical-align: top; /* Aligns with the label */
+}
+
+.left-card{
+    display: flex; 
+    flex-wrap: wrap;
+     gap: 10px; 
+     padding: 10px;
+}
+
+.quantityButtonStyle{
+    background-color: #C1206B;
+     border: 1px solid #ddd; 
+     border-radius: 6px;
+      padding: 20px; 
+      width: calc(50% - 10px);
+       box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); 
+       display: flex; 
+       align-items: center;
+        justify-content: center; 
+        text-align: center; 
+        cursor: pointer;
+}
+
+.quantityHeaderButtonStyle{
+    font-size: 14px;
+     margin-bottom: 5px;
+      color: #FFFFFF;
+       font-weight: bold;
+}
+
+.scroll-container {
+    height: calc(90vh - 50px); /* Adjust height dynamically to prevent button overlap */
+    max-width: 100%;
+    overflow-y: auto; /* Enables vertical scrolling */
+    padding-bottom: 60px; /* Extra space so last item is not hidden */
+}
+
+.slds-scrollable_y {
+    overflow-y: auto;
+    max-height: calc(90vh - 50px); /* Ensure it doesn't extend beyond the viewport */
+}
+
+.button-container {
+    position: fixed; /* Keeps button at the bottom */
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #f9f6f8;
+    padding: 10px 20px;
+    text-align: left;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.buttons {
+    padding: 3px 10px;
+    background-color: #C1206B;
+    color: white;
+    font-family: amaranth regular;
+    font-size: 1rem;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+        .taggedbutton{
+            flex: 1 1 calc(70% - 5px); /* Each button takes 50% width minus gap */
+       max-width: 400px; /* Adjust width as needed */
+       text-align: center;
+         padding: 0.5rem 1rem;
+       
+           font-weight: 600;
+           border: none;
+           border-radius: 6px;
+           cursor: pointer;
+          
+           font-size: 14px;  
+           background-color: #C1206B;
+           font-family: amaranth regular;
+           color: #fff;
+          
+       }
+       .taggedbutton:hover {
+           transition: background-color 0.3s ease;
+       background-color: #e0297f;
+       border-color: #722147;
+   }
+   .buttons-wrapper4 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 buttons per row */
+    gap: 5px; /* Reduce gap between buttons */
+    justify-content: center; /* Center the grid itself */
+    align-items: center;
+    text-align: center;
+    width: 300px; /* Adjust width to control spacing */
+    margin: 0 auto; /* Center the container */
+    }
+    .large-heading1 {
+        margin-bottom: 1rem;
+        font-size: 16px; /* Adjust size as needed */
+        font-weight: bold; /* Optional: to make it more prominent */
+        color: #C1206B;
+        text-align: center;
+    
+        font-family: amaranth regular;
+    }
+    .large-heading2 {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        font-size: 16px; /* Adjust size as needed */
+        font-weight: bold; /* Optional: to make it more prominent */
+        color: #C1206B;
+        text-align: center;
+    
+        font-family: amaranth regular;
+    }

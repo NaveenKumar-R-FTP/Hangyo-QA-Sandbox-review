@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Super Stockist Name --></label>
+    <name>Super_Stockist_Name__c</name>
+    <relationshipLabel><!-- Orders (Super Stockist Name) --></relationshipLabel>
+</CustomFieldTranslation>

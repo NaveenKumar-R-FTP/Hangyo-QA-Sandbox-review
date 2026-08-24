@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sale_Type_Live__c</fullName>
+    <description>Live formula pulling Order__r.Sale_Type__c directly — always matches the Order&apos;s current value and can never go stale, unlike the legacy Sale_Type__c field on this object (which is a one-time snapshot taken at invoice creation). Prefer this field for any new reports, list views, or code.</description>
+    <externalId>false</externalId>
+    <formula>TEXT(Order__r.Sale_Type__c)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Sales Order Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

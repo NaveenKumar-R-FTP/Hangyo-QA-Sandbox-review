@@ -1,0 +1,63 @@
+/* Container for the card */
+.container {
+    font-family: amaranth regular;
+    background-color: #ffffff;
+}
+
+.title {
+    text-align: center;
+    background-color: #C1206B;
+    font-family: amaranth regular;
+    color: white;
+    padding: 5px 0;
+    margin-bottom: 10px;
+    border-radius: 1px;
+}
+
+/* Search filter container */
+.search-filter-container {
+    margin-right: 10px;
+    margin-left: 10px;
+    font-family: amaranth regular; 
+}
+
+/* Styling the table */
+.table-wrapper-Beat {
+    max-width: 100%;
+    height: 68vh;
+}
+
+/* Buttons container */
+.button-container {
+    position: fixed;
+    bottom: 0;          /* Positions the footer at the bottom of the screen */
+    left: 0;            /* Aligns the footer to the left of the screen */
+    width: 100%;        /* Ensures the footer spans the full width of the screen */
+    background-color: #f9f6f8;  /* Footer background color */
+    padding: 10px 20px; /* Adds padding around the buttons */
+    display: flex;      /* Makes the buttons align properly */
+    justify-content: space-between; /* Center the buttons horizontally */
+    gap: 10px;          /* Adds space between the buttons */
+    z-index: 100;       /* Ensures the footer stays on top of other content */
+}
+
+/* Style for buttons */
+.buttons {
+    padding: 3px 10px;
+    background-color: #C1206B;
+    color: White;
+    font-family: amaranth regular;
+    font-size: 1rem;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Positioning the Next button to the bottom-right */
+.next-button-container {
+    position: fixed;
+    bottom: 10px;  /* Adjust the distance from the bottom */
+    right: 20px;   /* Aligns the button to the right */
+    z-index: 101;  /* Ensures the Next button stays on top of other elements */
+}

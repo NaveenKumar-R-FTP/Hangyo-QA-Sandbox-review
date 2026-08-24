@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- 2% on sales beyond 40Km one way. Max up to 20% of the Distributor Purchase. HHs to mail route and km details as per attached format at beginning of every quarter to VP sales and finance, any deviations will be deducted basis approval availed --></help>
+    <label><!-- Outstation Transport Support --></label>
+    <name>Outstation_Transport_Support__c</name>
+</CustomFieldTranslation>

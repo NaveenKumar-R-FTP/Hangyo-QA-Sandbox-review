@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Expense Entitlement</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Expense Entitlements</value>
+    </caseValues>
+    <layouts>
+        <layout>Accomodation</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Expense Entitlement Layout</layout>
+        <sections>
+            <label><!-- Accommodation Allowance --></label>
+            <section>Accommodation Allowance</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Daily Allowance --></label>
+            <section>Daily Allowance</section>
+        </sections>
+        <sections>
+            <label><!-- Travel Allowances --></label>
+            <section>Travel Allowances</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Transport</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <recordTypes>
+        <label><!-- Accomodation --></label>
+        <name>Accomodation</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- Daily Allowance/Travel Allowance --></label>
+        <name>Daily_Allowance</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- Transport --></label>
+        <name>Transport</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- Travel Allowance --></label>
+        <name>Travel_Allowance</name>
+    </recordTypes>
+    <startsWith>Vowel</startsWith>
+    <validationRules>
+        <errorMessage><!-- Sales Officers (SO) are not entitled to Flight or Car allowances. --></errorMessage>
+        <name>SO_Flight_Car_Restriction</name>
+    </validationRules>
+</CustomObjectTranslation>

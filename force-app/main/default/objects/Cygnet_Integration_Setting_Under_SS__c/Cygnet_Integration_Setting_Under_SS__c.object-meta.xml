@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>Hierarchy</customSettingsType>
+    <description>Cygnet API for Secondary Invoice Under SS record type. Setup &gt; Custom Settings &gt; Cygnet Integration Setting Under SS &gt; Manage.</description>
+    <enableFeeds>false</enableFeeds>
+    <label>Cygnet Integration Setting Under SS</label>
+    <visibility>Public</visibility>
+</CustomObject>

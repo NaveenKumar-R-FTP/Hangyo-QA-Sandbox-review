@@ -1,0 +1,588 @@
+<template>
+    <!-- MAIN VIEW -->
+    <template if:false={showDistributorPage}>
+        <template if:false={isAllFieldMode}>
+        <div class="reporting-header">
+            <div class="reporting-row">
+
+                <!-- ✅ Add Back Button if history exists -->
+                <template if:true={canGoBack}>
+                    <lightning-button-icon 
+                        icon-name="utility:back"
+                        alternative-text="Back"
+                        onclick={handleGoBack}
+                        class="slds-m-right_small back-btn"
+                        variant="bare"
+                        size="large"
+                        style="--slds-c-icon-color-foreground-default: #00aaff;">
+                    </lightning-button-icon>
+                </template>
+
+                <template if:false={canGoBack}>
+                <lightning-button-icon icon-name="utility:close" class="back-btn" onclick={resetToDashboard} 
+                style="--slds-c-icon-color-foreground-default: #00aaff;"></lightning-button-icon>
+            </template>
+
+                <span class="reporting-text">Reporting To You</span>
+
+                <div class="right-side">
+                    <div class="all-filed-users" onclick={handleAllFiledClick}>
+                        All FIELD USERS
+                    </div>
+
+                    <div class="refresh-container">
+                        <span class="refresh-time">Last refreshed: {lastRefreshed}</span>
+                        <lightning-button-icon 
+                            icon-name="utility:refresh"
+                            alternative-text="Refresh"
+                            onclick={handleRefresh}
+                            class="refresh-icon"
+                            variant="bare"
+                            size="large"
+                            style="--slds-c-icon-color-foreground-default: #00aaff;">
+                        </lightning-button-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="scroll-body">
+            <template if:true={noSubordinates}>
+                <p class="no-data">No Subordinates</p>
+            </template>
+
+            <template if:true={userList}>
+                <template for:each={userList} for:item="u">
+                    <div key={u.Id} class="user-summary-card" data-userid={u.Id} data-role={u.Role} onclick={handleUserClick}>
+                        <div class="user-header">
+    <div class="user-info">
+        <p class="user-name">{u.Name}</p>
+        <p class="user-role">{u.Role}</p>
+    </div>
+
+    <!-- Show only when phone exists -->
+    <template if:true={u.Phone}>
+        <div class="user-actions">
+            <!-- WhatsApp SVG -->
+            <span class="icon-wa" data-phone={u.Phone} onclick={handleWhatsApp}>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                    <path fill="green" d="M20.52 3.48A11.79 11.79 0 0 0 12 0a11.85 11.85 0 0 0-11.8 12A11.78 11.78 0 0 0 3.48 20.5L0 24l3.6-1.46A11.94 11.94 0 0 0 12 24a11.85 11.85 0 0 0 8.48-20.52ZM12 21.6a9.61 9.61 0 0 1-4.88-1.34l-.35-.21-2.14.86.82-2.08-.22-.35A9.6 9.6 0 1 1 12 21.6Zm5.49-7.22c-.3-.15-1.77-.87-2.04-.97s-.47-.15-.67.15-.77.97-.94 1.17-.35.22-.64.07a8 8 0 0 1-2.35-1.44 8.7 8.7 0 0 1-1.61-2c-.17-.3 0-.46.13-.61s.3-.35.45-.52a2 2 0 0 0 .3-.52.56.56 0 0 0-.03-.52c-.08-.15-.67-1.61-.92-2.21s-.52-.5-.72-.5h-.61a1.18 1.18 0 0 0-.84.39 3.5 3.5 0 0 0-1.07 2.6 6.06 6.06 0 0 0 1.27 3.18A13.94 13.94 0 0 0 10 16.31a16 16 0 0 0 3.9 1.8 9.27 9.27 0 0 0 4.24.68 3 3 0 0 0 2-1.38 2.37 2.37 0 0 0 .16-1.38c-.15-.28-.57-.45-.81-.55Z"/>
+                </svg>
+            </span>
+
+            <!-- Call SVG -->
+            <span class="icon-call" data-phone={u.Phone} onclick={handleCall}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <path fill="#1e90ff" d="M6.62 10.79a15.053 15.053 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.11-.21c1.21.49 2.53.76 3.88.76a1 1 0 0 1 1 1v3.5a1 1 0 0 1-1 1C10.07 22 2 13.93 2 4.5a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.35.26 2.67.76 3.88a1 1 0 0 1-.21 1.11l-2.43 2.3z"/>
+                </svg>
+            </span>
+        </div>
+    </template>
+</div>
+
+                        <div class="stats">
+                            <div class="stat-block">
+                                <span class="stat-value">{u.totalUsers}</span>
+                                <span class="stat-label">Total Users</span>
+                            </div>
+                            <div class="stat-block">
+                                <span class="stat-value">{u.retailCount}</span>
+                                <span class="stat-label">Retailing</span>
+                            </div>
+                            <div class="stat-block">
+                                <span class="stat-value">{u.officialCount}</span>
+                                <span class="stat-label">Official Work</span>
+                            </div>
+                            <div class="stat-block leave">
+                                <span class="stat-value">{u.leaveCount}</span>
+                                <span class="stat-label">Leave</span>
+                            </div>
+                            <div class="stat-block order">
+                                <span class="stat-value">₹{u.orderValue}</span>
+                                <span class="stat-label">Secondary Sales</span>
+                            </div>
+                        </div>
+
+                        <template if:true={u.showTile}>
+    <!-- Clickable only if NOT leave -->
+    <template if:false={u.hasLeaveOnly}>
+        <div class="visit-tile" 
+            data-userid={u.Id} 
+            data-username={u.Name} 
+            data-beat={u.beatName}
+            onclick={handleVisitClick}>
+            <template if:true={u.beatName}>
+            <div class="header-row">
+                <span class="distributor-search"> <!--style={distributorStatusLabelStyle}-->
+                    Distributor Search
+                </span>
+                <span class="retail-beat">{u.beatName}</span>
+            </div>
+            </template>
+            <template if:true={u.showRetailer}>
+                                    <div class="retail-info">
+                                        <p>{u.retailerAddress}</p>
+                                    </div>
+                                </template>
+        </div>
+    </template>
+
+    <!-- Non-clickable for leave users -->
+    <template if:true={u.hasLeaveOnly}>
+        <div class="visit-tile leave-tile">
+            <div class="header-row-leave">
+                <span class="leave-label">Leave</span>
+            </div>
+        </div>
+    </template>
+</template>
+
+                    </div>
+                </template>
+            </template>
+        </div>
+        </template>
+    </template>
+
+    <!-- ✅ DISTRIBUTOR PAGE (unchanged) -->
+    <template if:true={showDistributorPage}>
+        <div class="mobile-header">
+            <lightning-button-icon 
+                icon-name="utility:back"
+                alternative-text="Back"
+                onclick={closeDistributorPage}
+                class="slds-m-right_small back-btn"
+                variant="bare"
+                size="large"
+                style="--slds-c-icon-color-foreground-default: #00aaff;">
+            </lightning-button-icon>
+            <h2 class="header-title">{selectedUserName}</h2>
+        </div>
+
+        <div class="scroll-body">
+            <lightning-tabset active-tab-value="timeline">
+                <lightning-tab label="Timeline" value="timeline">
+                    
+                    <div class="timeline-right">
+                        <span class="refresh-time">Last refreshed: {lastRefreshed}</span>
+                        <lightning-button-icon 
+                            icon-name="utility:refresh"
+                            alternative-text="Refresh Timeline"
+                            onclick={handleTimelineRefresh}
+                            class="timeline-refresh"
+                            variant="bare"
+                            size="large"
+                            style="--slds-c-icon-color-foreground-default: #00aaff;">
+                        </lightning-button-icon>
+                    </div>
+
+                    <template if:true={timelineLoading}>
+                        <p class="loading-text">Loading timeline...</p>
+                    </template>
+
+                    <template if:true={todayDisplay}>
+                        <h3 class="day-title">{todayDisplay}</h3>
+                    </template>
+
+                    <template if:true={selectedBeat}>
+                    <div class="header-row">
+                        <span class="distributor-search"> <!--style={distributorStatusLabelStyle}-->
+                                        Distributor Search
+                                    </span>
+                        <span class="retail-beat">{selectedBeat}</span>
+                    </div>
+                    </template>
+
+
+                    <template if:true={noTimeline}>
+                        <p class="no-data">No timeline found today.</p>
+                    </template>
+
+                    <template if:true={timelineSteps}>
+                        <div class="timeline-container">
+                            <div class="vertical-line"></div>
+
+                            <template for:each={timelineSteps} for:item="step" for:index="idx">
+                                <div key={step.uniqueKey} class="timeline-step">
+                                    <div class="ring"></div>
+                                    <div class="step-details">
+                                        <p class="step-title">
+                                            <template if:true={step.isFirstStep}>{step.stepName}</template>
+                                            <template if:true={step.visitName}>{step.visitName}</template>
+                                        </p>
+                                        <p class="step-time">{step.stepTime}</p>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+
+                </lightning-tab>
+
+                <lightning-tab label="MTD" value="mtd">
+    <div class="mtd-panel">
+        <!-- Header -->
+        <div class="mtd-header">
+            <div class="mtd-header-actions">
+                <span class="refresh-time">Last refreshed: {mtdLastRefreshed}</span>
+                <lightning-button-icon 
+                    icon-name="utility:refresh"
+                    alternative-text="Refresh MTD"
+                    onclick={handleMTDRefresh}
+                    class="mtd-refresh"
+                    variant="bare"
+                    size="large">
+                </lightning-button-icon>
+            </div>
+        </div>
+
+        <!-- Loading -->
+        <template if:true={mtdLoading}>
+            <p class="loading-text">Loading MTD data...</p>
+        </template>
+
+        <!-- Stats Grid -->
+        <template if:false={mtdLoading}>
+            <div class="mtd-stats">
+                <div class="stat-block">
+                    <span class="stat-label">Retailing (Visits)</span>
+                    <span class="stat-value">{mtdData.retailingCount}</span>
+                </div>
+                <div class="stat-block">
+                    <span class="stat-label">Official Work</span>
+                    <span class="stat-value">{mtdData.officialCount}</span>
+                </div>
+                <div class="stat-block">
+                    <span class="stat-label">Avg. Retailing Time</span>
+                    <span class="stat-value">{mtdData.avgRetailingHours}</span>
+                </div>
+                <div class="stat-block">
+                    <span class="stat-label">Leave</span>
+                    <span class="stat-value">{mtdData.leaveCount}</span>
+                </div>
+                <div class="stat-block">
+                    <span class="stat-label">Total</span>
+                    <span class="stat-value">{mtdData.totalCount}</span>
+                </div>
+                <div class="stat-block">
+                    <span class="stat-label">Avg. Total Time</span>
+                    <span class="stat-value">{mtdData.avgTotalHours}</span>
+                </div>
+            </div>
+
+            <div class="mtd-visit-list">
+
+    <template if:true={mtdVisits}>
+    <template for:each={mtdVisits} for:item="v">
+
+        <div key={v.Id} class="visit-row" data-id={v.Id}>
+
+            <!-- TOP ROW: Date (left) + Yesterday (right) -->
+            <div class="visit-date-row">
+                <span class="visit-date">{v.VisitDate}</span>
+
+                <template if:true={v.yesterdayLabel}>
+                    <span class="yesterday-tag">{v.yesterdayLabel}</span>
+                </template>
+            </div>
+
+            <div class="visit-content">
+
+            <!-- HOURS on RIGHT -->
+            <div class="visit-hours-row">
+                <span class="visit-hours">{v.totalHours}</span>
+            </div>
+
+            <!-- BOTTOM ROW -->
+        <template if:true={v.BeatName}>
+            <div class="visit-bottom">
+                <span class="distributor-search" > <!--style={distributorStatusLabelStyle}-->
+                                        Distributor Search
+                                    </span>
+                <span class="beat-name">{v.BeatName}</span>
+            </div>
+           </template>
+            <template if:true={v.retailerAddress}>
+                                    <div class="retail-info">
+                                        <p>{v.retailerAddress}</p>
+                                    </div>
+                                </template>
+
+            </div>
+
+        </div>
+
+    </template>
+</template>
+
+
+    <template if:false={mtdVisits}>
+        <p>No MTD Visits Found.</p>
+    </template>
+</div>
+
+
+            <template if:true={mtdError}>
+                <p class="error-text">{mtdError}</p>
+            </template>
+        </template>
+    </div>
+</lightning-tab>
+
+            </lightning-tabset>
+        </div>
+    </template>
+
+<template if:true={isAllFieldMode}>
+    <div class="page-wrapper">
+
+        <!-- ======================= FIXED TOP SECTION ======================= -->
+        <div class="top-fixed">
+
+            <!-- Search + Filter -->
+            <div class="filter-search-row">
+
+                <template if:true={canGoBack}>
+                    <lightning-button-icon 
+                        icon-name="utility:back"
+                        alternative-text="Back"
+                        onclick={handleAllFieldBack}
+                        class="slds-m-right_small back-btn"
+                        variant="bare"
+                        size="large"
+                        onmousedown={stopClick}
+                        ondblclick={stopClick}
+                        style="--slds-c-icon-color-foreground-default: #00aaff; margin-top: 8px;">
+                    </lightning-button-icon>
+                </template>
+
+                <lightning-input 
+                    type="search" 
+                    placeholder="Search by Employee Name or Role" 
+                    value={searchKey} 
+                    onchange={handleSearch} style="margin-top: -30px;">
+                </lightning-input>
+
+                <lightning-button-icon 
+                    icon-name="utility:filterList" 
+                    alternative-text="Filter" 
+                    onclick={toggleRoleFilter} 
+                    class="filter-icon">
+                </lightning-button-icon>
+            </div>
+
+            <!-- ROLE FILTER POPUP -->
+            <template if:true={roleFilterVisible}>
+    <div class="popup-overlay" onclick={closeRoleFilter}></div>
+
+    <div class="role-filter-popup">
+
+        <!-- TITLE -->
+        <div class="section-title">User Filter</div>
+
+        <div class="section-sub-title" style="margin-bottom: -10px;">View As Manager</div>
+        <!-- Search Section -->
+        <lightning-input 
+            type="search" 
+            placeholder="Search Users"
+            value={roleUserSearchKey}
+            onchange={handleRoleUserSearch}>
+        </lightning-input>
+
+        <!-- Search Results -->
+        <template if:true={roleUserOptions}>
+            <div class="user-picklist">
+                <template for:each={roleUserOptions} for:item="u">
+                    <div key={u.Id} 
+                         class="picklist-item" 
+                         data-userid={u.Id} 
+                         onclick={handleRoleUserSelect}>
+                        {u.Name}
+                    </div>
+                </template>
+            </div>
+        </template>
+
+        <!-- Centered Divider -->
+        <div class="divider">
+            <span>OR</span>
+        </div>
+
+        <!-- USER HIERARCHY -->
+        <div class="section-sub-title-uh">User Hierarchy</div>
+
+        <!-- Roles -->
+        <div class="role-checkboxes">
+            <template for:each={roleOptionsWithSelected} for:item="role">
+                <lightning-input
+                    key={role.value}
+                    type="checkbox"
+                    label={role.label}
+                    data-value={role.value}
+                    checked={role.selected}
+                    onchange={handleRoleCheckboxChange}>
+                </lightning-input>
+            </template>
+        </div>
+
+        <!-- Actions
+        <div class="popup-actions">
+            <lightning-button label="Clear" onclick={clearRoleFilter}></lightning-button>
+            <lightning-button variant="brand" label="Apply" onclick={applyRoleFilter}></lightning-button>
+        </div> -->
+        <div class="popup-actions">
+    <button type="button" class="btn-clear" onclick={clearRoleFilter}>Clear</button>
+    <button type="button" class="btn-apply" onclick={applyRoleFilter}>Apply</button>
+</div>
+
+    </div>
+</template>
+
+
+
+            <!-- Progress Grid -->
+            <div class="grid-container">
+
+                <div class="grid-item">
+                    <div class="label-row">
+                        <span>Retailers</span>
+                        <span>{totalRetailers}</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="bar retailers" style={retailWidthStyle}></div>
+                    </div>
+                </div>
+
+                <div class="grid-item">
+                    <div class="label-row">
+                        <span>Official Work</span>
+                        <span>{totalOfficial}</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="bar official" style={officialWidthStyle}></div>
+                    </div>
+                </div>
+
+                <div class="grid-item">
+                    <div class="label-row">
+                        <span>Leave</span>
+                        <span>{totalLeave}</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="bar leave" style={leaveWidthStyle}></div>
+                    </div>
+                </div>
+
+                <div class="grid-item">
+                    <div class="label-row">
+                        <span>Total</span>
+                        <span>{computedTotal}</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="bar total" style="width:100%;"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- ======================= END FIXED TOP SECTION ======================= -->
+
+
+
+        <!-- ======================= SCROLLABLE USER LIST ======================= -->
+        <div class="user-list-scroll">
+
+            <template if:true={filteredUsers}>
+                <template for:each={filteredUsers} for:item="u">
+                    <div key={u.Id} 
+                        class="user-summary-card" 
+                        data-userid={u.Id} 
+                        data-role={u.Role}><!--onclick={handleUserClickAllFieldUser}-->
+                        
+                        <div class="user-header">
+                            <div class="user-info">
+                                <p class="user-name">{u.Name}</p>
+                                <p class="user-role">{u.Role}</p>
+                            </div>
+                        
+
+                        <template if:true={u.Phone}>
+        <div class="user-actions">
+            <!-- WhatsApp SVG -->
+            <span class="icon-wa" data-phone={u.Phone} onclick={handleWhatsApp}>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                    <path fill="green" d="M20.52 3.48A11.79 11.79 0 0 0 12 0a11.85 11.85 0 0 0-11.8 12A11.78 11.78 0 0 0 3.48 20.5L0 24l3.6-1.46A11.94 11.94 0 0 0 12 24a11.85 11.85 0 0 0 8.48-20.52ZM12 21.6a9.61 9.61 0 0 1-4.88-1.34l-.35-.21-2.14.86.82-2.08-.22-.35A9.6 9.6 0 1 1 12 21.6Zm5.49-7.22c-.3-.15-1.77-.87-2.04-.97s-.47-.15-.67.15-.77.97-.94 1.17-.35.22-.64.07a8 8 0 0 1-2.35-1.44 8.7 8.7 0 0 1-1.61-2c-.17-.3 0-.46.13-.61s.3-.35.45-.52a2 2 0 0 0 .3-.52.56.56 0 0 0-.03-.52c-.08-.15-.67-1.61-.92-2.21s-.52-.5-.72-.5h-.61a1.18 1.18 0 0 0-.84.39 3.5 3.5 0 0 0-1.07 2.6 6.06 6.06 0 0 0 1.27 3.18A13.94 13.94 0 0 0 10 16.31a16 16 0 0 0 3.9 1.8 9.27 9.27 0 0 0 4.24.68 3 3 0 0 0 2-1.38 2.37 2.37 0 0 0 .16-1.38c-.15-.28-.57-.45-.81-.55Z"/>
+                </svg>
+            </span>
+
+            <!-- Call SVG -->
+            <span class="icon-call" data-phone={u.Phone} onclick={handleCall}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <path fill="#1e90ff" d="M6.62 10.79a15.053 15.053 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.11-.21c1.21.49 2.53.76 3.88.76a1 1 0 0 1 1 1v3.5a1 1 0 0 1-1 1C10.07 22 2 13.93 2 4.5a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.35.26 2.67.76 3.88a1 1 0 0 1-.21 1.11l-2.43 2.3z"/>
+                </svg>
+            </span>
+        </div>
+    </template>
+</div>
+
+                        <template if:true={u.showTile}>
+    <!-- Clickable only if NOT leave -->
+    <template if:false={u.hasLeaveOnly}>
+        <div class="visit-tile" 
+            data-userid={u.Id} 
+            data-username={u.Name} 
+            data-beat={u.beatName}
+            onclick={handleVisitClick}>
+            <template if:true={u.beatName}>
+            <div class="header-row">
+                <span class="distributor-search" > <!--style={distributorStatusLabelStyle}-->
+                    Distributor Search
+                </span>
+                <span class="retail-beat">{u.beatName}</span>
+            </div>
+            </template>
+            <template if:true={u.showRetailer}>
+                                    <div class="retail-info">
+                                        <p>{u.retailerAddress}</p>
+                                    </div>
+                                </template>
+        </div>
+    </template>
+
+    <!-- Non-clickable for leave users -->
+    <template if:true={u.hasLeaveOnly}>
+        <div class="visit-tile leave-tile">
+            <div class="header-row-leave">
+                <span class="leave-label">Leave</span>
+            </div>
+        </div>
+    </template>
+</template>
+
+
+                    </div>
+                </template>
+            </template>
+
+        </div>
+        <!-- ======================= END SCROLLABLE LIST ======================= -->
+
+
+
+        <!-- ======================= FIXED BOTTOM TABS ======================= -->
+        <div class="bottom-role-tabs">
+    <template for:each={selectedRoles} for:item="role">
+        <button
+            key={role.value}
+            class="slds-button slds-button_neutral role-tab-btn"
+            data-value={role.value}
+            onclick={handleRoleTabClick}>
+            {role.label}
+        </button>
+    </template>
+</div>
+
+    </div>
+</template>
+
+</template>

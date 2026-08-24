@@ -1,0 +1,72 @@
+.title {
+    text-align: center;
+     background:linear-gradient(to right, rgba(255, 242, 177, 0.719),rgb(253, 238, 163));
+    font-family: arial;
+    color: #C1206B;
+    padding: 5px 0;
+    margin-bottom: 10px;
+    margin-top : 0px;
+    border-radius: 1px;
+}
+
+/* Search filter container */
+.search-filter-container {
+    margin-right: 10px;
+    margin-left: 10px;
+    font-family: arial; 
+}
+
+/* Styling the table */
+.table-wrapper-Beat {
+    max-width: 100%;
+    height: 68vh;
+    font-family: arial;
+    font-size: 13px;
+}
+
+.footer {
+    position: fixed;      /* Fixed at bottom */
+    bottom: 0;
+    left: 0;              /* Ensure it spans full width */
+    width: 100%;
+    background-color: #f9f6f8;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: center; /* Center-align button */
+    align-items: center;     /* Vertically center */
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 999;            /* Make sure it stays above other elements */
+}
+
+.custom-button {
+    padding: 8px 16px;        /* Slightly bigger for mobile */
+    background-color: #C1206B;
+    color: white;
+    font-family: arial;
+    font-size: 14px;          /* Slightly bigger for touch */
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+
+
+.slds-show{
+    margin-top : 0px;
+}
+
+@media screen and (min-width: 1024px){
+      .fixedCard{
+       position: fixed;   /* Keeps the component fixed */
+    top: 110px;        /* Adjust this value to set distance from the top */
+    left: 0;           /* Align to the left */
+    width: 100%;       /* Make it full width */
+    height: calc(100vh - 100px); /* Adjust height based on viewport */
+    background-color: white; /* Change as needed */
+    overflow: auto;    /* Enables scrolling inside the component if needed */
+    z-index: 101;     /* Keeps it above other elements */
+    }
+   
+   
+  }

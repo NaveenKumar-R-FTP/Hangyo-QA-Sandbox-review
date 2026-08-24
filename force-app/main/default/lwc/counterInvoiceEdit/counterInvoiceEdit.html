@@ -1,0 +1,349 @@
+<template>
+    <template if:true={isLoading}>
+        <div style="height:200px; position:relative;">
+            <lightning-spinner variant="base" size="medium"></lightning-spinner>
+        </div>
+    </template>
+
+    <template if:false={isLoading}>
+        <div style="width:100%; overflow:scroll;">
+            <table class="maintable">
+                <!-- Distributor header -->
+                <tr>
+                    <td colspan="4">
+                        <p>Company Name: {disAccountName}</p>
+                        <p>Company Address: {disBillingAddress}</p>
+                        <p>Phone: {dmsuserPhone}</p>
+                        <p>Email: {dmsUserInfo.Email}</p>
+                        <p>GSTIN: {dmsUserInfo.GSTIN__c}</p>
+                        <p>FSSAI: {dmsuserFSSAI}</p>
+                        <p>PAN: {dmsUserInfo.PAN_Number__c}</p>
+                    </td>
+                    <td colspan="4" class="slds-p-right_x-small" style="text-align:right;">
+                        <img src={dmsUserInfo.MediumPhotoUrl}/>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="8" class="alignCenter" style="border-bottom:none;">
+                        Tax Invoice<br/>Original For Recipient
+                    </td>
+                </tr>
+
+                <!-- Bill To & Invoice Info -->
+                <tr>
+                    <td colspan="4" style="vertical-align:top; padding:10px; border-bottom:1px solid white;">
+                        <div>Bill To: {orderInfo.Customer_Name__c}, {orderInfo.Customer_Address__c}</div>
+                        <div>Phone No.: {orderInfo.Customer_Phone__c}</div>
+                        <div>GSTIN: {orderInfo.GSTIN__c}</div>
+                        <div>FSSAI:</div>
+                        <div>Ship To: {orderInfo.Customer_Name__c}, {orderInfo.Customer_Address__c}</div>
+                        <div>GSTIN: {orderInfo.GSTIN__c}</div>
+                        <div>FSSAI:</div>
+                    </td>
+                    <td colspan="4" style="vertical-align:top; padding:10px; border-bottom:1px solid white;">
+                        <div>Invoice #: {invoiceInfo.Invoice_Number__c}</div>
+                         <div>Invoice Date: {invoiceInfo.Invoice_Date__c}</div>
+                        <div>Place of Supply: {invoiceInfo.Place_of_Supply__c}</div>
+                        <div>Tax Currency: INR</div>
+                        <div>Credit Period:
+                            <lightning-input type="number" min="0" variant="label-hidden"
+                                value={invoiceInfo.Credit_Period__c}
+                                onchange={handleCreditPeriodChange}></lightning-input>
+                        </div>
+                        <div>Status: <strong>{invoiceInfo.Status__c}</strong></div>
+                    </td>
+                </tr>
+
+                <!-- Line items table -->
+                <tr>
+                    <td colspan="8" style="padding:revert;">
+                        <div class="hideFirstColTable">
+                            <lightning-datatable
+                                key-field="rowNo"
+                                data={itemList}
+                                columns={columns}
+                                onrowaction={handleRowAction}
+                                hide-checkbox-column>
+                            </lightning-datatable>
+                        </div>
+                    </td>
+                </tr>
+
+                <!-- Totals -->
+                <tr>
+                    <td rowspan="9" colspan="6" class="alignCenter">
+                        Amount In Words<br/>{invoiceInfo.Invoice_Amount_In_Words__c}
+                    </td>
+                    <td style="color:#C1206B;">Total Unit</td>
+                    <td>{invoiceInfo.Total_Quantity__c}</td>
+                </tr>
+                <tr>
+                    <td style="color:#C1206B;">Discount 2</td>
+                    <td class="width12half">
+                        <lightning-input type="number" min="0" max="100"
+                            label="Enter Discount 2 %"
+                            name="dis2percent"
+                            value={discount2Percent}
+                            onchange={handleDiscount2Change}
+                            step="0.01">
+                            disabled={skuDiscountActive}>
+                        </lightning-input>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="color:#C1206B;">Value Scheme</td>
+                    <td>
+                        <button class="value-scheme-button" onclick={handleValueScheme}>
+                            Apply Scheme
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="color:#C1206B;">Value Scheme Applied</td>
+                    <td style="color:#C1206B; font-weight:600;">{valueSchemeName}</td>
+                </tr>
+                <tr>
+                    <td style="color:#C1206B;">Discount Total</td>
+                    <td>{totalDiscount}</td>
+                </tr>
+                <tr>
+                    <td style="color:#C1206B;">Taxable Value</td>
+                    <td>{invoiceInfo.Taxable_Amount__c}</td>
+                </tr>
+                <tr>
+                    <td style="color:#C1206B;">Total GST</td>
+                    <td>{invoiceInfo.Total_GST__c}</td>
+                </tr>
+                <tr>
+                    <td style="color:#C1206B;">Round Off</td>
+                    <td>{roundOff}</td>
+                </tr>
+                <tr>
+                    <td style="color:#C1206B;">Invoice Value</td>
+                    <td>{invoiceInfo.Invoice_Amount__c}</td>
+                </tr>
+
+                <!-- Notes & Bank -->
+                <tr>
+                    <td colspan="6" rowspan="2">Note<br/>{dmsUserInfo.Notes__c}</td>
+                    <td style="text-align:left; vertical-align:top;" rowspan="2" colspan="2">
+                        Bank Details<br/><br/>
+                        Name: {dmsUserInfo.Name}<br/>
+                        Bank: {dmsUserInfo.Bank_Name__c}<br/>
+                        A/C No: {dmsUserInfo.Bank_Account_Number__c}<br/>
+                        IFSC: {dmsUserInfo.IFSC_Code__c}
+                    </td>
+                </tr>
+                <tr></tr>
+
+                <!-- GST summary -->
+                <tr>
+                    <td class="alignCenter">HSN Code</td>
+                    <td class="alignCenter">Taxable Value</td>
+                    <td class="alignCenter" colspan="2">SGST %</td>
+                    <td class="alignCenter" colspan="2">CGST %</td>
+                    <td class="alignCenter" colspan="2">IGST %</td>
+                </tr>
+                <tr>
+                    <td class="alignCenter width12half">21050000</td>
+                    <td class="alignCenter width12half">{invoiceInfo.Taxable_Amount__c}</td>
+                    <td class="alignCenter width12half">{invoiceInfo.SGST__c}</td>
+                    <td class="alignCenter width12half">{invoiceInfo.SGST_Amount__c}</td>
+                    <td class="alignCenter width12half">{invoiceInfo.CGST__c}</td>
+                    <td class="alignCenter width12half">{invoiceInfo.CGST_Amount__c}</td>
+                    <td class="alignCenter width12half">{invoiceInfo.IGST__c}</td>
+                    <td class="alignCenter width12half">{invoiceInfo.IGST_Amount__c}</td>
+                </tr>
+                <tr>
+                    <td class="alignCenter">Total</td>
+                    <td class="alignCenter">{invoiceInfo.Taxable_Amount__c}</td>
+                    <td class="alignCenter" colspan="2">{invoiceInfo.SGST_Amount__c}</td>
+                    <td class="alignCenter" colspan="2">{invoiceInfo.CGST_Amount__c}</td>
+                    <td class="alignCenter" colspan="2">{invoiceInfo.IGST_Amount__c}</td>
+                </tr>
+
+                <!-- Modern Trade free-goods scheme -->
+                <template if:true={freeOfferMessage}>
+                    <tr>
+                        <td colspan="8" style="font-weight:bold;">{freeOfferMessage}</td>
+                    </tr>
+                </template>
+
+                <!-- Terms -->
+                <tr>
+                    <td colspan="4">Terms and Conditions<br/>{dmsUserInfo.Terms_and_Conditions__c}</td>
+                    <td rowspan="2" colspan="4" style="vertical-align:bottom; text-align:center;">
+                        For, {disAccountName}<br/>
+                        This is a computer generated invoice, no signature required.
+                    </td>
+                </tr>
+            </table>
+
+            <!-- Action buttons -->
+            <div class="slds-grid slds-wrap slds-grid_align-center slds-p-around_medium" style="gap:8px;">
+                <button class="btn-neutral" onclick={handleBack}>Cancel</button>
+                <template if:true={isDraft}>
+                    <button class="btn-brand" onclick={handleSave} disabled={isSaving}>Save Draft</button>
+                    <button class="btn-success" onclick={handleConfirm} disabled={isSaving}>Save &amp; View Invoice</button>
+                </template>
+                <template if:true={isConfirmed}>
+                    <button class="btn-destructive" onclick={handleCancel}>Cancel Invoice</button>
+                    <button class="btn-brand" onclick={handleDownload}>Download Invoice</button>
+                </template>
+            </div>
+        </div>
+    </template>
+
+    <!-- Line item modal -->
+    <template if:true={showModal}>
+        <section role="dialog" tabindex="-1" aria-modal="true"
+            class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <lightning-button-icon class="slds-modal__close"
+                        onclick={handleModalCancel} icon-name="utility:close"
+                        variant="border-filled" alternative-text="Close"></lightning-button-icon>
+                    <h2 class="slds-modal__title">{modalTitle}</h2>
+                </header>
+                <div class="slds-modal__content slds-var-p-around_medium">
+
+                    <!-- Product search (add mode only) -->
+                    <template if:false={iliEdit}>
+                        <template if:false={selectedProduct}>
+                            <div class="lookup-container">
+                                <input type="text" class="search-input"
+                                    placeholder="Search product..."
+                                    value={searchQuery}
+                                    oninput={handleSearchChange}
+                                    onfocus={handleSearchFocus}/>
+                                <template if:true={showDropdown}>
+                                    <div class="dropdown">
+                                        <template for:each={productResults} for:item="prod">
+                                            <div key={prod.Id} class="dropdown-item"
+                                                data-id={prod.Id} onclick={handleSelectProduct}>
+                                                {prod.Name}
+                                                <span class="stock-info">({prod.Stock} in stock)</span>
+                                            </div>
+                                        </template>
+                                        <template if:false={productResults.length}>
+                                            <div class="dropdown-item no-results">No products found</div>
+                                        </template>
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+                    </template>
+
+                    <!-- Selected product pill -->
+                    <template if:true={selectedProduct}>
+                        <div class="selected-pill">
+                            {selectedProduct.Name}
+                            <template if:false={iliEdit}>
+                                <lightning-button-icon icon-name="utility:close"
+                                    alternative-text="Clear" onclick={clearProductSelection}
+                                    class="slds-m-left_x-small"></lightning-button-icon>
+                            </template>
+                        </div>
+                    </template>
+
+                    <lightning-record-edit-form object-api-name="Invoice_Line_Item__c">
+                        <lightning-layout multiple-rows>
+                            <lightning-layout-item size="12" padding="around-small">
+                                <lightning-input-field data-id="ili_quantity"
+                                    field-name="Quantity__c" variant="label-stacked"
+                                    value={iliQuantity} required></lightning-input-field>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" padding="around-small">
+                                <lightning-input-field data-id="ili_price"
+                                    field-name="Price__c" variant="label-stacked"
+                                    value={iliPrice} disabled required></lightning-input-field>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" padding="around-small">
+                                <lightning-input label="Available Stock"
+                                    value={iliStockInHand} type="number"
+                                    variant="label-stacked" disabled></lightning-input>
+                            </lightning-layout-item>
+
+                            <!-- Discount Type Selection -->
+                            <lightning-layout-item size="12" padding="around-small">
+                                <div class="section-label">Discount Type</div>
+                                <div class="radio-group">
+                                    <label class="radio-option">
+                                        <input type="radio" name="discountType" value="Value"
+                                               checked={isDiscountValue}
+                                               onchange={handleDiscountTypeChange}/>
+                                        <span>Value (₹)</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="discountType" value="Percentage"
+                                               checked={isDiscountPercentage}
+                                               onchange={handleDiscountTypeChange}/>
+                                        <span>Percentage (%)</span>
+                                    </label>
+                                </div>
+                            </lightning-layout-item>
+
+                            <!-- Discount Input -->
+                            <lightning-layout-item size="12" padding="around-small">
+                                <template if:true={isDiscountValue}>
+                                    <lightning-input
+                                        label="Discount Amount (₹)"
+                                        type="number" min="0"
+                                        variant="label-stacked"
+                                        value={iliDiscountInput}
+                                        onchange={handleDiscountInputChange}
+                                        placeholder="Enter discount amount...">
+                                    </lightning-input>
+                                </template>
+                                <template if:true={isDiscountPercentage}>
+                                    <lightning-input
+                                        label="Discount Percentage (%)"
+                                        type="number" min="0" max="100"
+                                        variant="label-stacked"
+                                        value={iliDiscountInput}
+                                        onchange={handleDiscountInputChange}
+                                        placeholder="Enter discount percentage...">
+                                    </lightning-input>
+                                </template>
+                            </lightning-layout-item>
+
+                            <!-- Calculated discount amount display -->
+                            <lightning-layout-item size="12" padding="around-small">
+                                <lightning-input
+                                    label="Discount Amount Applied (₹)"
+                                    type="number"
+                                    variant="label-stacked"
+                                    value={calculatedDiscountAmt}
+                                    disabled>
+                                </lightning-input>
+                            </lightning-layout-item>
+                            <!-- SKU-wise Discount 2 % (mutually exclusive with header Discount 2) -->
+                            <lightning-layout-item size="12" padding="around-small">
+                                <lightning-input
+                                    label="SKU Discount 2 (%)"
+                                    type="number" min="0" max="100" step="0.01"
+                                    variant="label-stacked"
+                                    data-id="ili_sku_discount"
+                                    value={iliSkuDiscountPercent}
+                                    onchange={handleSkuDiscountChange}
+                                    disabled={overallDiscountActive}
+                                    placeholder="Enter SKU-wise Discount 2 %...">
+                                </lightning-input>
+                            </lightning-layout-item>
+
+                        </lightning-layout>
+                    </lightning-record-edit-form>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button variant="brand" label="Save"
+                        onclick={handleModalSave} disabled={isProductSaving}
+                        class="slds-var-m-left_x-small"></lightning-button>
+                    <lightning-button label="Cancel"
+                        onclick={handleModalCancel}
+                        class="slds-var-m-left_x-small"></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

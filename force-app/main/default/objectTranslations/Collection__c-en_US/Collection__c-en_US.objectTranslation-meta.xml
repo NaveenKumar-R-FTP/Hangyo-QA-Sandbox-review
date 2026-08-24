@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Collection</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Collections</value>
+    </caseValues>
+    <layouts>
+        <layout>Collection DMS Layout</layout>
+        <sections>
+            <label><!-- Cheque Details --></label>
+            <section>Cheque Details</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Payment Details --></label>
+            <section>Payment Details</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Collection Layout</layout>
+        <sections>
+            <label><!-- Cheque Details --></label>
+            <section>Cheque Details</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Payment Details --></label>
+            <section>Payment Details</section>
+        </sections>
+    </layouts>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

@@ -1,0 +1,463 @@
+.gpsUtilityMount {
+    margin: 0;
+    padding: 0;
+}
+
+/* Filter row: User 40% | Date 40% | View Map 10% | Load Data 10% */
+.filterRowRatio {
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: 1fr;
+    align-items: end;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.filterCellUser,
+.filterCellDate,
+.filterCellBtn {
+    min-width: 0;
+    width: 100%;
+}
+
+.filterCellUser,
+.filterCellDate {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.filterCellBtn {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+/* Align button row with labeled User / Date inputs */
+.filterBtnLabelSpacer {
+    display: block;
+    visibility: hidden;
+    height: 1.25rem;
+    margin: 0 0 0.125rem;
+    padding: 0;
+    line-height: 1.25;
+    font-size: 0.75rem;
+    box-sizing: border-box;
+}
+
+@media (min-width: 48rem) {
+    .filterRowRatio {
+        grid-template-columns: minmax(0, 4fr) minmax(0, 4fr) minmax(0, 1fr) minmax(0, 1fr);
+        column-gap: 0.75rem;
+    }
+}
+
+/* Native User search + native Date share identical geometry */
+.filterNativeControl {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    min-height: var(--hangyo-filter-control-height);
+    height: var(--hangyo-filter-control-height);
+    padding-top: 0;
+    padding-bottom: 0;
+    font-size: 0.8125rem;
+    line-height: calc(var(--hangyo-filter-control-height) - 2px);
+}
+
+.filterUserSearchInput.filterNativeControl {
+    line-height: normal;
+}
+
+.filterCellUser .lookup,
+.filterCellDate .slds-form-element,
+.filterCellDate .slds-form-element__control {
+    width: 100%;
+    max-width: 100%;
+}
+
+.filterCellUser .lookup {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: 0;
+}
+
+.filterCellDate .slds-form-element {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: 0;
+}
+
+.filterCellDate .slds-form-element__control {
+    flex: 0 0 auto;
+}
+
+/* User search: explicit icon positions (SLDS + lightning-icon hosts often misplace right icon) */
+.filterCellUser .slds-form-element__control.slds-input-has-icon {
+    position: relative;
+}
+
+.filterCellUser lightning-icon.slds-input__icon_left {
+    position: absolute;
+    left: 0.65rem;
+    top: 0;
+    bottom: 0;
+    margin-top: auto;
+    margin-bottom: auto;
+    height: 1rem;
+    width: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: none;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.filterCellUser .userSearchClearBtn {
+    position: absolute;
+    right: 0.25rem;
+    left: auto;
+    top: 0;
+    bottom: 0;
+    margin-top: auto;
+    margin-bottom: auto;
+    transform: none;
+    z-index: 2;
+    margin-inline: 0;
+    width: 1.625rem;
+    height: 1.625rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.filterUserSearchInput {
+    padding-left: 2rem;
+    padding-right: 0.5rem;
+}
+
+.filterCellUser .slds-input-has-icon_right .filterUserSearchInput {
+    padding-right: 2rem;
+}
+
+.userSearchClearBtn {
+    color: #706e6b;
+}
+
+.userSearchClearBtn:hover {
+    color: var(--hangyo-brand);
+}
+
+:host {
+    /* Shared pixel height for native User search + Date (SLDS medium ~38px) */
+    --hangyo-filter-control-height: 2.375rem;
+    --hangyo-brand: #c1206b; /* rgb(193, 32, 107) */
+    --hangyo-brand-weak: rgba(193, 32, 107, 0.12);
+    --hangyo-text-on-brand: #ffffff;
+    --hangyo-border: rgba(193, 32, 107, 0.25);
+}
+
+.dashHeader {
+    background: var(--hangyo-brand);
+    color: var(--hangyo-text-on-brand);
+    border-radius: 0.25rem;
+    padding: 1.125rem 1.25rem;
+    min-height: 3.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.dashTitle {
+    font-weight: 700;
+    font-size: 1.375rem;
+    line-height: 1.25;
+    letter-spacing: 0.02em;
+}
+
+.dashBody {
+    /* Keeps body padding separate so the header remains full-width */
+}
+
+.filterPanel {
+    border: 1px solid var(--hangyo-border);
+    background: #ffffff;
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+}
+
+.hangyoButton {
+    background: var(--hangyo-brand);
+    border: 1px solid var(--hangyo-brand);
+    color: var(--hangyo-text-on-brand);
+    border-radius: 0.375rem;
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hangyoButton[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Filter bar buttons: match input height only (width follows 10% column); overrides .hangyoButton padding */
+.hangyoButton.hangyoButtonFilterPair {
+    width: 100%;
+    box-sizing: border-box;
+    min-height: var(--hangyo-filter-control-height);
+    height: var(--hangyo-filter-control-height);
+    max-height: var(--hangyo-filter-control-height);
+    padding: 0 0.75rem;
+    font-size: 0.8125rem;
+    line-height: 1;
+}
+
+.hangyoButtonFull {
+    width: 100%;
+}
+
+/* Anchors user dropdown flush below the input row (not above / overlapping) */
+.lookupControlWrap {
+    position: relative;
+    width: 100%;
+}
+
+.lookup {
+    position: relative;
+}
+
+.lookupDropdown {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    margin-top: 0.125rem;
+    z-index: 7000;
+    width: 100%;
+    padding: 0.25rem 0;
+    border: 1px solid var(--hangyo-border);
+    border-radius: 0.375rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.lookupList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-height: 220px;
+    overflow: auto;
+}
+
+.lookupItem {
+    margin: 0;
+    padding: 0;
+}
+
+.lookupOption {
+    width: 100%;
+    text-align: left;
+    padding: 0.5rem 0.75rem;
+}
+
+.lookupOption:hover {
+    background: var(--hangyo-brand-weak);
+}
+
+.lookupEmpty {
+    padding: 0.5rem 0.75rem;
+    color: #5c5c5c;
+    font-size: 0.8125rem;
+}
+
+.summaryGrid {
+    border: 1px solid var(--hangyo-border);
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    background: #ffffff;
+}
+
+.statTile {
+    padding: 0.5rem 0.75rem;
+}
+
+.statLabel {
+    font-weight: 700;
+    font-size: 14px;
+    color: #2e2e2e;
+}
+
+.statValue {
+    margin-top: 0.125rem;
+    font-size: 12px;
+    color: #2e2e2e;
+    word-break: break-word;
+}
+
+.hangyoButtonSmall {
+    background: var(--hangyo-brand);
+    border: 1px solid var(--hangyo-brand);
+    color: var(--hangyo-text-on-brand);
+    border-radius: 0.375rem;
+    padding: 0.35rem 0.75rem;
+    font-weight: 600;
+    font-size: 0.8125rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tableShell {
+    border: 1px solid var(--hangyo-border);
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.listHint {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.hintText {
+    color: #5c5c5c;
+    font-size: 0.75rem;
+}
+
+.mapHint {
+    color: #5c5c5c;
+    font-size: 0.8125rem;
+    line-height: 1.4;
+}
+
+/* Map region: SLDS-inspired shell without nested lightning-card (prevents iframe height collapsing). */
+.hangyoMapOuter {
+    display: flex;
+    flex-direction: column;
+    min-height: 380px;
+    border: 1px solid var(--hangyo-border, #dddbda);
+    border-radius: 0.5rem;
+    background-color: #ffffff;
+    overflow: hidden;
+}
+
+.hangyoMapHeader {
+    flex: 0 0 auto;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #080707;
+    border-bottom: 1px solid var(--hangyo-border, #dddbda);
+    background-color: var(--hangyo-dash-header-bg, #fafaf9);
+}
+
+.hangyoMapHeaderRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+
+.hangyoMapTitle {
+    flex: 1 1 auto;
+}
+
+.hangyoMapExpandBtn {
+    flex: 0 0 auto;
+}
+
+.hangyoMapHintPad {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 0.5rem;
+}
+
+.hangyoMapCard {
+    display: block;
+}
+
+.mapContainer {
+    flex: 1 1 auto;
+    height: 320px;
+    min-height: 320px;
+    width: 100%;
+    position: relative;
+    background-color: #ffffff;
+}
+
+.mapContainer_expanded {
+    height: min(72vh, 720px);
+    min-height: min(72vh, 720px);
+}
+
+.hangyoMapOuter_expanded {
+    min-height: min(78vh, 780px);
+}
+
+.mapIframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 280px;
+    border: 0;
+    border-radius: 0.25rem;
+    display: block;
+    background-color: #ffffff;
+}
+
+.mapEmbedFallback {
+    position: absolute;
+    inset: 0;
+}
+
+.mapOverlay {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    border-radius: 0.25rem;
+    background: rgba(250, 250, 249, 0.97);
+    color: #080707;
+    pointer-events: auto;
+}
+
+.mapPlaceholder {
+    height: 100%;
+    width: 100%;
+    border: 1px dashed #c9c9c9;
+    border-radius: 0.25rem;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #5c5c5c;
+    text-align: center;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+.mapFallbackTitle {
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: #080707;
+    margin: 0 0 0.5rem;
+}
+
+.mapFallbackDetail {
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    margin: 0;
+    word-break: break-word;
+}
+
+.emptyState {
+    color: #5c5c5c;
+}

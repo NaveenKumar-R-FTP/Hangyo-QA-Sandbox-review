@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Media Type --></label>
+    <name>Media_Type__c</name>
+    <picklistValues>
+        <masterLabel>Branding</masterLabel>
+        <translation><!-- Branding --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Flange</masterLabel>
+        <translation><!-- Flange --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Paintng</masterLabel>
+        <translation><!-- Paintng --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Signage</masterLabel>
+        <translation><!-- Signage --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Standee</masterLabel>
+        <translation><!-- Standee --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Role xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseAccessLevel>None</caseAccessLevel>
+    <contactAccessLevel>Edit</contactAccessLevel>
+    <mayForecastManagerShare>false</mayForecastManagerShare>
+    <name>SSO(4)-ASM-RSM-ZSM-VP_ NCA</name>
+    <opportunityAccessLevel>Edit</opportunityAccessLevel>
+    <parentRole>ASM_RSM_ZSM_VP_NCA</parentRole>
+</Role>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Product__c</fullName>
+    <deleteConstraint>Cascade</deleteConstraint>
+    <description>The product that should be hidden from this Distributor.</description>
+    <label>Product</label>
+    <referenceTo>Product__c</referenceTo>
+    <relationshipLabel>Product Restrictions</relationshipLabel>
+    <relationshipName>Product_Restrictions</relationshipName>
+    <required>true</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

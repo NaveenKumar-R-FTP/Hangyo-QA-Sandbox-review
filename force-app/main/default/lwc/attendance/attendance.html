@@ -1,0 +1,52 @@
+<template>
+    <template if:true={isLoading}>
+        <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+    </template>
+    <lightning-card title="Have a productive day!" >
+        <div class="slds-p-around_medium">
+           
+
+            <!-- Work Type Picklist -->
+            <template if:true={WorkTypeOptions}>
+                <lightning-combobox 
+                    name="workType" 
+                    label="Work Type" 
+                    value={workType} 
+                    options={WorkTypeOptions} 
+                    onchange={handleInputChange}>
+                </lightning-combobox>
+            </template>
+
+
+
+                <!--Added By Supriya for disabling media picker-->
+                <!-- Selfie Upload -->
+                <div class="slds-p-around_medium">
+                    <button class="custom-button" onclick={startCamera}>Upload Selfie</button>
+                </div>
+                <div class="camera-container">
+                    <div if:true={isCameraOn} class="camera-wrapper">
+                        <video autoplay class="video-feed"></video>
+                        <div class="slds-p-around_medium slds-grid slds-grid_align-center">
+                        <button class="custom-button slds-m-right_small" onclick={capturePhoto}>Take Selfie</button>
+                        
+                        <button class="custom-button" onclick={stopCamera}>Cancel</button>
+                        </div>
+                    </div>
+                    <canvas class="hidden-canvas"></canvas>
+                    <img src={photoURL} if:true={photoURL} alt="Captured Selfie"/>
+                </div>
+                <!--End of selfie-->
+
+                           
+              
+          </br></br>
+
+            <div class="slds-p-around_medium">
+                <button class="custom-button-submit" onclick={handleSubmit}  disabled={isSubmitDisabled}>
+                    Submit
+                </button>
+            </div>
+        </div>
+    </lightning-card>
+</template>

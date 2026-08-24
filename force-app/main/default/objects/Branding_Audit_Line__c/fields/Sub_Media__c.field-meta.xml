@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sub_Media__c</fullName>
+    <label>Sub Media</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Back lit D/S Signage – Vertical</fullName>
+                <default>false</default>
+                <label>Back lit D/S Signage – Vertical</label>
+            </value>
+            <value>
+                <fullName>L Shaped back lit Signage</fullName>
+                <default>false</default>
+                <label>L Shaped back lit Signage</label>
+            </value>
+            <value>
+                <fullName>L Shaped non lit Signage</fullName>
+                <default>false</default>
+                <label>L Shaped non lit Signage</label>
+            </value>
+            <value>
+                <fullName>ACP/LE Signage</fullName>
+                <default>false</default>
+                <label>ACP/LE Signage</label>
+            </value>
+            <value>
+                <fullName>Back lit Signage</fullName>
+                <default>false</default>
+                <label>Back lit Signage</label>
+            </value>
+            <value>
+                <fullName>Non lit Signage</fullName>
+                <default>false</default>
+                <label>Non lit Signage</label>
+            </value>
+            <value>
+                <fullName>Back lit Flange</fullName>
+                <default>false</default>
+                <label>Back lit Flange</label>
+            </value>
+            <value>
+                <fullName>Non lit Flange</fullName>
+                <default>false</default>
+                <label>Non lit Flange</label>
+            </value>
+            <value>
+                <fullName>Non lit Standee</fullName>
+                <default>false</default>
+                <label>Non lit Standee</label>
+            </value>
+            <value>
+                <fullName>Lit Standee</fullName>
+                <default>false</default>
+                <label>Lit Standee</label>
+            </value>
+            <value>
+                <fullName>In Shop Branding</fullName>
+                <default>false</default>
+                <label>In Shop Branding</label>
+            </value>
+            <value>
+                <fullName>Shop Paintng</fullName>
+                <default>false</default>
+                <label>Shop Paintng</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

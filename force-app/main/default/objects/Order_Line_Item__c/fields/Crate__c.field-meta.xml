@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Crate__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF ( AND( NOT(ISBLANK(Ordered_Quantity__c)) , NOT(ISBLANK(Products__r.Crate_Conversion__c)) ) , TEXT(FLOOR(Ordered_Quantity__c/Products__r.Crate_Conversion__c)) &amp; &quot; Crate &quot; &amp; TEXT(MOD(Ordered_Quantity__c,Products__r.Crate_Conversion__c)) &amp; &quot; EA &quot; , &quot;0&quot;)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Crate</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

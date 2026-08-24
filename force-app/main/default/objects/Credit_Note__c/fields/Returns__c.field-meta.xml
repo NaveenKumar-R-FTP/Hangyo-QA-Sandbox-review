@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Returns__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <label>Returns</label>
+    <referenceTo>Returns__c</referenceTo>
+    <relationshipLabel>Credit Notes</relationshipLabel>
+    <relationshipName>Credit_Notes</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

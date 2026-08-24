@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status__c</fullName>
+    <label>Status</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Open</fullName>
+                <default>true</default>
+                <label>Open</label>
+            </value>
+            <value>
+                <fullName>Pending</fullName>
+                <default>false</default>
+                <label>Pending</label>
+            </value>
+            <value>
+                <fullName>L1 Approved</fullName>
+                <default>false</default>
+                <label>L1 Approved</label>
+            </value>
+            <value>
+                <fullName>L2 Approved</fullName>
+                <default>false</default>
+                <label>L2 Approved</label>
+            </value>
+            <value>
+                <fullName>L3 Approved</fullName>
+                <default>false</default>
+                <label>L3 Approved</label>
+            </value>
+            <value>
+                <fullName>Approved</fullName>
+                <default>false</default>
+                <label>Approved</label>
+            </value>
+            <value>
+                <fullName>Installation Pending</fullName>
+                <default>false</default>
+                <label>Installation Pending</label>
+            </value>
+            <value>
+                <fullName>Installed</fullName>
+                <default>false</default>
+                <label>Installed</label>
+            </value>
+            <value>
+                <fullName>Reject</fullName>
+                <default>false</default>
+                <label>Reject</label>
+            </value>
+            <value>
+                <fullName>Closed</fullName>
+                <default>false</default>
+                <label>Closed</label>
+            </value>
+            <value>
+                <fullName>Completed</fullName>
+                <default>false</default>
+                <label>Completed</label>
+            </value>
+            <value>
+                <fullName>Pending for Approval</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Pending for Approval</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

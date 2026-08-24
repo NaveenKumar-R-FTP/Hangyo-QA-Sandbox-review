@@ -1,0 +1,66 @@
+<!--Created by Fuzail -->
+<apex:page controller="PrimaryInvoicePDFWrapperController"
+           showHeader="false"
+           sidebar="false">
+
+    <apex:outputPanel rendered="{!shouldRedirect}">
+        <html>
+        <head>
+            <script>
+                window.onload = function () {
+                    alert('Cancel Invoice Cannot be Downloaded');
+
+                    if (window.opener && !window.opener.closed) {
+                        try {
+                            window.opener.location.href = '{!redirectUrl}';
+                        } catch (e) {}
+                    }
+                    window.close();
+                };
+            </script>
+        </head>
+        <body></body>
+        </html>
+    </apex:outputPanel>
+
+    <apex:outputPanel rendered="{!NOT(shouldRedirect)}">
+        <html>
+        <head>
+            <meta charset="UTF-8"/>
+            <title>{!invoiceName}</title>
+            <style>
+                html, body {
+                    margin: 0;
+                    padding: 0;
+                    height: 100%;
+                    width: 100%;
+                }
+                iframe {
+                    width: 100%;
+                    height: 100%;
+                    border: none;
+                }
+            </style>
+            <script>
+                window.onload = function () {
+                    const iframe = document.querySelector('iframe');
+                    if (iframe) {
+                        setTimeout(() => {
+                            try {
+                                iframe.focus();
+                                iframe.contentWindow.print();
+                            } catch (e) {}
+                        }, 800);
+                    }
+                };
+            </script>
+        </head>
+        <body>
+            <iframe src="data:application/pdf;base64,{!pdfBase64}"
+                    title="{!invoiceName}">
+            </iframe>
+        </body>
+        </html>
+    </apex:outputPanel>
+
+</apex:page>

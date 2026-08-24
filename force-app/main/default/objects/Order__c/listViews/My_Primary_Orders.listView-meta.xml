@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>My_Primary_Orders</fullName>
+    <columns>NAME</columns>
+    <columns>EffectiveDate__c</columns>
+    <columns>Status__c</columns>
+    <columns>Total_Quantity__c</columns>
+    <columns>Total_Order_Value__c</columns>
+    <filterScope>Mine</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Order__c.Primary_Order,Order__c.Primary_Order_delivered</value>
+    </filters>
+    <label>My Primary Orders</label>
+    <sharedTo>
+        <allPartnerUsers></allPartnerUsers>
+        <group>System_Admin_Group</group>
+    </sharedTo>
+</ListView>

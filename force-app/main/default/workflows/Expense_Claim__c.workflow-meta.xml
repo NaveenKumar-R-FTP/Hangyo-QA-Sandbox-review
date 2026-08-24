@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>DMS_monthly_claim_approved</fullName>
+        <description>DMS monthly claim approved</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Email_for_Approvals/DMS_Claim_req_approved</template>
+    </alerts>
+    <alerts>
+        <fullName>DMS_monthly_claim_rejected</fullName>
+        <description>DMS monthly claim rejected</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Email_for_Approvals/DMS_Claim_req_rejected</template>
+    </alerts>
+    <alerts>
+        <fullName>DMS_monthly_claim_rejected_new</fullName>
+        <description>DMS monthly claim rejected</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Email_for_Approvals/DMS_Claim_req_rejected</template>
+    </alerts>
+    <alerts>
+        <fullName>stagewise_approval_claim</fullName>
+        <ccEmails>ajaypavana.k@kvpcorp.com</ccEmails>
+        <description>stagewise approval claim</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Email_for_Approvals/DMS_Claim_req_approved_stage_wise</template>
+    </alerts>
+    <fieldUpdates>
+        <fullName>ASM_RSM_approved</fullName>
+        <field>DMS_Claim_Approval_Status__c</field>
+        <literalValue>ASM/RSM Approved</literalValue>
+        <name>ASM/RSM approved</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Apprved</fullName>
+        <field>DMS_Claim_Approval_Status__c</field>
+        <literalValue>Approved</literalValue>
+        <name>Apprved</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Mis_approved</fullName>
+        <field>DMS_Claim_Approval_Status__c</field>
+        <literalValue>MIS team Approved</literalValue>
+        <name>Mis approved</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Rejected</fullName>
+        <field>DMS_Claim_Approval_Status__c</field>
+        <literalValue>Rejected</literalValue>
+        <name>Rejected</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Submitted</fullName>
+        <field>DMS_Claim_Approval_Status__c</field>
+        <literalValue>Submitted for Approval</literalValue>
+        <name>Submitted</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+</Workflow>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>My_Invoices</fullName>
+    <columns>NAME</columns>
+    <columns>Invoice_Date__c</columns>
+    <columns>Retailer_Account__c</columns>
+    <columns>Status__c</columns>
+    <columns>Order__c</columns>
+    <columns>Total_Quantity__c</columns>
+    <columns>Invoice_Amount__c</columns>
+    <columns>Collected_Amount__c</columns>
+    <columns>Total_Payable_Balance__c</columns>
+    <filterScope>Mine</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Invoice__c.Secondary_Invoice</value>
+    </filters>
+    <label>My Invoices</label>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+        <allPartnerUsers></allPartnerUsers>
+    </sharedTo>
+</ListView>

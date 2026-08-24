@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>My_Leave_Allowance</fullName>
+    <columns>NAME</columns>
+    <columns>Year__c</columns>
+    <columns>Available_Casual_Leave__c</columns>
+    <columns>Used_Casual_Leave__c</columns>
+    <columns>Available_Earned_Leave__c</columns>
+    <columns>Used_Earned_Leave__c</columns>
+    <columns>Used_Sick_Leave__c</columns>
+    <filterScope>Mine</filterScope>
+    <label>My Leave Allowance</label>
+</ListView>

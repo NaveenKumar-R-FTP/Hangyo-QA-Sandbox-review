@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Snapshot Sum of Ordered Quantity --></label>
+    <name>Snapshot_Sum_of_Ordered_Quantity__c</name>
+</CustomFieldTranslation>

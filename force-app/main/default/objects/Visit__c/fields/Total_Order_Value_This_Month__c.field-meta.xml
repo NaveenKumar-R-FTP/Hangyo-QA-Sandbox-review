@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Total_Order_Value_This_Month__c</fullName>
+    <formula>IF ( 
+    AND (
+         Visit_planned_date__c  &gt;= DATE ( YEAR ( TODAY (  )  ) , MONTH ( TODAY (  )  ) ,1 ),
+         Visit_planned_date__c  &lt;= TODAY (  )
+   ) ,Total_Value_of_Physical_orders__c + Total_Value_of_Teleorders__c,
+   0 
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Total Order Value This Month</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

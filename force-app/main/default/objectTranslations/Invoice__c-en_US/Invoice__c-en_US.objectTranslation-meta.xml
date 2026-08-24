@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Invoice</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Invoices</value>
+    </caseValues>
+    <layouts>
+        <layout>DMS Invoice Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Discount Information --></label>
+            <section>Discount Information</section>
+        </sections>
+        <sections>
+            <label><!-- E-Invoice &amp; EWB Information --></label>
+            <section>E-Invoice &amp; EWB Information</section>
+        </sections>
+        <sections>
+            <label><!-- Invoice Number --></label>
+            <section>Invoice Number</section>
+        </sections>
+        <sections>
+            <label><!-- Order Details --></label>
+            <section>Order Details</section>
+        </sections>
+        <sections>
+            <label><!-- Payment Details --></label>
+            <section>Payment Details</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>DMS primary invoice Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Invoice Number --></label>
+            <section>Invoice Number</section>
+        </sections>
+        <sections>
+            <label><!-- Payment Detail --></label>
+            <section>Payment Detail</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Invoice Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Discount Information --></label>
+            <section>Discount Information</section>
+        </sections>
+        <sections>
+            <label><!-- E-Invoice &amp; EWB Information --></label>
+            <section>E-Invoice &amp; EWB Information</section>
+        </sections>
+        <sections>
+            <label><!-- Payment Details --></label>
+            <section>Payment Details</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>UnderSS Invoice</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Discount Information --></label>
+            <section>Discount Information</section>
+        </sections>
+        <sections>
+            <label><!-- E-Invoice &amp; EWB Information --></label>
+            <section>E-Invoice &amp; EWB Information</section>
+        </sections>
+        <sections>
+            <label><!-- Invoice Number --></label>
+            <section>Invoice Number</section>
+        </sections>
+        <sections>
+            <label><!-- Order Details --></label>
+            <section>Order Details</section>
+        </sections>
+        <sections>
+            <label><!-- Payment Details --></label>
+            <section>Payment Details</section>
+        </sections>
+    </layouts>
+    <recordTypes>
+        <description><!-- This record type will be used to manage Primary Invoices --></description>
+        <label><!-- Primary Invoice --></label>
+        <name>Primary_Invoice</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- This record type will be used to manage Secondary Invoices --></description>
+        <label><!-- Secondary Invoice --></label>
+        <name>Secondary_Invoice</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- Secondary Invoice Under SS --></label>
+        <name>Secondary_Invoice_Under_SS</name>
+    </recordTypes>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- Please mark the status as &apos;Confirmed&apos; before setting it to &apos;Delivered&apos; --></errorMessage>
+        <name>Cannot_move_status_to_delivered</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- You do not have permission to change the record owner. Contact your administrator. --></errorMessage>
+        <name>Prevent_owner_change</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- You are not allowed to edit the Invoice Number. --></errorMessage>
+        <name>Restrict_Edit_of_Invoice_Name_by_DMS</name>
+    </validationRules>
+    <webLinks>
+        <label><!-- Secondary_Returns --></label>
+        <name>Secondary_Returns</name>
+    </webLinks>
+</CustomObjectTranslation>

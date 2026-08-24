@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Distributor (Transfer From) --></label>
+    <name>Distributor_Transfer_From__c</name>
+    <relationshipLabel><!-- Cases (Distributor (Transfer From)) --></relationshipLabel>
+</CustomFieldTranslation>

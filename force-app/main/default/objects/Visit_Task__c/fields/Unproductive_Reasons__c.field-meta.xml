@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Unproductive_Reasons__c</fullName>
+    <label>Unproductive Reasons</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Shop closed</fullName>
+                <default>false</default>
+                <label>Shop closed</label>
+            </value>
+            <value>
+                <fullName>Not interested - pricing / quality issue</fullName>
+                <default>false</default>
+                <label>Not interested - pricing / quality issue</label>
+            </value>
+            <value>
+                <fullName>Not interested - competing products / brands available</fullName>
+                <default>false</default>
+                <label>Not interested - competing products / brands available</label>
+            </value>
+            <value>
+                <fullName>Old stock available</fullName>
+                <default>false</default>
+                <label>Old stock available</label>
+            </value>
+            <value>
+                <fullName>Owner not available</fullName>
+                <default>false</default>
+                <label>Owner not available</label>
+            </value>
+            <value>
+                <fullName>Joint Visit</fullName>
+                <default>false</default>
+                <label>Joint Visit</label>
+            </value>
+            <value>
+                <fullName>Place Order Tomorrow</fullName>
+                <default>false</default>
+                <label>Place Order Tomorrow</label>
+            </value>
+            <value>
+                <fullName>Order on Next Visit</fullName>
+                <default>false</default>
+                <label>Order on Next Visit</label>
+            </value>
+            <value>
+                <fullName>Stock Audit</fullName>
+                <default>false</default>
+                <label>Stock Audit</label>
+            </value>
+            <value>
+                <fullName>Freezer Shifting</fullName>
+                <default>false</default>
+                <label>Freezer Shifting</label>
+            </value>
+            <value>
+                <fullName>Sales Audit</fullName>
+                <default>false</default>
+                <label>Sales Audit</label>
+            </value>
+            <value>
+                <fullName>Freezer Audit</fullName>
+                <default>false</default>
+                <label>Freezer Audit</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Distributor Visit</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

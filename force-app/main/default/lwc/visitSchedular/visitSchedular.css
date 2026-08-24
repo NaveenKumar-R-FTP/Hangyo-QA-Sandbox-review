@@ -1,0 +1,164 @@
+/*Styling for Heading*/
+.visitplanner {
+    background-color: #C1206B; 
+    color: White; 
+    font-family: amaranth regular;
+    font-size: 1rem;
+    display: flex;
+    padding: 0.5rem;
+}
+
+/*Styling for Heading*/
+.visitplanner h1 {
+    flex: 1;
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+
+/*styling for lightning input labels*/
+.slds-form-element__label{
+    --slds-s-label-font-size: 16px;
+    font-weight: bold;
+}
+
+/*Styling for Back Icon*/
+.back-button {
+    margin-top: 4px;
+    margin-right: 1rem;
+    --slds-c-icon-color-foreground-default: #fff;
+}
+
+/*Styling for data table column*/
+.input-column {
+    flex: 1; 
+    margin-right: 1rem; 
+    color: black;
+    font-size: 14px;
+    font-family: amaranth regular;
+    margin-left: 20px;
+
+}
+
+/*Styling for data table column*/
+.input-column:last-child {
+    margin-right: 17px; 
+}
+
+/* Fixed Footer Styles for Button Container */
+.fixed-card lightning-button {
+    margin-top: 1rem; 
+}
+
+/* Fixed Footer Styles for Button Container */
+.button-container {
+    position: fixed;
+    bottom: 0;          /* Positions the footer at the bottom of the screen */
+    left: 0;            /* Aligns the footer to the left of the screen */
+    width: 100%;        /* Ensures the footer spans the full width of the screen */
+    background-color: #f9f6f8;  /* Footer background color */
+    padding: 10px 20px; /* Adds padding around the buttons */
+    display: flex;      /* Makes the buttons align properly */
+    justify-content: space-between; /* Center the buttons horizontally */
+    gap: 10px;          /* Adds space between the buttons */
+    z-index: 100;       /* Ensures the footer stays on top of other content */
+}
+
+/* Style for buttons */
+.buttons {
+    padding: 3px 10px;
+    background-color: #C1206B;
+    color: White;
+    font-family: amaranth regular;
+    font-size: 1rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Style for buttons (Save & New)*/
+.buttons-Save-New{
+    padding: 3px 10px;
+    background-color: #C1206B;
+    color: White;
+    font-family: amaranth regular;
+    font-size: 1rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size:0.9rem;
+}
+
+/* Hover effect for buttons (Save & New)*/
+.buttons-Save-New:hover {
+    background-color: #9e174d; /* Darker shade on hover */
+}
+
+
+/* Hover effect for buttons */
+.buttons:hover {
+    background-color: #9e174d; /* Darker shade on hover */
+}
+
+/*Style for the tab-container to manage overall page layout */
+.tab-container {
+    padding-bottom: 72px; /* To prevent content from being hidden behind the footer */
+    min-height: 100vh; /* Ensure the content takes full height of the screen */
+}
+
+/*Styling for background*/
+.backgroundcolor{
+    background-color: White;
+    /*height: 100vh;
+    padding-bottom: 70px;*/
+    font-family: amaranth regular;
+}
+
+/*Styling for Beat Data Table*/
+.table-wrapper-Beat{
+    height: 58vh;
+    border: 1px solid #d8dde6; 
+    font-family: amaranth regular;
+    font-size: 16px;
+    color: black;
+}
+
+/*Styling for Retailers Data Table*/
+.table-wrapper {
+    height: 67vh;
+    border: 1px solid #d8dde6; 
+    font-family: amaranth regular;
+    font-size: 16px;
+    color: black;
+}
+
+/*Styling for Search container*/
+.search-filter-container {
+    display: flex;
+    align-items: center;
+    font-family: amaranth regular;
+    font-size: 16px;
+    padding-bottom: 6px;
+    color: black;
+}
+
+/*Styling for Search Inputs*/
+.search-filter-container lightning-input {
+    flex-grow: 1;
+    margin-right: 10px;
+    margin-left: 20px;
+    font-family: amaranth regular;
+    font-size: 1rem;
+    color: black;
+}
+
+lightning-datatable ::part(selection-checkbox) {
+    pointer-events: none;
+    opacity: 1;
+}

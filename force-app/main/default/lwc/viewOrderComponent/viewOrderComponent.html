@@ -1,0 +1,49 @@
+<template>
+    <template if:true={showViewOrderComponent}>
+        <h3 class="headingOrder">Latest Orders</h3>
+        <div class="scroll-container">
+            <div class="slds-scrollable_y slds-scrollable_x">
+        <lightning-card >
+
+            <div class="header-container">
+                <!-- Back icon before the title -->
+               
+              
+            </div>
+      
+            
+                <template if:true={latestOrders.length}>
+                    <template for:each={latestOrders} for:item="order">
+                       <div class="slds-box slds-m-bottom_small dark-box" key={order.Id} data-orderlink-id={order.Id} onclick={handleOrderLinkClick}>
+                       
+                    
+                               <div class="order-details">
+                                   <p><strong>Order Number: </strong><span class="order-value">{order.Name}</span></p>
+                                   <p><strong>Order Date: </strong> {order.formattedDate}</p>
+                                   <p><strong>Total Order Value: </strong> {order.formattedOrderValue}</p>
+                                   <p><strong>Order Quantity: </strong> {order.Total_Quantity__c}</p>
+                               </div>
+                       </div>
+                    </template>
+                    </template>
+                    <template if:false={latestOrders.length}>
+                        <p>No orders found for the selected account.</p>
+                        </template>
+           
+
+</lightning-card>
+</div>
+</div>
+
+<div class="button-container">
+    <button class="buttons" onclick={backViewOrderAction} >Back</button>
+    
+</div>
+    </template>
+   
+
+     <template if:true={showVisitAccDetailComponent}>
+
+  <c-visit-account-detail-component></c-visit-account-detail-component>
+     </template>
+</template>

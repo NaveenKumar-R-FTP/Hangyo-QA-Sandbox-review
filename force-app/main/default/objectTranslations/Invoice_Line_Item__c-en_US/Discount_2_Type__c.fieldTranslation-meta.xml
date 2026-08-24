@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Discount 2 Type --></label>
+    <name>Discount_2_Type__c</name>
+    <picklistValues>
+        <masterLabel>Percentage</masterLabel>
+        <translation><!-- Percentage --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Value</masterLabel>
+        <translation><!-- Value --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

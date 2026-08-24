@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Invoice_Amount_Before_Tax_del__c</fullName>
+    <label>Invoice Amount Before Discount</label>
+    <summarizedField>Invoice_Line_Item__c.Total_Amount__c</summarizedField>
+    <summaryForeignKey>Invoice_Line_Item__c.Invoice__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

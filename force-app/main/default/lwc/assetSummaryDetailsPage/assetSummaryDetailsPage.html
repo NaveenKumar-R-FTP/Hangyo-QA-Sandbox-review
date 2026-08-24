@@ -1,0 +1,218 @@
+<template>
+    <lightning-card>
+
+        <!-- HEADER -->
+        <div class="header">
+
+            <div class="slds-grid slds-grid_align-spread slds-grid_vertical-align-center">
+                <div>
+                    <lightning-button-icon 
+                        icon-name="utility:back"
+                        alternative-text="Back"
+                        onclick={handleGoBack}>
+                    </lightning-button-icon>
+                </div>
+
+                <div class="slds-text-heading_medium"
+                     style="font-size: 16px; text-align:center; flex:1;">
+                    Asset Summary
+                </div>
+
+                
+            </div>
+
+            <!-- TOGGLE -->
+            <div class="slds-grid slds-grid_align-end toggle-row">
+                <template if:false={isAllFieldMode}>
+                    <div class="toggle-link" onclick={handleAllFieldClick}>All FIELD USERS</div>
+                </template>
+                <template if:true={isAllFieldMode}>
+                    <div class="toggle-link" onclick={handleAllFieldBack}>← Back to Hierarchy</div>
+                </template>
+            </div>
+
+        </div>
+
+        <!-- BREADCRUMB (HIERARCHY MODE ONLY) -->
+        <template if:false={isAllFieldMode}>
+            <div class="breadcrumb">
+                <template for:each={breadcrumb} for:item="crumb">
+                    <span key={crumb.userId} class="breadcrumb-item">
+
+                        <template if:true={crumb.showSeparator}>
+                            <span class="breadcrumb-separator"> > </span>
+                        </template>
+
+                        <a href="javascript:void(0);" data-userid={crumb.userId}
+                           onclick={handleBreadcrumbClick}>
+                            {crumb.userName}
+                        </a>
+
+                    </span>
+                </template>
+            </div>
+        </template>
+
+        <!-- BODY -->
+        <div class="slds-p-around_medium">
+
+            <template if:true={loading}>
+                <div class="loading-state">
+                    <div class="loading-spinner"></div>
+                    <p class="loading-text">Loading details...</p>
+                </div>
+            </template>
+
+            <!-- ALL FIELD USERS MODE -->
+            <template if:true={isAllFieldMode}>
+                <!-- SEARCH AND FILTER BAR -->
+                <div class="filter-search-row">
+                    <lightning-input 
+                        type="search" 
+                        placeholder="Search by Name or Role" 
+                        value={searchKey} 
+                        onchange={handleSearch}
+                        onkeyup={handleKeyUp}
+                        class="search-input">
+                    </lightning-input>
+                    
+                    <lightning-button-icon 
+                        icon-name="utility:filterList" 
+                        alternative-text="Filter" 
+                        onclick={toggleRoleFilter}
+                        class="filter-icon">
+                    </lightning-button-icon>
+                </div>
+
+                <!-- ROLE FILTER POPUP -->
+                <template if:true={roleFilterVisible}>
+                    <div class="popup-overlay" onclick={closeRoleFilter}></div>
+                    
+                    <div class="role-filter-popup">
+                        <div class="section-title">Filter by Role</div>
+                        
+                        <div class="role-checkboxes">
+                            <template for:each={roleOptions} for:item="role">
+                                <div key={role.value} class="role-checkbox-item">
+                                    <input 
+                                        type="checkbox" 
+                                        id={role.value}
+                                        checked={role.selected}
+                                        data-value={role.value}
+                                        onchange={handleRoleCheckboxChange}
+                                    />
+                                    <label for={role.value}>{role.label}</label>
+                                </div>
+                            </template>
+                        </div>
+                        
+                        <div class="popup-actions">
+                            <button class="btn-clear" onclick={clearRoleFilter}>Clear</button>
+                            <button class="btn-apply" onclick={applyRoleFilter}>Apply</button>
+                        </div>
+                    </div>
+                </template>
+
+                <!-- USER GRID -->
+                <template if:true={allFieldList.length}>
+                    <div class="users-grid">
+                        <template for:each={allFieldList} for:item="usr">
+                            <div key={usr.userId} class="user-card">
+
+                                <div class="user-header">
+                                    <div>
+                                        <div class="user-name">{usr.name}</div>
+                                        <div class="user-role">{usr.role}</div>
+                                    </div>
+                                </div>
+
+                                <div class="stats-grid">
+                                    <div class="stat"><div class="stat-value">{usr.totalDF}</div><div class="stat-label">Total DF</div></div>
+                                    <div class="stat"><div class="stat-value">{usr.billedDF}</div><div class="stat-label">Billed</div></div>
+                                    <div class="stat"><div class="stat-value">{usr.zeroBillingDF}</div><div class="stat-label">Zero Bill</div></div>
+                                    <div class="stat"><div class="stat-value">{usr.throughput}</div><div class="stat-label">Throughput</div></div>
+                                </div>
+
+                            </div>
+                        </template>
+                    </div>
+                </template>
+
+                <template if:true={noData}>
+                    <div class="no-data">No field users found.</div>
+                </template>
+            </template>
+
+            <!-- NORMAL HIERARCHY MODE -->
+            <template if:false={isAllFieldMode}>
+                
+                <!-- CURRENT USER KPI SECTION (NEW) -->
+                <div class="current-user-kpi-section">
+                    <div class="current-user-header">
+                        <div class="current-user-name">{currentUserMetrics.name}</div>
+                        <div class="current-user-role">{currentUserMetrics.role}</div>
+                    </div>
+                    
+                    <div class="current-user-stats-grid">
+                        <div class="current-user-stat">
+                            <div class="current-user-stat-value">{currentUserMetrics.totalDF}</div>
+                            <div class="current-user-stat-label">Total DF</div>
+                        </div>
+                        <div class="current-user-stat">
+                            <div class="current-user-stat-value">{currentUserMetrics.billedDF}</div>
+                            <div class="current-user-stat-label">Billed DF</div>
+                        </div>
+                        <div class="current-user-stat">
+                            <div class="current-user-stat-value">{currentUserMetrics.zeroBillingDF}</div>
+                            <div class="current-user-stat-label">Zero Bill DF</div>
+                        </div>
+                        <div class="current-user-stat">
+                            <div class="current-user-stat-value">{currentUserMetrics.throughput}</div>
+                            <div class="current-user-stat-label">Throughput</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DIRECT REPORTS SECTION -->
+                <div class="direct-reports-header">
+                    <div class="slds-text-heading_small">Direct Reports</div>
+                </div>
+                
+                <template if:true={userList.length}>
+                    <div class="users-grid">
+                        <template for:each={userList} for:item="user">
+
+                            <div key={user.userId} class="user-card"
+                                data-userid={user.userId}
+                                onclick={handleUserClick}>
+
+                                <div class="user-header">
+                                    <div>
+                                        <div class="user-name">{user.name}</div>
+                                        <div class="user-role">{user.role}</div>
+                                    </div>
+                                    <div class="view-team">View →</div>
+                                </div>
+
+                                <div class="stats-grid">
+                                    <div class="stat"><div class="stat-value">{user.totalDF}</div><div class="stat-label">Total DF</div></div>
+                                    <div class="stat"><div class="stat-value">{user.billedDF}</div><div class="stat-label">Billed DF</div></div>
+                                    <div class="stat"><div class="stat-value">{user.zeroBillingDF}</div><div class="stat-label">Zero Bill DF</div></div>
+                                    <div class="stat"><div class="stat-value">{user.throughput}</div><div class="stat-label">Throughput</div></div>
+                                </div>
+
+                            </div>
+
+                        </template>
+                    </div>
+                </template>
+
+                <template if:true={noData}>
+                    <div class="no-data">No subordinates found.</div>
+                </template>
+            </template>
+
+        </div>
+
+    </lightning-card>
+</template>

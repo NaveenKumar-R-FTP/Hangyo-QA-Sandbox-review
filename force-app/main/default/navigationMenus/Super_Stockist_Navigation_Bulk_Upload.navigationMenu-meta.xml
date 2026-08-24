@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<NavigationMenu xmlns="http://soap.sforce.com/2006/04/metadata">
+    <container>Distributor Management System</container>
+    <containerType>Network</containerType>
+    <label>Super Stockist Navigation (Bulk Upload)</label>
+    <navigationMenuItem>
+        <label>Primary Orders</label>
+        <position>1</position>
+        <publiclyAvailable>false</publiclyAvailable>
+        <target>/myprimaryorders</target>
+        <type>InternalLink</type>
+    </navigationMenuItem>
+    <navigationMenuItem>
+        <label>Secondary Orders</label>
+        <position>2</position>
+        <publiclyAvailable>false</publiclyAvailable>
+        <target>/secondary-order</target>
+        <type>InternalLink</type>
+    </navigationMenuItem>
+    <navigationMenuItem>
+        <label>Under SS Orders</label>
+        <position>3</position>
+        <publiclyAvailable>false</publiclyAvailable>
+        <target>/under-ss-order</target>
+        <type>InternalLink</type>
+    </navigationMenuItem>
+    <navigationMenuItem>
+        <defaultListViewId>All_Invoices</defaultListViewId>
+        <label>Invoices</label>
+        <position>4</position>
+        <publiclyAvailable>false</publiclyAvailable>
+        <target>Invoice__c</target>
+        <type>SalesforceObject</type>
+    </navigationMenuItem>
+    <navigationMenuItem>
+        <defaultListViewId>All</defaultListViewId>
+        <label>Delivery Plans</label>
+        <position>5</position>
+        <publiclyAvailable>false</publiclyAvailable>
+        <target>Delivery_Plan__c</target>
+        <type>SalesforceObject</type>
+    </navigationMenuItem>
+    <navigationMenuItem>
+        <defaultListViewId>All</defaultListViewId>
+        <label>Collections</label>
+        <position>6</position>
+        <publiclyAvailable>false</publiclyAvailable>
+        <target>Collection__c</target>
+        <type>SalesforceObject</type>
+    </navigationMenuItem>
+    <navigationMenuItem>
+        <defaultListViewId>AllReports</defaultListViewId>
+        <label>Reports</label>
+        <position>7</position>
+        <publiclyAvailable>false</publiclyAvailable>
+        <target>Report</target>
+        <type>SalesforceObject</type>
+    </navigationMenuItem>
+    <navigationMenuItem>
+        <label>Customer Statement</label>
+        <position>8</position>
+        <publiclyAvailable>false</publiclyAvailable>
+        <target>/customer-statement</target>
+        <type>InternalLink</type>
+    </navigationMenuItem>
+    <navigationMenuItem>
+        <label>Record Search</label>
+        <position>9</position>
+        <publiclyAvailable>false</publiclyAvailable>
+        <target>/record-search</target>
+        <type>InternalLink</type>
+    </navigationMenuItem>
+    <navigationMenuItem>
+        <label>Bulk Upload</label>
+        <position>10</position>
+        <publiclyAvailable>false</publiclyAvailable>
+        <target>/bulk-upload</target>
+        <type>InternalLink</type>
+    </navigationMenuItem>
+    <navigationMenuItem>
+        <label>Counter Invoice</label>
+        <position>11</position>
+        <publiclyAvailable>false</publiclyAvailable>
+        <target>/counter-invoice</target>
+        <type>InternalLink</type>
+    </navigationMenuItem>
+</NavigationMenu>

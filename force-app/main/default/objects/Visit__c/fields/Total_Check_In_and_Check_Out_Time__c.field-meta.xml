@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Total_Check_In_and_Check_Out_Time__c</fullName>
+    <label>Total Check In and Check Out Time</label>
+    <summarizedField>Visit_Task__c.Total_Check_In_and_Check_Out_Time__c</summarizedField>
+    <summaryForeignKey>Visit_Task__c.Visit__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

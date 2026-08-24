@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>65.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <decisions>
+        <name>Decision_to_check_Record_Type</name>
+        <label>Decision to check Record Type</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>If_Primary_Record_Type</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Primary_Invoice</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_the_Invoice_Record</targetReference>
+            </connector>
+            <label>If Primary Record Type</label>
+        </rules>
+        <rules>
+            <name>If_Secondary_Invoice_Under_SS_Record_Type</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Secondary_Invoice_Under_SS</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Copy_1_of_Update_the_Invoice_Record</targetReference>
+            </connector>
+            <label>If Secondary Invoice Under SS Record Type</label>
+        </rules>
+        <rules>
+            <name>If_Secondary_Record_Type</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Secondary_Invoice</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Copy_3_of_Update_the_Invoice_Record</targetReference>
+            </connector>
+            <label>If Secondary Record Type</label>
+        </rules>
+    </decisions>
+    <environments>Default</environments>
+    <interviewLabel>Transaction Type Flow {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Transaction Type Flow</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Copy_1_of_Update_the_Invoice_Record</name>
+        <label>Update the Invoice Record</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <inputAssignments>
+            <field>Transaction_Type_Purchase__c</field>
+            <value>
+                <stringValue>Purchased from Super Stockist</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Transaction_Type_Sale__c</field>
+            <value>
+                <stringValue>Sale to Under S</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Copy_3_of_Update_the_Invoice_Record</name>
+        <label>Update the Invoice Record</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <inputAssignments>
+            <field>Transaction_Type_Sale__c</field>
+            <value>
+                <stringValue>Sale to Retailer</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_the_Invoice_Record</name>
+        <label>Update the Invoice Record</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <inputAssignments>
+            <field>Transaction_Type_Purchase__c</field>
+            <value>
+                <stringValue>Purchased from Hangyo</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Decision_to_check_Record_Type</targetReference>
+        </connector>
+        <object>Invoice__c</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

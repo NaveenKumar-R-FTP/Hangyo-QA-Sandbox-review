@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Reason --></label>
+    <name>Reason__c</name>
+    <picklistValues>
+        <masterLabel>Asset Not Found at Location</masterLabel>
+        <translation><!-- Asset Not Found at Location --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Misplaced / Shifted To New Location</masterLabel>
+        <translation><!-- Misplaced / Shifted To New Location --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Outlet Closed During Visit</masterLabel>
+        <translation><!-- Outlet Closed During Visit --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Time Constraint During Visit</masterLabel>
+        <translation><!-- Time Constraint During Visit --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

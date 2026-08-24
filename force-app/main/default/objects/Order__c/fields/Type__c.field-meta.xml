@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Type__c</fullName>
+    <label>Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Field Order</fullName>
+                <default>false</default>
+                <label>Field Order</label>
+            </value>
+            <value>
+                <fullName>Counter Order</fullName>
+                <default>false</default>
+                <label>Counter Order</label>
+            </value>
+            <value>
+                <fullName>Under Super Stockist</fullName>
+                <default>false</default>
+                <label>Under Super Stockist</label>
+            </value>
+            <value>
+                <fullName>DMS</fullName>
+                <default>false</default>
+                <label>DMS</label>
+            </value>
+            <value>
+                <fullName>Bulk Upload</fullName>
+                <default>false</default>
+                <label>Bulk Upload</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

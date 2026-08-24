@@ -1,0 +1,125 @@
+<template>
+    <lightning-card>
+
+        <div class="mobile-header">
+            <template if:true={canGoBack}>
+                <lightning-button-icon icon-name="utility:back" class="back-btn" onclick={goBack}></lightning-button-icon>
+            </template>
+            <h2 class="header-title">User Summary</h2>
+            <lightning-button-icon icon-name="utility:close" onclick={resetToDashboard}></lightning-button-icon>
+        </div>
+
+        <div class="scroll-body">
+
+            <template if:true={noSubordinates}>
+                <p class="no-data">No Subordinates</p>
+            </template>
+
+            <template if:true={hasSubordinates}>
+                <div class="tab-content">
+
+                    <!-- LEAVE TAB -->
+                    <template if:true={isLeaveTab}>
+                        <template for:each={leaveUsers} for:item="u">
+                            <div key={u.userId} class="user-card red" data-userid={u.userId} onclick={handleUserClick}>
+                                <p class="user-role">EMPLOYEE</p>
+                                <span class="user-role">{u.name}</span>
+                                <div class="header-row">
+                                    <span class="leave-name-red">Leave</span>
+                                </div>
+                            </div>
+                        </template>
+                        <template if:false={leaveUsers.length}>
+                            <p class="no-data">No Full Day Leaves</p>
+                        </template>
+                    </template>
+
+                    <!-- HALF DAY TAB -->
+                    <template if:true={isHalfDayTab}>
+                        <template for:each={halfDayUsers} for:item="u">
+                            <div key={u.userId} class="user-card yellow" data-userid={u.userId} onclick={handleUserClick}>
+                                <p class="user-role">EMPLOYEE</p>
+                                <span class="user-role">{u.name}</span>
+                                <div class="header-row">
+                                    <span class="halfday-name-yellow">Halfday Leave</span>
+                                </div>
+                            </div>
+                        </template>
+                        <template if:false={halfDayUsers.length}>
+                            <p class="no-data">No Half Day Leaves</p>
+                        </template>
+                    </template>
+
+                    <!-- RETAIL TAB -->
+                    <template if:true={isRetailTab}>
+                        <template for:each={retailUsers} for:item="v">
+                            <div key={v.visitorId} class="retail-card" data-userid={v.visitorId} onclick={handleUserClick}>
+                                <p class="user-role">EMPLOYEE</p>
+                                <span class="user-role">{v.name}</span>
+
+                                <div class="header-row">
+                                    <span class="retail-name-green">Retailing</span>
+                                    <span class="retail-beat">{v.beat}</span>
+                                </div>
+
+                                <template if:true={v.showRetailer}>
+                                    <div class="retail-info">
+                                        <p>{v.retailerAddress}</p>
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+                        <template if:false={retailUsers.length}>
+                            <p class="no-data">No Retailing Records</p>
+                        </template>
+                    </template>
+
+                    <!-- ABSENT TAB -->
+                    <template if:true={isAbsentTab}>
+                        <template for:each={absentUsers} for:item="u">
+                            <div key={u.userId} class="user-card absent" data-userid={u.userId} onclick={handleUserClick}>
+                                <p class="user-role">EMPLOYEE</p>
+                                <span class="user-role">{u.name}</span>
+                                <div class="header-row">
+                                    <span class="absent-name">Absent</span>
+                                </div>
+                            </div>
+                        </template>
+                        <template if:false={absentUsers.length}>
+                            <p class="no-data">No Absent Records</p>
+                        </template>
+                    </template>
+
+                    <!-- PRESENT TAB -->
+                    <template if:true={isPresentTab}>
+                        <template for:each={presentUsers} for:item="u">
+                            <div key={u.userId} class="user-card present" data-userid={u.userId} onclick={handleUserClick}>
+                                <p class="user-role">EMPLOYEE</p>
+                                <span class="user-role">{u.name}</span>
+                                <div class="header-row">
+                                    <span class="retail-name-green">Present</span>
+                                    <template if:true={u.workType}>
+                                        <span class="retail-beat">({u.workType})</span>
+                                    </template>
+                                </div>
+                            </div>
+                        </template>
+                        <template if:false={presentUsers.length}>
+                            <p class="no-data">No Present Records</p>
+                        </template>
+                    </template>
+
+                </div>
+            </template>
+        </div>
+
+        <div class="fixed-bottom-tabs" role="tablist" aria-label="Tabs">
+            <button class={leaveButtonClass} onclick={setLeaveTab} role="tab" aria-selected={isLeaveTab}>Leave</button>
+            <button class={halfDayButtonClass} onclick={setHalfDayTab} role="tab" aria-selected={isHalfDayTab}>Half Day</button>
+            <button class={retailButtonClass} onclick={setRetailTab} role="tab" aria-selected={isRetailTab}>Retailing</button>
+            <button class={absentButtonClass} onclick={setAbsentTab} role="tab" aria-selected={isAbsentTab}>Absent</button>
+            <button class={presentButtonClass} onclick={setPresentTab} role="tab" aria-selected={isPresentTab}>Present</button>
+        </div>
+
+    </lightning-card>
+</template>

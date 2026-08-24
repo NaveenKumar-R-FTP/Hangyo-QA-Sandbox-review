@@ -1,0 +1,169 @@
+<template>
+  <div class="wd-root">
+
+    <!-- 1. Mark Attendance (replaces Post/File/Question/More publisher) -->
+    <template lwc:if={showAttnBar}>
+      <div class="wd-card wd-attn">
+        <div class="wd-attn-bar" onclick={goToAttendance}>
+          <span class="wd-attn-badge">
+            <lightning-icon icon-name="utility:event" size="small" variant="inverse"></lightning-icon>
+          </span>
+          <h2>Mark Attendance</h2>
+        </div>
+      </div>
+    </template>
+
+    <!-- Marked confirmation (after attendance is saved) -->
+    <template lwc:if={attnMarked}>
+      <div class="wd-card wd-marked">
+        <lightning-icon icon-name="utility:success" size="small" variant="success"></lightning-icon>
+        <span>{markedLabel}</span>
+      </div>
+    </template>
+
+    <!-- 2 + 3. Attendance ring + Outlet metrics -->
+    <div class="wd-card wd-summary">
+      <div class="wd-attn-top">
+        <div class="wd-legend">
+          <div><span class="dot present"></span>Present <span class="cnt">({attendance.present})</span></div>
+          <div><span class="dot halfday"></span>Half Day <span class="cnt">({attendance.halfDay})</span></div>
+          <div><span class="dot leave"></span>Leave <span class="cnt">({attendance.leaveCount})</span></div>
+          <div><span class="dot absent"></span>Absent <span class="cnt">({attendance.absent})</span></div>
+        </div>
+        <div class="wd-donut-wrap">
+          <svg viewBox="0 0 42 42" class="wd-donut">
+            <circle class="wd-track" cx="21" cy="21" r="15.9"></circle>
+            <circle class="wd-seg wd-present" cx="21" cy="21" r="15.9"
+                    stroke-dasharray={presentDash} stroke-dashoffset="25"></circle>
+            <circle class="wd-seg wd-halfday" cx="21" cy="21" r="15.9"
+                    stroke-dasharray={halfDayDash} stroke-dashoffset={halfDayOffset}></circle>
+            <circle class="wd-seg wd-leave" cx="21" cy="21" r="15.9"
+                    stroke-dasharray={leaveDash} stroke-dashoffset={leaveOffset}></circle>
+            <circle class="wd-seg wd-absent" cx="21" cy="21" r="15.9"
+                    stroke-dasharray={absentDash} stroke-dashoffset={absentOffset}></circle>
+          </svg>
+          <div class="wd-donut-center">
+            <div class="big">{attendance.workingDays}</div>
+            <div class="sub">DAYS</div>
+          </div>
+        </div>
+      </div>
+      <div class="wd-outlets">
+        <div class="o-row"><span class="lbl">Total Outlets</span><span class="val">{outlets.totalOutlets}</span></div>
+        <div class="o-row"><span class="lbl">Unique Outlets Visited</span><span class="val">{outlets.uniqueOutletsVisited}</span></div>
+        <div class="o-row"><span class="lbl">Unique Outlets Billed</span><span class="val">{outlets.uniqueOutletsBilled}</span></div>
+        <div class="o-row"><span class="lbl">Through Put</span><span class="val">{throughPutRounded}</span></div>
+      </div>
+    </div>
+
+    <!-- 4. Target vs Achievement -->
+    <div class="wd-card wd-target">
+      <div class="t-head"><span class="t-lbl">Target vs Achievement</span><span class="t-pct">{targetPct}%</span></div>
+      <div class="t-bar"><div class="t-fill" style={barStyle}><span class="t-knob"></span></div></div>
+      <div class="t-foot">
+        <span class="amt"><b>{targetAmt}</b> <span class="of">{targetOf}</span></span>
+        <span class="days">{daysLeft}</span>
+      </div>
+    </div>
+
+    <!-- 5. Today's Beat -->
+    <div class="wd-beat-title">Today's Beat: <b>{beatTitle}</b></div>
+    <div class="wd-row">
+      <div class="wd-card wd-beat-card">
+        <div class="bc-title">TC / PC</div>
+        <div class="bc-body">
+          <div class="mini-wrap">
+            <svg viewBox="0 0 42 42" class="wd-mini">
+              <circle class="wd-track pink" cx="21" cy="21" r="15.9"></circle>
+              <circle class="wd-seg wd-pink" cx="21" cy="21" r="15.9" stroke-dasharray={tcPcDash} stroke-dashoffset="25"></circle>
+            </svg>
+            <div class="mini-center">{beat.tcPcPercent}%</div>
+          </div>
+          <div class="bc-legend">
+            <div><span class="dot pink"></span>TC <span class="cnt">({beat.totalCalls})</span></div>
+            <div><span class="dot pink-l"></span>PC <span class="cnt">({beat.productiveCalls})</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="wd-card wd-beat-card">
+        <div class="bc-title">DF outlet vs PC</div>
+        <div class="bc-body">
+          <div class="mini-wrap">
+            <svg viewBox="0 0 42 42" class="wd-mini">
+              <circle class="wd-track pink" cx="21" cy="21" r="15.9"></circle>
+              <circle class="wd-seg wd-pink" cx="21" cy="21" r="15.9" stroke-dasharray={dfPcDash} stroke-dashoffset="25"></circle>
+            </svg>
+            <div class="mini-center">{beat.dfPcPercent}%</div>
+          </div>
+          <div class="bc-legend">
+            <div><span class="dot pink"></span>DF outlet <span class="cnt">({beat.dfOutlet})</span></div>
+            <div><span class="dot pink-l"></span>PC <span class="cnt">({beat.dfProductive})</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. Order Details (3 equal tabs, no See all) -->
+    <div class="wd-section-title">Order Details</div>
+    <div class="wd-od-tabs">
+      <div class="od-tab"><div class="od-lbl">Total Order</div><div class="od-val">{orderTotalInr}</div></div>
+      <div class="od-tab"><div class="od-lbl">LPC</div><div class="od-val">{lpc}</div></div>
+      <div class="od-tab"><div class="od-lbl">Through Put</div><div class="od-val">{orderThroughPutR}</div></div>
+    </div>
+
+    <!-- 7. Fill Rate + Delivery rings -->
+    <div class="wd-row wd-mt">
+      <div class="wd-card wd-ring-card">
+        <div class="ring-wrap">
+          <svg viewBox="0 0 42 42" class="wd-ring">
+            <circle class="wd-track blue-l" cx="21" cy="21" r="15.9"></circle>
+            <circle class="wd-seg wd-blue" cx="21" cy="21" r="15.9" stroke-dasharray={fillDash} stroke-dashoffset="25"></circle>
+          </svg>
+          <div class="ring-center">
+            <div class="r-lbl">FILL RATE</div>
+            <div class="r-pct">{rings.fillRatePercent}%</div>
+          </div>
+        </div>
+        <div class="ring-legend">
+          <div><span class="dot pink"></span>Order <span class="cnt">({orderValueR})</span></div>
+          <div><span class="dot pink-l"></span>Sale <span class="cnt">({saleValueR})</span></div>
+        </div>
+      </div>
+      <div class="wd-card wd-ring-card">
+        <div class="ring-wrap">
+          <svg viewBox="0 0 42 42" class="wd-ring">
+            <circle class="wd-track red-l" cx="21" cy="21" r="15.9"></circle>
+            <circle class="wd-seg wd-red" cx="21" cy="21" r="15.9" stroke-dasharray={deliveryDash} stroke-dashoffset="25"></circle>
+          </svg>
+          <div class="ring-center red">
+            <div class="r-lbl">DELIVERY</div>
+            <div class="r-pct">{rings.deliveryPercent}%</div>
+          </div>
+        </div>
+        <div class="ring-legend">
+          <div><span class="dot pink"></span>DF Outlets <span class="cnt">({rings.dfOutletsCount})</span></div>
+          <div><span class="dot pink-l"></span>Billed Outlets <span class="cnt">({rings.billedOutletsAgainstDf})</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mark EOD (redirects to the same attendance page); becomes a confirmation once submitted -->
+    <template lwc:if={showEodBar}>
+      <div class="wd-card wd-attn wd-mt" onclick={goToAttendance}>
+        <div class="wd-attn-bar">
+          <span class="wd-attn-badge">
+            <lightning-icon icon-name="utility:clock" size="small" variant="inverse"></lightning-icon>
+          </span>
+          <h2>Mark EOD</h2>
+        </div>
+      </div>
+    </template>
+    <template lwc:if={eodMarked}>
+      <div class="wd-card wd-marked wd-mt">
+        <lightning-icon icon-name="utility:success" size="small" variant="success"></lightning-icon>
+        <span>{eodLabel}</span>
+      </div>
+    </template>
+
+  </div>
+</template>

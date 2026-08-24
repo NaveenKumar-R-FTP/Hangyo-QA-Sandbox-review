@@ -1,0 +1,261 @@
+<apex:page controller="ClaimHeaderPDFController" renderAs="pdf" applyBodyTag="false" applyHtmlTag="false" showHeader="false">
+    <html>
+        <head>
+            <style>
+                
+                /* 🔹 Page Setup */
+                @page {
+                size: A4;System Generated Claims
+                margin: 20mm 20mm 20mm 20mm;
+                border: 1px solid black; 
+                
+                @bottom-center {
+                content: "System Generated Claims";
+                font-size: 11px;
+                color: #555;
+                }
+                }
+                
+                
+                
+                body {
+                font-family: Arial, sans-serif;
+                font-size: 12px;
+                color: #000;
+                padding: 20px;
+                margin-bottom: 80px; 
+                margin: 0;
+                padding: 0;
+                }
+                
+                #page-border {
+                position: fixed;
+                top: -10mm;
+                left: -10mm;
+                right: -10mm;
+                bottom: -10mm;
+                border: 2px solid black;
+                }
+                
+                /* 🔹 Footer Fix */
+                .footer-text {
+                position: fixed;
+                bottom: 0;
+                left: 20px;
+                right: 20px;
+                height: 40px;
+                font-size: 11px;
+                color: #555;
+                }
+                
+                /* 🔹 Table Page Break Handling */
+                table {
+                width: 100%;
+                border-collapse: collapse;
+                page-break-inside: auto;
+                }
+                
+                tr {
+                page-break-inside: avoid;
+                page-break-after: auto;
+                }
+                
+                td, th {
+                border: 1px solid #000;
+                padding: 6px;
+                text-align: left;
+                vertical-align: middle;
+                }
+                
+                
+                
+                
+            </style>
+        </head>
+        
+        <body>
+            <div class="page-border"></div>
+            
+            
+            <center>
+                <div>
+                    <h2>
+                        Claim Top Sheet Report : {!claimWrapper.claimHeader.Month__c} - {!claimWrapper.claimHeader.Year__c}
+                    </h2>
+                    <h3>
+                        {!claimWrapper.claimHeader.Distributor__r.Name} - {!claimWrapper.claimHeader.Distributor__r.Code__c}
+                    </h3>
+                    <h4>
+                        Street : {!claimWrapper.claimHeader.Distributor__r.BillingStreet}   
+                        
+                    </h4>
+                    
+                    <h4>
+                        City : {!claimWrapper.claimHeader.Distributor__r.BillingCity} ,  
+                        State : {!claimWrapper.claimHeader.Distributor__r.billingState}
+                    </h4>
+                    <h4>
+                        Pin : {!claimWrapper.claimHeader.Distributor__r.BillingPostalCode} ,  
+                        Country : {!claimWrapper.claimHeader.Distributor__r.billingCountry}
+                    </h4>
+                    <h4>
+                        Submitted Date : {!claimWrapper.claimHeaderDate}
+                    </h4>
+                </div>
+                
+                <table style="margin-top:10px;">
+                    <tr>
+                        <td colspan="5" style="text-align:center; font-weight:bold; background-color:#f4f4f4;">
+                            {!companyName} - {!companyState}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="5" style="text-align:center; font-weight:bold; background-color:#f4f4f4;">
+                            Distributor Claim Form
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        
+                        <td width="25%" colspan="2"><b>Distributor Name :</b></td>
+                        <td width="65%" colspan="3">
+                            {!claimWrapper.claimHeader.Distributor__r.Name}
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        
+                        <td colspan="2"><b>Period :</b></td>
+                        <td colspan="3">
+                            {!claimWrapper.startDateFormatted} - {!claimWrapper.endDateFormatted}
+                        </td>
+                    </tr>
+                    
+                    <!-- 🔹 Header -->
+                    <tr style="background-color:#f2f2f2;">
+                        <th style="width:5%; text-align:left;">SL No.</th>
+                        <th style="width:25%; text-align:left;">Description</th>
+                        <th style="width:45%; text-align:left;">Remarks</th>
+                        <th style="width:15%; text-align:right;">Amount</th>
+                        <th style="width:15%; text-align:right;">Approved Amount</th>
+                    </tr>
+                    
+                    <!-- 🔹 Data -->
+                    <apex:variable var="rowNum" value="{!0}" />
+                    <apex:repeat value="{!claimWrapper.aggregatedLineItems}" var="item">
+                        <apex:variable var="rowNum" value="{!rowNum + 1}" />
+                        <tr>
+                            <td style="text-align:center;">{!rowNum}</td>
+                            <td>{!item.typeName}</td>
+                            <td style="word-wrap:break-word; white-space:normal; max-width:250px;">
+                                {!item.remark}
+                            </td>
+                            <td style="text-align:right;">{!item.total}</td>
+                            <td style="text-align:right;">{!item.approvedTotal}</td>
+                        </tr>
+                    </apex:repeat>
+                    
+                    
+                    <!-- 🔹 Total -->
+                    <tr>
+                        <td colspan="3" style="font-weight:bold; text-align:right;">
+                            Total Claims Amount
+                        </td>
+                        <td style="text-align:right; font-weight:bold;">
+                            {!claimWrapper.claimHeader.Submitted_Amount__c}
+                        </td>
+                        <td style="text-align:right; font-weight:bold;">
+                            {!claimWrapper.totalApprovedAmount}
+                        </td>
+                    </tr>
+                    
+                    <!-- 🔹 Footer Section (Table End Content) -->
+                    <tr>
+                        <td colspan="2" style="vertical-align:top;">
+                            <b>Claim Submitted by -</b> 
+                            {!claimWrapper.claimHeader.Distributor__r.Name}            
+                            <br/>
+                            
+                            <b>Submitted Date -</b>
+                            {!claimWrapper.claimHeaderDate}
+                        </td> 
+                        
+                        <td colspan="3" style="line-height:1.6;">
+                            <!--b>Verify By:</b> 
+SO: {!claimWrapper.claimHeader.SO__r.FirstName} {!claimWrapper.claimHeader.SO__r.LastName}
+&nbsp;&nbsp;&nbsp; 
+<b>Date:</b> {!claimWrapper.soapprovadate}
+<br/-->
+                          
+                            
+                                <apex:outputPanel rendered="{!LEN(TRIM(claimWrapper.asmapprovadate)) > 0}">
+                                <b>Approver:</b> 
+                                L1: {!claimWrapper.claimHeader.ASM__r.FirstName} {!claimWrapper.claimHeader.ASM__r.LastName}
+                                &nbsp;&nbsp;&nbsp; 
+                                    &nbsp;&nbsp;&nbsp; 
+                                    <b>Date:</b> {!claimWrapper.asmapprovadate}
+                                <br/>
+                            </apex:outputPanel>
+                            
+                                <apex:outputPanel rendered="{!LEN(TRIM(claimWrapper.rsmapprovadate)) > 0}">
+                                <b>Approver:</b> 
+                                L2: {!claimWrapper.claimHeader.RSM__r.FirstName} {!claimWrapper.claimHeader.RSM__r.LastName}
+                                
+                                    &nbsp;&nbsp;&nbsp;
+                                    <b>Date:</b> {!claimWrapper.rsmapprovadate}
+                                <br/>
+                            </apex:outputPanel>
+                            
+                                <apex:outputPanel rendered="{!LEN(TRIM(claimWrapper.finapprovedate)) > 0}">
+                                <b>Approver:</b> 
+                                L3: {!claimWrapper.zsmFirstName} {!claimWrapper.zsmLastName}
+                                
+                                    &nbsp;&nbsp;&nbsp; 
+                                    <b>Date:</b> {!claimWrapper.finapprovedate}
+                                <br/>
+                            </apex:outputPanel>
+                            
+                                <apex:outputPanel rendered="{!LEN(TRIM(claimWrapper.misapprovedate)) > 0}">
+                                <b>Approver:</b> 
+                                L4: {!claimWrapper.claimHeader.MIS_User__r.FirstName} {!claimWrapper.claimHeader.MIS_User__r.LastName}
+                                
+                                    &nbsp;&nbsp;&nbsp; 
+                                    <b>Date:</b> {!claimWrapper.misapprovedate}
+                                <br/>
+                            </apex:outputPanel>
+                            
+                            
+                            
+                            <apex:outputPanel rendered="{!LEN(TRIM(claimWrapper.headapprovedate)) > 0}">
+                                
+                                <b>Approver:</b> 
+                                L5: {!claimWrapper.headFirstName} {!claimWrapper.headLastName}
+                                  &nbsp;&nbsp;&nbsp;
+                                    <b>Date:</b> {!claimWrapper.headapprovedate}
+                                
+                                <br/>
+                            </apex:outputPanel>
+                           
+                            
+                            
+                            
+                            
+                            
+                        </td>
+                    </tr>
+                </table>
+                
+            </center>
+            
+            
+            
+            
+            
+            <!-- 🔹 FINAL FOOTER -->
+            <!--p class="footer-text">
+System Generated Claims
+</p-->
+            
+        </body>
+    </html>
+</apex:page>

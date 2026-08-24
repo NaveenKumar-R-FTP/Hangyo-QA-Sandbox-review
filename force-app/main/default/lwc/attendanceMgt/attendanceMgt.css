@@ -1,0 +1,35 @@
+/*Styling for button*/
+.custom-button {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 1rem;
+}
+/*Styling for button*/
+.custom-button {
+    background-color: #C1206B; /* Exact pink color */
+    color: white; /* White text color */
+    border: none; /* Remove border */
+    padding: 0.5rem 1rem; /* Adjust padding */
+    font-size: 16px; /* Standard font size */
+    font-weight: bold;
+    border-radius: 0.8rem; /* Fully rounded button */
+    cursor: pointer;
+    outline: none; /* Remove default outline */
+    box-shadow: 0 0 3px 2px #791746; /* Blue outline shadow */
+    position: absolute; bottom: 10px; right: 10px;
+}
+/*Styling for button hover*/
+.custom-button:hover {
+    background-color: #A6195C; /* Slightly darker for hover effect */
+}
+/*Styling for button focus*/
+.custom-button:focus {
+    outline: none; /* Remove focus outline */
+    box-shadow: 0 0 5px 3px #791746; /* Increase focus shadow */
+}
+/*Styling for file upload inputs*/
+.selfie{
+    size: small;
+     padding-left: 40px;
+}

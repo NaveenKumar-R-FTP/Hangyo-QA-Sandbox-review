@@ -1,0 +1,272 @@
+<apex:page controller="SecondaryInvoicePdfController" standardStylesheets="false" showHeader="false" applyBodyTag="false" applyHtmlTag="false" readOnly="true" cache="false">
+    <html>
+        <head>
+            <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+            <style type="text/css">
+                @page {
+                    size: letter;
+                    margin: 1mm;
+                    margin-top: 150px;padding:0px;margin-bottom: 90px;
+                    @top-left {
+                        content: element(header);
+                    }                           
+                    @bottom-left {   
+                        content: element(footer);
+                    } 
+                }
+                .page-break {
+                    display:block;
+                    page-break-after:avoid;
+                }
+                body {
+                    font-family: serif;
+                    font-size: 10pt;
+                }
+                .maintable {
+                    border-collapse: collapse;
+                    width: 100%;
+                }
+                .maintable td, .maintable th{
+                    border: 1px solid black;
+                    padding: 5px;
+                }
+                .alignCenter {
+                    text-align: center;
+                }
+                .width12half {
+                    width: 12.5%;
+                }
+               div.header {
+                    margin-top:10px;
+                    position: running(header);
+                    width: 99%;
+                    margin-left: 5px;
+                    margin-right: 5px;
+                    
+                }
+            </style>
+        </head>
+        <div class="header">
+            <table style="width:100%">
+                <tr>
+                    <td style="width: 50%; border: 1px solid black; padding: 5px; vertical-align: top;">
+                        <p><strong>Company Name:</strong> {!dmsUserInfo.Contact.Account.Name}</p>
+                        <p><strong>Phone:</strong> {!dmsUserInfo.Phone} {!dmsUserInfo.MobilePhone}</p>
+                        <p><strong>Email:</strong> {!dmsUserInfo.Email}</p>
+                    </td>
+                    <td style="width: 50%; border: 1px solid black; padding: 5px; text-align:right;vertical-align: top;">
+                        <img src="{!dmsUserInfo.MediumPhotoUrl}" width="80" height="80"/>
+                    </td>
+                </tr>
+                
+            </table>
+        </div>
+
+
+        <div style="overflow:scroll;">
+        
+            <table class="maintable">
+                <tr>
+                    <td colspan="8" class="alignCenter" style="border: 1px solid black; padding: 5px;"><strong>Tax Invoice</strong></td>
+                </tr>
+                <tr>
+                    <td colspan="6" class="alignCenter">Original For Reciept</td>
+                    <td colspan="2">
+                        <p>GSTIN: {!dmsUserInfo.GSTIN__c}</p>
+                        <p>PAN: {!dmsUserInfo.PAN_Number__c}</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td rowspan="2" colspan="4">Bill To : <apex:outputText rendered="{!NOT(ISNULL(retailerInfo))}">{!retailerInfo.Name},
+                                            {!retailerInfo.BillingStreet},
+                                            {!retailerInfo.BillingCity},
+                                            {!retailerInfo.BillingState},
+                                            {!retailerInfo.BillingPostalCode},
+                        {!retailerInfo.BillingCountry}</apex:outputText>
+                        <apex:outputText rendered="{!NOT(ISNULL(underSSInfo))}">{!underSSInfo.Name},
+                                            {!underSSInfo.BillingStreet},
+                                            {!underSSInfo.BillingCity},
+                                            {!underSSInfo.BillingState},
+                                            {!underSSInfo.BillingPostalCode},
+                        					{!underSSInfo.BillingCountry}</apex:outputText>
+                    	</td>
+                    <td colspan="2">Invoice #</td>
+                    <td colspan="2">{!invoiceInfo.Invoice_Number__c}</td>
+                </tr>
+                <tr>
+                    <td colspan="2">Invoice Date</td>
+                    <td colspan="2">{!invoiceInfo.Invoice_Date__c}</td>
+                </tr>
+                <tr>
+                    <td colspan="4">Ph No. : <apex:outputText rendered="{!NOT(ISNULL(retailerInfo))}">{!retailerInfo.Owners_Number__c}</apex:outputText>
+                    <apex:outputText rendered="{!NOT(ISNULL(underSSInfo))}">{!underSSInfo.Owners_Number__c}</apex:outputText>
+                    </td>
+                    <td colspan="2">Place of Supply:</td>
+                    <td colspan="2">{!dmsUserInfo.State}</td>
+                </tr>
+                <tr>
+                    <td colspan="4">GSTIN : <apex:outputText rendered="{!NOT(ISNULL(retailerInfo))}">{!retailerInfo.GSTIN__c}</apex:outputText>
+                    <apex:outputText rendered="{!NOT(ISNULL(underSSInfo))}">{!underSSInfo.GSTIN__c}</apex:outputText></td>
+                    <td colspan="2">Tax Currency</td>
+                    <td colspan="2">INR</td>
+                </tr>
+                <tr>
+                    <td colspan="4">FSSAI : <apex:outputText rendered="{!NOT(ISNULL(retailerInfo))}">{!retailerInfo.FSSAI__c}</apex:outputText>
+                    <apex:outputText rendered="{!NOT(ISNULL(underSSInfo))}">{!underSSInfo.FSSAI__c}</apex:outputText></td>
+                    <td colspan="2">Credit Period</td>
+                    <td colspan="2">{!invoiceInfo.Credit_Period__c}</td>
+                </tr>
+                <tr>
+                    <td colspan="4">Ship To : <apex:outputText rendered="{!NOT(ISNULL(retailerInfo))}">{!retailerInfo.Name},
+                                            {!retailerInfo.BillingStreet},
+                                            {!retailerInfo.BillingCity},
+                                            {!retailerInfo.BillingState},
+                                            {!retailerInfo.BillingPostalCode},
+                        					{!retailerInfo.BillingCountry}</apex:outputText>
+                        <apex:outputText rendered="{!NOT(ISNULL(underSSInfo))}">{!underSSInfo.Name},
+                                            {!underSSInfo.BillingStreet},
+                                            {!underSSInfo.BillingCity},
+                                            {!underSSInfo.BillingState},
+                                            {!underSSInfo.BillingPostalCode},
+                        					{!underSSInfo.BillingCountry}</apex:outputText></td>
+                    <td rowspan="2" colspan="4"></td>
+                </tr>
+                <tr>
+                    <td colspan="4">Ph No. : <apex:outputText rendered="{!NOT(ISNULL(retailerInfo))}">{!retailerInfo.Owners_Number__c}</apex:outputText>
+                    <apex:outputText rendered="{!NOT(ISNULL(underSSInfo))}">{!underSSInfo.Owners_Number__c}</apex:outputText></td>
+                </tr>
+                <tr class="alignCenter">
+                    <td>#</td>
+                    <td colspan="2">Stock Item</td>
+                    <td>HSN</td>
+                    <td>Quantity</td>
+                    <td>MRP</td>
+                    <td>Rate</td>
+                    <td>Amount</td>
+                </tr>
+                <apex:variable var="i" value="{!0}"/>
+                <apex:repeat value="{!invLineItem}" var="item" id="theRepeat">
+                    <apex:variable var="i" value="{!i+1}"/>
+                    <tr class="alignCenter">
+                        <td>{!i}</td>
+                        <td colspan="2">{!item.Product__r.Name}</td>
+                        <td>21050000</td>
+                        <td>{!item.Quantity__c}</td>
+                        <td>{!item.MRP__c}</td>
+                        <td>{!item.Price__c}</td>
+                        <td>{!item.Total_Amount__c}</td>
+                    </tr>
+                </apex:repeat>
+                <tr class="alignCenter">
+                    <td colspan="4">Total Unit</td>
+                    <td>{!totalUnit}</td>
+                    <td colspan="3"></td>
+                </tr>
+                <tr class="alignCenter">
+                    <td rowspan="3" colspan="4">Amount In Words</td>
+                    <td rowspan="4"></td>
+                    <td rowspan="2"></td>
+                    <td>Taxable Value</td>
+                    <td>{!invoiceInfo.Taxable_Amount__c}</td>
+                </tr>
+                <tr class="alignCenter">
+                    <td>Total GST</td>
+                    <td>{!invoiceInfo.Total_GST__c}</td>
+                </tr>
+                <tr class="alignCenter">
+                    <td>TCS% {!invoiceInfo.TCS__c}</td>
+                    <td>TCS Amount</td>
+                    <td>{!invoiceInfo.TCS_Amount__c}</td>
+                </tr>
+                <tr class="alignCenter">
+                    <td colspan="4">{!invoiceInfo.Invoice_Amount_In_Words__c}</td>
+                    <td></td>
+                    <td>Invoice Value</td>
+                    <td>{!invoiceInfo.Invoice_Amount__c}</td>
+                </tr>
+                <tr>
+                    <td colspan="8">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td colspan="8">Note</td>
+                </tr>
+                <tr>
+                    <td colspan="8">
+                        <apex:outputText escape="false">{!dmsUserInfo.Notes__c}</apex:outputText>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="8">&nbsp;</td>
+                </tr>
+                <tr class="alignCenter">
+                    <td>HSN Code</td>
+                    <td>Taxable Value</td>
+                    <td colspan="2">SGST %</td>
+                    <td colspan="2">CGST %</td>
+                    <td colspan="2">IGST %</td>
+                </tr>
+                <tr class="alignCenter">
+                    <td class="width12half">SI00050044</td>
+                    <td class="width12half">{!invoiceInfo.Taxable_Amount__c}</td>
+                    <td class="width12half">{!invoiceInfo.SGST__c}</td>
+                    <td class="width12half">{!invoiceInfo.SGST_Amount__c}</td>
+                    <td class="width12half">{!invoiceInfo.CGST__c}</td>
+                    <td class="width12half">{!invoiceInfo.CGST_Amount__c}</td>
+                    <td class="width12half">{!invoiceInfo.IGST__c}</td>
+                    <td>{!invoiceInfo.IGST_Amount__c}</td>
+                </tr>
+                <tr class="alignCenter">
+                    <td>Total</td>
+                    <td>{!invoiceInfo.Taxable_Amount__c}</td>
+                    <td colspan="2">{!invoiceInfo.SGST_Amount__c}</td>
+                    <td colspan="2">{!invoiceInfo.CGST_Amount__c}</td>
+                    <td colspan="2">{!invoiceInfo.IGST_Amount__c}</td>
+                </tr>
+                <tr>
+                    <td colspan="8">
+                        <apex:outputText value="{!freeOfferMessage}" rendered="{!NOT(ISBLANK(freeOfferMessage))}" style="font-weight:bold;"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Bank Details</td>
+                    <td colspan="3"></td>
+                    <td rowspan="5" colspan="4" class="alignCenter">
+                        <p>{!dmsUserInfo.UPI_ID__c}</p>
+                        <div>
+                            <apex:outputText value="{!dmsUserInfo.UPI_QR_CODE__c}" escape="false"/>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Name</td>
+                    <td colspan="3">{!dmsUserInfo.Name}</td>
+                </tr>
+                <tr>
+                    <td>Bank Name</td>
+                    <td colspan="3">{!dmsUserInfo.Bank_Name__c}</td>
+                </tr>
+                <tr>
+                    <td>Bank A/C Number</td>
+                    <td colspan="3">{!dmsUserInfo.Bank_Account_Number__c}</td>
+                </tr>
+                <tr>
+                    <td>IFSC Code</td>
+                    <td colspan="3">{!dmsUserInfo.IFSC_Code__c}</td>
+                </tr>
+                <tr>
+                    <td colspan="8">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td colspan="4">Terms and Conditions</td>
+                    <td rowspan="2">Signature - <br/>Distributor Name</td>
+                    <td rowspan="2" colspan="3" style="vertical-align: bottom;text-align: center;">{!dmsUserInfo.Name}</td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <apex:outputtext escape="false">{!dmsUserInfo.Terms_and_Conditions__c}</apex:outputtext>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </html>
+</apex:page>

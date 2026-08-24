@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Only_allows_Decimal</fullName>
+    <active>true</active>
+    <errorConditionFormula>NOT(REGEX(Amount__c, &quot;^-?\\d+(\\.\\d+)?$&quot;))</errorConditionFormula>
+    <errorMessage>Please add correct Decimal as a amount value</errorMessage>
+</ValidationRule>

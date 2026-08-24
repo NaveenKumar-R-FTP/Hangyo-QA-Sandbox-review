@@ -1,0 +1,17 @@
+<template>
+    <template lwc:if={isLoading}>
+        <lightning-spinner alternative-text="Loading..." size="medium"></lightning-spinner>
+    </template>
+
+    <template lwc:if={orderFound}>
+       <c-secondary-invoice 
+            order={order} 
+            order-line-items={orderLineItems} 
+            order-found 
+            is-counter-flow={isCounterFlow}
+            price-type={priceType}
+            oncancelled={handleCancelEvent} 
+            onsave={handleSaveEvent}>
+        </c-secondary-invoice>
+    </template>
+</template>

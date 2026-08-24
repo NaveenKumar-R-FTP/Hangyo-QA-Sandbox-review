@@ -1,0 +1,236 @@
+.lightning-card {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.user-card {
+    padding: 1px 5px;
+    margin: 0.5rem 0 0.5rem 5px;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    color: #444444;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+.user-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+}
+
+.user-card.red {
+    background-color: white;
+}
+
+.user-card.yellow {
+    background-color: white;
+}
+
+.user-card p {
+    margin: 0.2rem 0;
+    font-size: 12px;
+}
+
+.user-role {
+    color: #888888;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.retail-card {
+    background: #ffffff;
+    padding: 4px;
+    border-radius: 10px;
+    margin: 10px 0;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+    cursor: pointer;
+}
+
+.header-row {
+    display: flex;
+    align-items: center;
+    /*margin-bottom: 8px;*/
+    border: 1px solid black;
+    border-radius: 7px;
+}
+
+.retail-name-green {
+    background: #156433;
+    padding: 3px 20px;
+    border-radius: 6px;
+    color: #fff;
+    font-weight: 600;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.halfday-name-yellow {
+    background: #eded26;
+    padding: 3px 20px;
+    border-radius: 6px;
+    color: #fff;
+    font-weight: 600;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.leave-name-red {
+    background: red;
+    padding: 3px 20px;
+    border-radius: 6px;
+    color: #fff;
+    font-weight: 600;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.retail-beat {
+    font-size: 12px;
+    color: #333;
+    margin-left: 12px;
+    white-space: nowrap;
+}
+
+.retail-info p {
+    margin: 3px 0;
+    color: #333;
+    font-size: 12px;
+}
+
+.no-data {
+    padding: 10px;
+    text-align: center;
+    font-size: 14px;
+    color: #777;
+}
+
+.tab-buttons {
+    display: flex;
+    justify-content: space-around;
+}
+
+.tab-buttons .active {
+    background-color: #0070d2;
+    color: white;
+}
+
+
+.mobile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 10px;
+    border-bottom: 1px solid #e6e6e6;
+    background: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    margin-top: -20px;
+}
+
+.header-title {
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    flex: 1;
+    margin: 0;
+}
+
+.icon-btn {
+    background: transparent;
+    border: none;
+    font-size: 18px;
+    padding: 6px;
+    cursor: pointer;
+}
+
+.scroll-body {
+    max-height: 62vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 10px 12px 80px; 
+    background: #ece9e9;
+    height: calc(100vh - 50px - 70px);
+}
+
+.fixed-bottom-tabs {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #ffffff;
+    padding: 8px;
+    box-shadow: 0 -2px 8px rgba(0,0,0,0.12);
+    display: flex;
+    gap: 8px;
+    justify-content: space-between;
+    z-index: 999;
+    box-sizing: border-box;
+}
+
+.fixed-bottom-tabs button {
+    flex: 1;
+    padding: 10px 8px;
+    border: 1px solid #d0d0d0;
+    border-radius: 8px;
+    background: #f7f7f7;
+    color: #333;
+    font-weight: 600;
+    cursor: pointer;
+    outline: none;
+    font-size: 14px;
+}
+
+.active-tab {
+    background: #168544 !important;
+    color: #fff !important;
+    border-color: #168544 !important;
+    box-shadow: 0 2px 4px rgba(39,174,96,0.2);
+}
+
+
+@media (max-width: 420px) {
+    .scroll-body {
+        max-height: 82vh;
+        height: calc(100vh - 50px - 70px);
+        padding-bottom: 100px;
+    }
+}
+
+/* Add these to your existing CSS */
+.absent-name {
+    background-color: #ff0000;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.present-name {
+    background-color: #28a745;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.work-type {
+    font-size: 12px;
+    color: #666;
+    margin-left: 8px;
+}
+
+/* Card styling for absent */
+.user-card.absent {
+    border-left: 4px solid #ff0000;
+}
+
+/* Card styling for present */
+.user-card.present {
+    border-left: 4px solid #28a745;
+}

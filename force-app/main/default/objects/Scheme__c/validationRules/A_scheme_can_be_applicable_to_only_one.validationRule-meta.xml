@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>A_scheme_can_be_applicable_to_only_one</fullName>
+    <active>true</active>
+    <description>A scheme can be applicable to only one end user</description>
+    <errorConditionFormula>AND(
+     Under_SS_Scheme__c  = TRUE,
+     Retailer_Scheme__c = TRUE
+)</errorConditionFormula>
+    <errorMessage>A scheme can be applicable to either Under SS or Retailers, not both.</errorMessage>
+</ValidationRule>

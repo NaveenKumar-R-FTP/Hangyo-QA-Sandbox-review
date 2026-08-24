@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Ice Cream Brand --></label>
+    <name>Ice_Cream_Brand__c</name>
+    <picklistValues>
+        <masterLabel>Amul Ice cream</masterLabel>
+        <translation><!-- Amul Ice cream --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Arun Ice Cream</masterLabel>
+        <translation><!-- Arun Ice Cream --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Creambell Ice Cream</masterLabel>
+        <translation><!-- Creambell Ice Cream --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Dairy Rich Ice Cream</masterLabel>
+        <translation><!-- Dairy Rich Ice Cream --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Dairy day Ice Cream</masterLabel>
+        <translation><!-- Dairy day Ice Cream --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Dinshaw’s Ice Cream</masterLabel>
+        <translation><!-- Dinshaw’s Ice Cream --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Havmor</masterLabel>
+        <translation><!-- Havmor --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Ideal Ice Cream</masterLabel>
+        <translation><!-- Ideal Ice Cream --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Joy</masterLabel>
+        <translation><!-- Joy --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Kwality Wall&apos;s</masterLabel>
+        <translation><!-- Kwality Wall&apos;s --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Lazza</masterLabel>
+        <translation><!-- Lazza --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Mercely&apos;s</masterLabel>
+        <translation><!-- Mercely&apos;s --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Milky Mist</masterLabel>
+        <translation><!-- Milky Mist --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Nandini Ice Creams</masterLabel>
+        <translation><!-- Nandini Ice Creams --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Other Ice Cream</masterLabel>
+        <translation><!-- Other Ice Cream --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Skei Ice Cream</masterLabel>
+        <translation><!-- Skei Ice Cream --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Ullas Ice Creams</masterLabel>
+        <translation><!-- Ullas Ice Creams --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

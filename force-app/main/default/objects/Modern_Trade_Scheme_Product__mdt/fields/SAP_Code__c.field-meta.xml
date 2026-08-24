@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SAP_Code__c</fullName>
+    <caseSensitive>false</caseSensitive>
+    <description>The SAP Code / product code used to match this qualifying SKU against an invoice line item&apos;s product. Confirm this matches whichever field Product__c actually stores the SAP code in (Product_Code__c or Category_Code__c) — ModernTradeSchemeService currently checks both.</description>
+    <externalId>true</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>SAP Code</label>
+    <length>20</length>
+    <required>true</required>
+    <type>Text</type>
+    <unique>true</unique>
+</CustomField>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RemoteSiteSetting xmlns="http://soap.sforce.com/2006/04/metadata">
+    <disableProtocolSecurity>false</disableProtocolSecurity>
+    <isActive>true</isActive>
+    <url>https://hangyo-dev01-wd17gv1d.it-cpi024-rt.cfapps.eu10-002.hana.ondemand.com</url>
+</RemoteSiteSetting>

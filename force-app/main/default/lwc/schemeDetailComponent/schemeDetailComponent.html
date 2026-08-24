@@ -1,0 +1,113 @@
+<template>
+    <template if:true={showChildComponent}>
+
+      
+    
+    
+    <lightning-card >
+        <h1 class="large-heading1">Scheme Information</h1>
+  
+    <div class="buttons-wrapper4">
+        <button class="taggedbutton" onclick={allQuanitySchemeTable} type="button">Quantity Scheme </button>
+                        
+                                    <button class="taggedbutton" onclick={allValueSchemeTable}>Value Scheme</button>
+        </div>
+    </lightning-card>
+    <div class="button-container">
+        <button class="buttons" onclick={backToVisitAction} >Back</button>
+        
+    </div>
+</template>
+   
+
+<template if:true={IsAllQuantityScheme}>
+    <h3 class="large-heading2">Quantity Scheme</h3>
+    <div class="scroll-container">
+        <div class="slds-scrollable_y slds-scrollable_x">
+    <lightning-card>
+
+   
+     
+     
+            <template if:true={hasQuantitySchemes}>
+               
+                
+                <template for:each={quantitySchemesData} for:item="schemeQua">
+                  
+                    <div class="slds-box slds-m-bottom_small dark-box" key={schemeQua.Id}>
+                    
+               
+                            <div class="schemeQuantity-details">
+                                <p><strong>Product Name: </strong><span class="schemeQuantity-value">{schemeQua.Product__r.Name}</span></p>
+                                <p><strong>Scheme Name: </strong> <span class="schemeQuantity-value">{schemeQua.Name}</span></p>
+                                <p><strong>Scheme Detail: </strong><span class="schemeQuantity-value">{schemeQua.Scheme_Details__c}</span> </p>
+                              
+                            </div>
+                    </div>
+                </template>
+            </template>
+          
+            <template if:false={hasQuantitySchemes}>
+            <p class="no-schemes-message">{noschemeQua}</p>
+            </template>
+        
+    </lightning-card>
+</div>
+</div>
+    <div class="button-container">
+        <button class="buttons" onclick={backQuantitySchemsAction} >Back</button>
+        
+    </div>
+    </template>
+    <template if:true={IsAllValueScheme}>
+        <h3 class="large-heading2">Value Scheme</h3>
+        <div class="scroll-container">
+            <div class="slds-scrollable_y slds-scrollable_x">
+        <lightning-card>
+    
+           
+         
+                <template if:true={hasValueSchemes}>
+             
+                    <template for:each={valueSchemesData} for:item="schemeQua">
+                     
+    
+                        <div class="slds-box slds-m-bottom_small dark-box" key={schemeQua.Id}>
+                        
+                    
+                                <div class="schemevalue-details">
+                                    <template if:true={schemeQua.Discount_Amount__c}>
+                                    <p><strong>Scheme Name: </strong> <span class="schemevalue-value">{schemeQua.Name}</span></p>
+                                    <p><strong>Cart Amount: </strong><span class="schemevalue-value">₹{schemeQua.Cart_Amount__c}</span> </p>
+    
+                                    <p><strong>Discount Amount: </strong><span class="schemevalue-value">₹{schemeQua.Discount_Amount__c}</span></p>
+                             </template>
+        
+        <template if:true={schemeQua.Discount_Percentage__c}>
+            <p><strong>Scheme Name: </strong> <span class="schemevalue-value">{schemeQua.Name}</span></p>
+            <p><strong>Cart Amount: </strong><span class="schemevalue-value">₹{schemeQua.Cart_Amount__c}</span> </p>
+            <p><strong>Discount %: </strong><span class="schemevalue-value">{schemeQua.Discount_Percentage__c}</span></p>
+        </template>
+                                </div>
+                        </div>
+                    </template>
+                </template>
+                <template if:false={hasValueSchemes}>
+                    <p class="no-schemes-message">{noschemeVal}</p>
+                </template>
+           
+        </lightning-card>
+    </div>
+</div>
+        <div class="button-container">
+            <button class="buttons" onclick={backValueSchemsAction} >Back</button>
+            
+        </div>
+        </template>
+
+      
+         <template if:true={showVisitAccDetailComponentInSchme}>
+
+  <c-visit-account-detail-component></c-visit-account-detail-component>
+     </template>
+</template>

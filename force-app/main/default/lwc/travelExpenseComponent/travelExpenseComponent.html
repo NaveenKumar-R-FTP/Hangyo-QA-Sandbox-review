@@ -1,0 +1,155 @@
+<template>
+    <!--<template if:true={isLoading}>
+        <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+    </template>-->
+    <div class="unique-font">
+            <div class="slds-p-around_medium">
+                <!-- User Role Picklist -->
+                <lightning-combobox
+                    name="expenseType"
+                    label="Expense Types"
+                    value={expenseType}
+                    options={expenseTypeOptions}
+                    required
+                    onchange={handleExpenseTypeChange}>
+                </lightning-combobox>
+ 
+                <!-- Conditionally Render Transport Type Picklist for Travel Expense or Miscellaneous Request -->
+                <template if:true={isTransportTypeVisible}>
+                    <lightning-combobox
+                        name="transportType"
+                        label="Transport Type"
+                        value={transportType}
+                        options={transportTypeOptions}
+                        required
+                        onchange={handleTransportTypeChange}>
+                    </lightning-combobox>
+                </template>
+ 
+                <!-- Show 'Enter Expense Type' text field for Miscellaneous Request -->
+                <template if:true={isMiscellaneousRequest}>
+                    <lightning-input
+                        name="miscellaneousExpenseType"
+                        label="Enter Miscellaneous Expense details"
+                        value={miscExpenseDetails}
+                        required
+                        onchange={handlemiscExpenseDetailsChange}>
+                    </lightning-input>
+                </template>
+ 
+                <!-- Conditionally Render Accommodation Type Picklist -->
+                <template if:true={isAccommodationRequest}>
+                    <lightning-combobox
+                        name="accommodationType"
+                        label="Accommodation Type"
+                        value={accommodationType}
+                        options={accommodationTypeOptions}
+                        required
+                        onchange={handleAccommodationTypeChange}>
+                    </lightning-combobox>
+                </template>
+ 
+                <!-- Conditionally Render Class A Cities Picklist -->
+                <template if:true={isClassACitiesSelected}>
+                    <lightning-combobox
+                        name="classACity"
+                        label="Class A Cities"
+                        value={classACity}
+                        options={classACityOptions}
+                        required
+                        onchange={handleClassACityChange}>
+                    </lightning-combobox>
+                </template>
+ 
+                <!-- Conditionally Render Other Cities Input Field -->
+                <template if:true={isOtherCitiesSelected}>
+                    <lightning-input
+                        name="otherCity"
+                        label="Enter City"
+                        value={otherCity}
+                        required
+                        onchange={handleOtherCityChange}>
+                    </lightning-input>
+                </template>
+ 
+                <!-- Conditionally Render Amount Field OR Bike Run (KM) -->
+                <template if:true={isBikeCarSelected}>
+                    <lightning-input
+                        data-id="bikeRunField"
+                        type="number"
+                        label="Distance travel (Km)"
+                        value={bikeRun}
+                        required
+                        onchange={handleBikeCarRunChange}>
+                    </lightning-input>
+                </template>
+ 
+                <!-- Amount Field -->
+                <template if:false={isBikeCarSelected}>
+                    <lightning-input
+                        data-id="amountField"
+                        type="number"
+                        label="Amount"
+                        value={amount}
+                        required
+                        onchange={handleAmountChange}>
+                    </lightning-input>
+                </template>
+ 
+            <!-- Error Message -->
+            <template if:true={showError}>
+                <div  class="errorMessage">{errorMessage}</div>
+            </template>
+ 
+                <!-- Expense Date Field -->
+                <lightning-input
+                    name="expenseDate"
+                    label="Expense Date"
+                    type="date"
+                    value={expenseDate}
+                    max={today}
+                    required
+                    onchange={handleExpenseDateChange}>
+                </lightning-input>
+ 
+                <!-- File Upload -->
+                <template if:true={showFileUpload}>
+                    <lightning-file-upload
+                        label="Upload Files"
+                        accept={acceptedFormats}
+                        onuploadstart={handleFileUploadStart}
+                        required
+                        onuploadfinished={handleFileUploadFinished}>
+                    </lightning-file-upload>
+                </template>
+ 
+           
+                <p class="file-name">Selected file : {fileName}</p>
+ 
+                <!-- Save Button -->
+                <button
+                    class="custom-button"
+                    label="Save"
+                    onclick={validateAndSave} disabled={isButtonDisabled}>Save
+                </button>
+            </div>
+    </div>    
+ <!-- Warning Confirmation Modal -->
+    <template if:true={showWarningModal}>
+        <div class="slds-modal slds-fade-in-open slds-modal_prompt">
+            <div class="slds-modal__container">
+                <div class="slds-modal__header">
+                    <h2 class="slds-text-heading_medium">Warning</h2>
+                </div>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <p>{warningMessage}</p>
+                </div>
+                <div class="slds-modal__footer">
+                    <button class="slds-button custom-btn" onclick={handleCancel}>Cancel</button>
+                    <button class="slds-button custom-btn" onclick={handleProceed}>Proceed</button>
+                </div>
+            </div>
+        </div>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Total_Reimbursement_Applied__c</fullName>
+    <description>Sum of all Invoice_Reimbursement_Line__c.Amount_Applied__c rows for this invoice, across every scheme applied. Maintained by MultiSchemeReimbursementService.saveAppliedLines() — not a native Roll-Up Summary since Invoice_Reimbursement_Line__c uses a Lookup, not Master-Detail, to Invoice__c.</description>
+    <label>Total Reimbursement Applied</label>
+    <precision>16</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

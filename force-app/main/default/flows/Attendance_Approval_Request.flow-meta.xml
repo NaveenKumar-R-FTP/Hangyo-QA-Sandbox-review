@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <description>Approval Limit Exceeded for This Month</description>
+        <name>Approval_Limit_Exceeded_for_This_Month</name>
+        <label>Approval Limit Exceeded for This Month</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>Attendance__c.Approval_Limit_Exceeded_for_This_Month</actionName>
+        <actionType>emailAlert</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>Attendance__c.Approval_Limit_Exceeded_for_This_Month</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <actionCalls>
+        <name>Attendance_Approval_Request</name>
+        <label>Attendance Approval Request</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>submit</actionName>
+        <actionType>submit</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>objectId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>processDefinitionNameOrId</name>
+            <value>
+                <stringValue>Attendance_Approval_Notification</stringValue>
+            </value>
+        </inputParameters>
+        <nameSegment>submit</nameSegment>
+        <offset>0</offset>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <apiVersion>66.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <decisions>
+        <name>Check_for_the_Number_of_Approvals</name>
+        <label>Check for the Number of Approvals</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>No approval requests</defaultConnectorLabel>
+        <rules>
+            <name>Less_than_two_approvals</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Monthly_Attendance_Approval.Number_Of_Approvals__c</leftValueReference>
+                <operator>LessThan</operator>
+                <rightValue>
+                    <numberValue>2.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Attendance_Approval_Request</targetReference>
+            </connector>
+            <label>Less than two approvals</label>
+        </rules>
+        <rules>
+            <name>More_than_two_approvals</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Monthly_Attendance_Approval.Number_Of_Approvals__c</leftValueReference>
+                <operator>GreaterThanOrEqualTo</operator>
+                <rightValue>
+                    <numberValue>2.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Approval_Limit_Exceeded_for_This_Month</targetReference>
+            </connector>
+            <label>More than two approvals</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Time_Range</name>
+        <label>Time Range</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>Outside the range</defaultConnectorLabel>
+        <rules>
+            <name>With_the_Time_Range</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>AttendanceTimeInMinutes</leftValueReference>
+                <operator>GreaterThanOrEqualTo</operator>
+                <rightValue>
+                    <numberValue>585.0</numberValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>AttendanceTimeInMinutes</leftValueReference>
+                <operator>LessThanOrEqualTo</operator>
+                <rightValue>
+                    <numberValue>750.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Monthly_Attendance_Approval</targetReference>
+            </connector>
+            <label>With the Time Range</label>
+        </rules>
+    </decisions>
+    <description>Attendance Approval Request to the manager</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>AttendanceTimeInMinutes</name>
+        <dataType>Number</dataType>
+        <expression>(HOUR(TIMEVALUE({!$Record.Attendance_Applied_on__c})) * 60) +
+MINUTE(TIMEVALUE({!$Record.Attendance_Applied_on__c})) + 330</expression>
+        <scale>0</scale>
+    </formulas>
+    <formulas>
+        <name>Month</name>
+        <dataType>String</dataType>
+        <expression>CASE(
+MONTH({!$Record.Date__c}),
+1, &quot;January&quot;,
+2, &quot;February&quot;,
+3, &quot;March&quot;,
+4, &quot;April&quot;,
+5, &quot;May&quot;,
+6, &quot;June&quot;,
+7, &quot;July&quot;,
+8, &quot;August&quot;,
+9, &quot;September&quot;,
+10, &quot;October&quot;,
+11, &quot;November&quot;,
+12, &quot;December&quot;,
+&quot;&quot;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Year</name>
+        <dataType>String</dataType>
+        <expression>TEXT(YEAR({!$Record.Date__c}))</expression>
+    </formulas>
+    <interviewLabel>Attendance Approval Reques {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Attendance Approval Request</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>To get the Monthly Attendance Approval</description>
+        <name>Monthly_Attendance_Approval</name>
+        <label>Monthly Attendance Approval</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Check_for_the_Number_of_Approvals</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>User__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.User__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Month__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Month</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Year__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Year</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Monthly_Attendance_Approval__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Time_Range</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Approval_Status__c</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>Pending</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Present Half Day</stringValue>
+            </value>
+        </filters>
+        <object>Attendance__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

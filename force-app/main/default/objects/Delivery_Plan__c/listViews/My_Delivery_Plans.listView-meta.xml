@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>My_Delivery_Plans</fullName>
+    <columns>NAME</columns>
+    <columns>Date__c</columns>
+    <columns>Driver_Name__c</columns>
+    <columns>Driver_Number__c</columns>
+    <columns>Vehicle_Number__c</columns>
+    <filterScope>Mine</filterScope>
+    <label>My Delivery Plans</label>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+        <allPartnerUsers></allPartnerUsers>
+    </sharedTo>
+</ListView>

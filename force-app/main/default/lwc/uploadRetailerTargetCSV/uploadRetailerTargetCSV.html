@@ -1,0 +1,41 @@
+<template>
+    <div class="unique-font">
+        <div class="heading">
+            <div class="no-scroll">
+                <div class="box">
+                    <div class="green">
+                        Click on the link below to export data as CSV/XLS.
+                    </div>
+
+                    <p class="spaced">
+                        <button class="custom-button" onclick={exportRetailerTargetData}>
+                            Download Retailer Targets
+                        </button>
+                    </p>
+
+                    <div class="slds-file-selector spaced">
+                        <lightning-icon icon-name="utility:upload" size="small" class="upload-icon"></lightning-icon>
+                        <input 
+                            class="upload" 
+                            type="file" 
+                            accept=".csv" 
+                            onchange={handleFilesChange} 
+                        />
+                    </div>
+
+                    <p class="spaced">
+                        <span class="warning">
+                            You can upload a sheet with only changes in "Target Amount"
+                        </span>
+                    </p>
+
+                    <p class="spaced">
+                        <button class="custom-button" onclick={handleSave}>
+                            Upload Retailer Targets
+                        </button>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>    
+</template>

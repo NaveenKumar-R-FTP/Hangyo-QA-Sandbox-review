@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Duplicate_Warning__c</fullName>
+    <description>Populated at case creation when another Branding &amp; Marketing Asset Request was raised for the same outlet within the last 90 days. Shown on the approval page so approvers see it while approving.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>A previous branding request exists for this outlet within 90 days. Review before approving.</inlineHelpText>
+    <label>Duplicate Warning</label>
+    <length>255</length>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

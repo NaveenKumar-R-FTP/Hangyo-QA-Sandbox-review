@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Distributor_Products</fullName>
+    <columns>NAME</columns>
+    <columns>IsActive__c</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>Distributor_product__c</columns>
+    <columns>Focus_Product__c</columns>
+    <columns>Validity_End_Date__c</columns>
+    <columns>Validity_Start_Date__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>IsActive__c</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
+    <filters>
+        <field>Distributor_product__c</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
+    <label>Distributor Products</label>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
+</ListView>

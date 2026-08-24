@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Scheme Applicability</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Scheme Applicabilities</value>
+    </caseValues>
+    <layouts>
+        <layout>Scheme Applicability Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- Entity Type is Brand — enter a Product Brand and leave Product blank. --></errorMessage>
+        <name>Brand_required_for_Entity_Type_Brand</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Entity Type is Product — select a Product and leave Product Brand blank. --></errorMessage>
+        <name>Product_required_for_Entity_Type_Product</name>
+    </validationRules>
+</CustomObjectTranslation>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Net_Payable__c</fullName>
+    <description>Final amount the retailer actually owes after Retailer Reimbursement Scheme deductions. Invoice_Amount__c (the true, legally-invoiced Net Amount) and Taxable_Amount__c are never adjusted for reimbursement — this field is the only place that reflects the post-reimbursement figure.</description>
+    <formula>Invoice_Amount__c -  Total_Reimbursement_Applied__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Net Payable</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

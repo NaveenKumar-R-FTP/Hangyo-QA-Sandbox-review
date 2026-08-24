@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>Freezer_request_approved</fullName>
+        <description>Freezer request approved</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>hangyoadmin@hangyo.in</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Email_for_Approvals/Freezer_request_approved</template>
+    </alerts>
+    <alerts>
+        <fullName>Freezer_request_approvedtransfer</fullName>
+        <description>Freezer request -transfer approved</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>hangyoadmin@hangyo.in</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Email_for_Approvals/Freezer_request_approved_transfer</template>
+    </alerts>
+    <alerts>
+        <fullName>Freezer_request_rejected</fullName>
+        <description>Freezer request rejected</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>hangyoadmin@hangyo.in</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Email_for_Approvals/Freezer_request_rejected</template>
+    </alerts>
+    <alerts>
+        <fullName>Transfer_Freezer_request_rejected</fullName>
+        <description>Transfer Freezer request rejected</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>hangyoadmin@hangyo.in</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Email_for_Approvals/Freezer_request_rejected</template>
+    </alerts>
+    <alerts>
+        <fullName>stage_wise_freezer_requ_approval</fullName>
+        <ccEmails>ajaypavana.k@kvpcorp.com</ccEmails>
+        <description>stage wise freezer requ approval</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Email_for_Approvals/Freezer_request_approved_stage_wise</template>
+    </alerts>
+    <fieldUpdates>
+        <fullName>Request_approved</fullName>
+        <field>Approval_Request_Status__c</field>
+        <literalValue>Request approved</literalValue>
+        <name>Request approved</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Request_rejected</fullName>
+        <field>Approval_Request_Status__c</field>
+        <literalValue>Request rejected</literalValue>
+        <name>Request rejected</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Status_req_in_l3</fullName>
+        <field>Approval_Request_Status__c</field>
+        <literalValue>Request in L3 approval</literalValue>
+        <name>Status req in l3</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Status_to_L1_approved</fullName>
+        <field>Approval_Request_Status__c</field>
+        <literalValue>Request in L2 approval</literalValue>
+        <name>Status to L1 approved</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_status</fullName>
+        <field>Approval_Request_Status__c</field>
+        <literalValue>Request in L1 approval</literalValue>
+        <name>Update status</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+</Workflow>

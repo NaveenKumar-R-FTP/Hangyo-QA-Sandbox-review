@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Material_Group__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <label>Material Group</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>Pricing_Group__c.Type__c</field>
+            <operation>equals</operation>
+            <value>Product</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>Pricing_Group__c</referenceTo>
+    <relationshipLabel>Price Book Entries (Pricing Group)</relationshipLabel>
+    <relationshipName>Price_Book_Entries1</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

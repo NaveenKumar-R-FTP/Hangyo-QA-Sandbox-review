@@ -1,0 +1,217 @@
+<template>
+    <!-- Invoice page - shown after order created -->
+    <template if:true={showInvoicePage}>
+        <c-counter-invoice-edit
+            order-id={createdOrderId}
+            price-type={priceType}>
+        </c-counter-invoice-edit>
+    </template>
+
+    <!-- Cart + Product page - shown before order created -->
+    <template if:false={showInvoicePage}>
+
+        <!-- Cart page -->
+        <template if:true={openCart}>
+            <div style="background:#f9f0f5; min-height:100vh; padding:16px; padding-bottom:80px;">
+
+                <!-- Cart Header -->
+                <div class="cart-header">🛒 My Cart</div>
+                <div class="cart-body">
+                    <template for:each={serializedCartItems} for:item="pro">
+                        <lightning-card key={pro.productId} variant="Narrow" class="slds-m-vertical_small">
+                            <div class="slds-grid slds-wrap slds-grid_vertical-align-center slds-var-p-around_xxx-small">
+                                <div class="slds-col slds-size_1-of-8 serial-number-container">
+                                    <div class="serial-number">{pro.serialNumber}</div>
+                                </div>
+                                <div class="slds-col slds-size_2-of-8 slds-var-p-left_small">
+                                    <b>{pro.productBrand}</b>
+                                    <div>{pro.productName}</div>
+                                    <div>UOM: {pro.prodmeasure}</div>
+                                    <div>Available Stock: {pro.availableStockQuantity}</div>
+                                </div>
+                                <div class="slds-col slds-size_1-of-8">
+                                    <span class="dollars">{pro.productOfferPrice}</span>
+                                </div>
+                                <div class="slds-col slds-size_1-of-8"><b>x</b></div>
+                                <div class="slds-col slds-size_1-of-8">
+                                    <div class="quantity buttons_added">
+                                        <input type="button" value="-" class="minus"
+                                               onclick={minusQuantityCart} name={pro.productIdForCart}/>
+                                        <input type="number" name={pro.productIdForCart}
+                                               value={pro.quantity} onchange={valueQtyHandleCart}
+                                               class="input-text qty text" size="4" min="1"/>
+                                        <input type="button" value="+" class="plus"
+                                               onclick={addQuantityCart} name={pro.productIdForCart}/>
+                                    </div>
+                                </div>
+                                <div class="slds-col slds-size_1-of-8">
+                                    <span class="dollars">{pro.unittotalPrice}</span>
+                                </div>
+                                <div class="slds-col slds-size_1-of-8 slds-text-align_right">
+                                    <lightning-button-icon icon-name="utility:delete"
+                                        alternative-text="Remove" name={pro.productIdForCart}
+                                        variant="bare" onclick={removeFromCart}
+                                        style="fill:rgb(155,16,16);">
+                                    </lightning-button-icon>
+                                </div>
+                            </div>
+                        </lightning-card>
+                    </template>
+
+                    <!-- Price Details -->
+                    <div class="cart-price-card">
+                        <div class="cart-price-header">💰 Price Details</div>
+                        <div class="cart-price-body">
+                            <div class="cart-price-row">
+                                <span>Total Items</span><span>{orderSummary.totalItems}</span>
+                            </div>
+                            <div class="cart-price-row">
+                                <span>Total Quantity</span><span>{orderSummary.totalQuantity}</span>
+                            </div>
+                            <div class="cart-price-row">
+                                <span>Price (Excl. Tax)</span>
+                                <span class="dollars">{priceWithoutTax}</span>
+                            </div>
+                            <template if:true={showtotalCGSTtax}>
+                                <div class="cart-price-row">
+                                    <span>CGST [{percentCGST}%]</span>
+                                    <span class="dollars">{orderSummary.totalCGST}</span>
+                                </div>
+                                <div class="cart-price-row">
+                                    <span>SGST [{percentSGST}%]</span>
+                                    <span class="dollars">{orderSummary.totalSGST}</span>
+                                </div>
+                            </template>
+                            <template if:true={showtotalIGSTtax}>
+                                <div class="cart-price-row">
+                                    <span>IGST [{percentIGST}%]</span>
+                                    <span class="dollars">{orderSummary.totalIGST}</span>
+                                </div>
+                            </template>
+                            <div class="cart-price-row cart-price-total">
+                                <span>Total Amount</span>
+                                <span class="dollars">{orderSummary.totalPrice}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cart Footer -->
+            <div class="cart-footer">
+                <button class="cart-btn-back" onclick={closeCart}>← Back to Products</button>
+                <button class="cart-btn-next" onclick={handleNext} disabled={isSubmitting}>
+                    Confirm &amp; Create Invoice →
+                </button>
+            </div>
+        </template>
+
+        <!-- Product grid -->
+        <template if:false={openCart}>
+            <div class="fixedCard">
+                <div class="fixed">
+                    <div class="cart-container" onclick={openCartModal}>
+                        <svg focusable="false" style="fill:#C1206B;" viewBox="0 0 52 52"
+                             class="slds-icon slds-icon-text-default">
+                            <g><g>
+                                <path d="M20.1 26H44c.7 0 1.4-.5 1.5-1.2l4.4-15.4c.3-1.1-.5-2-1.5-2H11.5l-.6-2.3C10.6 4 9.6 3.3 8.6 3.3h-4c-1.3 0-2.5 1-2.6 2.3C1.9 7 3.1 8.2 4.4 8.2h2.3l7.6 25.7c.3 1.1 1.2 1.8 2.3 1.8h28.2c1.3 0 2.5-1 2.6-2.3.1-1.4-1.1-2.6-2.4-2.6H20.2c-1.1 0-2-.7-2.3-1.7V29c-.5-1.5.7-3 2.2-3z"></path>
+                                <circle cx="20.6" cy="44.6" r="4"></circle>
+                                <circle cx="40.1" cy="44.6" r="4"></circle>
+                            </g></g>
+                        </svg>
+                        <span class="slds-badge slds-theme_error"><em>{cartSize}</em></span>
+                    </div>
+
+                    <div id="main" class="tabset-container" style="margin-top:-40px; position:relative;">
+                        <div class="custom-tab-container">
+                            <button class="custom-tab-button" onclick={handleAllTabClick}>{allTabDisplayText}</button>
+                            <button class="custom-tab-arrow" onclick={toggleBrandDropdown}>
+                                <lightning-icon icon-name="utility:down" size="xx-small"></lightning-icon>
+                            </button>
+                            <template if:true={showBrandDropdown}>
+                                <div class="brand-dropdown">
+                                    <template for:each={allBrandsList} for:item="brand">
+                                        <div key={brand} data-brand={brand} onclick={handleBrandSelect}
+                                             class="brand-dropdown-item">{brand}</div>
+                                    </template>
+                                </div>
+                            </template>
+                        </div>
+                        <div class="custom-tab-container" style="margin-left:0;">
+                            <button class="custom-tab-button" onclick={handleAvailableStockTabClick}>{availableStockTabDisplayText}</button>
+                            <button class="custom-tab-arrow" onclick={toggleAvailableStockDropdown}>
+                                <lightning-icon icon-name="utility:down" size="xx-small"></lightning-icon>
+                            </button>
+                            <template if:true={showAvailableStockDropdown}>
+                                <div class="brand-dropdown">
+                                    <template for:each={allBrandsList} for:item="brand">
+                                        <div key={brand} data-brand={brand} onclick={handleAvailableStockBrandSelect}
+                                             class="brand-dropdown-item">{brand}</div>
+                                    </template>
+                                </div>
+                            </template>
+                        </div>
+                        <div class="search-by-row">
+                            <lightning-input type="search" class="search-input-inline"
+                                placeholder="Search products..." onchange={handleSearchChange}>
+                            </lightning-input>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="price-type-badge">Prices shown: <strong>{priceType}</strong></div>
+
+                <div class="slds-grid slds-wrap slds-theme_default content" style="margin-top:40px;">
+                    <template for:each={data} for:item="pro">
+                        <div key={pro.productId}
+                             class="slds-col slds-size_1-of-2 slds-medium-size_6-of-12 slds-large-size_1-of-5 slds-var-p-around_xxx-small">
+                            <div class="card">
+                                <div class="slds-var-p-around_xxx-small">
+                                    <span class="slds-badge">{pro.productBrand}</span>
+                                </div>
+                                <div class="slds-var-p-around_xxx-small" style="font-size:small; font-weight:bold;">
+                                    {pro.productShortDescription}
+                                </div>
+                                <div class="slds-var-p-around_xxx-small" style="font-size:small;">UOM: {pro.uom}</div>
+                                <div class="slds-var-p-around_xxx-small" style="font-size:small;">Available Stock: {pro.availableQuantity}</div>
+                                <div class="slds-var-p-around_xxx-small changeFont" style="font-family:Arial;">
+                                    MRP: <span class="dollars">{pro.productMRP}</span>
+                                </div>
+                                <template if:true={isDealerPrice}>
+                                    <div class="slds-var-p-around_xxx-small" style="font-size:small;">
+                                        <span class="dollars">{pro.productOfferPrice}</span>
+                                    </div>
+                                </template>
+                                <div class="slds-var-p-around_xxx-small changeFont" style="font-family:Arial;">
+                                    {pro.addedQuantity} items already added to cart.
+                                </div>
+                                <div class="slds-grid_vertical-align-center slds-var-p-around_xxx-small">
+                                    <div class="quantity buttons_added slds-align_absolute-center">
+                                        <input type="button" value="-" class="minus"
+                                               onclick={minusQuantity} name={pro.productId}/>
+                                        <input data-id={pro.productId} type="number" step="1" min="1"
+                                               value={pro.productQuantity} onchange={valueQtyHandle}
+                                               class="input-text qty text" size="4"/>
+                                        <input type="button" value="+" class="plus"
+                                               onclick={addQuantity} name={pro.productId}/>
+                                    </div>
+                                    <button class="addCartButton" data-product-id={pro.productId}
+                                            onclick={addToCart}>Add</button>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+                <br/><br/><br/>
+                <div class="footerCart">
+                    <button class="custom-button" style="background:white; color:#C1206B; border:2px solid #C1206B; margin-right:8px;" onclick={handleGoBack}>← Back</button>
+                    <span class="slds-text-title_bold">
+                        TQ: {orderSummary.totalQuantity} / TA: {orderSummary.totalPrice}
+                    </span>
+                    <button class="custom-button" onclick={openCartModal}>View Cart</button>
+                </div>
+            </div>
+        </template>
+
+    </template>
+</template>

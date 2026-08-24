@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Only_one_discount_type_can_be_selected</fullName>
+    <active>true</active>
+    <errorConditionFormula>OR(
+    AND(NOT(ISBLANK(Cash_Discount__c)), NOT(ISBLANK(Discount_Percent__c))),
+    AND(ISBLANK(Cash_Discount__c), ISBLANK(Discount_Percent__c))
+  )</errorConditionFormula>
+    <errorMessage>Please fill exactly one of &apos;Cash Discount&apos; or &apos;Discount Percent&apos;.</errorMessage>
+</ValidationRule>

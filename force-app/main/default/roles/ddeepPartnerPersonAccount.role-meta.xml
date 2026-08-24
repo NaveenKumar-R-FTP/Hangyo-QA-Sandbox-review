@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Role xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseAccessLevel>None</caseAccessLevel>
+    <contactAccessLevel>Edit</contactAccessLevel>
+    <description>ddeep Partner Person Account</description>
+    <mayForecastManagerShare>false</mayForecastManagerShare>
+    <name>ddeep Partner Person Account</name>
+    <opportunityAccessLevel>None</opportunityAccessLevel>
+    <parentRole>SO_ZSM_VP_MYS</parentRole>
+</Role>

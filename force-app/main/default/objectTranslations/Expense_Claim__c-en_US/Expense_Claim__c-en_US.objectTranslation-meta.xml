@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Expense Claim</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Expense Claims</value>
+    </caseValues>
+    <layouts>
+        <layout>DMS Claim layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Expense Claim Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Totals --></label>
+            <section>Totals</section>
+        </sections>
+    </layouts>
+    <recordTypes>
+        <label><!-- DMS Claims --></label>
+        <name>DMS_Claims</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- SFA Expense Claim --></label>
+        <name>SFA_Expense_Claim</name>
+    </recordTypes>
+    <startsWith>Vowel</startsWith>
+</CustomObjectTranslation>

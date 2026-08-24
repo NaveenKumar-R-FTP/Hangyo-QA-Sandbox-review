@@ -1,0 +1,149 @@
+<apex:page controller="EWayBillExcelController" 
+           showHeader="false" 
+           applyBodyTag="false"
+           contentType="application/vnd.ms-excel; charset=UTF-8">
+
+    <table border="1" cellpadding="3" cellspacing="0" 
+           style="border: 1px solid #000000; border-collapse: collapse; width: 100%; mso-border-alt: solid black .5pt;">
+        
+        <tr style="background-color:#f2f2f2; font-weight:bold;">
+            <th>Supply Type</th>
+            <th>Sub Type</th>
+            <th>Doc Type</th>
+            <th>Doc No</th>
+            <th>Doc Date</th>
+            <th>Transaction Type</th>
+            <th>From_OtherPartyName</th>
+            <th>From_GSTIN</th>
+            <th>From_Address1</th>
+            <th>From_Address2</th>
+            <th>From_Place</th>
+            <th>Dispatch_Pin Code</th>
+            <th>Bill From_State</th>
+            <th>Dispatch From_State</th>
+            <th>To_OtherPartyName</th>
+            <th>To_GSTIN</th>
+            <th>To_Address1</th>
+            <th>To_Address2</th>
+            <th>To_Place</th>
+            <th>Ship_ToPin Code</th>
+            <th>Bill To_State</th>
+            <th>Dispatch To_State</th>
+            <th>Product</th>
+            <th>Description</th>
+            <th>HSN</th>
+            <th>Unit</th>
+            <th>Quantity</th>
+            <th>Assessable Value</th>
+            <th>Tax Rate</th>
+            <th>CGST Amount</th>
+            <th>SGST Amount</th>
+            <th>IGST Amount</th>
+            <th>CESS Amount</th>
+            <th>CESS Non Advol Amount</th>
+            <th>Others</th>
+            <th>Total Invoice value</th>
+        </tr>
+                    
+        <apex:repeat value="{!invoiceList}" var="inv">
+            <apex:repeat value="{!inv.Invoice_Line_Items__r}" var="line">
+                <tr>
+                    <td>Outward</td>
+                    <td>Supply</td>
+                    <td>Tax Invoice</td>
+                    <td>{!inv.Name}</td>
+                    <td><apex:outputText value="{0,date,dd-MM-yyyy}">
+                            <apex:param value="{!currentDate}" />
+                        </apex:outputText>
+                    </td>
+                    <td>Regular</td>
+                    
+                    <!-- From Address -->
+                    <td>{!inv.Distributor_Account__r.Name}</td>
+                    <td>{!inv.Distributor_Account__r.GSTIN__c}</td>
+                    <td>{!inv.Distributor_Account__r.BillingStreet}</td>
+                    <td></td>
+                    <td>{!inv.Distributor_Account__r.BillingCity}</td>
+                    <td>{!inv.Distributor_Account__r.BillingPostalCode}</td>
+                    <td>{!inv.Distributor_Account__r.BillingState}</td>
+                    <td>{!inv.Distributor_Account__r.BillingState}</td>
+                    
+                    <!-- To Address -->
+                    <td>
+                        <apex:outputPanel rendered="{!inv.RecordType.DeveloperName == 'Secondary_Invoice'}">
+                            {!inv.Retailer_Account__r.Name}
+                        </apex:outputPanel>
+                        <apex:outputPanel rendered="{!inv.RecordType.DeveloperName == 'Secondary_Invoice_Under_SS'}">
+                            {!inv.Under_SS__r.Name}
+                        </apex:outputPanel>
+                    </td>
+                    <td>
+                        <apex:outputPanel rendered="{!inv.RecordType.DeveloperName == 'Secondary_Invoice'}">
+                            {!inv.Retailer_Account__r.GSTIN__c}
+                        </apex:outputPanel>
+                        <apex:outputPanel rendered="{!inv.RecordType.DeveloperName == 'Secondary_Invoice_Under_SS'}">
+                            {!inv.Under_SS__r.GSTIN__c}
+                        </apex:outputPanel>
+                    </td>
+                    <td>
+                        <apex:outputPanel rendered="{!inv.RecordType.DeveloperName == 'Secondary_Invoice'}">
+                            {!inv.Retailer_Account__r.BillingStreet}
+                        </apex:outputPanel>
+                        <apex:outputPanel rendered="{!inv.RecordType.DeveloperName == 'Secondary_Invoice_Under_SS'}">
+                            {!inv.Under_SS__r.BillingStreet}
+                        </apex:outputPanel>
+                    </td>
+                    <td></td>
+                    <td>
+                        <apex:outputPanel rendered="{!inv.RecordType.DeveloperName == 'Secondary_Invoice'}">
+                            {!inv.Retailer_Account__r.BillingCity}
+                        </apex:outputPanel>
+                        <apex:outputPanel rendered="{!inv.RecordType.DeveloperName == 'Secondary_Invoice_Under_SS'}">
+                            {!inv.Under_SS__r.BillingCity}
+                        </apex:outputPanel>
+                    </td>
+                    <td>
+                        <apex:outputPanel rendered="{!inv.RecordType.DeveloperName == 'Secondary_Invoice'}">
+                            {!inv.Retailer_Account__r.BillingPostalCode}
+                        </apex:outputPanel>
+                        <apex:outputPanel rendered="{!inv.RecordType.DeveloperName == 'Secondary_Invoice_Under_SS'}">
+                            {!inv.Under_SS__r.BillingPostalCode}
+                        </apex:outputPanel>
+                    </td>
+                    <td>
+                        <apex:outputPanel rendered="{!inv.RecordType.DeveloperName == 'Secondary_Invoice'}">
+                            {!inv.Retailer_Account__r.BillingState}
+                        </apex:outputPanel>
+                        <apex:outputPanel rendered="{!inv.RecordType.DeveloperName == 'Secondary_Invoice_Under_SS'}">
+                            {!inv.Under_SS__r.BillingState}
+                        </apex:outputPanel>
+                    </td>
+                    <td>
+                        <apex:outputPanel rendered="{!inv.RecordType.DeveloperName == 'Secondary_Invoice'}">
+                            {!inv.Retailer_Account__r.BillingState}
+                        </apex:outputPanel>
+                        <apex:outputPanel rendered="{!inv.RecordType.DeveloperName == 'Secondary_Invoice_Under_SS'}">
+                            {!inv.Under_SS__r.BillingState}
+                        </apex:outputPanel>
+                    </td>
+                    
+                    <!-- Line Item Details -->
+                    <td>{!line.Product__r.Name}</td>
+                    <td></td>
+                    <td>{!line.Product__r.HSN__c}</td>
+                    <td>{!line.Product__r.Unit_of_Measure__c}</td>
+                    <td>{!line.Quantity__c}</td>
+                    <td>{!line.Price__c}</td>
+                    <td>{!line.CGST_Amount__c + line.SGST_Amount__c + line.IGST_Amount__c}</td>
+                    <td>{!line.CGST_Amount__c}</td>
+                    <td>{!line.SGST_Amount__c}</td>
+                    <td>{!line.IGST_Amount__c}</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>{!line.Total_Amount__c + line.CGST_Amount__c + line.SGST_Amount__c + line.IGST_Amount__c}</td>
+                </tr>
+            </apex:repeat>
+        </apex:repeat>
+    </table>
+</apex:page>

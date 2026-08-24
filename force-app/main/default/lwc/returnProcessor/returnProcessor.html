@@ -1,0 +1,101 @@
+<template>
+    <div class="full-screen-container">
+        <div class="header">
+            <h1>Returns</h1>
+        </div>
+
+        <div class="invoice-details-row">
+            <div class="detail-column">
+                <span class="label">Invoice Number:</span>
+                <span class="value"> {invoiceData.Invoice_Number__c}</span>
+            </div>
+            <div class="detail-column">
+                <span class="label">Taxable Amount (Excl. Tax):</span>
+                <span class="value"> {invoiceData.Taxable_Amount__c}</span>
+            </div>
+            <div class="detail-column">
+                <span class="label">Total Amount (Incl. Tax):</span>
+                <span class="value"> {invoiceData.Invoice_Amount__c}</span>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                <thead>
+                    <tr class="slds-text-title_caps">
+                        <th scope="col">Product Name</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Unit Price</th>
+                        <th scope="col">Damage</th>
+                        <th scope="col">Reuse</th>
+                        <th scope="col">Return Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template for:each={invoiceLineItems} for:item="item" for:index="index">
+                        <tr key={item.lineItemId}>
+                            <td>{item.productName}</td>
+                            <td>{item.quantity}</td>
+                            <td>{item.unitPrice}</td>
+                            <td>
+                                <input
+                                    type="number"
+                                    name="damage"
+                                    data-index={index}
+                                    value={item.damage}
+                                     min="0"
+                                       class={item.errorClass} 
+                                    onchange={handleInputChange}
+                                />
+                            </td>
+                            <td>
+                                <input
+                                    type="number"
+                                    name="reuse"
+                                    data-index={index}
+                                    value={item.reuse}
+                                      class={item.errorClass} 
+                                     min="0"
+                                    onchange={handleInputChange}
+                                />
+                            </td>
+                            <td>{item.returnAmount}</td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Summary Section -->
+        <div class="invoice-details-row-sum">
+            <div class="detail-column">
+                <Strong>SUMMARY:</Strong>
+                </div>
+            <div class="detail-column">
+                <span class="label">Total Quantity:</span>
+                <span class="value">{totalQuantity}</span>
+            </div>
+            <div class="detail-column">
+                <span class="label">Total Return Amount(Excl. Tax):</span>
+                <span class="value">{totalAmount}</span>
+            </div>
+            <!--div class="detail-column">
+                <span class="label">CGST (9%):</span>
+                <span class="value">{cgst}</span>
+            </div>
+            <div class="detail-column">
+                <span class="label">SGST (9%):</span>
+                <span class="value">{sgst}</span>
+            </div-->
+            <div class="detail-column">
+                <span class="label">Total Return Amount(Incl. Tax):</span>
+                <span class="value">{grandTotal}</span>
+            </div>
+        </div>
+
+        <footer class="slds-modal__footer">
+            <!--button class="slds-button slds-button_neutral" onclick={handleCloseTab}>Back</button -->
+            <button class="slds-button slds-button_brand slds-m-left_small" disabled={isSubmitDisabled} onclick={handleSubmit}>Submit Returns</button>
+        </footer>
+    </div>
+</template>

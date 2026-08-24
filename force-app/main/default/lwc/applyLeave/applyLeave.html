@@ -1,0 +1,124 @@
+<template> 
+        <template if:true={isLoading}>
+          <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+      </template>
+  <div class="font-class">
+        <lightning-card class="attendance-card">
+          <div class="card-header">
+              <!-- Title with centered alignment and custom icon -->
+              <lightning-icon icon-name="action:new_event" size="small" class="title-icon"></lightning-icon>
+              <h2 class="title-text">Leave Application </h2>
+          </div>
+
+          <div class="slds-p-around_medium">
+              <!-- Display Leave Balance -->
+              <template if:true={leaveBalances}>
+                <div class="leave-container">
+                  <div class="leave-card">
+                    
+                    <div class="leave-item">
+                      <div class="leave-block">
+                        <span class="title">Earned Leave : {leaveBalances.Available_Earned_Leave__c}</span>
+                      </div>
+                    </div>
+                    <div class="leave-item">
+                      <div class="leave-block">
+                        <span class="title">Casual Leave : {leaveBalances.Available_Casual_Leave__c}</span>
+                      </div>
+                    </div>
+                    
+                  </div>
+                </div>
+              </template>
+            </div> <!-- Closing the outer div --> <!-- Closing the outer div -->
+
+              <div class="slds-p-around_medium">
+                  <!-- Dynamic Picklist -->
+                  <template if:true={leaveTypeOptions}>
+                      <lightning-combobox 
+                          name="leaveType" 
+                          label="Leave Type" 
+                          value={leaveType} 
+                          options={leaveTypeOptions} 
+                          onchange={handleInputChange}>
+                      </lightning-combobox>
+                  </template>
+
+                  <!-- Start Date -->
+                  <lightning-input 
+                  type="date" 
+                  label="Start Date" 
+                  name="startDate" 
+                  value={startDate} 
+                  onchange={handleInputChange}>
+              </lightning-input>
+
+              <!-- End Date -->
+              <lightning-input 
+                  type="date" 
+                  label="End Date" 
+                  name="endDate" 
+                  value={endDate} 
+                  onchange={handleInputChange}
+                  disabled={isEndDateDisabled}>
+              </lightning-input>
+
+              <!-- Render tables for each date -->
+              <template if:true={leaveDates}>
+                <template for:each={leaveDates} for:item="date" for:index="index">
+                    <div key={date.rawDate} class="slds-p-around_medium">
+                        <lightning-card title={date.formattedDate}>
+
+                            <!-- Leave Period -->
+                            <lightning-combobox
+                                name="leavePeriod"
+                                label="Leave Period"
+                                value={date.leavePeriod}
+                                options={leavePeriodOptions}
+                                data-index={index}
+                                onchange={handleLeaveDetailChange}>
+                            </lightning-combobox>
+
+                            <!-- Leave For -->
+                            <template if:true={date.showLeaveFor}>
+                            <lightning-combobox
+                                name="leaveFor"
+                                label="Leave For"
+                                value={date.leaveFor}
+                                options={leaveForOptions}
+                                data-index={index}
+                                onchange={handleLeaveDetailChange}>                          
+                            </lightning-combobox>
+                          </template>
+                        </lightning-card>
+                    </div>
+                </template>
+            </template>
+                
+
+                  <!-- Reason -->
+                  <lightning-textarea 
+                      label="Reason" 
+                      name="reason" 
+                      value={reason} 
+                      onchange={handleInputChange}>
+                  </lightning-textarea>
+
+
+                  <!-- Selfie Upload -->
+                    <lightning-input class="selfie" 
+                                      type="file" 
+                                      accept="image/*" 
+                                      onchange={handleFileChange} 
+                                      capture="camera" >
+                    </lightning-input>
+
+                  <p class="file-name">Selected file : {fileName}</p>
+                  </br>
+                  <button class="custom-button" onclick={handleSubmit} disabled={DisabledSubmit}>
+                    Submit
+                </button>
+              </div>
+          </lightning-card>
+  </div>
+</template>

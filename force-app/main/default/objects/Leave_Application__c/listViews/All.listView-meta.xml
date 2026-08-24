@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All</fullName>
+    <columns>NAME</columns>
+    <columns>User__c</columns>
+    <columns>Leave_Types__c</columns>
+    <columns>Number_of_Days__c</columns>
+    <columns>Start_Date__c</columns>
+    <columns>End_Date__c</columns>
+    <columns>Approval_Statuses__c</columns>
+    <filterScope>Mine</filterScope>
+    <label>My Leave Records</label>
+</ListView>

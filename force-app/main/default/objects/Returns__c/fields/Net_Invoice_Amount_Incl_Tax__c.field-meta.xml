@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Net_Invoice_Amount_Incl_Tax__c</fullName>
+    <formula>if(
+   Total_return_Incl_tax__c &gt;= Invoice__r.Invoice_Amount__c ,
+   0 ,
+   Invoice__r.Invoice_Amount__c  -  Total_return_Incl_tax__c
+  )</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Net Invoice Amount Incl Tax</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

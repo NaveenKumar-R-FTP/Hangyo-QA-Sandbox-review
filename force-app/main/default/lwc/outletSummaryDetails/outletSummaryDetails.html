@@ -1,0 +1,303 @@
+<template>
+    <lightning-card>
+
+        <!-- HEADER -->
+        <div class="header">
+
+            <!-- Top Row: Back + Title -->
+            <div class="slds-grid slds-grid_align-spread slds-grid_vertical-align-center"
+                 style="margin-bottom: 5px;">
+                <div>
+                    <lightning-button-icon 
+                        icon-name="utility:back"
+                        alternative-text="Back"
+                        onclick={handleGoBack}>
+                    </lightning-button-icon>
+                </div>
+
+                <div class="slds-text-heading_medium"
+                     style="font-size: 16px; text-align:center; flex:1;">
+                    Team Performance Hierarchy
+                </div>
+            </div>
+
+            <!-- All Field Users Toggle -->
+            <div class="slds-grid slds-grid_align-end">
+
+                <!-- Show when NOT in All Field Mode -->
+                <template if:false={isAllFieldMode}>
+                    <div class="all-field-users"
+                         onclick={handleAllFieldClick}
+                         style="font-size: 0.8rem; cursor: pointer;">
+                        All FIELD USERS
+                    </div>
+                </template>
+
+                <!-- Show when IN All Field Mode -->
+                <template if:true={isAllFieldMode}>
+                    <div class="all-field-users"
+                         onclick={handleAllFieldBack}
+                         style="font-size: 0.8rem; cursor: pointer;">
+                        ← Back to Hierarchy
+                    </div>
+                </template>
+            </div>
+
+            <!-- FTD / MTD toggle (HIDDEN in All Field Mode) -->
+            <template if:false={isAllFieldMode}>
+               <select class="period-select" value={period} onchange={handlePeriodChange}>
+                    <option value="FTD">FTD</option>
+                    <option value="MTD">MTD</option>
+                </select>
+            </template>
+
+        </div>
+
+        <!-- BREADCRUMB (Hierarchy Mode only) -->
+        <template if:false={isAllFieldMode}>
+            <div class="breadcrumb">
+                <template for:each={breadcrumb} for:item="crumb">
+                    <span key={crumb.userId} class="breadcrumb-item">
+                        
+                        <template if:true={crumb.showSeparator}>
+                            <span class="breadcrumb-separator"> &gt; </span>
+                        </template>
+
+                        <a href="javascript:void(0);"
+                           onclick={handleBreadcrumbClick}
+                           data-userid={crumb.userId}>
+                            {crumb.userName}
+                        </a>
+
+                    </span>
+                </template>
+            </div>
+        </template>
+
+        <!-- BODY -->
+        <div class="slds-p-around_medium">
+
+            <!-- Loading -->
+            <template if:true={loading}>
+                <div class="loading-state">
+                    <div class="loading-spinner"></div>
+                    <p class="loading-text">Loading details...</p>
+                </div>
+            </template>
+
+            <!-- ============================================== -->
+            <!--              ALL FIELD USERS MODE             -->
+            <!-- ============================================== -->
+            <template if:true={isAllFieldMode}>
+
+                <!-- Search and Filter Bar -->
+                <div class="top-fixed-all-field">
+                    <div class="filter-search-row">
+                        <lightning-input 
+                            type="search" 
+                            placeholder="Search by Name or Role" 
+                            value={searchKey} 
+                            onchange={handleSearch}
+                            variant="label-hidden"
+                            class="search-input">
+                        </lightning-input>
+                        
+                        <lightning-button-icon 
+                            icon-name="utility:filterList" 
+                            alternative-text="Filter" 
+                            onclick={toggleRoleFilter} 
+                            class="filter-icon">
+                        </lightning-button-icon>
+                    </div>
+
+                    <!-- Breadcrumb in All Field Mode -->
+                    <div class="breadcrumb-all-field">
+                        <span>All Field Users</span>
+                        <template if:true={selectedRoles.length}>
+                            <span class="breadcrumb-separator"> | </span>
+                            <span>Filtered by: {formattedSelectedRoles}</span>
+                        </template>
+                    </div>
+
+                    <!-- Role Filter Popup -->
+                    <template if:true={roleFilterVisible}>
+                        <div class="popup-overlay" onclick={closeRoleFilter}></div>
+                        
+                        <div class="role-filter-popup">
+                            <div style="font-size: 16px; font-weight: bold; margin-bottom: 15px;">
+                                Filter by Role
+                            </div>
+                            
+                            <div class="role-checkboxes">
+                                <template for:each={roleOptions} for:item="roleOption">
+                                    <div key={roleOption.value} class="role-checkbox-item">
+                                        <lightning-input
+                                            type="checkbox"
+                                            label={roleOption.label}
+                                            data-value={roleOption.value}
+                                            checked={roleOption.selected}
+                                            onchange={handleRoleCheckboxChange}>
+                                        </lightning-input>
+                                    </div>
+                                </template>
+                            </div>
+                            
+                            <div class="popup-actions">
+                                <button class="btn-clear" onclick={clearRoleFilter}>Clear</button>
+                                <button class="btn-apply" onclick={applyRoleFilter}>Apply</button>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+
+                <!-- Users List -->
+                <template if:true={filteredAllFieldUsers.length}>
+                    <div class="user-list-scroll">
+                        <template for:each={filteredAllFieldUsers} for:item="user">
+                            <div key={user.Id} class="user-card-all-field">
+                                
+                                <div class="user-header-all-field">
+                                    <div class="user-info-all-field">
+                                        <div class="user-name-all-field">{user.Name}</div>
+                                        <div class="user-role-all-field">
+                                            {user.Role}
+                                            <template if:true={user.Employee_Role__c}>
+                                                | {user.Employee_Role__c}
+                                            </template>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="stats-grid">
+                                    <div class="stat">
+                                        <div class="stat-value">{user.distributors}</div>
+                                        <div class="stat-label">Distributors</div>
+                                    </div>
+                                    <div class="stat">
+                                        <div class="stat-value">{user.beats}</div>
+                                        <div class="stat-label">Beats</div>
+                                    </div>
+                                    <div class="stat">
+                                        <div class="stat-value">{user.outlets}</div>
+                                        <div class="stat-label">Outlets</div>
+                                    </div>
+                                    <div class="stat">
+                                        <div class="stat-value">{user.outletPlanned}</div>
+                                        <div class="stat-label">Planned</div>
+                                    </div>
+                                    <div class="stat">
+                                        <div class="stat-value">{user.upc}</div>
+                                        <div class="stat-label">UPC</div>
+                                    </div>
+                                    <div class="stat">
+                                        <div class="stat-value">{user.utc}</div>
+                                        <div class="stat-label">UTC</div>
+                                    </div>
+                                </div>
+
+                              
+                            </div>
+                        </template>
+                    </div>
+                </template>
+
+                <template if:true={noData}>
+                    <div class="no-data">
+                        <template if:true={selectedRoles.length}>
+                            No users found matching your search criteria.
+                        </template>
+                        <template if:false={selectedRoles.length}>
+                            No field users found.
+                        </template>
+                    </div>
+                </template>
+
+            </template>
+
+            <!-- ============================================== -->
+            <!--                NORMAL HIERARCHY MODE           -->
+            <!-- ============================================== -->
+ <!-- ============================================== -->
+<!--                NORMAL HIERARCHY MODE           -->
+<!-- ============================================== -->
+<template if:false={isAllFieldMode}>
+
+    <!-- Current User KPI Section (Like in reference LWC) -->
+    <div class="current-user-kpi-section">
+        <div class="current-user-header">
+            <div class="current-user-name">{currentUserMetrics.Name}</div>
+            <div class="current-user-role">{currentUserMetrics.Role}</div>
+        </div>
+        
+        <div class="current-user-stats-grid">
+            <div class="current-user-stat">
+                <div class="current-user-stat-value">{currentUserMetrics.distributors}</div>
+                <div class="current-user-stat-label">Distributors</div>
+            </div>
+            <div class="current-user-stat">
+                <div class="current-user-stat-value">{currentUserMetrics.beats}</div>
+                <div class="current-user-stat-label">Beats</div>
+            </div>
+            <div class="current-user-stat">
+                <div class="current-user-stat-value">{currentUserMetrics.outlets}</div>
+                <div class="current-user-stat-label">Outlets</div>
+            </div>
+            <div class="current-user-stat">
+                <div class="current-user-stat-value">{currentUserMetrics.outletPlanned}</div>
+                <div class="current-user-stat-label">Planned</div>
+            </div>
+            <div class="current-user-stat">
+                <div class="current-user-stat-value">{currentUserMetrics.upc}</div>
+                <div class="current-user-stat-label">UPC</div>
+            </div>
+            <div class="current-user-stat">
+                <div class="current-user-stat-value">{currentUserMetrics.utc}</div>
+                <div class="current-user-stat-label">UTC</div>
+            </div>
+        </div>
+        
+    
+    </div>
+
+    <!-- Direct Reports Section -->
+    <template if:true={users.length}>
+        <div class="direct-reports-header">
+            <div class="slds-text-heading_small">Direct Reports</div>
+        </div>
+        
+        <div class="users-grid">
+            <template for:each={users} for:item="user">
+                <div key={user.Id}
+                     class="user-card"
+                     data-id={user.Id}
+                     onclick={onUserClick}>
+                    <div class="user-header">
+                        <div>
+                            <div class="user-name">{user.Name}</div>
+                            <div class="user-role">{user.Role}</div>
+                        </div>
+                        <div class="view-team">View →</div>
+                    </div>
+                    <div class="stats-grid">
+                        <div class="stat"><div class="stat-value">{user.distributors}</div><div class="stat-label">Distributors</div></div>
+                        <div class="stat"><div class="stat-value">{user.beats}</div><div class="stat-label">Beats</div></div>
+                        <div class="stat"><div class="stat-value">{user.outlets}</div><div class="stat-label">Outlets</div></div>
+                        <div class="stat"><div class="stat-value">{user.outletPlanned}</div><div class="stat-label">Planned</div></div>
+                        <div class="stat"><div class="stat-value">{user.upc}</div><div class="stat-label">UPC</div></div>
+                        <div class="stat"><div class="stat-value">{user.utc}</div><div class="stat-label">UTC</div></div>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </template>
+
+    <template if:true={noData}>
+        <div class="no-data">No direct reports found.</div>
+    </template>
+
+</template>
+
+        </div>
+
+    </lightning-card>
+</template>

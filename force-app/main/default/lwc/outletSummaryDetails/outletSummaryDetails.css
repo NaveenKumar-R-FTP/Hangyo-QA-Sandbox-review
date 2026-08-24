@@ -1,0 +1,439 @@
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3px 5px;
+    border-bottom: 1px solid #e0e0e0;
+    margin-top: -10px;
+}
+.header{
+    padding: 5px;
+}
+.all-field-users {
+    font-size: 14px;
+    color: #0070d2;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.card-title {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.right-tools {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.refresh-time {
+    font-size: 11px;
+    color: #6b6b6b;
+}
+
+
+
+.users-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+}
+
+/* user card */
+.user-card {
+    background: white;
+    border-radius: 10px;
+    padding: 14px;
+    border: 1px solid #eceff3;
+    box-shadow: 0px 1px 4px rgba(0,0,0,0.05);
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.user-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.08);
+}
+
+.user-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.user-name {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.user-role {
+    font-size: 11px;
+    color: #7d7d7d;
+}
+
+.view-team {
+    font-size: 12px;
+    font-weight: 600;
+    color: #2196f3;
+}
+
+/* Stats inside card */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.stat {
+    text-align: center;
+}
+
+.stat-value {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.stat-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    color: #707070;
+}
+
+/* Loading */
+.loading-state {
+    text-align: center;
+    padding: 2rem;
+}
+
+.loading-spinner {
+    width: 30px;
+    height: 30px;
+    border: 3px solid #ddd;
+    border-top-color: #2196f3;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: auto;
+}
+
+@keyframes spin {
+    100% { transform: rotate(360deg); }
+}
+
+.no-data {
+    text-align: center;
+    padding: 2rem;
+    color: #666;
+    font-size: 14px;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+    font-size: 12px;
+    padding: 5px 10px;
+    margin-bottom: 8px;
+    white-space: nowrap;
+    overflow-x: auto;
+}
+
+.breadcrumb-item a {
+    color: #0070d2;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.breadcrumb-separator {
+    margin: 0 4px;
+    color: #555;
+}
+
+/* Responsive grid */
+@media (max-width: 900px) {
+    .users-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 500px) {
+    .users-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Add to existing CSS */
+/* Add to existing CSS */
+
+/* Search and Filter Bar for All Field Mode */
+.top-fixed-all-field {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: white;
+    padding: 10px 0;
+    border-bottom: 1px solid #dddbda;
+    margin-bottom: 15px;
+}
+
+.filter-search-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.filter-search-row lightning-input {
+    flex: 1;
+    min-width: 0;
+}
+
+.search-input {
+    --slds-c-input-radius-border: 20px;
+}
+
+.filter-icon {
+    margin-left: 5px;
+}
+
+/* Role Filter Popup */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.45);
+    z-index: 999;
+}
+
+.role-filter-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #ffffff;
+    padding: 20px;
+    width: 90%;
+    max-width: 350px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    z-index: 1001;
+}
+
+.role-checkboxes {
+    max-height: 300px;
+    overflow-y: auto;
+    margin: 15px 0;
+}
+
+.role-checkbox-item {
+    margin-bottom: 10px;
+}
+
+.popup-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+.btn-clear {
+    background-color: #f0f0f0;
+    color: black;
+    border: 1px solid #ccc;
+    padding: 8px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    flex: 1;
+    text-align: center;
+}
+
+.btn-apply {
+    background-color: #C1206B;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    flex: 1;
+    text-align: center;
+}
+
+/* User List for All Field Mode */
+.user-list-scroll {
+    margin-top: 10px;
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
+}
+
+.user-card-all-field {
+    background: white;
+    border-radius: 8px;
+    padding: 15px;
+    border: 1px solid #eceff3;
+    box-shadow: 0px 1px 4px rgba(0,0,0,0.05);
+    margin-bottom: 12px;
+    transition: 0.2s ease;
+}
+
+.user-card-all-field:hover {
+    transform: translateY(-2px);
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.08);
+}
+
+.user-header-all-field {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.user-info-all-field {
+    flex: 1;
+}
+
+.user-name-all-field {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.user-role-all-field {
+    font-size: 12px;
+    color: #7d7d7d;
+}
+
+/* Breadcrumb in All Field Mode */
+.breadcrumb-all-field {
+    font-size: 12px;
+    padding: 8px 0;
+    margin-top: 10px;
+    background: #f3f2f2;
+    border-radius: 4px;
+    padding: 8px 12px;
+}
+
+.breadcrumb-item a {
+    color: #006dcc;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.breadcrumb-separator {
+    margin: 0 8px;
+    color: #706e6b;
+}
+/* Current User KPI Section Styles */
+.current-user-kpi-section {
+    background: white;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border: 1px solid #e0e0e0;
+}
+
+.current-user-header {
+    margin-bottom: 15px;
+}
+
+.current-user-name {
+    font-size: 12px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 4px;
+}
+
+.current-user-role {
+    font-size: 12px;
+    color: #666;
+}
+
+.current-user-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.current-user-stat {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 12px;
+    text-align: center;
+}
+
+.current-user-stat-value {
+    font-size: 12px;
+    font-weight: bold;
+    color: #0070d2;
+    margin-bottom: 4px;
+}
+
+.current-user-stat-label {
+    font-size: 12px;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.current-user-additional-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    border-top: 1px solid #e0e0e0;
+    padding-top: 15px;
+}
+
+.additional-stat {
+    text-align: center;
+}
+
+.additional-stat-value {
+    font-size: 16px;
+    font-weight: bold;
+    color: #2e844a; /* Green for positive metrics */
+    margin-bottom: 4px;
+}
+
+.additional-stat-label {
+    font-size: 12px;
+    color: #666;
+}
+
+.direct-reports-header {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #0070d2;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 480px) {
+    .current-user-stats-grid,
+    .current-user-additional-stats {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .current-user-stat-value {
+        font-size: 18px;
+    }
+}
+
+/* Style for progress bar (if you want to add performance indicators later) */
+.progress-container {
+    width: 100%;
+    height: 6px;
+    background-color: #e0e0e0;
+    border-radius: 3px;
+    margin-top: 8px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4CAF50;
+    border-radius: 3px;
+    transition: width 0.3s ease;
+}

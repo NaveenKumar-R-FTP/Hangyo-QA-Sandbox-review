@@ -1,0 +1,37 @@
+/* Container for the card */
+.container {
+    font-family: amaranth regular;
+    background-color: #ffffff;
+}
+
+.title {
+    text-align: center;
+    background-color: #C1206B;
+    font-family: amaranth regular;
+    color: white;
+    padding: 5px 0;
+    margin-bottom: 10px;
+    border-radius: 1px;
+}
+
+/*Styling for action buttons below the date buttons container*/
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+    padding-right: 5px;
+    padding-left: 5px;
+    padding-bottom: 5px;
+} 
+
+/*Styling for action buttons below the date buttons*/
+.actionButtons{
+    background-color: #C1206B;
+    color: white;
+    font-family: amaranth regular;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 0.25rem 0.25rem 0.25rem 0.25rem; 
+    border-radius: 0.25rem;
+    border: #0b0b0b;
+}

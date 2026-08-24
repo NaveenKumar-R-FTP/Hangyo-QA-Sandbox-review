@@ -1,0 +1,784 @@
+<template>
+    <div lwc:if={isLoading} style="height: 200px; position:relative">
+        <lightning-spinner variant="base" size="medium"></lightning-spinner>
+    </div>
+    <div lwc:else style="width:100%; overflow:scroll;">
+        <table class="maintable">
+            <tr>
+                <td colspan="4">
+                    <p>Company Name: {disAccountName}</p>
+                    <p>Company Address: {disBillingAddress}<br/></p>
+                    <p>Phone: {dmsuserPhone} </p>
+                    <p>Email: {dmsUserInfo.Email}</p>
+                    <p>GSTIN: {dmsUserInfo.GSTIN__c}</p>
+                    <p>FSSAI: {dmsuserFSSAI}</p>
+                    <p>PAN: {dmsUserInfo.PAN_Number__c}</p>
+                </td>
+                <td colspan="4" class="slds-p-right_x-small" style="text-align: right;"><img src={dmsUserInfo.MediumPhotoUrl}/></td>
+            </tr>
+            <tr>
+                <td colspan="8" class="alignCenter" style="border-bottom: none;">Tax invoice<br/>Original For Recipient</td>
+            </tr>
+            
+           <tr>
+                <td colspan="4" style="vertical-align: top; padding: 10px; border-bottom: 1px solid white;">
+                    <div>Bill To: {retailerInfo.Name}, {retailerInfo.BillingStreet}, {retailerInfo.BillingCity}, {retailerInfo.BillingState}, {retailerInfo.BillingPostalCode}, {retailerInfo.BillingCountry}</div>
+                    <div>Phone No.: {retailerInfo.Owners_Number__c}</div>
+                    <div>GSTIN: {retailerInfo.GSTIN__c}</div>
+                    <div>FSSAI: {retailerInfo.FSSAI__c}</div>
+                    <!-- If ShippingStreet exists, use Shipping Address -->
+                    <template if:true={retailerInfo.ShippingAddress}>
+                        <div>Ship To: {retailerInfo.Name}, {retailerInfo.ShippingStreet}, {retailerInfo.ShippingCity}, {retailerInfo.ShippingState}, {retailerInfo.ShippingPostalCode}, {retailerInfo.ShippingCountry}</div>
+                    </template>
+
+                    <!-- Else fallback to Billing Address -->
+                    <template if:false={retailerInfo.ShippingAddress}>
+                        <div>Ship To: {retailerInfo.Name}, {retailerInfo.BillingStreet}, {retailerInfo.BillingCity}, {retailerInfo.BillingState}, {retailerInfo.BillingPostalCode}, {retailerInfo.BillingCountry}</div>
+                    </template>
+                    <div>GSTIN: {retailerInfo.GSTIN__c}</div>
+                    <div>FSSAI: {retailerInfo.FSSAI__c}</div>
+                </td>
+            
+                <td colspan="4" style="vertical-align: top; padding: 10px; border-bottom: 1px solid white;">
+                    <div>Invoice #: {invoiceInfo.Invoice_Number__c}</div>
+                    <div>Invoice Date:
+                        <!--lightning-input type="date" variant="label-hidden" name="invoiceDate" value={invoiceInfo.Invoice_Date__c} read-only={readMode}></lightning-input-->
+                        <lightning-input type="date" variant="label-hidden" name="invoiceDate" value={invoiceInfo.Invoice_Date__c} min={minInvoiceDate} max={maxInvoiceDate} onchange={invoiceDateHandler} read-only={readMode}></lightning-input>
+                    </div>
+                    <div>Place of Supply: {dmsUserInfo.State}</div>
+                    <div>Tax Currency: INR</div>
+                    <div>Credit Period:
+                        <lightning-input type="number" min="0" variant="label-hidden" name="currentPeriod" value={invoiceInfo.Credit_Period__c} onchange={creditPeriodHandler} read-only={readMode}></lightning-input>
+                    </div>
+                </td>
+            </tr>
+            
+            <!--<tr>
+                <td rowspan="2" colspan="4" style="border-bottom: none; border-bottom: 1px solid white;vertical-align:top">Bill To : {retailerInfo.Name},{retailerInfo.BillingStreet},
+                                                      {retailerInfo.BillingCity},
+                                                      {retailerInfo.BillingState},
+                                                      {retailerInfo.BillingPostalCode},
+                                                      {retailerInfo.BillingCountry}</td>
+                                                      
+                <td colspan="2" style="border-bottom: none; border-bottom: 1px solid white ; border-right: 1px solid white">Invoice #</td>
+                <td colspan="2" style="border-bottom: none; border-bottom: 1px solid white">{invoiceInfo.Invoice_Number__c}</td>
+            </tr>
+            <tr>
+                <td colspan="2" style="border-bottom: none; border-bottom: 1px solid white; border-right: 1px solid white">Invoice Date</td>
+                <td colspan="2" style="border-bottom: none; border-bottom: 1px solid white">
+                    <div class="slds-p-top_x-small slds-p-bottom_x-small slds-p-right_x-small">
+                        <lightning-input type="date" variant="label-hidden" name="invoiceDate" value={invoiceInfo.Invoice_Date__c} onchange={invoiceDateHandler} read-only={readMode}></lightning-input>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4" style="border-bottom: none; border-bottom: 1px solid white;">Ph No. : {retailerInfo.Owners_Number__c}</td>
+                <td colspan="2" style="border-bottom: none; border-bottom: 1px solid white; border-right: 1px solid white">Place of Supply:</td>
+                <td colspan="2" style="border-bottom: none; border-bottom: 1px solid white; ">{dmsUserInfo.State}</td>
+            </tr>
+            <tr>
+                <td colspan="4" style="border-bottom: none; border-bottom: 1px solid white;">GSTIN : {retailerInfo.GSTIN__c}</td>
+                <td colspan="2" style="border-bottom: none; border-bottom: 1px solid white;; border-right: 1px solid white">Tax Currency</td>
+                <td colspan="2" style="border-bottom: none; border-bottom: 1px solid white;">INR</td>
+            </tr>
+            <tr>
+                <td colspan="4" style="border-bottom: none; border-bottom: 1px solid white">FSSAI : {retailerInfo.FSSAI__c}</td>
+                <td colspan="2" style="border-bottom: none; border-bottom: 1px solid white ; border-right: 1px solid white">Credit Period</td>
+                <td colspan="2" style="border-bottom: none; border-bottom: 1px solid white">
+                    <div class="slds-p-top_x-small slds-p-bottom_x-small slds-p-right_x-small">
+                        <lightning-input type="number" min="0" variant="label-hidden" name="currentPeriod" value={invoiceInfo.Credit_Period__c} onchange={creditPeriodHandler} read-only={readMode}></lightning-input>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4" style="border-bottom: none; border-bottom: 1px solid white">Ship To : {retailerInfo.Name},
+                                            {retailerInfo.BillingStreet},
+                                            {retailerInfo.BillingCity},
+                                            {retailerInfo.BillingState},
+                                            {retailerInfo.BillingPostalCode},
+                                            {retailerInfo.BillingCountry}</td>
+                <td rowspan="2" colspan="4"></td>
+            </tr>
+            <tr>
+                <td colspan="4" >Ph No. : {retailerInfo.Owners_Number__c}</td>
+            </tr>-->
+            
+            <tr>
+                <td colspan="8" style="padding:revert;">
+                    <div class="hideFirstColTable">
+                        <lightning-datatable
+                            key-field="rowNo"
+                            data={itemList}
+                            columns={__columns}
+                            onrowaction={handleRowAction}
+                            hide-checkbox-column>
+                        </lightning-datatable>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td rowspan={amountInWordsRowspan} colspan="6" class="alignCenter">Amount In Words<br/>{invoiceInfo.Invoice_Amount_In_Words__c} </td>
+                
+                <td>Total Unit</td>
+                <td>{invoiceInfo.Total_Quantity__c}</td>
+            </tr>
+            <!--tr>
+                <td>Discount 1</td>
+                <td>{invoiceInfo.Discount_1__c}%</td>
+            </tr-->
+            <tr>
+                <td>Discount 2</td>
+                <td class="width12half">
+                    <lightning-input type="number"  min="0" max="100" label="Enter Discount 2 %" name="dis2percent" value={invoiceInfo.Discount_2__c} onchange={dis2PercentHandler} step="0.01"></lightning-input>
+                </td>
+            </tr>
+             <tr>
+                <td>Value Scheme</td>
+                <td>
+                    <button class="value-scheme-button"
+                            onclick={openDialogForValueSchemeFromInvoice}>
+                        Apply Scheme
+                    </button>
+                </td>
+            </tr>
+                <tr>
+                    <td>Value Scheme Applied</td>
+                    <td style="color:#C1206B; font-weight:600;">
+                        {ValueSchemeFinalName}
+                    </td>
+                </tr>
+            <!--
+            <tr>
+                <td>Retailer Reimbursement Schemes</td>
+                <td>
+                    <button class="value-scheme-button" onclick={openReimbursementDialog}>
+                        Apply Scheme
+                    </button>
+                    <template if:true={appliedSchemeCount}>
+                        <span style="color:#2e844a; font-weight:600; margin-left:8px;">
+                            {appliedSchemeCount} applied
+                        </span>
+                    </template>
+                </td>
+            </tr>
+            -->
+
+            <tr>
+                <td>Discount Total</td>
+                <td>{displayDiscountTotal}</td>
+            </tr> 
+
+            <template for:each={appliedQuantityDiscountSchemes} for:item="qScheme">
+                <tr key={qScheme.schemeId}>
+                    <td>Scheme Applied: {qScheme.schemeName} ({qScheme.discountPercent}%)</td>
+                    <td style="color:#2e844a; font-weight:600;">{qScheme.discountAmount}</td>
+                </tr>
+            </template>
+            <tr>
+                <td>Taxable Value</td>
+                <td>{invoiceInfo.Taxable_Amount__c}</td>
+            </tr>
+            <tr>
+                <td>Total GST</td>
+                <td>{invoiceInfo.Total_GST__c}</td>
+            </tr>
+            <tr>
+                <!--
+                <td >
+                    <lightning-input type="number"  min="0" label="Enter TCS %" name="tcspercent" value={invoiceInfo.TCS__c} onchange={tcsPercentHandler} read-only={readMode}></lightning-input>
+                </td>
+                
+                <td>{invoiceInfo.TCS_Amount__c}</td>
+                -->
+                <!-- changed by Fuzail - Replaced TCS % input with Round Off display -->
+                <td>Round Off</td>
+                <td>{roundOff}</td>
+            </tr>
+           <tr>
+                
+                <td>Invoice Value</td>
+                <td>{invoiceInfo.Invoice_Amount__c}</td>
+            </tr>
+            <template for:each={appliedSchemesList} for:item="scheme">
+                <tr key={scheme.allocationId}>
+                    <td>{scheme.schemeName}</td>
+                    <td style="color:#2e844a; font-weight:600;">{scheme.amountApplied}</td>
+                </tr>
+            </template>
+            <template if:true={appliedSchemesList.length}>
+                <tr>
+                    <td><strong>Net Payable</strong></td>
+                    <td><strong>{netPayable}</strong></td>
+                </tr>
+            </template>
+            <tr>
+                <td colspan="6" rowspan="2">
+                    Remarks<br/>
+                    <lightning-input type="text" label="Enter Remarks" name="remarks"
+                        value={invoiceInfo.Remarks__c} onchange={remarksHandler} maxlength="255">
+                    </lightning-input>
+                </td>
+                <!-- Bank Details Cell -->
+                <td style="text-align:left;vertical-align:top;" rowspan="2" colspan="2" >
+                    Bank Details<br /><br />
+                    Name: {dmsUserInfo.Name}<br />
+                    Bank:{dmsUserInfo.Bank_Name__c}<br />
+                    A/C No: {dmsUserInfo.Bank_Account_Number__c}<br />
+                    IFSC: {dmsUserInfo.IFSC_Code__c}<br />
+                </td>
+                
+            </tr>
+            
+             <tr></tr>
+           
+            <tr>
+                <!-- HSN/GST Header -->
+                <td class="alignCenter" >HSN Code</td>
+                <td class="alignCenter" >Taxable Value</td>
+                <td class="alignCenter" colspan="2" >SGST %</td>
+                <td class="alignCenter" colspan="2" >CGST %</td>
+                <td class="alignCenter" colspan="2" >IGST %</td>
+            
+                
+            </tr>
+            <tr>
+                <!-- HSN/GST Data Row -->
+                <td class="alignCenter width12half">21050000</td>
+                <td class="alignCenter width12half">{invoiceInfo.Taxable_Amount__c}</td>
+                <td class="alignCenter width12half">{invoiceInfo.SGST__c}</td>
+                <td class="alignCenter width12half">{invoiceInfo.SGST_Amount__c}</td>
+                <td class="alignCenter width12half">{invoiceInfo.CGST__c}</td>
+                <td class="alignCenter width12half">{invoiceInfo.CGST_Amount__c}</td>
+                <td class="alignCenter width12half">{invoiceInfo.IGST__c}</td>
+                <td class="alignCenter width12half">{invoiceInfo.IGST_Amount__c}</td>
+            </tr>
+            <tr>
+                <!-- Totals Row -->
+                <td class="alignCenter">Total</td>
+                <td class="alignCenter">{invoiceInfo.Taxable_Amount__c}</td>
+                <td class="alignCenter" colspan="2">{invoiceInfo.SGST_Amount__c}</td>
+                <td class="alignCenter" colspan="2">{invoiceInfo.CGST_Amount__c}</td>
+                <td class="alignCenter" colspan="2">{invoiceInfo.IGST_Amount__c}</td>
+            </tr>
+
+            <!-- Modern Trade free-goods scheme -->
+            <template if:true={freeOfferMessage}>
+                <tr>
+                    <td colspan="8" style="font-weight:bold;">{freeOfferMessage}</td>
+                </tr>
+            </template>
+
+
+            
+            <tr>
+                <td colspan="4">Terms and Conditions<br/>{dmsUserInfo.Terms_and_Conditions__c}</td>
+                <td rowspan="2" colspan="4" style="vertical-align: bottom; text-align: center;">For, {dmsUserInfo.Contact.Account.Name}<br/>
+                    This is computer generated invoice no signature required</td>
+                    
+                
+            </tr>
+            
+        </table>
+        <div class="slds-grid slds-wrap slds-grid_align-center slds-p-around_medium">
+            <lightning-button variant="neutral" label="Cancel" title="Cancel" onclick={onclickHandleCancel} class="slds-m-left_x-small"></lightning-button>
+            <template lwc:if={readMode}>
+                <lightning-button variant="brand" label="Edit" title="Edit Invoice" onclick={onclickHandleEdit} class="slds-m-left_x-small"></lightning-button>
+            </template>
+            <template lwc:else>
+                <lightning-button variant="brand" label="Save" title="Save Invoice" onclick={onclickHandleInvoiceSave} disabled={isSaving} class="slds-m-left_x-small"></lightning-button>
+            </template>
+            <!--<lightning-button variant="brand" label="Generate PDF" title="Download PDF" onclick={onclickHandlePDFGeneration} class="slds-m-left_x-small"></lightning-button>-->
+        </div>
+    </div>
+    <template lwc:if={showModal}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <lightning-button-icon class="slds-modal__close" onclick={handleLineItemCancel} icon-name="utility:close" variant="border-filled" alternative-text="Close" title="Close"></lightning-button-icon>
+                    <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate invoice-line-item-modal-title">Invoice Line Item</h2>
+                </header>
+                <div class="slds-modal__content slds-var-p-around_medium" id="modal-content-id-1">
+                    <lightning-record-edit-form object-api-name="Invoice_Line_Item__c">
+                        <lightning-layout multiple-rows>
+                            <!--lightning-layout-item size="12" padding="around-small">
+                                <lightning-input-field data-id="ili_product" field-name="Product__c" variant="label-stacked" value={iliProduct} disabled={iliEdit} required onchange={handleProductChange}></lightning-input-field>
+                            </lightning-layout-item-->
+                            <!--lightning-layout-item size="12" padding="around-small">
+                                <div class="lookup-container">
+                                    <input type="text" class="search-input" placeholder="Search product..." value={searchQuery} oninput={handleSearchChange} onfocus={handleSearchFocus}/>
+                                    <template if:true={showDropdown}>
+                                        <div class="dropdown">
+                                            <template if:true={productResults.length}>
+                                                <template for:each={productResults} for:item="prod">
+                                                    <div key={prod.Id} class="dropdown-item" data-id={prod.Id} onclick={handleSelectProduct}>
+                                                        {prod.Name}
+                                                        <span class="stock-info">({prod.Stock__c} in stock)</span>
+                                                    </div>
+                                                </template>
+                                            </template>
+                                            <template if:false={productResults.length}>
+                                                <div class="dropdown-item no-results">
+                                                    No products found
+                                                </div>
+                                            </template>
+                                        </div>
+                                    </template>
+                                    <template if:true={selectedProduct}>
+                                        <div class="selected-pill">
+                                            {selectedProduct.Name}
+                                            <lightning-button-icon icon-name="utility:close" alternative-text="Clear" onclick={clearProductSelection}></lightning-button-icon>
+                                        </div>
+                                    </template>
+                                </div>
+                            </lightning-layout-item-->   
+                            <lightning-layout-item size="12" padding="around-small">
+                                <div class="lookup-container">
+                                    <!-- added by Fuzail - Search By dropdown -->
+                                    <template if:false={iliEdit}>
+                                        <template if:false={selectedProduct}>
+                                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                                                <label style="font-weight: 600; white-space: nowrap; color: #C1206B;">Search By:</label>
+                                                <div style="position: relative;" data-searchby-container>
+                                                    <button type="button" 
+                                                            class="slds-button slds-button_neutral"
+                                                            onclick={toggleSearchByDropdown}
+                                                            style="min-width: 100px; text-align: left; color: #C1206B; border: 1px solid #f2b7d5; background: white; padding-top: 4px; padding-bottom: 4px; line-height: 1.7;">
+                                                        {searchByDisplayText}
+                                                        <lightning-icon icon-name="utility:down" size="xx-small" class="slds-m-left_x-small"></lightning-icon>
+                                                    </button>
+                                                    <template if:true={showSearchByDropdown}>
+                                                        <div class="slds-dropdown slds-dropdown_left" style="position: absolute; top: 100%; left: 0; z-index: 1000; min-width: 100px; margin-top: 4px;">
+                                                            <ul class="slds-dropdown__list" role="menu">
+                                                                <li class="slds-dropdown__item" role="presentation">
+                                                                    <a role="menuitem" 
+                                                                       data-searchby="Name"
+                                                                       onclick={handleSearchByOptionSelect}
+                                                                       class="slds-dropdown__item">
+                                                                        <span class="slds-truncate">Name</span>
+                                                                    </a>
+                                                                </li>
+                                                                <li class="slds-dropdown__item" role="presentation">
+                                                                    <a role="menuitem" 
+                                                                       data-searchby="Code"
+                                                                       onclick={handleSearchByOptionSelect}
+                                                                       class="slds-dropdown__item">
+                                                                        <span class="slds-truncate">Code</span>
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </template>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </template>
+                                    <!-- Search input (ONLY in create mode) -->
+                                    <template if:false={iliEdit}>
+                                        <template if:false={selectedProduct}>
+                                            <input type="text" class="search-input" placeholder="Search product..." value={searchQuery} oninput={handleSearchChange} onfocus={handleSearchFocus}/>
+                                        </template>
+                                    </template>
+                                    <!-- Dropdown (ONLY in create mode) -->
+                                    <template if:false={iliEdit}>
+                                        <template if:true={showDropdown}>
+                                            <div class="dropdown">
+                                                <template if:true={productResults.length}>
+                                                    <template for:each={productResults} for:item="prod">
+                                                        <div key={prod.Id} class="dropdown-item" data-id={prod.Id} onclick={handleSelectProduct}>
+                                                            {prod.Name}
+                                                            <span class="stock-info">
+                                                                ({prod.Stock} in stock)
+                                                            </span>
+                                                        </div>
+                                                    </template>
+                                                </template>
+                                                <template if:false={productResults.length}>
+                                                    <div class="dropdown-item no-results">
+                                                        No products found
+                                                    </div>
+                                                </template>
+                                            </div>
+                                        </template>
+                                    </template>
+                                    <!-- Selected product pill -->
+                                    <template if:true={selectedProduct}>
+                                        <div class="selected-pill">
+                                            {selectedProduct.Name}
+
+                                            <!-- Clear icon ONLY in create mode -->
+                                            <template if:false={iliEdit}>
+                                                <lightning-button-icon
+                                                    icon-name="utility:close"
+                                                    alternative-text="Remove Product"
+                                                    title="Remove Product"
+                                                    onclick={clearProductSelection}
+                                                    class="slds-m-left_x-small">
+                                                </lightning-button-icon>
+                                            </template>
+                                        </div>
+                                    </template>
+                                </div>
+                            </lightning-layout-item>                            
+                            <lightning-layout-item size="12" padding="around-small">
+                                <lightning-input-field data-id="ili_quantity" field-name="Quantity__c" variant="label-stacked" value={iliQuantity} required></lightning-input-field>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" padding="around-small">
+                                <lightning-input-field data-id="ili_price" field-name="Price__c" variant="label-stacked" value={iliPrice} disabled=true required></lightning-input-field>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" padding="around-small">
+                                <lightning-input 
+                                    label="Available Stock"
+                                    value={iliStockInHand}
+                                    type="number"
+                                    variant="label-stacked"
+                                    disabled
+                                ></lightning-input>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </lightning-record-edit-form>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button type="button" class="invoice-line-item-save-btn slds-var-m-left_x-small" title="Save" onclick={handleLineItemSave} disabled={isProductSaving}>Save</button>
+                    <button type="button" class="invoice-line-item-cancel-btn slds-var-m-left_x-small" title="Cancel" onclick={handleLineItemCancel}>Cancel</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    
+    <template if:true={isQualityScheme}>
+        <section class="slds-modal slds-fade-in-open" aria-hidden="false">
+            <div class="slds-modal__container centered-modal" style="max-width: 800px; width: 95%;">
+                
+                <!-- Close Button -->
+            <button class="slds-button slds-modal__close slds-button_icon slds-button_icon-inverse" title="Close" onclick={closeQualitySchemeDialog}> 
+                <div class="pink-close-icon">
+                <lightning-icon icon-name="utility:close" alternative-text="close" size="small"></lightning-icon>
+                </div>
+            </button>
+                
+                <!-- Header -->
+                <header class="slds-modal__header">
+                    <h2 class="slds-text-heading_medium">Quantity Schemes</h2>
+                
+                </header>
+        
+                <!-- Body -->
+                <div class="slds-modal__content slds-p-around_medium modal-body-scrollable">
+                    
+                <template if:true={hasSchemes}>
+                    <ul class="slds-has-dividers_around-space">
+                        <template for:each={schemeDetails} for:item="scheme">
+                            <li key={scheme.schemeId}
+                                class="slds-item slds-p-around_small slds-box slds-theme_default">
+
+                                <div class="slds-grid slds-wrap slds-align-middle">
+
+                                        <!-- Radio (ONLY for Cart) -->
+                                    <template if:true={isCartContext}>
+                                        <div class="slds-col slds-size_1-of-12 slds-align_absolute-left">
+                                            <input
+                                                type="radio"
+                                                name="schemeRadio"
+                                                value={scheme.schemeId}
+                                                checked={scheme.isSelected}
+                                                disabled={scheme.isDisabled}
+                                                onchange={handleSchemeSelection} />
+                                        </div>
+                                    </template>
+
+                                    <!-- Scheme Name -->
+                                    <div class="slds-col slds-size_3-of-12 slds-text-title_bold">
+                                        {scheme.schemeName}
+                                    </div>
+
+                                    <!-- Min Qty -->
+                                    <div class="slds-col slds-size_2-of-12 slds-text-body_small">
+                                        Min Qty: <strong>{scheme.minQty}</strong>
+                                    </div>
+
+                                    <!-- Free Qty (placeholder if empty) -->
+                                    <div class="slds-col slds-size_1-of-12 slds-text-body_small">
+                                        <template if:true={scheme.promoQty}>
+                                            Free: <strong>{scheme.promoQty}</strong>
+                                        </template>
+                                        <template if:false={scheme.promoQty}>
+                                            &nbsp;
+                                        </template>
+                                    </div>
+
+                                    <!-- Discount (placeholder if empty) -->
+                                    <div class="slds-col slds-size_1-of-12 slds-text-body_small">
+                                        <template if:true={scheme.discountPercentage}>
+                                            Disc: <strong>{scheme.discountPercentage}%</strong>
+                                        </template>
+                                        <template if:false={scheme.discountPercentage}>
+                                            &nbsp;
+                                        </template>
+                                    </div>
+
+                                    <!-- Type -->
+                                    <div class="slds-col slds-size_3-of-12 slds-text-body_small slds-text-color_weak">
+                                        Type: {scheme.schemeType}
+                                    </div>
+
+                                </div>
+                            </li>
+                        </template>
+                    </ul>
+                </template>
+
+
+                <!-- No schemes -->
+                <template if:false={hasSchemes}>
+                    <div class="slds-text-color_weak slds-align_absolute-center">
+                        No active quantity schemes available for this product
+                    </div>
+                </template>
+                </div>
+        
+                <!-- Footer -->
+                <footer class="slds-modal__footer slds-grid slds-grid_align-end">
+                    <div class="slds-button-group" role="group">
+                    <button style="background-color: #C1206B; color: #FFFFFF; margin-right: 5px; padding: 5px 15px; font-size: 12px; font-weight: 600; border: none; border-radius: 6px; cursor: pointer; transition: background-color 0.3s ease; width: 100px;" onclick={closeQualitySchemeDialog}>Cancel</button>
+                    <template if:true={isCartContext}>
+                    <button style="background-color: #C1206B; color: #FFFFFF; margin-right: 5px; padding: 5px 15px; font-size: 12px; font-weight: 600; border: none; border-radius: 6px; cursor: pointer; transition: background-color 0.3s ease; width: 100px;" onclick={applyScheme}>Apply</button>
+                </template>
+                </div>
+                </footer>
+            </div>
+        </section>
+        
+        <!-- Modal Backdrop -->
+        <div class="slds-backdrop slds-backdrop_open"></div>  
+
+    </template>
+
+     <!-- <template if:true={isValueScheme}>
+        <section class="slds-modal slds-fade-in-open" aria-hidden="false" >
+            <div class="slds-modal__container centered-modal" style="max-width: 800px; width: 95%;">
+                 -->
+                <!-- Close Button -->
+                <!-- <button class="slds-button slds-modal__close slds-button_icon slds-button_icon-inverse" title="Close" onclick={closeValueSchemeDialog}>
+                    <div class="pink-close-icon">
+                    <lightning-icon icon-name="utility:close" alternative-text="close" size="small"></lightning-icon>
+                    </div>
+                </button> -->
+
+                <!-- Header -->
+                <!-- <header class="slds-modal__header">
+                    <h2 class="slds-text-heading_medium">Value Schemes</h2>
+                </header> -->
+        
+                <!-- Body -->
+                <!-- <div class="slds-modal__content slds-p-around_medium modal-body-scrollable">
+                    <template if:false={isNoSchemesMessage}>
+                        <table class="slds-table slds-table_bordered slds-table_cell-buffer ">
+                            <tbody>
+                                <template for:each={valueSchemeDetails} for:item="scheme" for:index="index">
+                                    <tr key={scheme.id}>
+                                        <td style="font-size: 11px;">{scheme.name}</td>
+                                        <td > -->
+                                        <!-- Conditionally render the button based on isMatchExist -->
+                                        <!-- <template if:true={scheme.isMatchExist}>
+                                                <template if:false={scheme.isApplied}>
+                                                    <button onclick={applyValueSchemeOnInvoice} data-apply-id={scheme.id}
+                                                            style="background-color: #C1206B; color: #FFFFFF; padding: 5px 15px; font-size: 12px; font-weight: 600; border: none; border-radius: 6px; cursor: pointer; transition: background-color 0.3s ease; width: 70px;">
+                                                        Apply
+                                                    </button>
+                                                </template> -->
+                                            <!-- Applied button (when applied) -->
+                                            <!-- <template if:true={scheme.isApplied}>
+                                            <button style="background-color: #28a745; color: #FFFFFF; padding: 5px 15px; font-size: 12px; font-weight: 600; border: none; border-radius: 6px; cursor: pointer; width: 70px;">
+                                                Applied
+                                            </button>
+                                        </template>
+                                    </template>
+        
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </template> -->
+    
+                    <!-- If no schemes are available, show the message -->
+                    <!-- <template if:true={isNoSchemesMessage}>
+                        <p>{noSchemesMessage}</p>
+                    </template>
+                </div>
+         -->
+                <!-- Footer -->
+                <!-- <footer class="slds-modal__footer">
+                    <button style="background-color: #C1206B; color: #FFFFFF; margin-right: 5px; padding: 5px 15px; font-size: 12px; font-weight: 600; border: none; border-radius: 6px; cursor: pointer; transition: background-color 0.3s ease; width: 100px;" onclick={closeValueSchemeDialog}>Cancel</button>
+                </footer>
+            </div>
+        </section> -->
+        
+        <!-- Modal Backdrop -->
+        <!-- <div class="slds-backdrop slds-backdrop_open"></div>
+    </template> -->
+
+        <!-- Value Schemes -->
+        <template if:true={isValueScheme}>
+            <section class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container centered-modal" style="max-width: 800px; width: 95%;">
+
+                    <!-- Close Button -->
+                                <button class="slds-button slds-modal__close slds-button_icon slds-button_icon-inverse" title="Close" onclick={closeValueSchemeDialog}>
+                                    <div class="pink-close-icon">
+                                    <lightning-icon icon-name="utility:close" alternative-text="close" size="small"></lightning-icon>
+                                    </div>
+                                </button>
+
+                    <!-- Header -->
+                    <header class="slds-modal__header">
+                        <h2 class="slds-text-heading_medium">Value Schemes</h2>
+                    </header>
+
+                    <!-- Body -->
+                    <div class="slds-modal__content slds-p-around_medium modal-body-scrollable">
+
+                        <ul class="slds-has-dividers_around-space">
+                            <template for:each={valueSchemeDetails} for:item="scheme">
+
+                                <li key={scheme.id}
+                                    class="slds-item slds-p-around_small slds-box slds-theme_default">
+
+                                    <div class="slds-grid slds-align_absolute-center slds-wrap">
+
+                                        <!-- Scheme Name -->
+                                        <div class="slds-col slds-size_4-of-12 slds-text-title_bold">
+                                            {scheme.name}
+                                        </div>
+
+                                        <!-- Cart Amount -->
+                                        <div class="slds-col slds-size_2-of-12 slds-text-body_small">
+                                            <template if:true={scheme.cartAmount}>
+                                                On ₹<strong>{scheme.cartAmount}</strong>
+                                            </template>
+                                            <template if:false={scheme.cartAmount}>
+                                                &nbsp;
+                                            </template>
+                                        </div>
+
+                                        <!-- Free Qty -->
+                                        <div class="slds-col slds-size_2-of-12 slds-text-body_small">
+                                            <template if:true={scheme.promoQty}>
+                                                Free: <strong>{scheme.promoQty}</strong>
+                                            </template>
+                                            <template if:false={scheme.promoQty}>
+                                                &nbsp;
+                                            </template>
+                                        </div>
+
+                                        <!-- Discount -->
+                                        <div class="slds-col slds-size_2-of-12 slds-text-body_small">
+                                            <template if:true={scheme.discountPercentage}>
+                                                Disc: <strong>{scheme.discountPercentage}%</strong>
+                                            </template>
+                                            <template if:false={scheme.discountPercentage}>
+                                                &nbsp;
+                                            </template>
+                                        </div>
+
+                                        <!-- Apply / Applied -->
+                                        <div class="slds-col slds-size_2-of-12 slds-text-align_right">
+
+                                            <template if:true={scheme.isMatchExist}>
+                                                <template if:false={scheme.isApplied}>
+                                                    <button class="slds-button slds-button_brand"
+                                                            data-apply-id={scheme.id}
+                                                            onclick={applyValueSchemeOnInvoice}>
+                                                        Apply
+                                                    </button>
+                                                </template>
+
+                                                <template if:true={scheme.isApplied}>
+                                                    <button class="slds-button slds-button_success">
+                                                        Applied
+                                                    </button>
+                                                </template>
+                                            </template>
+
+                                        </div>
+
+                                    </div>
+                                </li>
+
+                            </template>
+                        </ul>
+
+                    </div>
+
+                    <!-- Footer -->
+                    <footer class="slds-modal__footer">
+                        <button style="background-color: #C1206B; color: #FFFFFF; margin-right: 5px; padding: 5px 15px; font-size: 12px; font-weight: 600; border: none; border-radius: 6px; cursor: pointer; transition: background-color 0.3s ease; width: 100px;" onclick={closeValueSchemeDialog}>Cancel</button>
+                    </footer>
+
+                </div>
+            </section>
+            <!-- Modal Backdrop -->
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+
+        <!-- Retailer Reimbursement Schemes Modal — lists every currently valid scheme,
+             each with its own checkbox; distributor can select any number of them. -->
+        <template if:true={isReimbursementDialog}>
+            <section class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container centered-modal" style="max-width: 800px; width: 95%;">
+
+                    <button class="slds-button slds-modal__close slds-button_icon slds-button_icon-inverse" title="Close" onclick={closeReimbursementDialog}>
+                        <div class="pink-close-icon">
+                            <lightning-icon icon-name="utility:close" alternative-text="close" size="small"></lightning-icon>
+                        </div>
+                    </button>
+
+                    <header class="slds-modal__header">
+                        <h2 class="slds-text-heading_medium">Retailer Reimbursement Schemes</h2>
+                    </header>
+
+                    <div class="slds-modal__content slds-p-around_medium modal-body-scrollable">
+                        <template if:true={activeSchemes.length}>
+                            <ul class="slds-has-dividers_around-space">
+                                <template for:each={activeSchemes} for:item="scheme">
+                                    <li key={scheme.allocationId} class="slds-item slds-p-around_small slds-box slds-theme_default slds-m-bottom_x-small">
+                                        <div class="slds-grid slds-align_absolute-center slds-wrap">
+                                            <div class="slds-col slds-size_6-of-12 slds-text-title_bold">
+                                                {scheme.schemeName}
+                                            </div>
+                                            <div class="slds-col slds-size_4-of-12 slds-text-body_small">
+                                                Balance: ₹<strong>{scheme.balance}</strong>
+                                            </div>
+                                            <div class="slds-col slds-size_2-of-12 slds-text-align_right">
+                                                <lightning-input type="checkbox"
+                                                    data-id={scheme.allocationId}
+                                                    checked={scheme.isApplied}
+                                                    onchange={toggleActiveScheme}>
+                                                </lightning-input>
+                                            </div>
+                                            <template if:true={scheme.isApplied}>
+                                                <div class="slds-col slds-size_12-of-12" style="color:#2e844a; font-weight:600; margin-top:4px;">
+                                                    Applying ₹{scheme.amountApplied}
+                                                </div>
+                                            </template>
+                                        </div>
+                                    </li>
+                                </template>
+                            </ul>
+                        </template>
+                        <template if:false={activeSchemes.length}>
+                            <p>No active reimbursement schemes for this retailer right now.</p>
+                        </template>
+                    </div>
+
+                    <footer class="slds-modal__footer">
+                        <button style="background-color: #C1206B; color: #FFFFFF; margin-right: 5px; padding: 5px 15px; font-size: 12px; font-weight: 600; border: none; border-radius: 6px; cursor: pointer; transition: background-color 0.3s ease; width: 100px;" onclick={closeReimbursementDialog}>Done</button>
+                    </footer>
+
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+</template>

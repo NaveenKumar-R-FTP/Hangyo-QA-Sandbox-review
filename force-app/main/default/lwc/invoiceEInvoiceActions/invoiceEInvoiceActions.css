@@ -1,0 +1,27 @@
+/* Added by Hari - E-Invoice / E-Way Bill button styles (match existing Invoice Detail buttons) */
+.actions-container {
+    text-align: right;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+.action-btn {
+    background-color: #C1206B;
+    color: white;
+    padding: 7px 14px;
+    border: none;
+    border-radius: 1.5px;
+    cursor: pointer;
+    font-size: inherit;
+}
+
+.action-btn:hover {
+    opacity: 0.9;
+}
+
+.action-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}

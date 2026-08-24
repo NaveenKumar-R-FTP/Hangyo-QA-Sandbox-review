@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Price_Type__c</fullName>
+    <description>Counter Order price type (MRP or Dealer Price). Set directly by CounterInvoiceController.createCounterOrder() so it is available as a real, reportable field instead of being parsed out of Description__c.</description>
+    <label>Price Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>MRP</fullName>
+                <default>true</default>
+                <label>MRP</label>
+            </value>
+            <value>
+                <fullName>Dealer Price</fullName>
+                <default>false</default>
+                <label>Dealer Price</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

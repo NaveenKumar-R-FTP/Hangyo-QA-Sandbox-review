@@ -1,0 +1,31 @@
+<template>
+  <lightning-card>
+    <div class="card-header">
+                <span class="card-title">Position-wise order</span>
+                <button class="details-btn" onclick={handleSeeDetails}>See Details</button>
+            </div>
+    <div class="slds-p-around_medium">
+
+      <!-- KPI STRIP -->
+      <div class="kpi-strip slds-grid slds-grid_align-spread">
+        <div class="kpi-block">
+          <div class="kpi-label">Team MTD Orders</div>
+          <div class="kpi-value">{userActualFormatted}</div>
+        </div>
+
+        <div class="kpi-block">
+          <div class="kpi-label">My MTD Orders</div>
+          <div class="kpi-value">{mySelfOnlyActual}</div>
+        </div>
+
+        <div class="kpi-block">
+          <div class="kpi-label">My Target</div>
+          <div class="kpi-value">{userTargetFormatted}</div>
+          <div class="kpi-subvalue">Target: {userSecondaryFormatted}</div>
+        </div>
+       
+      </div>
+
+    </div>
+  </lightning-card>
+</template>

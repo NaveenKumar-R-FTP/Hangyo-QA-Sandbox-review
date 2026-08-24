@@ -1,0 +1,617 @@
+<template>
+    <template if:true={isCreateOrderComponenet}>
+        <template if:true={error}>
+            <p class="slds-text-color_error">Error loading products: {error.message}</p>
+        </template>
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+        </template>
+        <div data-id="divblock">
+            <div class="fixedCard">
+                <div class="fixed">
+
+                    <template if:false={openCart}>
+                        <div style="float: right; margin-right: 15px;top:-50px;">
+                            <svg focusable="false" style="fill:#C1206B;" data-key="cart" aria-hidden="true" onclick={openCartModal}
+                                viewBox="0 0 52 52" class="slds-icon slds-icon-text-default">
+                                <g>
+                                    <g>
+                                        <path
+                                            d="M20.1 26H44c.7 0 1.4-.5 1.5-1.2l4.4-15.4c.3-1.1-.5-2-1.5-2H11.5l-.6-2.3C10.6 4 9.6 3.3 8.6 3.3h-4c-1.3 0-2.5 1-2.6 2.3C1.9 7 3.1 8.2 4.4 8.2h2.3l7.6 25.7c.3 1.1 1.2 1.8 2.3 1.8h28.2c1.3 0 2.5-1 2.6-2.3.1-1.4-1.1-2.6-2.4-2.6H20.2c-1.1 0-2-.7-2.3-1.7V29c-.5-1.5.7-3 2.2-3z">
+                                        </path>
+                                        <circle cx="20.6" cy="44.6" r="4"></circle>
+                                        <circle cx="40.1" cy="44.6" r="4"></circle>
+                                    </g>
+                                </g>
+                            </svg>
+                            <span class="slds-badge slds-theme_error">
+                                <em>{cartSize}</em>
+                            </span>
+                        </div>
+                    </template>
+
+                    <template if:true={openCart}>
+                        <div style="
+                            position: sticky; 
+                            top: 0;          
+                            background-color: #f3f3f3;
+                            z-index: 1000;    
+                            padding: 0px;    
+                            display: flex; 
+                            justify-content: flex-end; 
+                            align-items: center;">
+                            <button style="margin-top: 5px;background-color: #C1206B; color: #FFFFFF; margin-right: 10px; padding: 5px 15px; font-size: 14px; font-weight: 600; border: none; border-radius: 6px; cursor: pointer; transition: background-color 0.3s ease;"
+                                onclick={fetchFocusedProductsMethod}>
+                                Focused Product
+                            </button>
+                            <svg focusable="false" style="margin-top: 5px;fill:#C1206B; cursor: pointer;" data-key="cart" aria-hidden="true" onclick={openCartModal}
+                                viewBox="0 0 52 52" class="slds-icon slds-icon-text-default">
+                                <g>
+                                    <g>
+                                        <path
+                                            d="M20.1 26H44c.7 0 1.4-.5 1.5-1.2l4.4-15.4c.3-1.1-.5-2-1.5-2H11.5l-.6-2.3C10.6 4 9.6 3.3 8.6 3.3h-4c-1.3 0-2.5 1-2.6 2.3C1.9 7 3.1 8.2 4.4 8.2h2.3l7.6 25.7c.3 1.1 1.2 1.8 2.3 1.8h28.2c1.3 0 2.5-1 2.6-2.3.1-1.4-1.1-2.6-2.4-2.6H20.2c-1.1 0-2-.7-2.3-1.7V29c-.5-1.5.7-3 2.2-3z">
+                                        </path>
+                                        <circle cx="20.6" cy="44.6" r="4"></circle>
+                                        <circle cx="40.1" cy="44.6" r="4"></circle>
+                                    </g>
+                                </g>
+                            </svg>
+                            <span class="slds-badge slds-theme_error" style="margin-left: 5px;">
+                                <em>{cartSize}</em>
+                            </span>
+                        </div>
+                    </template>
+
+                    <template if:false={openCart}>
+                        <template if:false={ShowfocusedProdutcList}>
+                            <div class="slds-p-bottom_x-small slds-p-left_large slds-p-right_large" style="margin-top: 35px;">
+                                <lightning-input type="search" style="width:70%;top:-50px;" class="slds-align_absolute-center"
+                                    placeholder="Search" onchange={handleChangeSearchValue}>
+                                </lightning-input>
+                            </div>
+                        </template>
+                    </template>
+
+                    <template if:true={ShowfocusedProdutcList}>
+                        <div class="slds-p-bottom_x-small slds-p-left_large slds-p-right_large" style="margin-top: 35px;">
+                            <lightning-input type="search" style="width:70%;top:-50px;" class="slds-align_absolute-center"
+                                placeholder="Search focused products" onchange={handleChangeFocusedSearchValue}>
+                            </lightning-input>
+                        </div>
+                    </template>
+
+                    <!-- ✅ CHANGED: Custom scrollable pill tab bar for All Products (replaces lightning-tabset) -->
+                    <template if:true={ShowprodutcList}>
+                        <div id="main" class="custom-tab-scroll-wrapper">
+                            <template for:each={availableBrands} for:item="brand">
+                                <button
+                                    key={brand.brand}
+                                    value={brand.brand}
+                                    class={brand.tabClass}
+                                    data-brand={brand.brand}
+                                    onclick={handleTabChange}>
+                                    {brand.brand}
+                                </button>
+                            </template>
+                        </div>
+                    </template>
+
+                    <!-- ✅ CHANGED: Custom scrollable pill tab bar for Focused Products (replaces lightning-tabset) -->
+                    <template if:true={ShowfocusedProdutcList}>
+                        <div id="mainFocus" class="custom-tab-scroll-wrapper">
+                            <template for:each={availableBrandsFocus} for:item="brand">
+                                <button
+                                    key={brand.brand}
+                                    value={brand.brand}
+                                    class={brand.tabClass}
+                                    data-brand={brand.brand}
+                                    onclick={handleTabChangeFocus}>
+                                    {brand.brand}
+                                </button>
+                            </template>
+                        </div>
+                    </template>
+
+                </div>
+
+                <!-- All Products List -->
+                <template if:true={ShowprodutcList}>
+                    <div class="scroll-containerCheck">
+                        <div class="slds-scrollable_y slds-scrollable_x">
+                            <div class="slds-grid slds-wrap slds-theme_default content">
+                                <template for:each={data} for:item="pro">
+                                    <div key={pro.productId}
+                                        class="slds-col slds-size_1-of-2 slds-medium-size_6-of-12 slds-large-size_1-of-5 slds-theme_default slds-var-p-around_xxx-small slds-var-m-bottom_small"
+                                        id={pro.productId} data-set="sdsds">
+                                        <div class="card" key={pro.productId}>
+                                            <div class="slds-var-p-around_xxx-small">
+                                                <span class="slds-badge changeFont">{pro.productBrand}</span>
+                                            </div>
+                                            <div class="slds-var-p-around_xxx-small changeFont" style="height: 38px; overflow: hidden; font-weight: bold;">
+                                                {pro.productShortDescription}
+                                            </div>
+                                            <div class="slds-var-p-around_xxx-small changeFont" style="margin-top: 8px;">
+                                                UOM: {pro.uom}
+                                            </div>
+                                            <div class="slds-var-p-around_xxx-small changeFont">
+                                                MRP: {pro.productMRP}
+                                            </div>
+                                            <template if:true={pro.availableQuantitySent}>
+                                                <div class="slds-var-p-around_xxx-small changeFont">
+                                                    Available Stock: {pro.availableQuantity}
+                                                </div>
+                                            </template>
+                                            <div class="slds-var-p-around_xxx-small">
+                                                <div style="display: inline;font-size: small;">
+                                                    <span class="dollars changeFont">{pro.productOfferPrice}</span>
+                                                </div>
+                                                <div class="slds-var-p-around_xxx-small">
+                                                    <button class="quantity-scheme-button" data-product-id={pro.productId} onclick={openSchemeFromProduct}>
+                                                        Schemes
+                                                    </button>
+                                                </div>
+                                                <div class="slds-var-p-around_xxx-small changeFont">
+                                                    {pro.addedQuantity} items already added to cart.
+                                                </div>
+                                            </div>
+                                            <div class="slds-align_absolute-center slds-grid_vertical-align-center">
+                                                <div class="quantity buttons_added slds-align_absolute-center">
+                                                    <input type="button" value="-" onclick={minusQuantity} class="minus" name={pro.productId}>
+                                                    <input data-id={pro.productId} type="number" step="1" min="1" max="" name="quantity" value={pro.productQuantity}
+                                                        title="Qty" onchange={valueQtyHandle} size="4" pattern="" inputmode=""
+                                                        style="width: 45px; height: 24px; padding: 0 5px; text-align: center; background-color: white; border: 1px solid #efefef;">
+                                                    <input type="button" value="+" class="plus" onclick={addtionQuantity} name={pro.productId}>
+                                                </div>
+                                                <button class="addCartButton slds-var-p-around_xxx-small" data-product-id={pro.productId}
+                                                    onclick={addToCart}>Add</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <div class="footerCart">
+                        <button class="custom-button" onclick={closeShowProductList}>Back</button>
+                        <span class="slds-text-title_bold">
+                            TQ: {orderSummary.totalQuantity} / TA: {orderSummary.totalPrice}
+                        </span>
+                    </div>
+                </template>
+
+                <!-- Focused Products List -->
+                <template if:true={ShowfocusedProdutcList}>
+                    <div class="scroll-containerCheck">
+                        <div class="slds-scrollable_y slds-scrollable_x">
+                            <div class="slds-grid slds-wrap slds-theme_default content">
+                                <template for:each={data} for:item="pro">
+                                    <div key={pro.productId}
+                                        class="slds-col slds-size_1-of-2 slds-medium-size_6-of-12 slds-large-size_1-of-5 slds-theme_default slds-var-p-around_xxx-small slds-var-m-bottom_small"
+                                        id={pro.productId} data-set="sdsds">
+                                        <div class="card" key={pro.productId}>
+                                            <div class="slds-var-p-around_xxx-small">
+                                                <span class="slds-badge changeFont">{pro.productBrand}</span>
+                                            </div>
+                                            <div class="slds-var-p-around_xxx-small changeFont" style="height: 38px; overflow: hidden; font-weight: bold;">
+                                                {pro.productShortDescription}
+                                            </div>
+                                            <div class="slds-var-p-around_xxx-small changeFont" style="margin-top: 8px;">
+                                                UOM: {pro.uom}
+                                            </div>
+                                            <div class="slds-var-p-around_xxx-small changeFont">
+                                                MRP: {pro.productMRP}
+                                            </div>
+                                            <template if:true={pro.availableQuantitySent}>
+                                                <div class="slds-var-p-around_xxx-small changeFont">
+                                                    Available Stock: {pro.availableQuantity}
+                                                </div>
+                                            </template>
+                                            <div class="slds-var-p-around_xxx-small">
+                                                <div style="display: inline;font-size: small;">
+                                                    <span class="dollars changeFont">{pro.productOfferPrice}</span>
+                                                </div>
+                                                <div class="slds-var-p-around_xxx-small">
+                                                    <button class="quantity-scheme-button" data-product-id={pro.productId} onclick={openDialogForQualitySchemeFocus}>
+                                                        Schemes
+                                                    </button>
+                                                </div>
+                                                <div class="slds-var-p-around_xxx-small changeFont">
+                                                    {pro.addedQuantity} items already added to cart.
+                                                </div>
+                                            </div>
+                                            <div class="slds-align_absolute-center slds-grid_vertical-align-center">
+                                                <div class="quantity buttons_added slds-align_absolute-center">
+                                                    <input type="button" value="-" onclick={minusQuantity} class="minus" name={pro.productId}>
+                                                    <input data-id={pro.productId} type="number" step="1" min="1" max="" name="quantity" value={pro.productQuantity}
+                                                        title="Qty" onchange={valueQtyHandle}
+                                                        style="width: 45px; height: 24px; padding: 0 5px; text-align: center; background-color: white; border: 1px solid #efefef;"
+                                                        size="4" pattern="" inputmode="">
+                                                    <input type="button" value="+" class="plus" onclick={addtionQuantity} name={pro.productId}>
+                                                </div>
+                                                <button class="addCartButton slds-var-p-around_xxx-small" data-product-id={pro.productId}
+                                                    onclick={addToCart}>Add</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <div class="footerCart">
+                        <button class="custom-button" onclick={closeShowFocusProductList}>Back</button>
+                        <span class="slds-text-title_bold">
+                            TQ: {orderSummary.totalQuantity} / TA: {orderSummary.totalPrice}
+                        </span>
+                    </div>
+                </template>
+
+                <!-- Cart Page -->
+                <template if:true={openCart}>
+                    <div class="scroll-container">
+                        <div class="slds-scrollable_y slds-scrollable_x">
+                            <div class="slds-grid slds-grid_vertical slds-grid_align-center" style="width: 100%; overflow-y: auto; background-color: white; margin-top:25px;">
+
+                                <!-- Header -->
+                                <header class="slds-grid slds-grid_align-spread slds-p-around_medium" style="width: 100%; margin-top:1px; margin-bottom: -30px;">
+                                    <h2 class="slds-text-heading_medium changeMyCartFont">My Cart</h2>
+                                </header>
+
+                                <!-- Cart Content -->
+                                <div class="slds-grid slds-wrap slds-p-around_medium" style="flex-grow: 1; justify-content: space-between; max-width: 90%; margin-left: 25px;">
+
+                                    <!-- Product Section -->
+                                    <div class="slds-col slds-size_1-of-1" style="width:108%;">
+                                        <template for:each={serializedCartItems} for:item="pro">
+                                            <lightning-card key={pro.productId} variant="Narrow">
+
+                                                <!-- Auto-Number Circle -->
+                                                <div class="number-circle">{pro.index}</div>
+
+                                                <!-- Product Details -->
+                                                <div class="slds-col slds-size_2-of-3 slds-p-left_medium changeFont">
+                                                    <div>
+                                                        <template if:true={pro.isPromotional}>
+                                                            <span class="promo-badge slds-m-right_x-small">PROMO</span>
+                                                        </template>
+                                                    </div>
+                                                    <b>{pro.productBrand}</b>
+                                                    <div>{pro.productName}</div>
+                                                    <div>UOM:{pro.prodmeasure}</div>
+                                                    <template if:true={pro.availableQuantitySent}>
+                                                        <div>Available Stock: {pro.availableQuantity}</div>
+                                                    </template>
+                                                    <div class="slds-var-p-around_xxx-small">
+                                                        <span class="dollars">{pro.productOfferPrice}</span>
+                                                    </div>
+                                                    <div class="slds-var-p-around_xxx-small">
+                                                        <span style="color: #C1206B; font-weight: bold; font-size: 14px;">{pro.selectedScheme}</span>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Quantity + Remove -->
+                                                <div class="quantity buttons_added slds-var-p-around_xxx-small slds-p-left_medium" style="display: flex; align-items: center;">
+                                                    <input type="button" value="-" onclick={minusQuantityCart} class="minus" name={pro.productIdForCart} disabled={pro.isReadOnly}>
+                                                    <input type="number" name={pro.productIdForCart} value={pro.quantity} onchange={valueQtyHandleCart}
+                                                        style="width: 100px; height: 24px; padding: 0 5px; text-align: center; background-color: white; border: 1px solid #efefef;"
+                                                        size="4" min="1" disabled={pro.isReadOnly}>
+                                                    <input type="button" value="+" onclick={additionQuantityCart} class="plus" name={pro.productIdForCart} disabled={pro.isReadOnly}>
+                                                    <lightning-button-icon
+                                                        icon-name="utility:delete"
+                                                        alternative-text="Remove Product"
+                                                        name={pro.productIdForCart}
+                                                        variant="bare"
+                                                        label="Remove"
+                                                        onclick={removeProductFromCart} style="margin-left: 20px; fill: #C1206B;"
+                                                        disabled={pro.disableDelete}>
+                                                    </lightning-button-icon>
+                                                </div>
+
+                                                <!-- Apply Quantity Scheme Button -->
+                                                <div class="slds-var-p-around_xxx-small slds-p-left_medium" style="margin-top: 4px;">
+                                                    <template if:false={pro.isPromotional}>
+                                                        <button class="slds-var-m-right_small value-scheme-button" data-product-id={pro.productId} onclick={openSchemeFromCart}>
+                                                            Apply Quantity Scheme
+                                                        </button>
+                                                    </template>
+                                                </div>
+
+                                            </lightning-card>
+                                        </template>
+                                    </div>
+
+                                    <!-- Price Details -->
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2" style="width: 108%;">
+                                        <lightning-card>
+                                            <div class="slds-grid slds-grid_align-spread">
+                                                <h2 class="slds-text-heading_medium slds-var-m-left_small changeFont">Price Details</h2>
+                                                <button class="slds-var-m-right_small value-scheme-button" onclick={openDialogForValueScheme}>
+                                                    Apply Value Scheme
+                                                </button>
+                                            </div>
+                                            <div class="slds-var-p-left_small slds-var-p-right_small slds-var-p-top_small slds-var-p-bottom_small">
+                                                <template if:true={ValueSchemeExist}>
+                                                    <div style="font-family: amaranth regular; font-size: 14px; font-weight: bold; margin-bottom: 2px; margin-top: 8px;">Value Scheme Applied:</div>
+                                                    <div style="font-family: amaranth regular; color: #C1206B; font-weight: bold; font-size: 14px;">{ValueSchemeFinalName}</div>
+                                                </template>
+                                                <hr />
+                                                <div class="slds-grid slds-grid_align-spread">
+                                                    <span class="changeFont">Total Items:</span>
+                                                    <span>{orderSummary.totalItems}</span>
+                                                </div>
+                                                <div class="slds-grid slds-grid_align-spread">
+                                                    <span class="changeFont">Total Quantity:</span>
+                                                    <span>{orderSummary.totalQuantity}</span>
+                                                </div>
+                                                <div class="slds-grid slds-grid_align-spread">
+                                                    <span class="changeFont">Price:</span>
+                                                    <span class="dollars">{orderSummary.totalOrderValue}</span>
+                                                </div>
+                                                <template if:true={discountAmountGivenCheck}>
+                                                    <div class="slds-grid slds-grid_align-spread">
+                                                        <span class="changeFont">Discount Amount:</span>
+                                                        <span class="dollars">{discountAmountGiven}</span>
+                                                    </div>
+                                                    <div class="slds-grid slds-grid_align-spread">
+                                                        <span class="changeFont">Sub Total:</span>
+                                                        <span class="dollars">{priceAfterDiscount}</span>
+                                                    </div>
+                                                </template>
+                                                <template if:true={discountPercemtageGivenCheck}>
+                                                    <div class="slds-grid slds-grid_align-spread">
+                                                        <span class="changeFont">Discount (in %):</span>
+                                                        <span>{discountPercemtageGiven}%</span>
+                                                    </div>
+                                                    <div class="slds-grid slds-grid_align-spread">
+                                                        <span class="changeFont">Discount Amount:</span>
+                                                        <span>{discountPercentageAmount}</span>
+                                                    </div>
+                                                    <div class="slds-grid slds-grid_align-spread">
+                                                        <span class="changeFont">Sub Total:</span>
+                                                        <span class="dollars">{priceAfterDiscount}</span>
+                                                    </div>
+                                                </template>
+                                                <template if:true={showtotalCGSTtax}>
+                                                    <div class="slds-grid slds-grid_align-spread">
+                                                        <span class="changeFont">CGST[{percentCGST}%]:</span>
+                                                        <span class="dollars">{orderSummary.totalCGST}</span>
+                                                    </div>
+                                                    <div class="slds-grid slds-grid_align-spread">
+                                                        <span class="changeFont">SGST[{percentSGST}%]:</span>
+                                                        <span class="dollars">{orderSummary.totalSGST}</span>
+                                                    </div>
+                                                </template>
+                                                <template if:true={showtotalIGSTtax}>
+                                                    <div class="slds-grid slds-grid_align-spread">
+                                                        <span class="changeFont">IGST[{percentIGST}%]:</span>
+                                                        <span class="dollars">{orderSummary.totalIGST}</span>
+                                                    </div>
+                                                </template>
+                                                <hr />
+                                                <div class="slds-grid slds-grid_align-spread">
+                                                    <b class="changeFont">Total Amount:</b>
+                                                    <b class="dollars">{orderSummary.totalPrice}</b>
+                                                </div>
+                                            </div>
+                                        </lightning-card>
+                                    </div>
+
+                                    <!-- Order Comment -->
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 changeFont textarea-container" style="width: 108%; margin-bottom:10px">
+                                        <lightning-textarea
+                                            label="Order comment"
+                                            value={comment}
+                                            onchange={handleCommentChange}
+                                            placeholder="Enter your comments here..."
+                                            class="custom-textarea">
+                                        </lightning-textarea>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="button-containerGeneral">
+                        <button class="buttonsGeneral" onclick={closeCart}>Back</button>
+                        <button class="buttonsGeneral place-order-btn" onclick={generateProposalAndCloseCart}>Place Order</button>
+                    </div>
+                </template>
+
+            </div>
+        </div>
+
+        <!-- Quantity Scheme Modal (Product List) -->
+        <template if:true={isQualityScheme}>
+            <section class="slds-modal slds-fade-in-open fullscreen-modal" aria-hidden="false">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <h2 class="slds-text-heading_medium">Quantity Schemes</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium modal-body-scrollable">
+                        <template if:true={hasSchemes}>
+                            <ul class="slds-has-dividers_around-space">
+                                <template for:each={schemeDetails} for:item="scheme">
+                                    <li key={scheme.schemeId}
+                                        class="slds-item slds-p-around_small slds-box slds-theme_default scheme-card">
+                                        <div class="scheme-header">
+                                            <template if:true={isCartContext}>
+                                                <input
+                                                    type="radio"
+                                                    name="schemeRadio"
+                                                    value={scheme.schemeId}
+                                                    checked={scheme.isSelected}
+                                                    disabled={scheme.isDisabled}
+                                                    onchange={handleSchemeSelection}
+                                                    class="scheme-radio" />
+                                            </template>
+                                            <div class="scheme-title">
+                                                {scheme.schemeName}
+                                            </div>
+                                        </div>
+                                        <div class="scheme-details">
+                                            <div class="scheme-row">
+                                                <span>Min Qty</span>
+                                                <span>{scheme.minQty}</span>
+                                            </div>
+                                            <template if:true={scheme.promoQty}>
+                                                <div class="scheme-row">
+                                                    <span>Free Qty</span>
+                                                    <span>{scheme.promoQty}</span>
+                                                </div>
+                                            </template>
+                                            <template if:true={scheme.discountPercentage}>
+                                                <div class="scheme-row">
+                                                    <span>Discount</span>
+                                                    <span>{scheme.discountPercentage}%</span>
+                                                </div>
+                                            </template>
+                                            <div class="scheme-type">
+                                                Type: {scheme.schemeType}
+                                            </div>
+                                        </div>
+                                    </li>
+                                </template>
+                            </ul>
+                        </template>
+                        <template if:false={hasSchemes}>
+                            <div class="slds-text-color_weak slds-align_absolute-center">
+                                No active quantity schemes available for this product
+                            </div>
+                        </template>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <div class="slds-button-group" role="group">
+                            <button style="background-color: #C1206B; color: #FFFFFF; margin-right: 5px; padding: 5px 15px; font-size: 12px; font-weight: 600; border: none; border-radius: 6px; cursor: pointer; transition: background-color 0.3s ease; width: 100px;" onclick={closeQualitySchemeDialog}>Cancel</button>
+                            <template if:true={isCartContext}>
+                                <button style="background-color: #C1206B; color: #FFFFFF; margin-right: 5px; padding: 5px 15px; font-size: 12px; font-weight: 600; border: none; border-radius: 6px; cursor: pointer; transition: background-color 0.3s ease; width: 100px;" onclick={applyScheme}>Apply</button>
+                            </template>
+                        </div>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+
+        <!-- Quantity Scheme Modal (Focused Products) -->
+        <template if:true={isQualityFocusScheme}>
+            <section class="slds-modal slds-fade-in-open fullscreen-modal" aria-hidden="false">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <h2 class="slds-text-heading_medium">Quantity Schemes</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium modal-body-scrollable">
+                        <template if:true={hasSchemes}>
+                            <ul class="slds-has-dividers_around-space">
+                                <template for:each={schemeDetails} for:item="scheme">
+                                    <li key={scheme.schemeId}
+                                        class="slds-item slds-p-around_small slds-box slds-theme_default scheme-card">
+                                        <div class="scheme-row scheme-title">
+                                            {scheme.schemeName}
+                                        </div>
+                                        <div class="scheme-row">
+                                            <span>Min Qty:</span>
+                                            <span>{scheme.minQty}</span>
+                                        </div>
+                                        <template if:true={scheme.promoQty}>
+                                            <div class="scheme-row">
+                                                <span>Free Qty:</span>
+                                                <span>{scheme.promoQty}</span>
+                                            </div>
+                                        </template>
+                                        <template if:true={scheme.discountPercentage}>
+                                            <div class="scheme-row">
+                                                <span>Discount:</span>
+                                                <span>{scheme.discountPercentage}%</span>
+                                            </div>
+                                        </template>
+                                        <div class="scheme-row scheme-type">
+                                            Type: {scheme.schemeType}
+                                        </div>
+                                    </li>
+                                </template>
+                            </ul>
+                        </template>
+                        <template if:false={hasSchemes}>
+                            <div class="slds-text-color_weak slds-align_absolute-center">
+                                No active quantity schemes available for this product
+                            </div>
+                        </template>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <button style="background-color: #C1206B; color: #FFFFFF; margin-right: 5px; padding: 5px 15px; font-size: 12px; font-weight: 600; border: none; border-radius: 6px; cursor: pointer; transition: background-color 0.3s ease; width: 100px;" onclick={closeQualitySchemeDialogFocus}>Cancel</button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+
+        <!-- Value Scheme Modal -->
+        <template if:true={isValueScheme}>
+            <section class="slds-modal slds-fade-in-open fullscreen-modal" aria-hidden="false">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <h2 class="slds-text-heading_medium">Value Schemes</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium modal-body-scrollable">
+                        <ul class="slds-has-dividers_around-space">
+                            <template for:each={valueSchemeDetails} for:item="scheme">
+                                <li key={scheme.id}
+                                    class="slds-item slds-p-around_small slds-box slds-theme_default">
+                                    <div class="slds-grid slds-align_absolute-center slds-wrap">
+                                        <div class="slds-col slds-size_6-of-12 slds-text-title_bold">
+                                            {scheme.name}
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-12 slds-text-body_small">
+                                            <template if:true={scheme.cartAmount}>
+                                                On ₹<strong>{scheme.cartAmount}</strong>
+                                            </template>
+                                            <template if:false={scheme.cartAmount}>
+                                                &nbsp;
+                                            </template>
+                                        </div>
+                                        <div class="slds-col slds-size_2-of-12 slds-text-align_left">
+                                            <template if:true={scheme.isMatchExist}>
+                                                <template if:false={scheme.isApplied}>
+                                                    <button onclick={applyButtonClicked} data-apply-id={scheme.id}
+                                                        style="background-color: #C1206B; color: #FFFFFF; padding: 5px 15px; font-size: 12px; font-weight: 600; border: none; border-radius: 6px; cursor: pointer; transition: background-color 0.3s ease; width: 70px;">
+                                                        Apply
+                                                    </button>
+                                                </template>
+                                                <template if:true={scheme.isApplied}>
+                                                    <button style="background-color: #28a745; color: #FFFFFF; padding: 5px 15px; font-size: 12px; font-weight: 600; border: none; border-radius: 6px; cursor: pointer; width: 70px;">
+                                                        Applied
+                                                    </button>
+                                                </template>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </li>
+                            </template>
+                        </ul>
+                        <template if:true={isNoSchemesMessage}>
+                            <p>{noSchemesMessage}</p>
+                        </template>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <button style="background-color: #C1206B; color: #FFFFFF; margin-right: 5px; padding: 5px 15px; font-size: 12px; font-weight: 600; border: none; border-radius: 6px; cursor: pointer; transition: background-color 0.3s ease; width: 100px;" onclick={closeValueSchemeDialog}>Cancel</button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+
+    </template>
+
+    <!-- Visit Account Detail Component -->
+    <template if:true={showVisitAccDetailComponentInCreateOrd}>
+        <c-visit-account-detail-component></c-visit-account-detail-component>
+    </template>
+
+</template>

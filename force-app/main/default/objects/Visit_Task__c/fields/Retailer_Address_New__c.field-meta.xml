@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Retailer_Address_New__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(NOT(ISBLANK( Retailer__r.BillingStreet)), Retailer__r.BillingStreet, &apos;&apos;) &amp;
+IF(NOT(ISBLANK(Retailer__r.BillingCity)),
+IF(NOT(ISBLANK(Retailer__r.BillingStreet)), &apos;, &apos; &amp; Retailer__r.BillingCity, Retailer__r.BillingCity), &apos;&apos;) &amp;
+IF(NOT(ISBLANK(Retailer__r.BillingState)),
+IF(OR(NOT(ISBLANK(Retailer__r.BillingCity)), NOT(ISBLANK(Retailer__r.BillingStreet))), &apos;, &apos; &amp; Retailer__r.BillingState, Retailer__r.BillingState), &apos;&apos;) &amp;
+IF(NOT(ISBLANK(Retailer__r.BillingPostalCode)),
+IF(OR(NOT(ISBLANK(Retailer__r.BillingCity)), NOT(ISBLANK(Retailer__r.BillingState))), &apos; &apos; &amp; Retailer__r.BillingPostalCode, Retailer__r.BillingPostalCode), &apos;&apos;) &amp;
+IF(NOT(ISBLANK(Retailer__r.BillingCountry)),
+IF(OR(NOT(ISBLANK(Retailer__r.BillingCity)), NOT(ISBLANK(Retailer__r.BillingState)), NOT(ISBLANK(Retailer__r.BillingPostalCode))), &apos;, &apos; &amp; Retailer__r.BillingCountry, Retailer__r.BillingCountry), &apos;&apos;)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Retailer Address New</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

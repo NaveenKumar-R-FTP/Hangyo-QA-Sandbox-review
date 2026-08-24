@@ -1,0 +1,20 @@
+<template>
+
+    <!-- 🔴 HOME SCREEN -->
+    <template if:true={isHome}>
+        
+       <div class="buttons-wrapper4">
+    
+    <button class="taggedbutton" data-type="case" type="button" onclick={handleClick}>
+        Create Case
+    </button>
+
+    <button class="taggedbutton" data-type="asset" type="button" onclick={handleClick}  disabled={isAssetDisabled}>
+        Mapped Asset
+    </button>
+
+</div>
+    
+  
+
+</template>

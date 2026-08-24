@@ -1,0 +1,126 @@
+/*Styling for Header*/
+.visitplanner {
+    background-color: #C1206B; 
+    color: White; 
+    text-align: center;
+    padding: 0.5rem;
+    font-family: amaranth regular;
+}
+
+/*Styling for Header Font*/
+.visitplanner h1 {
+    flex: 1;
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: bold;
+    }
+
+/*Styling for Back Icon*/
+.back-button {
+    margin-top: 4px;
+    margin-right: 1rem;
+    --slds-c-icon-color-foreground-default: #fff;
+}
+
+/*Styling for Data table spacing*/
+.lightning-datatable {
+    margin-top: 1rem;
+}
+
+/*Styling for Data table*/
+.slds-datatable th,
+.slds-datatable td {
+    padding: 0.75rem;
+}
+
+/*Styling for Data table*/
+.slds-p-around_small {
+    padding: 0.5rem;
+}
+
+/*Styling for Search Input box*/
+.slds-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+/*Styling for Search Input box*/
+.slds-col {
+    flex-basis: 100%;
+    max-width: 100%;
+}
+
+
+/*Styling for making input box mobile compatible*/
+@media (min-width: 768px) {
+    .slds-large-size_1-of-3 {
+        flex-basis: 33.3333%;
+        max-width: 33.3333%;
+    }
+}
+
+/*Styling for Background of template*/
+.backgroundcolor{
+    background-color: White;
+    max-width: 100%;
+    max-height: 100%;
+    font-family: amaranth regular;  
+}
+
+/*Styling for button container as a fixed footer*/
+.button-container {
+    position: fixed;
+    bottom: 0;          /* Positions the footer at the bottom of the screen */
+    left: 0;            /* Aligns the footer to the left of the screen */
+    width: 100%;        /* Ensures the footer spans the full width of the screen */
+    background-color: #f9f6f8;  /* Footer background color */
+    padding: 10px 20px; /* Adds padding around the buttons */
+    display: flex;      /* Makes the buttons align properly */
+    justify-content: space-between; /* Center the buttons horizontally */
+    gap: 10px;          /* Adds space between the buttons */
+    z-index: 100;       /* Ensures the footer stays on top of other content */
+}
+
+/* Style for buttons */
+.buttons {
+    padding: 3px 10px;
+    background-color: #C1206B;
+    color: White;
+    font-family: amaranth regular;
+    font-size: 1rem;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+/*Styling for Background of button footer*/
+.backgroundcolor{
+    background-color: White;
+}
+
+/*Styling for Background of search input grid*/
+.Retailer-Grid{
+    background-color: #ffffff; 
+    font-family: amaranth regular;
+    
+}
+/*styling for lightning input labels*/
+.slds-form-element__label{
+    --slds-s-label-font-size: 16px;
+    font-weight: bold;
+}
+
+/*Styling for Data table Headers*/
+.Table-Title{
+    font-size: 16px;
+    padding-left: 10px; 
+}
+
+/*Styling for Data table container*/
+.datatable-container {
+    height: 70vh;
+    border: 1px solid #d8dde6; 
+    font-family: amaranth regular;
+    font-size: 16px;
+}

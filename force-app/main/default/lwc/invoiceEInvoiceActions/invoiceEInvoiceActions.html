@@ -1,0 +1,31 @@
+<!-- Added by Hari - E-Invoice / E-Way Bill action buttons for Invoice Detail page -->
+<template>
+    <template if:true={effectiveRecordId}>
+        <div class="actions-container">
+            <!-- Added by Hari - Generate E-Invoice: show only when IRN is blank -->
+            <template if:true={showGenerateEInvoice}>
+                <button type="button" class="action-btn" onclick={handleGenerateEInvoice} disabled={isLoading}>
+                    Generate E-Invoice
+                </button>
+            </template>
+            <!-- Added by Hari - Download E-Invoice PDF: show only when IRN exists -->
+            <template if:true={showDownloadEInvoicePdf}>
+                <button type="button" class="action-btn" onclick={handleDownloadEInvoicePdf}>
+                    Download E-Invoice PDF
+                </button>
+            </template>
+            <!-- Added by Hari - Generate E-Way Bill: show when IRN exists and EWB is blank -->
+            <template if:true={showGenerateEWayBill}>
+                <button type="button" class="action-btn" onclick={handleGenerateEWayBill} disabled={isLoading}>
+                    Generate E-Way Bill
+                </button>
+            </template>
+            <!-- Added by Hari - Download E-Way Bill PDF: show when EWB exists -->
+            <template if:true={showDownloadEWayBillPdf}>
+                <button type="button" class="action-btn" onclick={handleDownloadEWayBillPdf}>
+                    Download E-Way Bill PDF
+                </button>
+            </template>
+        </div>
+    </template>
+</template>

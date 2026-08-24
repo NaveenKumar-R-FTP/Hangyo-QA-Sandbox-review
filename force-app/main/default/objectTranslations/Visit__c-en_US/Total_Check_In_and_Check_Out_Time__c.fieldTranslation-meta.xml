@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Total Check In and Check Out Time --></label>
+    <name>Total_Check_In_and_Check_Out_Time__c</name>
+</CustomFieldTranslation>

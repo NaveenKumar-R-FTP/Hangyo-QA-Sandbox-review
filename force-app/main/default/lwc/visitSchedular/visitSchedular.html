@@ -1,0 +1,89 @@
+<template>
+    <div class="backgroundcolor">
+        <div class="tab-container">            
+                    <div class="visitplanner">
+                        <!--<template if:false={showOptions}>
+                        <lightning-icon icon-name="utility:back" size="small" class="back-button"
+                           onclick={handleBackIconClick} title="Go Back"></lightning-icon>
+                        </template>-->
+                        <h1 class="tab-title">Visit Schedule</h1>
+                    </div>
+
+                    <!-- Step 1: Choose Date -->
+                    <template if:true={showOptions}>
+                        <template if:true={showDates}>
+                        <div class="input-row">
+                            <div class="input-column">
+                                <lightning-input 
+                                    class="slds-form-element__label"
+                                    label="Choose Date"
+                                    type="date"                                     
+                                    value={fromDate} 
+                                    onchange={handleFromDateChange}>
+                                </lightning-input>
+                            </div>
+                        </div>
+                        </template>
+
+                    <!-- Step 2: Choose Beat -->
+                        <template if:true={showBeatsTable}>
+                            <div class="search-filter-container">
+                                <lightning-input
+                                    class="slds-form-element__label"
+                                    label="Search Beat"
+                                    type="search"
+                                    placeholder="Search by Beat Name"
+                                    onchange={handleSearch}>
+                                </lightning-input>
+                            </div>
+
+                            <div class="table-wrapper-Beat">
+                                <lightning-datatable
+                                    key-field="Id"
+                                    data={filteredBeatData}
+                                    columns={beatColumns}
+                                    max-row-selection="1"
+                                    onrowselection={handleBeatSelection}
+                                    is-row-selectable={preventRowSelection}>
+                                </lightning-datatable>
+                            </div>
+
+                            <div class="button-container">
+                                
+                                <button class="buttons" onclick={handleBack}>Back</button>
+                                <button class="buttons" onclick={handleNext}>Next</button>
+                            </div>
+                        </template>
+                    </template>
+
+                    <!-- Step 3: Choose Retailer -->
+                    <template if:true={showRetailerTable}>
+                        <div class="search-filter-container">
+                            <lightning-input
+                                class="slds-form-element__label"
+                                label="Search Retailer"
+                                type="search"
+                                placeholder="Search by Retailer Name"
+                                onchange={handleSearchRetailer}>
+                            </lightning-input>
+                        </div>
+
+                        <div class="table-wrapper">
+                            <lightning-datatable
+                                key-field="Id"
+                                data={filteredRetailerData}
+                                columns={retailerColumns}
+                                selected-rows={selectedRetailers}
+                                onrowselection={handleRowSelection}>
+                            </lightning-datatable>
+                        </div>
+
+                        <div class="button-container">
+                            <button class="buttons" onclick={handleBackIconClick} >Back</button>&nbsp;&nbsp;
+                            <button class="buttons-Save-New" onclick={createVisitsAndNew} disabled={isButtonDisabled} >Save & New</button>&nbsp;&nbsp;
+                            <button class="buttons" onclick={createVisits} disabled={isButtonDisabled}>Save</button>
+                        </div>
+                    </template>                
+                </div>
+            </div>
+        </template>

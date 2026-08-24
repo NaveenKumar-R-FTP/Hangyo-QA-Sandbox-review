@@ -1,0 +1,285 @@
+/* Copied from assetScreen.css / caseScreen.css - LWC styles are scoped per
+   component, so the parent rules cannot reach in here.
+   The launch button now lives in the parent's grid, so .taggedbutton is not
+   needed here. */
+
+/* ---------- card layout (assetScreen) ---------- */
+
+/* The panel is a full-height column: cards take the space that is left and the
+   footer is the last item, so Back/Submit sit on the bottom edge. Done with
+   flex + sticky rather than position:fixed because a transformed ancestor
+   (common in the mobile quick-action container) silently breaks fixed. */
+:host {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.main-container {
+    flex: 1 1 auto;
+    padding-bottom: 12px;
+}
+
+.asset-card {
+    background: #fff;
+    padding: 15px;
+    margin: 12px auto;
+    border-radius: 16px;
+    width: 90%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.no-data-card {
+    text-align: center;
+    padding: 20px;
+    color: #777;
+}
+
+.no-data-text {
+    font-size: 16px;
+    font-weight: 500;
+    color: #C1206B;
+}
+
+.top-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+/* Fills the card width and keeps every card the same height, so a column of
+   cards lines up regardless of how each photo is proportioned. */
+.asset-image {
+    width: 100%;
+    max-width: 320px;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto;
+    border-radius: 10px;
+    border: 1px solid #e0e0e0;
+    background: #f7f7f7;
+    cursor: pointer;
+}
+
+.expand-hint {
+    margin-top: 4px;
+    font-size: 11px;
+    color: #777;
+}
+
+/* ---------- expanded view ---------- */
+.lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 11000;
+    cursor: zoom-out;
+}
+
+.lightbox-img {
+    max-width: 96%;
+    max-height: 88%;
+    object-fit: contain;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 12px;
+    right: 18px;
+    color: #fff;
+    font-size: 34px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.status-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.status-badge {
+    background: #4CAF50;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.last-audited {
+    font-size: 12px;
+    color: #777;
+    margin-bottom: 6px;
+}
+
+.asset-id {
+    font-size: 15px;
+    font-weight: 700;
+    color: #C1206B;
+    margin-bottom: 4px;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 12px 0;
+}
+
+.info-col {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex: 1;
+}
+
+.label {
+    font-size: 12px;
+    color: black;
+    font-weight: 700;
+}
+
+.value {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.required-star {
+    color: #C1206B;
+}
+
+/* ---------- photo capture (caseScreen) ---------- */
+.hidden-input {
+    display: none;
+}
+
+.btn-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 6px;
+}
+
+.photo-btn {
+    padding: 6px 12px;
+    background: #C1206B;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.preview-container {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.preview-box {
+    position: relative;
+}
+
+.preview-box img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+}
+
+.remove-btn {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    cursor: pointer;
+    color: black;
+    border-radius: 50%;
+    font-size: 14px;
+    font-weight: normal;
+}
+
+.audit-notice {
+    background: #fff4e5;
+    border: 1px solid #f0c48a;
+    border-radius: 8px;
+    color: #6b4c1a;
+    font-size: 13px;
+    padding: 10px 12px;
+    margin: 12px auto;
+    width: 90%;
+    text-align: center;
+}
+
+.audit-warning {
+    background: #fdecea;
+    border-color: #e6a29b;
+    color: #8a1c11;
+    font-weight: 600;
+}
+
+.line-error {
+    color: red;
+    font-size: 12px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+/* ---------- fixed footer (assetScreen) ---------- */
+.footer {
+    position: sticky;
+    bottom: 0;
+    flex: 0 0 auto;
+    height: 45px;
+    background: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.2);
+    z-index: 10000;
+}
+
+.footer-back {
+      padding: 3px 10px;
+    background-color: #C1206B;
+    color: white;
+    font-family: amaranth regular;
+    font-size: 1rem;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.audit-btn {
+    background: #C1206B;
+    color: white;
+    padding: 6px 16px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.spinner-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}

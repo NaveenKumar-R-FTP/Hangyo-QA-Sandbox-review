@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Return_Case_Requires_Asset_And_Condition</fullName>
+    <active>true</active>
+    <description>Branding return cases must name the asset being returned and its condition. Enforced here as well as in the UI so a data loader or API insert cannot skip them. Vendor is deliberately excluded - it is captured at Mahesh&apos;s approval, not at submission.</description>
+    <errorConditionFormula>AND(
+  Case_Type__r.Name = &apos;Branding &amp; Marketing Asset transfer Request&apos;,
+  OR(
+    ISBLANK(Branding_Asset__c),
+    ISPICKVAL(Condition__c, &apos;&apos;)
+  )
+)</errorConditionFormula>
+    <errorMessage>Select the Branding Asset being returned and its Condition.</errorMessage>
+</ValidationRule>

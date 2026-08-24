@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Leave_For__c</fullName>
+    <label>Leave For</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Leave_Period__c</controllingField>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>First half</fullName>
+                <default>false</default>
+                <label>First half</label>
+            </value>
+            <value>
+                <fullName>Second half</fullName>
+                <default>false</default>
+                <label>Second half</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Half Day</controllingFieldValue>
+            <valueName>First half</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Half Day</controllingFieldValue>
+            <valueName>Second half</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

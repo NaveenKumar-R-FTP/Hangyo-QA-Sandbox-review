@@ -1,0 +1,245 @@
+/* Unique font family across the components */
+.unique-font-family{
+    font-family: amaranth regular;
+}
+
+/* Style for the card header */
+.card-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 0.5rem;
+    background-color: #f4f6f9; /* Light background for header */
+    border-bottom: 1px solid #d8dde6; /* Light border for separation */
+    border-radius: 10px 10px 0 0;
+}
+/* Style for the Title */
+.title-text {
+    font-size: 1.6rem; /* Larger font size for title */
+    font-weight: bold;
+    color: #333; /* Dark text color for contrast */
+    margin: 0;
+}
+
+/*Today's date styling*/
+.Today-Date{
+    font-size: 16px;
+    font-weight: bold;
+    color: black;
+}
+/* Style for the Button */
+.custom-button {
+    font-size: 18px;
+    font-weight: bolder;
+    padding: 1rem 1rem;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    outline: none;
+}
+
+/* Focus and hover effects */
+.custom-button:hover,
+.custom-button:focus {
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+}
+
+/* Specific button styles */
+.present-button {
+    background-color: #C1206B; /* Salesforce brand color */
+    color: White;
+}
+
+.present-button:focus {
+    outline: 3px solid black;
+}
+
+.leave-button {
+    background-color: #C1206B; /* Salesforce destructive color */
+    color: white;
+}
+
+.leave-button:focus {
+    outline: 3px solid black;
+}
+
+/* Center and add spacing */
+.button-container {
+    gap: 2rem; /* Add spacing between buttons */
+}
+
+/* Style for the existing leave text */
+/*.existingLeave {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}*/
+.existingLeave {
+    display: flex;
+    flex-direction: column;   /* 🔹 force one below the other */
+    align-items: center;      /* keep them centered horizontally */
+}
+
+/* Optional spacing between lines */
+.msg-row {
+    margin-top: 0.25rem; /* or whatever you like */
+    width: 100%;
+    text-align: center;
+}
+/* Style for the existing leave text */
+.slds-text-align_center {
+    text-align: center;
+    font-size: 0.9rem
+}
+
+/* Added by hari - EOD modal: one metric per line, label : value, values aligned in straight column */
+.eod-metrics-list {
+    width: 100%;
+}
+.eod-metrics-list .eod-metric-row {
+    display: flex;
+    align-items: baseline;
+    min-height: 1.75rem;
+    margin-bottom: 0.35rem;
+    line-height: 1.5;
+}
+.eod-metrics-list .eod-metric-label {
+    flex: 0 0 auto;
+    min-width: 11rem;
+    font-weight: 600;
+    color: #3e3e3c;
+}
+.eod-metrics-list .eod-metric-sep {
+    flex: 0 0 auto;
+    margin-right: 0.25rem;
+}
+.eod-metrics-list .eod-metric-value {
+    flex: 0 1 auto;
+    min-width: 0;
+    color: #080707;
+}
+
+/* Added by hari - EOD modal: smaller card; responsive popup for mobile */
+.eod-modal-responsive .eod-modal-container {
+    width: 100%;
+    max-width: 26rem;
+    margin: 1rem auto;
+}
+.eod-modal-responsive .slds-modal__header {
+    padding: 0.5rem 1rem;
+}
+.eod-modal-responsive .slds-modal__title {
+    font-size: 1.1rem;
+}
+.eod-modal-responsive .eod-modal-content {
+    max-height: 55vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 0.5rem 1rem;
+}
+.eod-metrics-list .eod-metric-row {
+    min-height: 1.5rem;
+    margin-bottom: 0.25rem;
+}
+.eod-metrics-list .eod-metric-label {
+    min-width: 10rem;
+    font-size: 0.9rem;
+}
+.eod-metrics-list .eod-metric-value {
+    font-size: 0.9rem;
+}
+.eod-modal-responsive .slds-modal__footer {
+    padding: 0.5rem 1rem;
+}
+/* Added by hari - tablet / large phone: EOD modal mobile-friendly */
+@media (max-width: 768px) {
+    .eod-modal-responsive .eod-modal-container {
+        width: 94%;
+        max-width: 94%;
+        margin: 0.5rem auto;
+        max-height: 88vh;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        border-radius: 8px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    }
+    .eod-modal-responsive .slds-modal__header {
+        padding: 0.75rem 1rem;
+        flex-shrink: 0;
+    }
+    .eod-modal-responsive .slds-modal__title {
+        font-size: 1.05rem;
+    }
+    .eod-modal-responsive .eod-modal-content {
+        max-height: 65vh;
+        min-height: 0;
+        overflow-y: auto;
+        overflow-x: hidden;
+        flex: 1 1 auto;
+        padding: 0.75rem 1rem;
+        -webkit-overflow-scrolling: touch;
+    }
+    .eod-modal-responsive .eod-metrics-list .eod-metric-row {
+        min-height: 2rem;
+        margin-bottom: 0.35rem;
+    }
+    .eod-modal-responsive .eod-metrics-list .eod-metric-label {
+        min-width: 9.5rem;
+        font-size: 0.875rem;
+    }
+    .eod-modal-responsive .eod-metrics-list .eod-metric-value {
+        font-size: 0.875rem;
+    }
+    .eod-modal-responsive .slds-modal__footer {
+        padding: 0.75rem 1rem;
+        flex-shrink: 0;
+        gap: 0.5rem;
+    }
+    .eod-modal-responsive .slds-modal__footer lightning-button {
+        min-height: 2.5rem;
+    }
+}
+/* Added by hari - small phone: EOD modal with side space, safe area, touch-friendly */
+@media (max-width: 480px) {
+    .eod-modal-responsive .eod-modal-container {
+        width: calc(100% - 2rem);
+        max-width: calc(100% - 2rem);
+        margin: 0.75rem 1rem;
+        border-radius: 8px;
+        max-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 1.5rem);
+        min-height: 0;
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+    .eod-modal-responsive .slds-modal__header {
+        padding: 0.75rem 1rem;
+        padding-top: max(0.75rem, env(safe-area-inset-top));
+    }
+    .eod-modal-responsive .slds-modal__title {
+        font-size: 1rem;
+    }
+    .eod-modal-responsive .eod-modal-content {
+        max-height: 70vh;
+        min-height: 0;
+        padding: 0.6rem 1rem;
+        -webkit-overflow-scrolling: touch;
+    }
+    .eod-modal-responsive .eod-metrics-list .eod-metric-label {
+        min-width: 9rem;
+        font-size: 0.85rem;
+    }
+    .eod-modal-responsive .eod-metrics-list .eod-metric-value {
+        font-size: 0.85rem;
+    }
+    .eod-modal-responsive .slds-modal__footer {
+        padding: 0.75rem 1rem;
+        padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+    }
+    .eod-modal-responsive .slds-modal__footer lightning-button {
+        min-height: 2.75rem;
+    }
+}

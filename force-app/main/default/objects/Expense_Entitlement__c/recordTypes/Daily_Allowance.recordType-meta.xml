@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Daily_Allowance</fullName>
+    <active>true</active>
+    <label>Daily Allowance/Travel Allowance</label>
+    <picklistValues>
+        <picklist>Expense_Category__c</picklist>
+        <values>
+            <fullName>Daily Allowance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Travel Allowance</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Role__c</picklist>
+        <values>
+            <fullName>ASM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RSM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SO</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SSO</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ZSM</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Transport_Allowance__c</picklist>
+        <values>
+            <fullName>Bike</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bus</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Car</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Flight</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Train</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

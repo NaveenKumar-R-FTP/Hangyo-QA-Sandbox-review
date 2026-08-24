@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Territory --></label>
+    <name>Territory__c</name>
+    <picklistValues>
+        <masterLabel>Andaman and Nicobar Islands</masterLabel>
+        <translation><!-- Andaman and Nicobar Islands --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Andhra Pradesh</masterLabel>
+        <translation><!-- Andhra Pradesh --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Arunachal Pradesh</masterLabel>
+        <translation><!-- Arunachal Pradesh --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Assam</masterLabel>
+        <translation><!-- Assam --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Bihar</masterLabel>
+        <translation><!-- Bihar --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Chandigarh</masterLabel>
+        <translation><!-- Chandigarh --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Chhattisgarh</masterLabel>
+        <translation><!-- Chhattisgarh --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Dadra and Nagar</masterLabel>
+        <translation><!-- Dadra and Nagar --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Daman</masterLabel>
+        <translation><!-- Daman --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Delhi</masterLabel>
+        <translation><!-- Delhi --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Goa</masterLabel>
+        <translation><!-- Goa --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Gujarat</masterLabel>
+        <translation><!-- Gujarat --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Haryana</masterLabel>
+        <translation><!-- Haryana --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Himachal Pradesh</masterLabel>
+        <translation><!-- Himachal Pradesh --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Jammu and Kashmir</masterLabel>
+        <translation><!-- Jammu and Kashmir --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Jharkhand</masterLabel>
+        <translation><!-- Jharkhand --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Karnataka</masterLabel>
+        <translation><!-- Karnataka --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Kerala</masterLabel>
+        <translation><!-- Kerala --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Ladakh</masterLabel>
+        <translation><!-- Ladakh --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Lakshadweep</masterLabel>
+        <translation><!-- Lakshadweep --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Madhya Pradesh</masterLabel>
+        <translation><!-- Madhya Pradesh --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Maharashtra</masterLabel>
+        <translation><!-- Maharashtra --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Manipur</masterLabel>
+        <translation><!-- Manipur --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Meghalaya</masterLabel>
+        <translation><!-- Meghalaya --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Mizoram</masterLabel>
+        <translation><!-- Mizoram --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Nagaland</masterLabel>
+        <translation><!-- Nagaland --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Odisha</masterLabel>
+        <translation><!-- Odisha --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Puducherry</masterLabel>
+        <translation><!-- Puducherry --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Punjab</masterLabel>
+        <translation><!-- Punjab --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Rajasthan</masterLabel>
+        <translation><!-- Rajasthan --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Sikkim</masterLabel>
+        <translation><!-- Sikkim --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Tamil Nadu</masterLabel>
+        <translation><!-- Tamil Nadu --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Telangana</masterLabel>
+        <translation><!-- Telangana --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Tripura</masterLabel>
+        <translation><!-- Tripura --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Uttar Pradesh</masterLabel>
+        <translation><!-- Uttar Pradesh --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

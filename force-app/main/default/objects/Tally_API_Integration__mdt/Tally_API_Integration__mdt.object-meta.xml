@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Tally API Integration cusom metadata type</description>
+    <label>Tally API Integration</label>
+    <pluralLabel>Tally API Integrations</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

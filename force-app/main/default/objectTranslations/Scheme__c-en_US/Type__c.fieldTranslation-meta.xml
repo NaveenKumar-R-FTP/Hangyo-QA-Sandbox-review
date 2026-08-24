@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Type --></label>
+    <name>Type__c</name>
+    <picklistValues>
+        <masterLabel>Flat Discount</masterLabel>
+        <translation><!-- Flat Discount --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Free Product</masterLabel>
+        <translation><!-- Free Product --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Other Product – Discounted</masterLabel>
+        <translation><!-- Other Product – Discounted --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Other Product – Free</masterLabel>
+        <translation><!-- Other Product – Free --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Purchase Quantity Discount</masterLabel>
+        <translation><!-- Purchase Quantity Discount --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Same Product – Discounted</masterLabel>
+        <translation><!-- Same Product – Discounted --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Same Product – Free</masterLabel>
+        <translation><!-- Same Product – Free --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

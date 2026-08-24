@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Sales Performance</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Sales Performances</value>
+    </caseValues>
+    <layouts>
+        <layout>Sales Target - Month Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Sales Target - Year Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <recordTypes>
+        <label><!-- Sales Performance - Month --></label>
+        <name>Sales_Target_Month</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- Sales Performance - Year --></label>
+        <name>Sales_Target_Year</name>
+    </recordTypes>
+    <startsWith>Consonant</startsWith>
+    <webLinks>
+        <label><!-- Create_Sales_Performance_Year --></label>
+        <name>Create_Sales_Performance_Year</name>
+    </webLinks>
+</CustomObjectTranslation>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Asset Transaction</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Asset Transaction</value>
+    </caseValues>
+    <layouts>
+        <layout>Asset Issue Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Issue --></label>
+            <section>Issue</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Asset audit Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <recordTypes>
+        <label><!-- Asset Audit --></label>
+        <name>Asset_Audit</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- Asset Issue --></label>
+        <name>Asset_Issue</name>
+    </recordTypes>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

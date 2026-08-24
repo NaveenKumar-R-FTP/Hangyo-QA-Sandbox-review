@@ -1,0 +1,122 @@
+<template>
+    <lightning-card>
+         <div class="card-header">
+                <span class="card-title">Outlet Summary</span>
+                <span class="toggle-label">VIEW</span>
+                <select class="toggle-select"
+                        value={filterType}
+                        onchange={handleFilterChange}>
+                    <option value="FTD">FTD</option>
+                    <option value="MTD">MTD</option>
+                </select>
+                <button class="details-btn" onclick={handleSeeDetails}>See Details</button>
+            </div>
+        
+
+        <!-- TOP BAR -->
+          <div class="header-row slds-grid slds-grid_align-spread slds-p-horizontal_small slds-p-top_small">
+
+            <!-- Left: Dropdown for FTD / MTD -->
+            <div class="toggle-container">
+                <!-- Removed duplicate dropdown -->
+            </div>
+          
+        </div>
+
+        <div class="content-grid slds-grid slds-wrap slds-p-around_small">
+
+            <!-- LEFT KPI LIST -->
+            <div class="left-kpis slds-col slds-size_1-of-2">
+
+                <div class="kpi-block">
+                    <div class="kpi-name">TC</div>
+                    <div class="kpi-row">
+                        <div class="kpi-bar bar-otc" style={otcStyle}></div>
+                        <div class="kpi-value">{data.totalTC}</div>
+                    </div>
+                </div>
+
+                <div class="kpi-block">
+                    <div class="kpi-name">PC</div>
+                    <div class="kpi-row">
+                        <div class="kpi-bar bar-upc" style={upcStyle}></div>
+                        <div class="kpi-value">{data.upc}</div>
+                    </div>
+                </div>
+
+                <div class="kpi-block">
+                    <div class="kpi-name">Zero Order</div>
+                    <div class="kpi-row">
+                        <div class="kpi-bar bar-zero" style={zeroStyle}></div>
+                        <div class="kpi-value">{data.zeroOrderCount}</div>
+                    </div>
+                </div>
+
+                <div class="kpi-block">
+                    <div class="kpi-name">Not Visited</div>
+                    <div class="kpi-row">
+                        <div class="kpi-bar bar-notvisited" style={notVisitedStyle}></div>
+                        <div class="kpi-value">{data.utcNoOrder}</div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- RIGHT CHARTS -->
+            <div class="right-charts slds-col slds-size_1-of-2">
+
+                <div class="prod-card">
+                    <div class="prod-title">Productivity</div>
+                    <div class="prod-sub">PC: {data.upc} &nbsp; TC: {data.totalTC}</div>
+
+                    <div class="donut-large">
+                        <svg viewBox="0 0 36 36">
+                            <path class="donut-bg"
+                                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+
+                            <path class="donut-ring-green"
+                                stroke-dasharray={productivityDash}
+                                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                        </svg>
+
+                        <div class="donut-center-text">{productivityPct}%</div>
+                    </div>
+                </div>
+
+                <!-- Small Donuts -->
+                <div class="small-charts slds-grid slds-grid_align-spread">
+
+                    <div class="small-chart-card">
+                        <div class="donut-small">
+                            <svg viewBox="0 0 36 36">
+                                <path class="donut-bg"
+                                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                <path class="donut-ring-purple"
+                                    stroke-dasharray={coverageDash}
+                                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            </svg>
+                            <div class="donut-small-text">{coveragePct}%</div>
+                        </div>
+                        <div class="small-label">Covered</div>
+                    </div>
+
+                    <div class="small-chart-card">
+                        <div class="donut-small">
+                            <svg viewBox="0 0 36 36">
+                                <path class="donut-bg"
+                                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                <path class="donut-ring-pink"
+                                    stroke-dasharray={orderedDash}
+                                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            </svg>
+                            <div class="donut-small-text">{orderedPct}%</div>
+                        </div>
+                        <div class="small-label">Ordered-physical</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </lightning-card>
+</template>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Batch_Enabled__c</fullName>
+    <defaultValue>true</defaultValue>
+    <description>Kill-switch per object</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Batch Enabled</label>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Validate_Account_Region_State_Match</fullName>
+    <active>true</active>
+    <description>If an account and region is selected, the system will validate if the account’s primary state and the selected region is the same.</description>
+    <errorConditionFormula>AND(
+    NOT(ISBLANK(Account__c)),
+    NOT(ISBLANK(Region__c)),
+    Account__r.Primary_State__c &lt;&gt; Region__r.Name 
+)</errorConditionFormula>
+    <errorDisplayField>Region__c</errorDisplayField>
+    <errorMessage>Selected Region does not match the Account’s Primary State. Please choose a valid Region.</errorMessage>
+</ValidationRule>

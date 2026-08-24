@@ -1,0 +1,246 @@
+<template>
+    <div class="dms-root">
+
+        <template if:true={isLoading}>
+            <div class="dms-loader">
+                <div class="dms-spinner"></div>
+                <p>Loading dashboard…</p>
+            </div>
+        </template>
+
+        <template if:true={hasError}>
+            <div class="dms-error">
+                <span class="error-icon">⚠</span>
+                <p>{errorMessage}</p>
+            </div>
+        </template>
+
+        <template if:true={isReady}>
+
+            <!-- 1. TOPBAR -->
+            <header class="dms-topbar">
+                <div class="topbar-center">
+                    <div class="topbar-dist-name">{distributorName}</div>
+                    <div class="topbar-location-date">
+                        <span class="topbar-location">{distributorLocation}</span>
+                        <span class="topbar-sep">·</span>
+                        <span class="topbar-date">{todayFormatted}</span>
+                    </div>
+                    <template if:true={isSuperStockist}>
+                        <div class="ss-badge">⭐ Super Stockist</div>
+                    </template>
+                    <template if:false={isSuperStockist}>
+                        <div class="dist-badge">🏪 Distributor</div>
+                    </template>
+                </div>
+                <div class="topbar-right">
+                    <div class="topbar-company">Hangyo Ice Creams</div>
+                    <div class="topbar-sub">Distributor Management System</div>
+                </div>
+            </header>
+
+            <!-- 2. ANNOUNCEMENT TICKER -->
+            <template if:true={hasAnnouncements}>
+                <div class="ticker-gap">
+                    <div class="dms-ticker-wrap">
+                        <span class="tk-lbl">📢 Announcements</span>
+                        <div class="tk-track">
+                            <div class="tk-content">
+                                <template for:each={announcementMessages} for:item="msg">
+                                    <span key={msg} class="tk-item">{msg}</span>
+                                </template>
+                                <template for:each={announcementMessages} for:item="msg">
+                                    <span key={msg} class="tk-item">{msg}</span>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+            <!-- DATE WINDOW BANNER -->
+            <div class="date-window-bar">
+                <div class="date-window-item current">
+                    <span class="dw-dot current-dot"></span>
+                    <span class="dw-label">Current Period</span>
+                    <span class="dw-value">{currentWindow}</span>
+                </div>
+                <div class="dw-divider">vs</div>
+                <div class="date-window-item prev">
+                    <span class="dw-dot prev-dot"></span>
+                    <span class="dw-label">Previous Period</span>
+                    <span class="dw-value">{prevWindow}</span>
+                </div>
+            </div>
+
+            <!-- 3. KPI CARDS -->
+            <section class="dms-kpi-grid">
+
+                <div class="kpi-card kpi-sales">
+                    <div class="kpi-icon">📈</div>
+                    <div class="kpi-body">
+                        <div class="kpi-label">Total Sales</div>
+                        <div class="kpi-value">{salesCurrentFormatted}</div>
+                        <div class="kpi-prev-row">
+                            <div class="kpi-prev-box">
+                                <span class="kpi-prev-label">Prev 30d</span>
+                                <span class="kpi-prev-val">{salesPrevFormatted}</span>
+                            </div>
+                            <span class={salesDeltaClass}>{salesDelta}</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card-bg">📈</div>
+                </div>
+
+                <div class="kpi-card kpi-purchase">
+                    <div class="kpi-icon">🛒</div>
+                    <div class="kpi-body">
+                        <div class="kpi-label">Total Purchase</div>
+                        <div class="kpi-value">{purchaseCurrentFormatted}</div>
+                        <div class="kpi-prev-row">
+                            <div class="kpi-prev-box">
+                                <span class="kpi-prev-label">Prev 30d</span>
+                                <span class="kpi-prev-val">{purchasePrevFormatted}</span>
+                            </div>
+                            <span class={purchaseDeltaClass}>{purchaseDelta}</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card-bg">🛒</div>
+                </div>
+
+                <div class="kpi-card kpi-returns">
+                    <div class="kpi-icon">↩️</div>
+                    <div class="kpi-body">
+                        <div class="kpi-label">Returns</div>
+                        <div class="kpi-value">{returnsCurrentFormatted}</div>
+                        <div class="kpi-prev-row">
+                            <div class="kpi-prev-box">
+                                <span class="kpi-prev-label">Prev 30d</span>
+                                <span class="kpi-prev-val">{returnsPrevFormatted}</span>
+                            </div>
+                            <span class={returnsDeltaClass}>{returnsDelta}</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card-bg">↩️</div>
+                </div>
+
+                <div class="kpi-card kpi-retailers">
+                    <div class="kpi-icon">🏪</div>
+                    <div class="kpi-body">
+                        <div class="kpi-label">{activeRetailersLabel}</div>
+                        <div class="kpi-value">{activeRetailersCurrent}</div>
+                        <div class="kpi-prev-row">
+                            <div class="kpi-prev-box">
+                                <span class="kpi-prev-label">Prev 30d</span>
+                                <span class="kpi-prev-val">{activeRetailersPrev}</span>
+                            </div>
+                            <span class="kpi-delta-neutral">—</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card-bg">🏪</div>
+                </div>
+
+            </section>
+
+            <!-- 4 & 5. CHARTS -->
+            <section class="dms-charts-row">
+
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div class="chart-dot"></div>
+                        <span class="chart-title">Weekly Sales Trend</span>
+                        <span class="chart-sub">Current 30d · Secondary vs Primary</span>
+                    </div>
+                    <div class="chart-body">
+                        <canvas lwc:ref="trendCanvas"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div class="chart-dot"></div>
+                        <span class="chart-title">Sales by Brand</span>
+                        <span class="chart-sub">Current 30d</span>
+                    </div>
+                    <div class="chart-body">
+                        <canvas lwc:ref="categoryCanvas"></canvas>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- 6 & 7. TABLES -->
+            <section class="dms-tables-row">
+
+                <div class="table-card">
+                    <div class="table-header">
+                        <div class="chart-dot"></div>
+                        <span class="table-title">{topRetailersLabel}</span>
+                        <span class="table-sub">CURRENT 30D · SECONDARY SALES</span>
+                    </div>
+                    <table class="dms-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>{topRetailersColLabel}</th>
+                                <th>Current 30d</th>
+                                <th>Prev 30d</th>
+                                <th>Δ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={topRetailersRows} for:item="row">
+                                <tr key={row.retailerId}>
+                                    <td><span class="rank-cell">{row.rank}</span></td>
+                                    <td class="name-cell">{row.retailerName}</td>
+                                    <td class="amt-cell">{row.currentFmt}</td>
+                                    <td class="amt-cell prev-amt">{row.prevFmt}</td>
+                                    <td><span class={row.deltaClass}>{row.delta}</span></td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="table-card">
+                    <div class="table-header">
+                        <div class="chart-dot"></div>
+                        <span class="table-title">Top 5 Products</span>
+                        <span class="table-sub">Current 30d · Revenue</span>
+                    </div>
+                    <table class="dms-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Product</th>
+                                <th>Current 30d</th>
+                                <th>Prev 30d</th>
+                                <th>Δ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={topProductsRows} for:item="row">
+                                <tr key={row.productName}>
+                                    <td><span class="rank-cell">{row.rank}</span></td>
+                                    <td class="name-cell">{row.productName}</td>
+                                    <td class="amt-cell">{row.currentFmt}</td>
+                                    <td class="amt-cell prev-amt">{row.prevFmt}</td>
+                                    <td><span class={row.deltaClass}>{row.delta}</span></td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+
+            </section>
+
+            <!-- 8. FOOTER -->
+            <footer class="dms-footer">
+                <span>Powered by Hangyo Ice Creams Pvt. Ltd.</span>
+                <a href="https://www.hangyo.com" target="_blank" rel="noopener" class="footer-link">www.hangyo.com</a>
+                <span class="footer-window">📅 Data window: current 30d</span>
+            </footer>
+
+        </template>
+    </div>
+</template>

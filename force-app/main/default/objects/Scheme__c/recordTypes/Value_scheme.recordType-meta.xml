@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Value_scheme</fullName>
+    <active>true</active>
+    <label>Value scheme</label>
+    <picklistValues>
+        <picklist>Discount_Mode__c</picklist>
+        <values>
+            <fullName>Cash Discount</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Percentage</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>For_Type__c</picklist>
+        <values>
+            <fullName>Product Brand</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Products</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Type__c</picklist>
+        <values>
+            <fullName>Flat Discount</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Free Product</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other Product %E2%80%93 Discounted</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other Product %E2%80%93 Free</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Same Product %E2%80%93 Discounted</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Same Product %E2%80%93 Free</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

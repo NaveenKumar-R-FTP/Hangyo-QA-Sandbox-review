@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Role xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseAccessLevel>None</caseAccessLevel>
+    <contactAccessLevel>Edit</contactAccessLevel>
+    <description>azha Partner Person Account</description>
+    <mayForecastManagerShare>false</mayForecastManagerShare>
+    <name>azha Partner Person Account</name>
+    <opportunityAccessLevel>None</opportunityAccessLevel>
+    <parentRole>PSR_8_SSO_1_RSM_ZSM_VP_PUN</parentRole>
+</Role>

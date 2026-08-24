@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Type --></label>
+    <name>Type__c</name>
+    <picklistValues>
+        <masterLabel>Audit</masterLabel>
+        <translation><!-- Audit --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Compressor Issues</masterLabel>
+        <translation><!-- Compressor Issues --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Control Panel Malfunction</masterLabel>
+        <translation><!-- Control Panel Malfunction --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Defective Ice Maker</masterLabel>
+        <translation><!-- Defective Ice Maker --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Defrosting Issues</masterLabel>
+        <translation><!-- Defrosting Issues --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Door Problems</masterLabel>
+        <translation><!-- Door Problems --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Fan Issues</masterLabel>
+        <translation><!-- Fan Issues --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Frost or Ice Build-Up</masterLabel>
+        <translation><!-- Frost or Ice Build-Up --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Leaks or Odors</masterLabel>
+        <translation><!-- Leaks or Odors --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Noisy Operation</masterLabel>
+        <translation><!-- Noisy Operation --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Overheating</masterLabel>
+        <translation><!-- Overheating --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Physical Damage</masterLabel>
+        <translation><!-- Physical Damage --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Power Supply or Electrical Issues</masterLabel>
+        <translation><!-- Power Supply or Electrical Issues --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Refrigerant Leaks</masterLabel>
+        <translation><!-- Refrigerant Leaks --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Temperature Control or Thermostat Problems</masterLabel>
+        <translation><!-- Temperature Control or Thermostat Problems --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Temperature Problems</masterLabel>
+        <translation><!-- Temperature Problems --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Water Leaks</masterLabel>
+        <translation><!-- Water Leaks --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

@@ -1,0 +1,86 @@
+.maintable {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.maintable td, .maintable th {
+    border: 1px solid black;
+    padding: 5px;
+}
+
+.alignCenter {
+    text-align: center;
+}
+
+.width12half {
+    width: 12.5%;
+}
+
+::deep(.cell-red) {
+    background-color: #f8d7da;
+    color: #721c24;
+    font-weight: bold;
+}
+
+.lookup-container {
+    position: relative;
+}
+
+.search-input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #d8dde6;
+    border-radius: 4px;
+}
+
+.dropdown {
+    position: absolute;
+    background: white;
+    border: 1px solid #d8dde6;
+    width: 100%;
+    z-index: 1000;
+    max-height: 200px;
+    overflow-y: auto;
+    border-radius: 4px;
+}
+
+.dropdown-item {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.dropdown-item:hover {
+    background: #f3f3f3;
+}
+
+.no-results {
+    color: #888;
+}
+
+.selected-pill {
+    margin-top: 8px;
+    background: #eef6ff;
+    padding: 6px 10px;
+    display: inline-flex;
+    align-items: center;
+    border-radius: 15px;
+}
+
+.stock-info {
+    float: right;
+    color: #888;
+}
+
+.value-scheme-button {
+        background-color: #C1206B;
+        color: White;
+        font-family: arial;
+       
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        padding: 3px 5px;
+            font-size: 13px;    /* Adjust font size */
+    margin-left: 0px;
+    }

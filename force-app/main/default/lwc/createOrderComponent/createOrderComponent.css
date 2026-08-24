@@ -1,0 +1,484 @@
+.fixedCard{
+    
+    z-index: 101;
+    position: sticky;
+}
+
+@media screen and (min-width: 1024px){
+    .fixedCard{
+    
+      z-index: 110;
+      position: sticky;
+  }
+}
+
+/* Horizontally scrollable brand pill tab bar */
+.custom-tab-scroll-wrapper {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+    gap: 6px;
+    padding: 8px 12px;
+    margin-top: -10px;
+    background: #f3f3f3;
+    scrollbar-width: none;
+}
+.custom-tab-scroll-wrapper::-webkit-scrollbar {
+    display: none;
+}
+.custom-tab-scroll-wrapper button {
+    flex-shrink: 0;
+    white-space: nowrap;
+    padding: 5px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    border: 1.5px solid #C1206B;
+    border-radius: 20px;
+    background: #fff;
+    color: #C1206B;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+.custom-tab-scroll-wrapper button.active-brand-tab {
+    background: #C1206B;
+    color: #fff;
+}
+
+.footerCart {
+    position: fixed; /* Keep footer pinned */
+    bottom: 0;
+    left: 0;  /* Stretch across full width */
+    right: 0;
+    width: 100%;
+    background-color: #f9f6f8;  /* Footer background color */
+    padding: 10px 20px; /* Spacing inside footer */
+    display: flex;
+    justify-content: space-between; /* Push left + right items apart */
+    align-items: center; /* Vertical centering */
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow */
+    z-index: 1001; /* Keep on top */
+}
+
+.custom-button {
+    background: #C1206B; /* Button background color */
+    color: white; /* Text color */
+    border: none;
+    padding: 8px 16px;
+    border-radius: 7px; /* Rounded corners */
+    font-size: 13px;
+    cursor:pointer;
+    font-weight:300;
+    font-family: arial;
+}
+
+
+    .fixed{
+        margin: 0;
+            padding: 0;
+            width: 100%;
+            top: 0;
+            z-index: 110;
+            position: -webkit-sticky;
+            position: sticky;
+            background-color: #f3f3f3;
+        }
+
+    .filter-icon .slds-icon {
+        fill: white;
+       
+    }
+
+    .dollars:before { content:'Rs.'; }
+
+    .quantity-scheme-button {
+        background-color: #C1206B;
+        color: White;
+        font-family: amaranth regular;
+       
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        padding-left: 10px;
+        padding-right: 10px;
+            font-size: 14px;    /* Adjust font size */
+    margin-left: 0px;
+    }
+    .value-scheme-button {
+        background-color: #C1206B;
+        color: White;
+        font-family: amaranth regular;
+       
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        padding: 5px 15px;
+            font-size: 14px;    /* Adjust font size */
+    margin-left: 0px;
+    }
+
+    .quantity {
+        display: inline-block; 
+      }
+      
+
+      .quantity .input-text.qty {
+        width: 45px;
+        height: 24px;
+        padding: 0 5px;
+        text-align: center;
+        background-color: white;
+        border: 1px solid #efefef;
+       }
+       
+       .quantity.buttons_added {
+        text-align: center;
+        position: relative;
+        white-space: nowrap;
+        vertical-align: 0px; }
+       
+       .quantity.buttons_added input {
+        display: inline-block;
+        margin: 0;
+        vertical-align: top;
+        box-shadow: none;
+       }
+       
+       .quantity.buttons_added .minus,
+       .quantity.buttons_added .plus {
+        padding: 0px 10px 8px;
+        font-size: 18px;
+        color: rgb(0, 0, 0);
+        height: 24px;
+        background-color: #ffffff;
+        border: 1px solid #efefef;
+        cursor:pointer;}
+       
+       .quantity.buttons_added .minus {
+        border-right: 0; }
+       
+       .quantity.buttons_added .plus {
+        border-left: 0; }
+       
+       .quantity.buttons_added .minus:hover,
+       .quantity.buttons_added .plus:hover {
+        background: #eeeeee; }
+       
+       .quantity input::-webkit-outer-spin-button,
+       .quantity input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        margin: 0; }
+        
+        .quantity.buttons_added .minus:focus,
+       .quantity.buttons_added .plus:focus {
+        outline: none;
+       }
+      
+       .quantityCart {
+      }
+      
+       
+       .quantityCart .input-text.qty {
+        width: 55px;
+        height: 39px;
+        padding: 0 5px;
+        text-align: center;
+        background-color: white;
+        border: 1px solid #efefef;
+       }
+       
+       .quantityCart.buttons_added {
+        text-align: left;
+        position: relative;
+        white-space: nowrap;
+        vertical-align: top; }
+       
+       .quantityCart.buttons_added input {
+        display: inline-block;
+        margin: 0;
+        vertical-align: top;
+        box-shadow: none;
+       }
+       
+       .quantityCart.buttons_added .minus,
+       .quantityCart.buttons_added .plus {
+        padding: 0px 10px 8px;
+        font-size: 30px;
+        color: rgb(0, 0, 0);
+        width:55px;
+        height: 40px;
+        background-color: #ffffff;
+        border: 1px solid #efefef;
+        cursor:pointer;}
+       
+       .quantityCart.buttons_added .minus {
+        border-right: 0; }
+       
+       .quantityCart.buttons_added .plus {
+        border-left: 0; }
+       
+       .quantityCart.buttons_added .minus:hover,
+       .quantityCart.buttons_added .plus:hover {
+        background: #eeeeee; }
+       
+       .quantityCart input::-webkit-outer-spin-button,
+       .quantity input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        margin: 0; }
+        
+        .quantityCart.buttons_added .minus:focus,
+       .quantityCart.buttons_added .plus:focus {
+        outline: none;
+       }
+       header.slds-card__header.slds-grid{
+        padding-top:0px;
+      } 
+
+      .card {
+        max-width: 234px;
+        margin: auto;
+        font-family: arial;
+      }
+      
+      .card:hover {
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+      }
+
+      .addCartButton{
+        border: none;
+        outline: 0;
+       background-color: #C1206B;
+       color: White;
+       font-family: amaranth regular;
+        text-align: center;
+        cursor: pointer;
+        font-size: 14px;
+        margin-right: 16px;
+      
+      }
+
+         
+  .card button:hover {
+    opacity: 0.7;
+  }
+
+    /* Add some top padding to the page content to prevent sudden quick movement (as the header gets a new position at the top of the page (position:fixed and top:0) */
+    .sticky + .content {
+        padding-top: 102px;
+      }
+
+      .slds-table {
+        text-align: left;
+    }
+
+    
+/* Add scrollbar to the modal content */
+.modal-body-scrollable {
+    max-height: 20vh; /* Limits the height to 70% of the viewport */
+    overflow-y: auto; /* Enables vertical scrolling */
+    padding-right: 1rem; /* Adds spacing to avoid scrollbar overlap */
+}
+
+/* Optional: Style scrollbar for a better look */
+.modal-body-scrollable::-webkit-scrollbar {
+    width: 8px; /* Width of the scrollbar */
+}
+
+.modal-body-scrollable::-webkit-scrollbar-thumb {
+    background: #ccc; /* Color of the scrollbar thumb */
+    border-radius: 4px; /* Rounded edges for the thumb */
+}
+
+.modal-body-scrollable::-webkit-scrollbar-thumb:hover {
+    background: #888; /* Darker color when hovering */
+}
+
+.modal-body-scrollable::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Track color */
+}
+    
+.slds-modal__header h2 {
+    margin-bottom: 0;
+}
+
+.slds-list_dotted {
+    list-style-type: disc;
+    padding-left: 20px;
+}
+
+.slds-modal {
+    width: 100%;
+    max-width: 500px;
+}
+
+.percentage:before { content:'%'; }
+
+
+    
+    /* Modal footer */
+    .slds-modal__footer {
+        display: flex;
+        flex-direction: column; /* Stack buttons vertically on mobile */
+        align-items: stretch; /* Stretch buttons to full width */
+    }
+    
+    /* Modal buttons */
+    .slds-modal__footer lightning-button {
+        margin: 0.5rem 0; /* Space between buttons */
+        width: 100%; /* Full width buttons */
+    }
+
+        /* Adjust padding for modal and body content */
+        .slds-modal__header,
+        .slds-modal__content,
+        .slds-modal__footer {
+            padding: 1rem; /* Add some padding around content */
+        }
+
+        .button-containerGeneral {
+            position: fixed; /* Change from sticky to fixed */
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #f9f6f8;  /* Footer background color */
+            padding: 10px 20px; /* Adds padding around the buttons */
+            text-align: left; /* Aligns button to the left */
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow for better visibility */
+            justify-content: space-between; /* Pushes one button to the left, one to the right */
+            display: flex;
+
+        }
+ 
+        .place-order-btn {
+            margin-left: auto; /* Ensures it moves to the right */
+        }
+        
+        .buttonsGeneral {
+            padding: 3px 10px;
+            background-color: #C1206B;
+            color: white;
+            font-family: amaranth regular;
+            font-size: 1rem;
+            border: none;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+    
+           
+        }
+        .scroll-container {
+            height: 90vh; /* Adjust height as needed */
+            max-width: 100%;
+        }
+   
+        .slds-scrollable_y {
+            overflow-y: auto;
+        }
+
+        .changeFont {
+ 
+            font-size: 14px; /* Adjust size as needed */
+            color: rgb(3, 35, 77);
+      
+        
+            font-family: amaranth regular;
+        }
+
+        
+        .changeMyCartFont {
+ 
+            font-size: 18px; /* Adjust size as needed */
+            color: #C1206B;;
+            font-weight: bold; /* Optional: to make it more prominent */
+
+            font-family: amaranth regular;
+        }
+
+        .textarea-container {
+            margin-bottom: 20px; /* Adjust as needed */
+        }
+        
+        .custom-textarea {
+            margin-bottom: 20px; /* Ensures spacing below the textarea */
+        }
+
+        .scroll-containerCheck {
+            height: 63vh; /* Adjust height as needed */
+            max-width: 100%;
+        }
+        .number-circle {
+            position: absolute;
+           
+            margin-left: -35px; /* Adjust spacing from the edge */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #b3005e; /* Keep existing color */
+            color: white;
+            font-weight: bold;
+            text-align: center;
+        }
+
+         .promo-badge {
+            background-color: #2e844a;   /* Salesforce green */
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            line-height: 1;
+            white-space: nowrap;
+        }
+
+        .scheme-card {
+            border-radius: 12px;
+        }
+
+        .scheme-title {
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 6px;
+        }
+
+        .scheme-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 2px 0;
+            font-size: 14px;
+        }
+
+      /*  .label {
+            color: #6b6d70;
+        }
+
+        .value {
+            font-weight: 600;
+        }*/
+
+        .scheme-type {
+            margin-top: 6px;
+            font-size: 14px;
+            
+        }
+
+        .scheme-header {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .scheme-radio {
+            flex-shrink: 0;
+        }
+
+        .scheme-details {
+            padding-left: 26px; /* aligns under scheme title, not radio */
+        }

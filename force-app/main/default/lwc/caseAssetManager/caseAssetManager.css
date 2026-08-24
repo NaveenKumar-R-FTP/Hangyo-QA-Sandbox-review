@@ -1,0 +1,90 @@
+.taggedbutton{
+         flex: 1 1 calc(70% - 5px); /* Each button takes 50% width minus gap */
+    max-width: 400px; /* Adjust width as needed */
+    text-align: center;
+      padding: 0.5rem 1rem;
+    
+        font-weight: 600;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+       
+        font-size: 16px;  
+        background-color: #C1206B;
+        font-family: amaranth regular;
+        color: #fff;
+       
+    }
+    .taggedbutton:hover {
+        transition: background-color 0.3s ease;
+    background-color: #e0297f;
+    border-color: #722147;
+}
+.taggedbutton2{
+display: grid;
+ 
+    justify-content: center; /* Center the grid itself */
+    align-items: center;
+    text-align: center;
+    width: 300px; /* Adjust width to control spacing */
+    margin: 0 auto; /* Center the container */
+      margin-top: 5px;
+      padding: 0.5rem 1rem;
+      font-family: amaranth regular;
+        font-weight: 600;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+       
+        font-size: 16px;  
+        background-color: #C1206B;
+         
+        color: #fff;
+    }
+     .taggedbutton2:hover {
+        transition: background-color 0.3s ease;
+    background-color: #e0297f;
+    border-color: #722147;
+}
+
+
+  .taggedbutton-Grey{
+    flex: 1 1 calc(70% - 5px); /* Each button takes 50% width minus gap */
+max-width: 400px; /* Adjust width as needed */
+text-align: center;
+ padding: 0.5rem 1rem;
+
+   font-weight: 600;
+   border: none;
+   border-radius: 6px;
+   cursor: pointer;
+   font-family: amaranth regular;
+   font-size: 16px;  
+   background-color: #e0e0e0; /* Light grey background */
+        color: rgba(0, 0, 0, 0.795); /* Grey text */
+  
+}
+.taggedbutton-Grey:hover {
+   transition: background-color 0.3s ease;
+   background-color: #e0e0e0; /* Light grey background */
+border-color:#e0e0e0; /* Light grey background */
+}
+ .buttons-wrapper4 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 buttons per row */
+    gap: 5px; /* Reduce gap between buttons */
+    justify-content: center; /* Center the grid itself */
+    align-items: center;
+    text-align: center;
+    width: 300px; /* Adjust width to control spacing */
+    margin: 0 auto; /* Center the container */
+    }
+
+ 
+
+/* 👇 Disabled state */
+.taggedbutton:disabled {
+    background-color: #d3d3d3 !important; /* gray */
+    color: #808080 !important;
+    cursor: not-allowed;
+}

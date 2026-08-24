@@ -1,0 +1,69 @@
+<apex:page renderAs="pdf" controller="GenerateVisitSummaryPdf" showHeader="false" applyBodyTag="false">
+    <apex:form >
+        <apex:outputPanel style="border: 1px solid #0000; width: 100%; padding: 10px;">
+            <!-- Header Section -->
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr>
+                        <th colspan="3" style="text-align: left; background-color: #f7f7f7; padding: 5px; font-weight: bold;">Distributor Name: {!distributorName}</th>
+                        <th colspan="3" style="text-align: left; background-color: #f7f7f7; padding: 5px; font-weight: bold;">Date: {!formattedOrderDate}</th>
+                    </tr>
+                    <tr>
+                        <th colspan="8" style="text-align: left; background-color: #f7f7f7; padding: 5px; font-weight: bold;">Distributor Number: {!distributorPhone} </th>
+                    </tr>
+                </thead>
+            </table>
+            
+            <!-- Orders Section -->
+            <apex:repeat value="{!orders}" var="order" >
+                <div style="margin-top: 20px;">
+                    <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+                        <thead>
+                            <tr>
+                                <th colspan="8" style="text-align: left; background-color: #f7f7f7; padding: 5px; font-weight: bold;">
+                                    Retailer Name: {!order.Account__r.Name}
+                                </th>
+                            </tr>
+                            <tr style="background-color: #C1206B; color: white; text-align: left;">
+                                <th style="padding: 5px; border: 1px solid black;">Order ID</th>
+                                <th style="padding: 5px; border: 1px solid black;">Order Amount</th>
+                                <th style="padding: 5px; border: 1px solid black;">Value Scheme Applied</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 5px; border: 1px solid black;">{!order.Name}</td>
+                                <td style="padding: 5px; border: 1px solid black;">{!order.Total_Order_Value__c}</td>
+                                <td style="padding: 5px; border: 1px solid black;">{!order.Value_Scheme_Applied__r.Name}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <!-- Product Table -->
+                    <table style="width: 100%; border-collapse: collapse; margin-top: 5px;">
+                        <thead>
+                            <tr style="background-color: #C1206B; color: white; text-align: left;">
+                                <th style="padding: 5px; border: 1px solid black;">Product</th>
+                                <th style="padding: 5px; border: 1px solid black;">Quantity</th>
+                                <th style="padding: 5px; border: 1px solid black;">Product Price</th>
+                                <th style="padding: 5px; border: 1px solid black;">Scheme</th>
+                                <th style="padding: 5px; border: 1px solid black;">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <apex:repeat value="{!order.Order_Line_Items__r}" var="lineItem">
+                                <tr>
+                                    <td style="padding: 5px; border: 1px solid black;">{!lineItem.Products__r.Name}</td>
+                                    <td style="padding: 5px; border: 1px solid black;">{!lineItem.Ordered_Quantity__c}</td>
+                                    <td style="padding: 5px; border: 1px solid black;">{!lineItem.Product_Price__c}</td>
+                                    <td style="padding: 5px; border: 1px solid black;">{!lineItem.Quantity_Scheme__r.Name}</td>
+                                    <td style="padding: 5px; border: 1px solid black;">{!lineItem.Total_Amount__c}</td>
+                                </tr>
+                            </apex:repeat>
+                        </tbody>
+                    </table>
+                </div>
+            </apex:repeat>
+        </apex:outputPanel>
+    </apex:form>
+</apex:page>

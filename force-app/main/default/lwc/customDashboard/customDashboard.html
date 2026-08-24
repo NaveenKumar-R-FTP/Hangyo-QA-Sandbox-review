@@ -1,0 +1,30 @@
+<template>
+    <!-- Top Right: Refresh + Timer -->
+    <div class="header-bar">
+        
+        <span class="time-text">{refreshLabel}</span>
+
+        <lightning-button-icon 
+            icon-name="utility:refresh"
+            alternative-text="Refresh"
+            onclick={handleRefresh}
+            class="refresh-btn"
+            variant="border-filled"
+            size="medium">
+        </lightning-button-icon>
+    </div>
+
+    <template if:true={userId}>
+        <c-user-summary parent-user-id={userId}></c-user-summary>
+        <c-call-summary-component parent-user-id={userId}></c-call-summary-component>
+        <c-asset-summary parent-user-id={userId}></c-asset-summary>
+        <c-position-wise-order parent-user-id={userId}></c-position-wise-order>
+        <c-outlet-summary parent-user-id={userId}></c-outlet-summary>
+        <c-additional-screen-mockup parent-user-id={userId}></c-additional-screen-mockup>
+        <c-daily-summary-parent parent-user-id={userId}></c-daily-summary-parent>
+    </template>
+
+    <template if:false={userId}>
+        <p class="slds-m-around_medium">Loading...</p>
+    </template>
+</template>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cygnet_Buyer_PIN__c</fullName>
+    <description>Cygnet buyer pin resolve</description>
+    <externalId>false</externalId>
+    <formula>IF(
+  ISBLANK(Under_SS__c),
+  &quot;&quot;,
+  IF(
+    NOT(ISBLANK(Under_SS__r.Primary_PINCode__c)),
+    TEXT(Under_SS__r.Primary_PINCode__c),
+    Under_SS__r.BillingPostalCode
+  )
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Cygnet buyer pin resolve</inlineHelpText>
+    <label>Cygnet Buyer PIN</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

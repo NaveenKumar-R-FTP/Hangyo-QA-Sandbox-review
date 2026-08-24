@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Ice_Cream_Brand__c</fullName>
+    <label>Ice Cream Brand</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Amul Ice cream</fullName>
+                <default>false</default>
+                <label>Amul Ice cream</label>
+            </value>
+            <value>
+                <fullName>Kwality Wall&apos;s</fullName>
+                <default>false</default>
+                <label>Kwality Wall&apos;s</label>
+            </value>
+            <value>
+                <fullName>Havmor</fullName>
+                <default>false</default>
+                <label>Havmor</label>
+            </value>
+            <value>
+                <fullName>Ideal Ice Cream</fullName>
+                <default>false</default>
+                <label>Ideal Ice Cream</label>
+            </value>
+            <value>
+                <fullName>Dairy day Ice Cream</fullName>
+                <default>false</default>
+                <label>Dairy day Ice Cream</label>
+            </value>
+            <value>
+                <fullName>Creambell Ice Cream</fullName>
+                <default>false</default>
+                <label>Creambell Ice Cream</label>
+            </value>
+            <value>
+                <fullName>Dinshaw’s Ice Cream</fullName>
+                <default>false</default>
+                <label>Dinshaw’s Ice Cream</label>
+            </value>
+            <value>
+                <fullName>Arun Ice Cream</fullName>
+                <default>false</default>
+                <label>Arun Ice Cream</label>
+            </value>
+            <value>
+                <fullName>Ullas Ice Creams</fullName>
+                <default>false</default>
+                <label>Ullas Ice Creams</label>
+            </value>
+            <value>
+                <fullName>Joy</fullName>
+                <default>false</default>
+                <label>Joy</label>
+            </value>
+            <value>
+                <fullName>Lazza</fullName>
+                <default>false</default>
+                <label>Lazza</label>
+            </value>
+            <value>
+                <fullName>Mercely&apos;s</fullName>
+                <default>false</default>
+                <label>Mercely&apos;s</label>
+            </value>
+            <value>
+                <fullName>Skei Ice Cream</fullName>
+                <default>false</default>
+                <label>Skei Ice Cream</label>
+            </value>
+            <value>
+                <fullName>Milky Mist</fullName>
+                <default>false</default>
+                <label>Milky Mist</label>
+            </value>
+            <value>
+                <fullName>Nandini Ice Creams</fullName>
+                <default>false</default>
+                <label>Nandini Ice Creams</label>
+            </value>
+            <value>
+                <fullName>Dairy Rich Ice Cream</fullName>
+                <default>false</default>
+                <label>Dairy Rich Ice Cream</label>
+            </value>
+            <value>
+                <fullName>Other Ice Cream</fullName>
+                <default>false</default>
+                <label>Other Ice Cream</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

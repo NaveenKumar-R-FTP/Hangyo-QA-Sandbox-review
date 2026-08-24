@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Super_Stockist_Code__c</fullName>
+    <externalId>false</externalId>
+    <formula>if( Super_Stockist_Name__c != NULL &amp;&amp;  Super_Stockist_Name__r.Record_type_Name__c = &apos;Super Stockist&apos;,
+    Super_Stockist_Name__r.Code__c , AccountId__r.Super_Stockist_Name__r.Code__c
+  )</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Super Stockist Code</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

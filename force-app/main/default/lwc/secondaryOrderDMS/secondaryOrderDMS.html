@@ -1,0 +1,37 @@
+<template>
+    <div class="slds-show" data-id="divblock">
+        <div class="fixedCard">
+        <template if:true={showRetailerTable}>
+            <h2 class="title slds-text-heading_medium">Choose Retailer</h2>
+            <div class="search-filter-container">
+                <lightning-input
+                    type="search"
+                    placeholder="Search by Retailer Name"
+                    onchange={handleSearch}>
+                </lightning-input>
+            </div>
+            <div class="table-wrapper-Beat">
+                <lightning-datatable
+                    key-field="Id"
+                    data={retailerData}
+                    columns={retailerColumns}
+                    selected-rows={SelectedRetailers}
+                    max-row-selection="1"
+                    onrowselection={handleRetailerSelection}>
+                </lightning-datatable>
+            </div>
+            <br/>
+            <br/>
+            <br/>
+            <div class="footer">
+                <button class="custom-button" onclick={handleNext}>Next</button>
+            </div>
+        </template>
+
+        <template if:true={showOrderTable}>
+            <c-create-secondary-order-component-dms retailer={SelectedRetailers} is-create-order-component={showOrderTable} 
+                       onisorderchanged={handleOrderChange}></c-create-secondary-order-component-dms>
+        </template>
+        </div>
+    </div>
+</template>

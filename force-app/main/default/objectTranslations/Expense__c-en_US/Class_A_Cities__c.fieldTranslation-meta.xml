@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Class A Cities --></label>
+    <name>Class_A_Cities__c</name>
+    <picklistValues>
+        <masterLabel>Ahmedabad</masterLabel>
+        <translation><!-- Ahmedabad --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Bengaluru</masterLabel>
+        <translation><!-- Bengaluru --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Bhopal</masterLabel>
+        <translation><!-- Bhopal --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Chennai</masterLabel>
+        <translation><!-- Chennai --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Delhi</masterLabel>
+        <translation><!-- Delhi --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Gandhinagar</masterLabel>
+        <translation><!-- Gandhinagar --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Hyderabad</masterLabel>
+        <translation><!-- Hyderabad --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Indore</masterLabel>
+        <translation><!-- Indore --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Jabalpur</masterLabel>
+        <translation><!-- Jabalpur --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Jaipur</masterLabel>
+        <translation><!-- Jaipur --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Kanpur</masterLabel>
+        <translation><!-- Kanpur --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Kolkata</masterLabel>
+        <translation><!-- Kolkata --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Kota</masterLabel>
+        <translation><!-- Kota --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Lucknow</masterLabel>
+        <translation><!-- Lucknow --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Mumbai</masterLabel>
+        <translation><!-- Mumbai --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Nadiad</masterLabel>
+        <translation><!-- Nadiad --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Nagpur</masterLabel>
+        <translation><!-- Nagpur --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Nashik</masterLabel>
+        <translation><!-- Nashik --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Patna</masterLabel>
+        <translation><!-- Patna --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Pune</masterLabel>
+        <translation><!-- Pune --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Surat</masterLabel>
+        <translation><!-- Surat --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Thrissur</masterLabel>
+        <translation><!-- Thrissur --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Vadodara</masterLabel>
+        <translation><!-- Vadodara --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Visakhapatnam</masterLabel>
+        <translation><!-- Visakhapatnam --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

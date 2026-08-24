@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Branding_Case__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <label>Branding Case</label>
+    <referenceTo>Case__c</referenceTo>
+    <relationshipLabel>Branding Assets</relationshipLabel>
+    <relationshipName>Branding_Assets</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

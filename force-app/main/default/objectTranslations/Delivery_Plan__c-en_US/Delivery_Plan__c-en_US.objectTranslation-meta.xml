@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Delivery Plan</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Delivery Plans</value>
+    </caseValues>
+    <layouts>
+        <layout>DMS Delivery Plan Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Delivery Plan Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- You do not have permission to change the record owner. Contact your administrator. --></errorMessage>
+        <name>Prevent_owner_change</name>
+    </validationRules>
+    <webLinks>
+        <label><!-- New_Delivery_Plan --></label>
+        <name>New_Delivery_Plan</name>
+    </webLinks>
+</CustomObjectTranslation>

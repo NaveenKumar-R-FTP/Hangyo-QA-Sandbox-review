@@ -1,0 +1,698 @@
+/* HOST AND MAIN CARD */
+:host {
+    display: block;
+    background-color: #f0f0f0; /* light grey */
+    padding: 10px;
+}
+
+lightning-card {
+    background-color: white;
+}
+
+.header-title{
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+/* MOBILE HEADER */
+.mobile-header {
+    display: flex;
+    align-items: center;
+    background: white;
+    padding: 4px 12px;
+    gap: 12px;
+    margin-bottom: 0;
+}
+
+.back-btn {
+    --slds-c-icon-color-foreground-default: #00aaff;
+    margin-top: 0;
+}
+
+/* SCROLLABLE CONTENT */
+.scroll-body {
+    padding: 5px;
+    margin-top: 0 !important;
+    background-color: #f0f0f0;
+}
+
+/* REPORTING HEADER */
+.reporting-header {
+    padding: 1px 5px;
+    margin-top: -5px;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    padding-bottom: 10px;
+    background-color: #f0f0f0;
+}
+
+.reporting-row {
+    /*display: flex;*/
+    justify-content: space-between;
+    align-items: flex-start;
+    /*padding-left: 20px;*/
+}
+
+.reporting-text {
+    font-weight: bold;
+    font-size: 15px;
+    margin-left: 10px;
+}
+
+.right-side {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.all-filed-users {
+    font-size: 14px;
+    color: #0070d2;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+/* REFRESH BUTTON + TEXT */
+.refresh-container {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.refresh-time {
+    font-size: 13px;
+    color: black;
+}
+
+.refresh-icon {
+    cursor: pointer;
+}
+
+/* USER CARD */
+.user-summary-card {
+    background: white;
+    border-radius: 10px;
+    padding: 5px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    cursor: pointer;
+}
+
+.user-name {
+    font-size: 18px;
+    font-weight: 600;
+    /*margin-bottom: 4px;*/
+}
+
+.user-role {
+    font-size: 13px;
+    color: gray;
+    /*margin-bottom: 10px;*/
+}
+
+/* STATS GRID */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin-top: 5px;
+    /*row-gap: 14px;
+    column-gap: 10px;
+    margin-bottom: 10px;*/
+}
+
+.stat-block {
+    /*background-color: #f4f6f9;
+    padding: 12px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);*/
+    text-align: center;
+    padding: 5px;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: black;
+    display: block;
+    margin-bottom: 4px;
+}
+
+
+.stat-value {
+    /*font-size: 1.25rem;
+    font-weight: bold;*/
+    color: #111;
+}
+
+/* Timeline special cases (Leave, Order etc.) can use same class or inline styling if needed */
+
+/* DISTRIBUTOR HEADER ROW */
+.header-row {
+    display: flex;
+    align-items: center;
+    margin: 5px 0 10px 0;
+    border: 1px solid #156433;
+}
+
+.header-row-leave {
+    display: flex;
+    align-items: center;
+    margin: 5px 0 10px 0;
+    border: 1px solid red;
+}
+
+.distributor-search {
+    background: #156433;
+    padding: 0.5px 20px;
+    color: #fff;
+    font-weight: 600;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.leave-label {
+    background: Red;
+    padding: 0.5px 20px;
+    color: #fff;
+    font-weight: 600;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.retail-beat {
+    font-size: 13px;
+    color: #333;
+    margin-left: 12px;
+    white-space: nowrap;
+}
+
+/* TABS STYLING */
+.lightning-tabset, 
+.lightning-tabset .slds-tabs_default__content {
+    background: white !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.slds-card__body {
+    padding: 0 !important;
+}
+
+/* TIMELINE */
+.timeline-container {
+    position: relative;
+    margin-left: 15px;
+    padding-left: 20px;
+}
+
+.vertical-line {
+    position: absolute;
+    top: 0;
+    left: 10px;
+    width: 3px;
+    height: 100%;
+    background-color: #7ec8f5;
+    z-index: 0;
+}
+
+.timeline-step {
+    position: relative;
+    margin-bottom: 30px;
+    display: flex;
+}
+
+.ring {
+    width: 20px;
+    height: 20px;
+    border: 5px solid #4caf50;
+    border-radius: 50%;
+    background: white;
+    position: absolute;
+    left: -18.5px;
+    top: 10px;
+    z-index: 1;
+}
+
+.step-details {
+    margin-left: 20px;
+}
+
+.step-title {
+    font-weight: bold;
+    margin: 0;
+}
+
+.step-time {
+    font-size: 0.85rem;
+    color: gray;
+    margin: 2px 0 5px 0;
+}
+
+.timeline-right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+.refresh-time {
+    font-size: 13px;
+    color: black;
+}
+
+.timeline-refresh {
+    cursor: pointer;
+}
+
+.mtd-panel {
+    padding: 10px;
+}
+
+.mtd-header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.mtd-header-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.mtd-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 12px;
+}
+
+
+
+
+
+
+.loading-text {
+    font-style: italic;
+    color: #888;
+}
+
+.error-text {
+    color: var(--slds-color_error);
+    margin-top: 10px;
+}
+
+.visit-row {
+    padding: 12px 4px;
+    border-bottom: 1px solid #eee;
+}
+
+/* TOP ROW: Date left, Yesterday right */
+.visit-date-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.visit-date {
+    color: #333;
+}
+
+.yesterday-tag {
+    background: #ffd7ac;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    color: #8a4b00;
+}
+
+/* HOURS RIGHT */
+.visit-hours-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 4px;
+}
+
+.visit-hours {
+    font-size: 14px;
+    /*font-weight: bold;
+    color: #111;*/
+}
+
+/* Bottom Row */
+.visit-bottom {
+    display: flex;
+    margin-top: 6px;
+    font-size: 13px;
+    color: #444;
+    border: 1px solid #156433;
+}
+
+.visit-content{
+    background: white;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 5px;
+    margin-top: 15px;
+}
+
+.user-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.user-actions {
+    display: flex;
+    gap: 10px;
+}
+
+
+.role-tabs-container {
+    display: flex;
+    overflow-x: auto;
+    padding: 0.5rem;
+    background-color: #f4f6f9;
+    border-top: 1px solid #d8dde6;
+}
+
+.role-tab {
+    flex: 0 0 auto;
+    padding: 0.5rem 1rem;
+    margin-right: 0.5rem;
+    background-color: #ffffff;
+    border-radius: 999px;
+    border: 1px solid #d8dde6;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.role-tab:hover {
+    background-color: #e0f2ff;
+}
+
+.role-tab.active {
+    background-color: #00aaff;
+    color: #ffffff;
+    border-color: #0088cc;
+}
+
+/* Popup Background Overlay */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.45);
+    z-index: 999;
+}
+
+/* Popup Container */
+.role-filter-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #ffffff;
+    padding: 20px;
+    width: 300px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    z-index: 1001;
+}
+
+/*.role-filter-popup lightning-input {
+    display: block;
+    margin-bottom: 10px;
+}*/
+
+/* Actions at bottom */
+.popup-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+/* Buttons styling */
+.popup-actions lightning-button {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.popup-actions lightning-button:last-child {
+    margin-right: 0;
+}
+
+/* Bottom tabs styling */
+.bottom-role-tabs {
+    margin-top: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.role-tab-btn {
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: #f3f3f3;
+    border: 1px solid #d8d8d8;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.role-tab-btn:hover {
+    background-color: #e0e0e0;
+}
+
+.filter-search-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    margin-left: 10px;
+    margin-top: -15px;
+    flex-wrap: nowrap;
+}
+
+.filter-search-row lightning-input {
+    flex: 1;                  /* search bar takes remaining width */
+    flex-wrap: nowrap;
+}
+
+.filter-icon {
+    margin-right: 10px;           /* Reduce spacing on mobile */
+    margin-top: 13px;
+}
+
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /*gap: 16px;*/
+    margin: 5px 5px;
+}
+
+.grid-item {
+    /*background: #fff;
+    border-radius: 10px;*/
+    padding: 10px;
+    /*box-shadow: 0 2px 6px rgba(0,0,0,0.1);*/
+}
+
+.label-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    /*font-weight: 600;
+    margin-bottom: 6px;*/
+}
+
+.progress-bar {
+    height: 3px;
+    background: #e0e0e0;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.bar {
+    height: 100%;
+    border-radius: 6px;
+}
+
+/* Colors */
+.bar.retailers { background: #43a047; }
+.bar.official { background: #fb8c00; }
+.bar.leave { background: #e53935; }
+.bar.total { background: #1976d2; }
+
+.top-fixed{
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 20;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
+
+.user-picklist {
+    position: absolute; /* overlay below search input */
+    /*top: 2.5rem;  adjust based on input height */
+    left: 5px;
+    right: 5px;
+    max-height: 150px; 
+    overflow-y: auto;
+   /* border: 1px solid #d8dde6;*/
+    background-color: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    z-index: 10; /* make sure it's above other elements */
+    /*border: 1px solid #ddd;*/
+    overflow-y: auto;
+    margin: 8px 0;
+    border-radius: 6px;
+}
+
+/*.picklist-item {
+    padding: 0.5rem;
+    cursor: pointer;
+}
+
+.picklist-item:hover {
+    background-color: #f4f6f9;
+}*/
+
+.picklist-item {
+    padding: 8px 10px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+}
+
+.picklist-item:hover {
+    background: #f3f3f3;
+}
+
+/* Role checkboxes side by side */
+.role-filter-popup lightning-input[type="checkbox"] {
+    display: inline-block;
+    width: 48%; /* two per row */
+    margin-right: 2%;
+    margin-bottom: 0.5rem;
+}
+
+.role-filter-popup lightning-input[type="checkbox"]:nth-child(2n) {
+    margin-right: 0;
+}
+
+/* Popup actions */
+.popup-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.role-checkboxes {
+    display: flex;
+    flex-wrap: wrap; /* allows checkboxes to move to next line if needed */
+    gap: 1rem; /* spacing between checkboxes */
+}
+
+.role-checkboxes lightning-input[type="checkbox"] {
+    flex: 1 0 45%; /* 2 per row, adjust to 30% for 3 per row */
+}
+
+.section-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+   /* text-align: center;*/
+}
+
+.section-sub-title-uh {
+   /* font-size: 16px;
+    font-weight: bold;
+    margin: 20px 0 10px 0;*/
+    margin-bottom: 8px;
+}
+
+.view-manager-row {
+    margin-bottom: 10px;
+}
+
+.divider {
+    text-align: center;
+    margin: 15px 0;
+    position: relative;
+}
+
+.divider span {
+    background: white;
+    padding: 0 10px;
+    font-weight: bold;
+}
+
+.divider::before {
+    content: "";
+    height: 1px;
+    width: 100%;
+    background: #ccc;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    z-index: -1;
+}
+
+.btn-clear {
+    background-color: #f0f0f0;
+    color: black;
+    border: 1px solid #ccc;
+    padding: 6px 20px;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.btn-apply {
+    background-color: #C1206B;
+    color: white;
+    border: none;
+    padding: 6px 20px;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.btn-clear:hover {
+    background-color: #e0e0e0;
+}
+
+.btn-apply:hover {
+    background-color: #005fb2;
+}
+
+
+
+@media only screen and (max-width: 480px) {
+    .filter-search-row {
+        gap: 5px;
+        margin-left: 5px;
+    }
+
+    .filter-icon {
+        margin-right: 10px;
+    }
+
+    lightning-button-icon {
+        --slds-c-icon-color-foreground-default: #00aaff;
+    }
+
+    .top-fixed{
+        padding-top: -20px;
+    }
+}

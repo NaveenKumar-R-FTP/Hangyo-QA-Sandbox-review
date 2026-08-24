@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Serial_Number_Only_Alphanumeric</fullName>
+    <active>true</active>
+    <errorConditionFormula>NOT(
+    REGEX(Serial_Number__c , &quot;^[a-zA-Z0-9]*$&quot;)
+)</errorConditionFormula>
+    <errorDisplayField>Serial_Number__c</errorDisplayField>
+    <errorMessage>Serial Number can only contain letters and numbers. Special characters are not allowed.</errorMessage>
+</ValidationRule>

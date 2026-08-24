@@ -1,0 +1,536 @@
+<template>
+ <!--  CASE SCREEN -->
+<template if:true={isCaseScreen}>
+    <c-case-screen onback={handlegoBack} visit-task-id={accountId} retailer-id={retailerId} is-check-in-done={isCheckInDone}></c-case-screen>
+</template>
+
+<!--  ASSET SCREEN -->
+<template if:true={isAssetScreen}>
+    <c-asset-screen onback={handlegoBack} visit-task-id={accountId} ></c-asset-screen>
+</template>
+
+<!--  BRANDING AUDIT SCREEN -->
+<template if:true={isBrandingScreen}>
+    <c-mapped-branding onback={handlegoBack} visit-task-id={currentVisitTaskId} is-check-in-done={isCheckInDone} unproductive-reason={unproductiveReason}></c-mapped-branding>
+</template>
+
+<template if:true={isCaseAssetScreen}>
+    <template if:true={isLoading}>
+        <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+    </template>
+   <template if:true={renderFlow}>
+    
+    <div class="flow-layout">
+        <lightning-flow
+            if:true={renderFlow}
+            flow-api-name={flowApiName}
+            flow-input-variables={flowInputVariables}
+            onstatuschange={handleStatusChange}
+        ></lightning-flow>
+        <!-- Custom Back Button positioned inside the flow -->
+        <button class="flow-back-button" onclick={handleCloseFlow}>Back</button>
+   
+    </div>
+</template>
+    <template if:false={showFlowWindow}>
+    <template if:false={isMainComponent}>
+    <div  if:false={isButtonSection}>
+  
+ 
+            <div class="scroll-container">
+                <div class="slds-scrollable_y slds-scrollable_x">
+            
+            
+
+    
+            <template if:true={visit}>
+            
+                <template if:true={isRetailer}>
+                    <div >
+                        <!-- Left lightning-card -->
+                        <lightning-card >
+                            <div class="heading-with-image">
+                                <template if:true={visit.outletPhotoUrl}>
+                                    <img src={visit.outletPhotoUrl} alt="Retailer Image" class="retailer-image-top-right" />
+                                </template>
+                                <div class="retailer-header">
+                                    <h1 class="large-heading2">{visit.accountName}</h1>
+                                    <h1 class="large-heading2">{visit.accountCode}</h1>
+                                </div>
+                            </div>
+                            </br>
+                            <div class="metrics-container metric-value">
+                                <svg focusable="false" aria-hidden="true" viewBox="0 0 520 520" part="icon" lwc-6qesktvfr7m="" data-key="target" class="slds-icon slds-icon-text-default slds-icon_small"><g lwc-6qesktvfr7m=""><path d="M262 23h-2A187 187 0 0073 210v2c0 130 134 250 176 281a20 20 0 0025 0c42-33 175-151 175-281A190 190 0 00262 23zm-2 52a135 135 0 01106 219c-11-16-34-28-56-37a4 4 0 00-3-1 9 9 0 00-7 0 81 81 0 01-40 12 70 70 0 01-40-12 9 9 0 00-7 0 4 4 0 01-3 1c-22 10-45 21-56 38A136 136 0 01260 75z" lwc-6qesktvfr7m=""></path><ellipse cx="260" cy="183" rx="56" ry="62" lwc-6qesktvfr7m=""></ellipse></g></svg>
+                                {visit.billingAddress}
+                                </div>
+                            <div class="metrics-container">
+                                
+                                <div class="metric-item">
+                                    <span class="metric-label">
+                                        <span>Mobile</span>
+                                        <span>No.</span>
+                                        <span></span>
+                                    </span>
+                                    <span class="metric-value">{visit.accountPhone}</span>
+                                    
+                                </div>
+                            
+                                <div class="metric-item">
+                                    <span class="metric-label">
+                                        <span>Monthly</span>
+                                        <span>Average</span>
+                                    </span>
+                                    <span class="metric-value">{visit.monthlyRetailerAverage}</span>
+                                    
+                                </div>
+                                <div class="metric-item">
+                                    <span class="metric-label">
+                                        <span>Monthly</span>
+                                        <span>Target</span>
+                                    </span>
+                                    <span class="metric-value">{visit.monthlyTargetValue}</span>
+                                
+                                </div>
+                            </div>
+                            
+    
+                                </lightning-card>
+                                </div>
+                </template>
+    
+            </template>
+
+             <!--<lightning-card>-->
+            <div class="map-container-back">
+                <div class="map-container">
+        <c-custom-Location-Map record-id={visit.accountIdMap}></c-custom-Location-Map>
+    </div>
+            </div>
+       
+            <template if:false={isCheckInDone}>
+                <template if:false={isCompleted}>
+                    <template if:false={isrecordStart}>
+                        <template if:false={isrecordComplete}>
+                        <lightning-card>
+                            <div class="buttons-wrapper4">
+                                    <button class="taggedbutton" onclick={handleCheckInMethod} type="button">Check-In</button>
+                      
+                                    <button class="taggedbutton" onclick={handleStartCallMethod}>Start Call</button>
+                            </div>
+                        </lightning-card>
+                        </template>
+                        </template>
+                
+                </template>
+            
+            </template>
+        
+            <template if:true={isrecordComplete}>
+                <lightning-card>
+                    <div class="buttons-wrapper3">
+                            <button class="taggedbutton2 CheckCompleted-button"  type="button">Completed</button>
+                
+                    </div>
+                </lightning-card>
+                </template>
+    
+            
+            
+            <template if:false={isCheckInDone}>
+                <template if:false={isrecordStart}>
+                    <template if:false={isrecordComplete}>
+                    <lightning-card>
+                        <div class="buttons-wrapper4">
+                                <button class="taggedbutton" onclick={loadLatestOrders} type="button">View Orders</button>
+                                <button class="taggedbutton" onclick={twoSchemesClick} type="button">Schemes</button>
+
+                            
+                        </div>
+                    </lightning-card>
+                    </template>
+                    </template>
+            
+            </template>
+        
+            <template if:true={isrecordComplete}>
+                <lightning-card>
+                    <div class="buttons-wrapper4">
+                            <button class="taggedbutton" onclick={loadLatestOrders} type="button">View Orders</button>
+                            <button class="taggedbutton" onclick={twoSchemesClick} type="button">Schemes</button>
+
+                        
+                    </div>
+                </lightning-card>
+                </template>
+                
+    
+        <template if:false={isrecordStart}>
+            
+                <template if:true={isCheckInDone}>
+                    <lightning-card>
+                        <div class="buttons-wrapper4">
+                                <button class="taggedbutton CheckInProgress-button"  type="button">In Progress</button>
+                            <template if:false={isStartCall}>
+                            <template if:true={isCheckOutDisabled}>
+                                <button class="taggedbutton CheckOut-buttongrey" onclick={handleCheckOutMethod} disabled={isCheckOutDisabled} > Check-Out</button>  
+                        </template>
+                        <template if:false={isCheckOutDisabled}>
+                                <button class="taggedbutton CheckOut-button" onclick={handleCheckOutMethod}  > Check-Out</button>  
+                        </template>
+                    </template>
+                    <template if:true={isStartCall}>
+                        <template if:true={isCheckOutDisabled}>
+                                <button class="taggedbutton CheckOut-buttongrey" onclick={handleEndCallMethod} disabled={isCheckOutDisabled} > End Call</button>  
+                        </template>
+                        <template if:false={isCheckOutDisabled}>
+                                <button class="taggedbutton CheckOut-button" onclick={handleEndCallMethod}  > End Call</button>  
+                        </template>
+                        </template>
+                        </div>
+                    </lightning-card>
+                </template>
+            </template>
+    
+            <template if:true={isrecordStart}>
+                <template if:false={isrecordComplete}>
+                    <template if:false={isStartRecordCall}>
+                <lightning-card>
+                    <div class="buttons-wrapper4">
+                            <button class="taggedbutton CheckInProgress-button"  type="button">In Progress</button>
+                    
+                            <template if:false={isStartCall}>
+                                <template if:true={isCheckOutDisabled}>
+                                    <button class="taggedbutton CheckOut-buttongrey" onclick={handleCheckOutMethod} disabled={isCheckOutDisabled}>Check-Out</button>  
+                                </template>
+                                <template if:false={isCheckOutDisabled}>
+                                    <button class="taggedbutton CheckOut-button" onclick={handleCheckOutMethod}>Check-Out</button>  
+                                </template>
+                            </template>
+                            <template if:true={isStartCall}>
+                                <template if:true={isCheckOutDisabled}>
+                                    <button class="taggedbutton CheckOut-buttongrey" onclick={handleEndCallMethod} disabled={isCheckOutDisabled}>End Call</button>  
+                                </template>
+                                <template if:false={isCheckOutDisabled}>
+                                    <button class="taggedbutton CheckOut-button" onclick={handleEndCallMethod}>End Call</button>  
+                                </template>
+                            </template>
+                    </div>
+                </lightning-card>
+    
+    </template>
+                </template>
+                </template>
+                <template if:true={isStartRecordCall}>
+                    <template if:false={isrecordComplete}>
+                    <lightning-card>
+                        <div class="buttons-wrapper4">
+                                <button class="taggedbutton CheckInProgress-button"  type="button">In Progress</button>
+                        
+                            <template if:false={isreasonExist}>
+                                <template if:true={isCheckOutDisabled}>
+                                    <template if:false={isOrderPlacedVisit}>
+                                <button class="taggedbutton CheckOut-buttongrey" onclick={handleEndCallMethod} disabled={isCheckOutDisabled} > End Call</button>  
+                    </template>
+                </template>
+                        </template>
+                        <template if:true={isreasonExist}>
+                                <button class="taggedbutton CheckOut-button" onclick={handleEndCallMethod}  > End Call</button>  
+                        </template>
+                        <template if:true={isOrderPlacedVisit}>
+                                <button class="taggedbutton CheckOut-button" onclick={handleEndCallMethod}  > End Call</button>  
+                        </template>
+    
+                        
+                        </div>
+                    </lightning-card>
+                    </template>
+    
+    </template>
+    
+                <template if:false={isrecordStart}>
+                    <template if:true={isCheckInDone}>
+                        <lightning-card>
+            
+                            <div class="buttons-wrapper4">
+                                    <button class="taggedbutton" onclick={handleCreateOrderMethod} type="button">Create Order</button>
+                                    <button class="taggedbutton" onclick={handleNoOrder}  type="button">No Order</button>
+                            
+                                    <button class="taggedbutton" onclick={loadLatestOrders}>View Orders</button>
+                                <button class="taggedbutton" onclick={twoSchemesClick} type="button">Schemes</button>
+
+                            </div>
+                        
+                        </lightning-card>
+                    </template>
+                    </template>
+    
+                    <template if:true={isrecordStart}>
+                        <template if:false={isrecordComplete}>
+                            <template if:false={isreasonExist}>
+                            <lightning-card>
+                
+                                <div class="buttons-wrapper4">
+                                        <button class="taggedbutton" onclick={handleCreateOrderMethod} type="button">Create Order</button>
+                                    
+                                    <template if:false={isOrderPlacedVisit}>
+                                        <button class="taggedbutton" onclick={handleNoOrder}  type="button">No Order</button>
+                            </template>
+                            <template if:true={isOrderPlacedVisit}>
+                                    <button class="taggedbutton-Grey" type="button">No Order</button>
+                        </template>
+                                        <button class="taggedbutton" onclick={loadLatestOrders}>View Orders</button>
+                                    <button class="taggedbutton" onclick={twoSchemesClick} type="button">Schemes</button>
+
+                                </div>
+                            
+                            </lightning-card>
+                        </template>
+                    </template>
+                        </template>
+                        <template if:true={isreasonExist}>
+                            <template if:false={isrecordComplete}>
+                            <lightning-card>
+                                <div class="buttons-wrapper4">
+                                        <button class="taggedbutton" onclick={loadLatestOrders} type="button">View Orders</button>
+                                        <button class="taggedbutton" onclick={twoSchemesClick} type="button">Schemes</button>
+
+                                    
+                                </div>
+                            </lightning-card>
+                            </template>
+                            </template>
+    
+ 
+    <lightning-card>
+        <div >
+            <!--button class="taggedbutton" data-flow="Asset_issue_screen" type="button" onclick={handleClick}>DF Audit</button>
+            <button class="taggedbutton" data-flow="New_Freezer_Request" type="button" onclick={handleClick}>Request DF</button>
+            <button class="taggedbutton" data-flow="Transfer_Frezzer_Req" type="button" onclick={handleClick}>Transfer DF</button>
+            <button class="taggedbutton" data-flow="Asset_Tagging" type="button" onclick={handleClick}>Tag DF</button-->
+         <template if:false={showCaseAsset}>
+    <c-case-asset-manager onopen={handleOpen} is-check-in-done={isCheckInDone} isenable-mapped-asset= {isenableMappedAsset} isrecord-complete= {isrecordComplete}></c-case-asset-manager>
+</template>
+
+        </div>
+        <!--button class="taggedbutton2" data-flow="Tagged_Assests" type="button" onclick={handleClickTaggedDF}>Tagged DFs</button-->
+    </lightning-card>
+    
+    
+    
+            
+    <lightning-card>
+        <div class="buttons-wrapper4">
+            <button class="taggedbutton" type="button" onclick={competitorbuttonclicked} >Competitor Info</button>
+            <button class="taggedbutton" type="button" onclick={handleOpenBranding} >Mapped Branding</button>
+        </div>
+    </lightning-card>
+    
+   </div>
+</div>
+
+<div class="button-containerGeneral">
+    <button class="buttonsGeneral" onclick={handleBack} >Back</button>
+    
+</div>
+    </div>
+    
+    <template if:true={IsUnproductive}>
+        
+    
+        <lightning-card>
+  
+            <div class="headingOrder">Select Unproductive Visit Reason</div>
+                <div class="slds-m-around_medium">
+                    <lightning-radio-group
+                        options={options}
+                        value={selectedReason}
+                        onchange={handleReasonChange}>
+                    </lightning-radio-group>
+                </div>
+        
+                
+            </lightning-card>
+            <div class="button-containerNo">
+                <button class="buttons" onclick={backAction} >Back</button>
+                <button class="buttons" onclick={handleNoOrderSave}>Save</button>
+
+            </div>
+        </template>
+    
+    
+        
+    
+    
+   
+    
+    <!-- Popup when location is verifying -->
+    <template if:true={isCheckInPopUp}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <div class="slds-modal__header">
+                    <h2 class="slds-text-heading_medium">Verifying Location</h2>
+                </div>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <p>Please wait while we verify your location...</p>
+                    
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    
+    
+    
+    
+    <!-- Popup when location is verifying -->
+    <template if:true={isDistanceIsMore}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <div class="slds-modal__header">
+                    <h2 class="slds-text-heading_medium">Verifying Location</h2>
+                </div>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <p>{isDistanceIsMoreMessage}</p>
+                </div>
+                <div class="slds-modal__footer">
+                    <!-- OK button to close the modal -->
+                    <button style=" font-family: amaranth regular;background-color: #C1206B; color: #FFFFFF; margin-right: 5px; padding: 5px 15px; font-size: 12px; font-weight: 600; border: none; border-radius: 6px; cursor: pointer; transition: background-color 0.3s ease; width: 100px;" onclick={handleCloseModal}>OK</button>
+    
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <!-- Popup when location is verified and asking retailer whether he wants to update the retailer location or not -->
+    <template if:true={isRetailerUpdate}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <div class="slds-modal__header">
+                    <h2 class="slds-text-heading_medium">Verifying Location</h2>
+                </div>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <p>{isDistanceIsMoreMessage}</p>
+                </div>
+                <!--div class="slds-modal__footer"-->
+                <div class="slds-p-around_medium slds-grid slds-grid_align-spread" style="background-color: white; border-top: none;">
+                    <!-- Left-aligned button -->
+                    <div>
+                        <button class="actionButtons" onclick={handleUpdateRetailerLocation}>Update Location</button>
+                    </div>
+                    
+                    <!-- Right-aligned button -->
+                    <div>
+                        <button class="actionButtons" onclick={handleCloseModal}>OK</button>
+                    </div>
+                </div>45rfr4
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    
+    
+    </template>
+    <template if:true={isPurpose}>
+    <lightning-card>
+        <div class="large-headingSelfie">Purpose of Visit</div>
+
+        <div class="slds-m-around_medium">
+            <lightning-radio-group
+                
+                options={purposeOfVisit}
+                value={selectedVisit}
+                onchange={handlePurposeOfVisitChange}>
+            </lightning-radio-group>
+        </div>
+    
+                <!-- Show Lookup only if 'Joint visit' is selected-->
+                <template if:true={isJointVisit}>
+                    <div class="search-container">
+                        <input 
+                            type="text" 
+                            value={searchQuery} 
+                            oninput={handleSearchChange} 
+                            placeholder="Search for a user..." 
+                            class="search-input"
+                        />
+                    
+                        <button class="cancel-icon" onclick={clearSearchQuery} title="Clear Search">
+                            &#10006;
+                        </button>
+                    </div>
+                
+                <div class="scrollable-users-container">
+                    <template for:each={filteredUserOptions} for:item="user">
+                        <div key={user.value} class="user-item slds-p-around_medium slds-grid slds-wrap">
+                            <div class="slds-col slds-size_12-of-12">
+                                <!-- Display the user label as a clickable list item -->
+                                <span class="user-label" data-id={user.value} onclick={handleSelectUser}>
+                                    {user.label}
+                                </span>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </template>  
+
+        </lightning-card>
+        <div class="button-containerJoint">
+            <button class="buttons" onclick={handlePurposeVisitSave}>Save</button>
+
+        </div>
+    </template>
+    <!-- Written by ashwini -This is child component to show View  Order component-->
+    
+    <template if:true={isviewOrder}>
+    <c-view-order-component record-id={visitId}></c-view-order-component>
+    
+    </template>
+    <template if:true={isCheckInSuccess}>
+
+        <div class="camera-container">
+            <div if:true={isCameraOn} class="camera-wrapper">
+                <video autoplay class="video-feed"></video>
+                <div class="slds-p-around_medium slds-grid slds-grid_align-center">
+                <button class="custom-buttonSelfie slds-m-right_small" onclick={capturePhoto}>Take Selfie</button>
+               
+                </div>
+            </div>
+            <canvas class="hidden-canvas"></canvas>
+            <img src={photoURL} if:true={photoURL} alt="Captured Selfie"/>
+        </div>
+ <div class="button-containerNo">
+        <button class="buttons" onclick={closeActionCheckIn} >Back</button>
+        <button class="save-button" onclick={handleSelfieSave}>Save</button>
+ 
+    </div>
+       
+    
+    </template>
+    <template if:true={isChildComponenet}>
+    
+    <c-create-order-component record-id={visitId}></c-create-order-component>
+    
+    
+    </template>
+    
+    
+    <!-- Written by ashwini -This is child component to show scheme component-->
+    <template if:true={twoButtonClick}>
+    <c-scheme-detail-component record-id={visitId}></c-scheme-detail-component>
+    
+    </template>
+      <!-- Written by Ajay -This is child component to show competitor info capture component-->
+    <template if:true={competitorbuttonclick}>
+    <c-competitor-line-item-creator record-id={visitId}></c-competitor-line-item-creator>
+    
+    </template>
+    
+    
+    </template>
+
+     <template if:true={showparentcomponent}>
+    <c-visit-list-view-1></c-visit-list-view-1>
+    </template>
+     </template >
+    </template>

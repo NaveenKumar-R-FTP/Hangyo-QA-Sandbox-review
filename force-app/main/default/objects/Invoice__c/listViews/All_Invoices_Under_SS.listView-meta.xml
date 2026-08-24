@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All_Invoices_Under_SS</fullName>
+    <columns>NAME</columns>
+    <columns>Invoice_Date__c</columns>
+    <columns>Under_SS__c</columns>
+    <columns>Status__c</columns>
+    <columns>Order__c</columns>
+    <columns>Total_Quantity__c</columns>
+    <columns>Invoice_Amount__c</columns>
+    <columns>Collected_Amount__c</columns>
+    <columns>Total_Payable_Balance__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Invoice__c.Secondary_Invoice_Under_SS</value>
+    </filters>
+    <label>All Invoices Under SS</label>
+    <sharedTo>
+        <allPartnerUsers></allPartnerUsers>
+    </sharedTo>
+</ListView>

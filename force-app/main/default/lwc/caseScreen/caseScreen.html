@@ -1,0 +1,350 @@
+<template>
+  <div class="main-container">
+    <!-- ================= DETAIL SCREEN ================= -->
+    <template if:true={isDetailScreen}>
+      <template for:each={caseFieldsArray} for:item="field">
+        <div class="detail-container" key={field.fieldApi}>
+          <div class="field">
+            <label>{field.label}</label>
+            <div class="field-box">{field.displayValue}</div>
+          </div>
+        </div>
+      </template>
+
+      <!-- ===== INSTALLATION STEP (raiser only, once approved) ===== -->
+      <template if:true={showInstallationSection}>
+        <div class="detail-container">
+          <div class="install-box">
+            <p class="install-text">
+              This case is approved and awaiting installation. Upload a photo of
+              the installed asset to complete it.
+            </p>
+
+            <label class="input-label">Installation Photo <span class="required-star">*</span></label>
+            <div class="btn-group">
+              <input type="file"
+                     class="hidden-input"
+                     accept="image/jpeg,image/png"
+                     onchange={handleInstallFileChange}></input>
+              <template if:false={hasInstallImages}>
+                <button class="footer-back" onclick={handleInstallPhotoClick}>Add Photo</button>
+              </template>
+            </div>
+
+            <template if:true={hasInstallImages}>
+              <div class="preview-container">
+                <template for:each={installImages} for:item="img">
+                  <div class="preview-box" key={img.id}>
+                    <img src={img.url} alt={img.fileName}></img>
+                    <span class="remove-btn"
+                          data-id={img.id}
+                          onclick={removeInstallImage}>&times;</span>
+                  </div>
+                </template>
+              </div>
+            </template>
+
+            <template if:true={installError}>
+              <div class="error">{installError}</div>
+            </template>
+
+            <button class="submit-btn"
+                    disabled={isSubmitting}
+                    onclick={handleMarkInstalled}>Submit Installation</button>
+          </div>
+        </div>
+      </template>
+    </template>
+    <!-- ================= LIST + FORM FLOW ================= -->
+    <template if:false={isDetailScreen}>
+      <!-- ================= CASE LIST SCREEN ================= -->
+      <template if:false={isFormScreen}>
+        <template if:false={isRefreshing}>
+        <template if:true={isLoading}>
+          
+          <div class="spinner-container">
+            <lightning-spinner alternative-text="Saving..." size="medium"></lightning-spinner>
+          </div>
+        </template>
+        <!-- ===== Tabs (Open / Closed) ===== -->
+        <div class="tab-wrapper case-card">
+          <span class={openTabClass} onclick={showOpen}>Open</span>
+          <span class={closedTabClass} onclick={showClosed}>Completed</span>
+        </div>
+        <div class="search-box case-card">
+          <input type="text" placeholder="Search by Case No / Type" value={searchKey} oninput={handleSearch} />
+        </div>
+        <!-- ===== Case Cards List ===== -->
+        <template for:each={filteredCases} for:item="caseItem">
+          <div key={caseItem.id} class="case-card" data-id={caseItem.id} onclick={openCaseDetail}>
+            <div class="row">
+              <span class="label">Case Number:</span>
+              <span class="value">{caseItem.caseNumber}</span>
+            </div>
+            <div class="row">
+              <span class="label">Case Type:</span>
+              <span class="value">{caseItem.type}</span>
+            </div>
+            
+              <template for:each={caseItem.retailers} for:item="ret">
+    <div key={ret.label} class="row">
+        <span class="label">{ret.label}:</span>
+        <span class="value">{ret.value}</span>
+    </div>
+</template>
+           
+            <div class="row">
+              <span class="label">Status:</span>
+              <span class={caseItem.statusClass}> {caseItem.status} </span>
+            </div>
+          </div>
+        </template>
+        <!-- ================= POPUP (CASE TYPE SELECT) ================= -->
+        <template if:true={showPopup}>
+          <div class="modal-backdrop" onclick={closePopup}></div>
+          <div class="modal">
+            <div class="modal-header">
+              <span class="close-btn" onclick={closePopup}>✕</span>
+            </div>
+            <div class="search-box">
+              <label class="input-label">Select Case Type</label>
+              <div class="input-wrapper">
+                <input type="text" placeholder="Select Case Type" value={searchType} onclick={handleInputClick} oninput={handleTypeSearch} />
+                <template if:false={selectedType}>
+                  <span class="icon" onclick={handleInputClick}>▼</span>
+                </template>
+                <template if:true={selectedType}>
+                  <span class="icon clear-icon" onclick={clearSelection}>✕</span>
+                </template>
+              </div>
+            </div>
+            <!-- ===== Dropdown List ===== -->
+            <template if:true={showTypeDropdown}>
+              <div class="dropdown">
+                <template for:each={filteredTypes} for:item="type">
+                  <div key={type.value} class="type-item" data-label={type.label} data-value={type.value} onclick={selectType}> {type.label} </div>
+                </template>
+              </div>
+            </template>
+            <button class="submit-btn" onclick={handleSubmit}> Submit </button>
+          </div>
+        </template>
+      </template>
+      </template>
+    </template>
+    <!-- ================= FULL SCREEN FORM ================= -->
+    <template if:true={isFormScreen}>
+      <div class="case-card">
+        <h3 class="new-case">New Case</h3>
+        <!-- ===== Branding asset selector (Return Case only) ===== -->
+        <template if:true={isReturnCaseType}>
+          <div class="media-lines">
+            <lightning-combobox
+                label="Branding Asset"
+                required
+                value={selectedBrandingAssetId}
+                options={brandingAssetOptions}
+                placeholder="Select the asset being returned"
+                onchange={handleBrandingAssetChange}></lightning-combobox>
+            <template if:true={brandingAssetError}>
+              <p class="error">{brandingAssetError}</p>
+            </template>
+          </div>
+        </template>
+
+        <!-- ===== Repeatable media lines (Inventory Management only) ===== -->
+        <template if:true={isInventoryCaseType}>
+          <div class="media-lines">
+            <label class="input-label">Requested Media <span class="required-star">*</span></label>
+
+            <template for:each={mediaLinesForDisplay} for:item="line">
+              <div class="media-line" key={line.index}>
+                <div class="media-line-header">
+                  <span class="media-line-label">{line.rowLabel}</span>
+                  <template if:true={line.isRemovable}>
+                    <span class="media-line-remove"
+                          data-index={line.index}
+                          onclick={handleRemoveMediaLine}>&times;</span>
+                  </template>
+                </div>
+                <lightning-combobox
+                    label="Media Type"
+                    data-index={line.index}
+                    data-field="mediaType"
+                    value={line.mediaType}
+                    options={mediaTypeOptions}
+                    onchange={handleMediaLineChange}></lightning-combobox>
+                <lightning-combobox
+                    label="Media Sub Type"
+                    data-index={line.index}
+                    data-field="mediaSubType"
+                    value={line.mediaSubType}
+                    options={line.subTypeOptions}
+                    onchange={handleMediaLineChange}></lightning-combobox>
+                <lightning-input
+                    type="number"
+                    label="Quantity"
+                    min="1"
+                    data-index={line.index}
+                    data-field="quantity"
+                    value={line.quantity}
+                    onchange={handleMediaLineChange}></lightning-input>
+
+                <input type="file"
+                       accept="image/jpeg,image/png"
+                       class="hidden-input"
+                       data-type="media-line-photo"
+                       data-index={line.index}
+                       onchange={handleMediaLinePhotoChange} />
+
+                <template if:false={line.hasPhoto}>
+                  <label class="label" style="font-size: 13px; font-weight: 400;">
+                    <span style="color:#C1206B;">*</span> Photo
+                  </label>
+                  <div class="btn-group">
+                    <button type="button"
+                            data-index={line.index}
+                            onclick={handleMediaLinePhotoClick}>📷 Add Photo</button>
+                  </div>
+                </template>
+
+                <template if:true={line.hasPhoto}>
+                  <div class="preview-container">
+                    <div class="preview-box">
+                      <img src={line.photoUrl} alt="Item photo" />
+                      <span class="remove-btn"
+                            data-index={line.index}
+                            onclick={handleRemoveMediaLinePhoto}>&times;</span>
+                    </div>
+                  </div>
+                </template>
+              </div>
+            </template>
+
+            <template if:true={mediaLineError}>
+              <div class="error">{mediaLineError}</div>
+            </template>
+
+            <template if:true={canAddMediaLine}>
+              <button class="footer-back add-line-btn" onclick={handleAddMediaLine}>+ Add Item</button>
+            </template>
+          </div>
+        </template>
+
+        <!-- ===== Dynamic Fields ===== -->
+        <template for:each={dynamicFields} for:item="field" for:index="index">
+          <template if:false={field.isHidden}>
+    <div key={field.apiName}>
+            <template if:true={isLoading}>
+              <div class="spinner-container">
+                <lightning-spinner alternative-text="Saving..." size="medium"></lightning-spinner>
+              </div>
+            </template>
+            <template if:false={isRefreshing}>
+
+            <template if:true={field.isText}>
+    <template if:true={field.isScannable}>
+        <div class="scan-field-container">
+            <lightning-input key={field.apiName} label={field.label} name={field.apiName} value={field.value} required={field.required} onchange={handleInputChange} class="scan-input" disabled={field.isScanOnly}></lightning-input>
+            <button class="scan-icon-btn" data-field={field.apiName} onclick={handleFieldScan}>📷</button>
+        </div>
+    </template>
+    <template if:false={field.isScannable}>
+        <lightning-input key={field.apiName} label={field.label} name={field.apiName} value={field.value} required={field.required} onchange={handleInputChange} disabled={field.isDisabled}></lightning-input>
+    </template>
+</template>
+            <lightning-input if:true={field.isNumber} type="number" key={field.apiName} label={field.label} name={field.apiName} value={field.value} required={field.required} onchange={handleInputChange}></lightning-input>
+            <lightning-input if:true={field.isDate} type="date" key={field.apiName} label={field.label} name={field.apiName} value={field.value} required={field.required} onchange={handleInputChange}></lightning-input>
+            <lightning-combobox if:true={field.isPicklist} key={field.apiName} name={field.apiName} data-id={field.ffId} label={field.label} options={field.options} required={field.required} value={field.value} onchange={handleInputChange}></lightning-combobox>
+            <lightning-record-picker if:true={field.isLookup}  key={field.key} label={field.label} name={field.apiName} required={field.required} object-api-name={field.lookupObject} value={field.value} filter={field.filter} placeholder="Search..." onchange={handleLookupChange} disabled={field.isDisabled} ></lightning-record-picker>
+            <lightning-radio-group if:true={field.isRadio} key={field.apiName} label={field.label} name={field.apiName} value={field.value} required={field.required} options={field.options} onchange={handleInputChange}></lightning-radio-group>
+            <template if:true={field.isFile}>
+              <div class="upload-container" data-field={field.apiName} data-index={index}>
+                <label class="label" style="font-size: 13px; font-weight: 400;">
+                  <template if:true={field.required}>
+                    <span style="color:#C1206B;">*</span> {field.label} </template>
+                </label>
+                <template if:true={field.error}>
+                  <div style="color:red; font-size:12px;"> {field.error} </div>
+                </template>
+                <template if:false={field.hasPhoto}>
+                  <div class="btn-group">
+                    <button type="button" data-index={index} onclick={openCamera}>📷 Take Photo</button>
+                  </div>
+                </template>
+<input
+    type="file"
+    accept="image/*"
+    capture="environment"
+    class="hidden-input"
+    data-type="camera"
+    data-fname={field.apiName}
+    data-index={index}
+    onchange={handleFileChange} />
+                <!-- Preview -->
+                <div class="preview-container">
+                  <template for:each={field.images} for:item="img">
+                    <div key={img.url} class="preview-box">
+                      <img src={img.url} />
+                      <span class="remove-btn" data-id={img.id} data-index={index} onclick={removeImage}>×</span>
+                    </div>
+                  </template>
+                </div>
+              </div>
+            </template>
+            </template>
+          </div>
+        </template>
+        </template>
+        <!-- Submit Button -->
+        <button class="submit-btn" onclick={handleSave}> Submit </button>
+      </div>
+    </template>
+    <!-- ================= NEW ASSET CODE SCAN POPUP ================= -->
+        <template if:true={showNewAssetScanPopup}>
+            <div class="modal-backdrop" onclick={closeNewAssetScanPopup}></div>
+            <div class="modal">
+                <div class="modal-header">
+                    <span class="close-btn" onclick={closeNewAssetScanPopup}>✕</span>
+                </div>
+                <div class="search-box">
+                    <label class="input-label">Enter New Asset Code</label>
+                    <div class="input-wrapper">
+                        <input type="text" placeholder="Enter QR Code" oninput={handleNewAssetManualInput} />
+                    </div>
+                </div>
+                <button class="submit-btn" onclick={handleNewAssetManualSubmit}>Submit</button>
+            </div>
+        </template>
+
+        <!-- ================= SERIAL NUMBER SCAN POPUP ================= -->
+        <template if:true={showSerialScanPopup}>
+            <div class="modal-backdrop" onclick={closeSerialScanPopup}></div>
+            <div class="modal">
+                <div class="modal-header">
+                    <span class="close-btn" onclick={closeSerialScanPopup}>✕</span>
+                </div>
+                <div class="search-box">
+                    <label class="input-label">Enter Serial Number</label>
+                    <div class="input-wrapper">
+                        <input type="text" placeholder="Enter Serial Number" oninput={handleSerialManualInput} />
+                    </div>
+                </div>
+                <button class="submit-btn" onclick={handleSerialManualSubmit}>Submit</button>
+            </div>
+        </template>
+
+  </div>
+  <!-- ================= FIXED FOOTER ================= -->
+  <!-- ================= FIXED FOOTER ================= -->
+  <div class="footer">
+   <div class={backButtonClass}>
+    <button class="footer-back" onclick={handleBack}>
+        Back
+    </button>
+</div>
+    <template if:true={isHideAddIcon}>
+      <div class="footer-add" onclick={openPopup}> + </div>
+    </template>
+  </div>
+</template>

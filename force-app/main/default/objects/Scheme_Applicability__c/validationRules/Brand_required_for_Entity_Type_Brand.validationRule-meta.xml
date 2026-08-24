@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Brand_required_for_Entity_Type_Brand</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+    ISPICKVAL(Entity_Type__c, &apos;Brand&apos;),
+    OR(ISBLANK(Product_Brand__c), NOT(ISBLANK(Product__c)))
+  )</errorConditionFormula>
+    <errorMessage>Entity Type is Brand — enter a Product Brand and leave Product blank.</errorMessage>
+</ValidationRule>

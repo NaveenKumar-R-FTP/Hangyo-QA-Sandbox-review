@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<NetworkBranding xmlns="http://soap.sforce.com/2006/04/metadata">
+    <loginFooterText>Hangyo Ice Cream</loginFooterText>
+    <loginPrimaryColor>#CE0067</loginPrimaryColor>
+    <loginQuaternaryColor>#FFFFFF</loginQuaternaryColor>
+    <loginRightFrameUrl>https://inspiration-ruby-151--qa.sandbox.my.salesforce.com/servlet/servlet.ImageServer?id=015Hy0000019rh9&amp;oid=00DHy000000Ysvk&amp;lastMod=1741277703000</loginRightFrameUrl>
+    <network>Distributor Management System</network>
+    <primaryColor>#1797C0</primaryColor>
+    <primaryComplementColor>#FFFFFF</primaryComplementColor>
+    <quaternaryColor>#B1BAC1</quaternaryColor>
+    <quaternaryComplementColor>#222222</quaternaryComplementColor>
+    <secondaryColor>#51606E</secondaryColor>
+    <tertiaryColor>#DDE4E9</tertiaryColor>
+    <tertiaryComplementColor>#222222</tertiaryComplementColor>
+    <zeronaryColor>#51606E</zeronaryColor>
+    <zeronaryComplementColor>#FFFFFF</zeronaryComplementColor>
+</NetworkBranding>

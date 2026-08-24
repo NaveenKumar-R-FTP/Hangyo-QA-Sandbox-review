@@ -1,0 +1,372 @@
+.header {
+    padding: 8px;
+    border-bottom: 1px solid #e0e0e0;
+    background: #fff;
+}
+
+.toggle-row {
+    margin-top: 4px;
+    margin-bottom: 8px;
+}
+
+.toggle-link {
+    font-size: 13px;
+    font-weight: 600;
+    color: #0277d4;
+    cursor: pointer;
+}
+
+.breadcrumb {
+    font-size: 12px;
+    padding: 6px 10px;
+    white-space: nowrap;
+    overflow-x: auto;
+    border-bottom: 1px solid #ececec;
+}
+
+.breadcrumb-item a {
+    font-weight: 600;
+    color: #0277d4;
+}
+
+.breadcrumb-separator {
+    margin: 0 5px;
+    color: #444;
+}
+
+/* GRID */
+.users-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+}
+
+.user-card {
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #ececec;
+    background: #fff;
+    cursor: pointer;
+}
+
+.user-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.user-name {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.user-role {
+    font-size: 11px;
+    color: #666;
+}
+
+.view-team {
+    font-size: 12px;
+    color: #0070d2;
+    font-weight: bold;
+}
+
+.stats-grid {
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+}
+
+.stat {
+    background: #f7f8fc;
+    border-radius: 8px;
+    padding: 8px;
+    text-align: center;
+}
+
+.stat-value {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.stat-label {
+    font-size: 10px;
+    margin-top: 4px;
+    color: #777;
+}
+
+.no-data {
+    text-align: center;
+    padding: 2rem;
+    color: #888;
+}
+
+/* LOADING */
+.loading-state {
+    text-align: center;
+    padding: 2rem;
+}
+
+.loading-spinner {
+    width: 30px;
+    height: 30px;
+    border: 3px solid #ddd;
+    border-top-color: #1877f2;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: auto;
+}
+
+@keyframes spin {
+    100% { transform: rotate(360deg); }
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+    .users-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 500px) {
+    .users-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* SEARCH AND FILTER */
+.filter-search-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 0 10px;
+}
+
+.search-input {
+    flex: 1;
+}
+
+.filter-icon {
+    cursor: pointer;
+}
+
+/* ROLE FILTER POPUP */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.45);
+    z-index: 999;
+}
+
+.role-filter-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #ffffff;
+    padding: 20px;
+    width: 300px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    z-index: 1001;
+}
+
+.section-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.role-checkboxes {
+    max-height: 200px;
+    overflow-y: auto;
+    margin-bottom: 15px;
+}
+
+.role-checkbox-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.role-checkbox-item input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.popup-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.btn-clear {
+    background-color: #f0f0f0;
+    color: black;
+    border: 1px solid #ccc;
+    padding: 6px 20px;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.btn-apply {
+    background-color: #0277d4;
+    color: white;
+    border: none;
+    padding: 6px 20px;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.btn-clear:hover {
+    background-color: #e0e0e0;
+}
+
+.btn-apply:hover {
+    background-color: #015a9c;
+}
+
+/* Responsive adjustments */
+@media (max-width: 500px) {
+    .filter-search-row {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .search-input {
+        width: 100%;
+    }
+}
+/* Current User KPI Section Styles - Matching existing style */
+.current-user-kpi-section {
+    background: white;
+    border-radius: 10px;
+    padding: 12px;
+    margin-bottom: 12px;
+    border: 1px solid #ececec;
+    background: #fff;
+    transition: all 0.3s ease;
+}
+
+.current-user-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.current-user-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    line-height: 1.2;
+}
+
+.current-user-role {
+    font-size: 11px;
+    color: #666;
+    margin-top: 2px;
+}
+
+.current-user-tag {
+    font-size: 10px;
+    color: #0070d2;
+    font-weight: bold;
+    background: #f0f7ff;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.current-user-stats-grid {
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+}
+
+.current-user-stat {
+    background: #f7f8fc;
+    border-radius: 8px;
+    padding: 8px;
+    text-align: center;
+}
+
+.current-user-stat-value {
+    font-size: 14px;
+    font-weight: 700;
+    color: #333;
+}
+
+.current-user-stat-label {
+    font-size: 10px;
+    margin-top: 4px;
+    color: #777;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.direct-reports-header {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin: 16px 0 12px 0;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+/* Remove the hover effect if you want it to be exactly like other cards */
+.current-user-kpi-section:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .current-user-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+    
+    .current-user-stat {
+        padding: 8px;
+    }
+    
+    .current-user-stat-value {
+        font-size: 14px;
+    }
+    
+    .current-user-stat-label {
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .current-user-kpi-section {
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+    
+    .current-user-name {
+        font-size: 13px;
+    }
+    
+    .current-user-role {
+        font-size: 10px;
+    }
+    
+    .current-user-tag {
+        font-size: 9px;
+        padding: 2px 5px;
+    }
+    
+    .current-user-stat-value {
+        font-size: 13px;
+    }
+    
+    .current-user-stat-label {
+        font-size: 9px;
+    }
+}

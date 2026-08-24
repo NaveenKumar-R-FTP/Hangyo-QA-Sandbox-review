@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Retailer_Reimbursement_Scheme__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <label>Retailer Reimbursement Scheme</label>
+    <referenceTo>Retailer_Reimbursement_Scheme__c</referenceTo>
+    <relationshipLabel>Invoice Reimbursement Lines</relationshipLabel>
+    <relationshipName>Invoice_Reimbursement_Lines</relationshipName>
+    <required>true</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

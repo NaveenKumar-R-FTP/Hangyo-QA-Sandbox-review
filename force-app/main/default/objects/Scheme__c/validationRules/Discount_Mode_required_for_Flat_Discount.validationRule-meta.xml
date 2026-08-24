@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Discount_Mode_required_for_Flat_Discount</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+  ISPICKVAL(Type__c, &apos;Flat Discount&apos;),
+  ISPICKVAL(Discount_Mode__c, &apos;&apos;)
+)</errorConditionFormula>
+    <errorDisplayField>Discount_Mode__c</errorDisplayField>
+    <errorMessage>Discount Mode is required for Flat Discount schemes.</errorMessage>
+</ValidationRule>

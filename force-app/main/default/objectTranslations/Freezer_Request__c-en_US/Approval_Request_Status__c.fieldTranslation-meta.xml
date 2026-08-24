@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Approval Request Status --></label>
+    <name>Approval_Request_Status__c</name>
+    <picklistValues>
+        <masterLabel>Request approved</masterLabel>
+        <translation><!-- Request approved --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Request in L1 approval</masterLabel>
+        <translation><!-- Request in L1 approval --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Request in L2 approval</masterLabel>
+        <translation><!-- Request in L2 approval --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Request in L3 approval</masterLabel>
+        <translation><!-- Request in L3 approval --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Request received</masterLabel>
+        <translation><!-- Request received --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Request rejected</masterLabel>
+        <translation><!-- Request rejected --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

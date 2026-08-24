@@ -1,0 +1,194 @@
+.maintable {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.maintable td, .maintable th {
+    border: 1px solid black;
+    padding: 5px;
+}
+
+.alignCenter {
+    text-align: center;
+}
+
+.width12half {
+    width: 12.5%;
+}
+
+.lookup-container {
+    position: relative;
+}
+
+.search-input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #d8dde6;
+    border-radius: 4px;
+}
+
+/* Invoice Line Item modal – match pink/purple theme (second image) */
+.invoice-line-item-modal-title {
+    color: #C1206B;
+}
+
+.slds-modal__content .lookup-container .search-input {
+    border: 1px solid #f2b7d5;
+    border-radius: 4px;
+}
+
+.invoice-line-item-save-btn {
+    background-color: #C1206B;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.invoice-line-item-save-btn:hover:not(:disabled) {
+    background-color: #a01b5a;
+}
+
+.invoice-line-item-save-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.invoice-line-item-cancel-btn {
+    background-color: white;
+    color: #C1206B;
+    border: 1px solid #f2b7d5;
+    border-radius: 6px;
+    padding: 6px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.invoice-line-item-cancel-btn:hover {
+    background-color: #fdf2f8;
+    border-color: #C1206B;
+}
+
+.dropdown {
+    position: absolute;
+    background: white;
+    border: 1px solid #d8dde6;
+    width: 100%;
+    z-index: 1000;
+    max-height: 200px;
+    overflow-y: auto;
+    border-radius: 4px;
+}
+
+.dropdown-item {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.dropdown-item:hover {
+    background: #f3f3f3;
+}
+
+.no-results {
+    color: #888;
+}
+
+.selected-pill {
+    margin-top: 8px;
+    background: #eef6ff;
+    padding: 6px 10px;
+    display: inline-flex;
+    align-items: center;
+    border-radius: 15px;
+}
+
+.stock-info {
+    float: right;
+    color: #888;
+}
+
+.value-scheme-button {
+        background-color: #C1206B;
+        color: White;
+        font-family: arial;
+       
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        padding: 3px 5px;
+            font-size: 13px;    /* Adjust font size */
+    margin-left: 0px;
+    }
+
+/* added by Fuzail - Search By dropdown styles */
+/* ========== Search By (label + dropdown) ========== */
+.search-by-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.search-by-row label {
+    font-weight: 600;
+    white-space: nowrap;
+    color: #C1206B;
+    font-family: inherit;
+    margin: 0;
+}
+
+.search-by-row [data-searchby-container] {
+    position: relative;
+}
+
+[data-searchby-container] .slds-button_neutral {
+    min-width: auto;
+    width: auto;
+    padding: 6px 8px;
+    padding-right: 18px; /* Add extra padding on right for arrow */
+    background: white;
+    border: 1px solid #f2b7d5;
+    border-radius: 4px;
+    color: #C1206B;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+[data-searchby-container] .slds-button_neutral:hover {
+    background: #fdf2f8;
+    border-color: #f2b7d5;
+}
+
+[data-searchby-container] .slds-button_neutral lightning-icon {
+    position: absolute;
+    right: 10px;
+    color: #706e6b !important;
+    fill: #706e6b !important;
+}
+
+[data-searchby-container] .slds-dropdown {
+    background: white;
+    border: 1px solid #f2b7d5;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+[data-searchby-container] .slds-dropdown__item a {
+    color: #C1206B;
+    padding: 8px 12px;
+    font-size: 12px;
+}
+
+[data-searchby-container] .slds-dropdown__item a:hover {
+    background: #fdf2f8;
+}

@@ -1,0 +1,93 @@
+<template>
+    <lightning-card>
+        <h2 class="title slds-text-heading_medium">Monthly Beat Scheduler</h2>
+
+        <!-- Filters -->
+        <div class="slds-grid slds-wrap slds-m-around_medium slds-gutters">
+
+            <!-- User Search -->
+            <div class="slds-col slds-size_1-of-3">
+                <lightning-record-picker
+                    label="Select User"
+                    placeholder="Search User..."
+                    object-api-name="User"
+                    value={selectedUserId}
+                    filter={userFilter}
+                    onchange={handleUserChange}>
+                </lightning-record-picker>
+            </div>
+
+            <!-- Month -->
+            <div class="slds-col slds-size_1-of-6">
+                <lightning-combobox
+                    label="Month"
+                    value={selectedMonth}
+                    options={monthOptions}
+                    onchange={handleMonthChange}>
+                </lightning-combobox>
+            </div>
+
+            <!-- Year -->
+            <div class="slds-col slds-size_1-of-6">
+                <lightning-combobox
+                    label="Year"
+                    value={selectedYear}
+                    options={yearOptions}
+                    onchange={handleYearChange}>
+                </lightning-combobox>
+            </div>
+
+        </div>
+
+        <!-- Calendar Wrapper -->
+        <div class="calendar-wrapper slds-m-around_medium">
+
+            <table class="slds-table slds-table_bordered beat-calendar">
+                <thead>
+                    <tr>
+                        <template for:each={weekDays} for:item="day">
+                            <th key={day}>{day}</th>
+                        </template>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <template for:each={calendarWeeks} for:item="week">
+                        <tr key={week.id}>
+                            <template for:each={week.days} for:item="day">
+                                <td key={day.key} class="calendar-cell">
+                                    <template if:true={day.date}>
+                                        <div class="date-number slds-text-title_bold">
+                                            {day.dayNumber}
+                                        </div>
+
+                                        <lightning-combobox
+                                            class="beat-combobox"
+                                            data-date={day.date}
+                                            value={day.selectedBeat}
+                                            options={beatOptions}
+                                            placeholder="Select Beat"
+                                            disabled={day.isPast}
+                                            onmousedown={handleBeatDropdownClick}
+                                            onchange={handleBeatChange}>
+                                        </lightning-combobox>
+                                    </template>
+                                </td>
+                            </template>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+
+        </div>
+    </lightning-card>
+
+    <!-- Save Button -->
+    <div class="slds-align_absolute-center slds-m-vertical_large">
+        <lightning-button
+            label="Save"
+            variant="brand"
+            onclick={handleSave}>
+        </lightning-button>
+    </div>
+</template>

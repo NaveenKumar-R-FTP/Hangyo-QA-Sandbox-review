@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Role xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseAccessLevel>None</caseAccessLevel>
+    <contactAccessLevel>Edit</contactAccessLevel>
+    <description>sd Partner Person Account</description>
+    <mayForecastManagerShare>false</mayForecastManagerShare>
+    <name>sd Partner Person Account</name>
+    <opportunityAccessLevel>None</opportunityAccessLevel>
+    <parentRole>SO_9_ASM_RSM_VP_SCA</parentRole>
+</Role>

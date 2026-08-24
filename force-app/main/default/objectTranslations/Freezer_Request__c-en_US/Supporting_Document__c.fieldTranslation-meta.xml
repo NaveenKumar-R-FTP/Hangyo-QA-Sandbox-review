@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Supporting Document --></label>
+    <name>Supporting_Document__c</name>
+    <picklistValues>
+        <masterLabel>Aadhar</masterLabel>
+        <translation><!-- Aadhar --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Others</masterLabel>
+        <translation><!-- Others --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>PAN</masterLabel>
+        <translation><!-- PAN --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Rent Agreement</masterLabel>
+        <translation><!-- Rent Agreement --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

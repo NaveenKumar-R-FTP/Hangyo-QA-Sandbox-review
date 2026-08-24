@@ -1,0 +1,120 @@
+<template>
+    <template if:true={showContactInfoPage}>
+        <lightning-card>
+            <h2 class="custom-title">Contact Information</h2>
+            <div class="slds-p-around_medium">
+
+                <div class="section-label">Type</div>
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="saleType" value="Event"
+                               checked={isSaleTypeEvent} onchange={handleSaleTypeChange}/>
+                        <span>Event</span>
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="saleType" value="Cash Sales"
+                               checked={isSaleTypeCash} onchange={handleSaleTypeChange}/>
+                        <span>Cash Sales</span>
+                    </label>
+                </div>
+
+                <div class="section-label" style="margin-top:12px;">Price Type</div>
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="priceType" value="MRP"
+                               checked={isPriceMRP} onchange={handlePriceTypeChange}/>
+                        <span>MRP</span>
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="priceType" value="Dealer Price"
+                               checked={isPriceDealer} onchange={handlePriceTypeChange}/>
+                        <span>Dealer Price</span>
+                    </label>
+                </div>
+
+                <div class="slds-m-top_medium">
+                    <div class="row">
+                        <lightning-input type="text" label="First Name" name="firstname"
+                            class="input-field small" value={firstname}
+                            onchange={handleInputChange}
+                            placeholder="Enter first name..." required></lightning-input>
+                        <lightning-input type="text" label="Last Name" name="lastname"
+                            class="input-field small" value={lastname}
+                            onchange={handleInputChange}
+                            placeholder="Enter last name..."></lightning-input>
+                    </div>
+                    <div class="row">
+                        <lightning-input type="tel" label="Phone" name="phone"
+                            class="input-field medium" value={phone}
+                            onchange={handleInputChange}
+                            placeholder="Enter phone number..." required></lightning-input>
+                        <lightning-input type="text" label="Address Line" name="addressline"
+                            class="input-field small" value={addressline}
+                            onchange={handleInputChange}
+                            placeholder="Enter address..."></lightning-input>
+                    </div>
+                    <div class="row">
+                        <lightning-input type="email" label="Email" name="email"
+                            class="input-field small" value={email}
+                            onchange={handleInputChange}
+                            placeholder="Enter email..."></lightning-input>
+                        <div class="row" style="width:49.5%">
+                            <lightning-input type="text" label="Postal Code" name="postalcode"
+                                class="input-field small" value={postalcode}
+                                onchange={handleInputChange}
+                                placeholder="Enter pincode..."></lightning-input>
+                            <lightning-input type="text" label="City/Town" name="city"
+                                class="input-field small" value={city}
+                                onchange={handleInputChange}
+                                placeholder="Enter city..."></lightning-input>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <lightning-input type="text" label="Company" name="company"
+                            class="input-field small" value={company}
+                            onchange={handleInputChange}
+                            placeholder="Enter company name..."></lightning-input>
+                        <div class="row" style="width:49.5%">
+                            <lightning-input type="text" label="State" name="state"
+                                class="input-field small" value={state} readonly></lightning-input>
+                            <lightning-input type="text" label="Country" name="country"
+                                class="input-field small" value={country} readonly></lightning-input>
+                        </div>
+                    </div>
+                    <div class="row" style="width:49.8%">
+                        <lightning-input type="text" label="GSTIN" name="gstin"
+                            class="input-field small" value={gstin}
+                            onchange={handleInputChange}
+                            placeholder="Enter GSTIN..."></lightning-input>
+                    </div>
+                </div>
+
+                <div class="slds-grid slds-grid_align-center slds-m-top_medium">
+                    <lightning-button label="Next" variant="brand"
+                        onclick={handleNext}></lightning-button>
+                </div>
+            </div>
+        </lightning-card>
+    </template>
+
+ <template if:true={showProductPage}>
+    <c-create-secondary-order-component-dms
+        is-counter-flow
+        counter-first-name={firstname}
+        counter-last-name={lastname}
+        counter-phone={phone}
+        counter-email={email}
+        counter-address-line={addressline}
+        counter-city={city}
+        counter-postal-code={postalcode}
+        counter-state={state}
+        counter-country={country}
+        counter-company={company}
+        counter-gstin={gstin}
+        sale-type={saleType}
+        price-type={priceType}
+        oncounterback={handleGoBack}
+        onisorderchanged={handleGoBack}>
+    </c-create-secondary-order-component-dms>
+</template>
+</template>

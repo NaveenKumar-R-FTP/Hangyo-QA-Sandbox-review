@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Asset Status --></label>
+    <name>Asset_Status__c</name>
+    <picklistValues>
+        <masterLabel>Move to Scrabbed</masterLabel>
+        <translation><!-- Move to Scrabbed --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Repaired</masterLabel>
+        <translation><!-- Repaired --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

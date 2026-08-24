@@ -1,0 +1,276 @@
+<template>
+
+        <template if:false={isAllFieldMode}>
+
+        <!-- Container for mobile viewport -->
+        <div class="team-performance-mobile">
+
+            <!-- Top fixed section: Header + Breadcrumb + Current User KPI -->
+            <div class="top-fixed-content">
+
+                <!-- Header -->
+                <div class="header">
+                    <div class="slds-grid slds-grid_align-spread slds-grid_vertical-align-center" 
+                    style="margin-bottom: 5px;">
+                        <div>
+                            <lightning-button-icon 
+                                icon-name="utility:back"
+                                alternative-text="Back"
+                                onclick={handleBack}>
+                            </lightning-button-icon>
+                        </div>
+                        <div class="slds-text-heading_medium" style="font-size: 16px; text-align:center; flex:1;">
+                            Team Performance Hierarchy
+                        </div>
+                    </div>
+
+                    <div class="slds-grid slds-grid_align-end">
+                        <div class="all-field-users" onclick={handleAllFiledClick} style="font-size: 0.8rem; cursor: pointer;">
+                            All FIELD USERS
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Breadcrumb -->
+                <div class="breadcrumb">
+                    <template for:each={breadcrumb} for:item="crumb">
+                        <span key={crumb.userId} class="breadcrumb-item">
+                            <template if:true={crumb.showSeparator}>
+                                <span class="breadcrumb-separator"> &gt; </span>
+                            </template>
+                            <a href="javascript:void(0);" onclick={handleBreadcrumbClick} data-userid={crumb.userId}>
+                                {crumb.userName}
+                            </a>
+                        </span>
+                    </template>
+                </div>
+
+                <!-- Current User KPI Strip -->
+                <div class="current-user-kpi">
+                    <div class="currentUserName">{currentUser.userName}</div>
+                    <div class="CurrentUserRole">{currentUser.userRole}</div>
+                    <div class="kpi-strip slds-grid slds-grid_align-spread">
+                        <div class="kpi-block">
+                            <div class="kpi-label">Total Order Value</div>
+                            <div class="kpi-value">{currentUser.actualFormatted}</div>
+                        </div>
+                        <div class="kpi-block">
+                            <div class="kpi-label">Sales Performance</div>
+                            <div class="kpi-value">{currentUser.targetFormatted}</div>
+                            <div class="kpi-subvalue">Target vs Actual: {currentUser.targetVsActual}%</div>
+                        </div>
+                    </div>
+
+                    <div class="progress-container">
+                        <div class="progress-fill" style={kpiProgressStyle}></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scrollable Direct Reports List -->
+            <div class="subordinates-list">
+               <!-- <div class="slds-text-heading_small slds-m-bottom_small">Direct Reports</div>-->
+
+                <template if:true={hasDirectReports}>
+                    <template for:each={directReports} for:item="sub">
+                        <div key={sub.userId} class="subordinate-row-wrapper">
+                            <div class="subordinate-row" onclick={handleSubordinateClick} data-userid={sub.userId}>
+                                <div class="sub-left">
+                                    <div class="sub-name">{sub.userName}</div>
+                                    <div class="sub-title">{sub.userRole}</div>
+                                </div>
+                                <div class="sub-metrics">
+                                    <div class="sub-kpi">
+                                        <div class="kpi-label">Orders</div>
+                                        <div class="kpi-value">{sub.actualFormatted}</div>
+                                    </div>
+                                    <div class="sub-kpi">
+                                        <div class="kpi-label">Target</div>
+                                        <div class="kpi-value">{sub.targetFormatted}</div>
+                                    </div>
+                                </div>
+                                <div class="sub-arrow">&gt;</div>
+                            </div>
+
+                            <div class="targetactualsub">Target vs Actual: {sub.targetvsactuals}%</div>
+
+                            <div class="progress-container">
+                                <div class="progress-fill" style={sub.progressStyle}></div>
+                            </div>
+                        </div>
+                    </template>
+                </template>
+
+                <template if:true={loading}>
+                    <div class="slds-text-body_small">Loading direct reports...</div>
+                </template>
+
+                <template if:true={noSubordinates}>
+                    <div class="slds-text-body_small">No direct reports found.</div>
+                </template>
+            </div>
+
+        </div>
+
+    </template>
+
+
+    <template if:true={isAllFieldMode}>
+    <div class="page-wrapper">
+
+        <div class="top-fixed">
+
+            <div class="filter-search-row">
+
+                
+                    <lightning-button-icon 
+                        icon-name="utility:back"
+                        alternative-text="Back"
+                        onclick={handleAllFieldBack}
+                        class="back-btn"
+                        variant="bare"
+                        size="large"
+                        style="--slds-c-icon-color-foreground-default: #00aaff; margin-top: 8px;">
+                    </lightning-button-icon>
+                
+
+                <lightning-input 
+                    type="search" 
+                    placeholder="Search by Employee Name or Role" 
+                    value={searchKey} 
+                    onchange={handleSearch} style="margin-top: -30px;">
+                </lightning-input>
+
+                <lightning-button-icon 
+                    icon-name="utility:filterList" 
+                    alternative-text="Filter" 
+                    onclick={toggleRoleFilter} 
+                    class="filter-icon">
+                </lightning-button-icon>
+            </div>
+
+            <!-- ROLE FILTER POPUP -->
+            <template if:true={roleFilterVisible}>
+                <div class="popup-overlay" onclick={closeRoleFilter}></div>
+
+                <div class="role-filter-popup">
+
+                    <div class="section-title">User Filter</div>
+                    <div class="section-sub-title">View As Manager</div>
+
+                    <lightning-input 
+                        type="search" 
+                        placeholder="Search Users"
+                        value={roleUserSearchKey}
+                        onchange={handleRoleUserSearch}>
+                    </lightning-input>
+
+                    <template if:true={roleUserOptions}>
+                        <div class="user-picklist">
+                            <template for:each={roleUserOptions} for:item="u">
+                                <div key={u.Id} 
+                                    class="picklist-item" 
+                                    data-userid={u.Id} 
+                                    onclick={handleRoleUserSelect}>
+                                    {u.Name}
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+
+                    <div class="divider">
+                        <span>OR</span>
+                    </div>
+
+                    <div class="section-sub-title-uh">User Hierarchy</div>
+
+                    <div class="role-checkboxes">
+                        <template for:each={roleOptionsWithSelected} for:item="role">
+                            <lightning-input
+                                key={role.value}
+                                type="checkbox"
+                                label={role.label}
+                                data-value={role.value}
+                                checked={role.selected}
+                                onchange={handleRoleCheckboxChange}>
+                            </lightning-input>
+                        </template>
+                    </div>
+
+                    <div class="popup-actions">
+                        <button class="btn-clear" onclick={clearRoleFilter}>Clear</button>
+                        <button class="btn-apply" onclick={applyRoleFilter}>Apply</button>
+                    </div>
+
+                </div>
+            </template>
+        </div>
+
+        <div class="user-list-scroll">
+
+            <template if:true={filteredUsers}>
+                <template for:each={filteredUsers} for:item="u">
+                    <div key={u.Id} class="user-summary-card" data-userid={u.Id} data-role={u.Role}>
+
+    <!-- Unified top row -->
+    <div class="header-row">
+
+        <!-- USER INFO -->
+        <div class="user-info">
+            <p class="user-name">{u.Name}</p>
+            <p class="user-role">{u.Role}</p>
+        </div>
+
+        <!-- ORDERS & TARGETS -->
+        <div class="kpi-row-all">
+            <template if:true={u.actualFormatted}>
+                <div class="kpi-item-all">
+                    <div class="kpi-label-all">Orders</div>
+                    <div class="kpi-value-all">{u.actualFormatted}</div>
+                </div>
+            </template>
+
+            <template if:true={u.targetFormatted}>
+                <div class="kpi-item-all">
+                    <div class="kpi-label-all">Target</div>
+                    <div class="kpi-value-all">{u.targetFormatted}</div>
+                </div>
+            </template>
+        </div>
+
+        <!-- ACTION ICONS -->
+        <template if:true={u.Phone}>
+            <div class="user-actions">
+                <span class="icon-wa" data-phone={u.Phone} onclick={handleWhatsApp}>
+                    <!-- WhatsApp SVG -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="green" d="M20.52 3.48A11.79 11.79 0 0 0 12 0a11.85 11.85 0 0 0-11.8 12A11.78 11.78 0 0 0 3.48 20.5L0 24l3.6-1.46A11.94 11.94 0 0 0 12 24a11.85 11.85 0 0 0 8.48-20.52ZM12 21.6a9.61 9.61 0 0 1-4.88-1.34l-.35-.21-2.14.86.82-2.08-.22-.35A9.6 9.6 0 1 1 12 21.6Zm5.49-7.22c-.3-.15-1.77-.87-2.04-.97s-.47-.15-.67.15-.77.97-.94 1.17-.35.22-.64.07a8 8 0 0 1-2.35-1.44 8.7 8.7 0 0 1-1.61-2c-.17-.3 0-.46.13-.61s.3-.35.45-.52a2 2 0 0 0 .3-.52.56.56 0 0 0-.03-.52c-.08-.15-.67-1.61-.92-2.21s-.52-.5-.72-.5h-.61a1.18 1.18 0 0 0-.84.39 3.5 3.5 0 0 0-1.07 2.6 6.06 6.06 0 0 0 1.27 3.18A13.94 13.94 0 0 0 10 16.31a16 16 0 0 0 3.9 1.8 9.27 9.27 0 0 0 4.24.68 3 3 0 0 0 2-1.38 2.37 2.37 0 0 0 .16-1.38c-.15-.28-.57-.45-.81-.55Z"/>
+                    </svg>
+                </span>
+
+                <span class="icon-call" data-phone={u.Phone} onclick={handleCall}>
+                    <!-- Call SVG -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path fill="#1e90ff" d="M6.62 10.79a15.053 15.053 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.11-.21c1.21.49 2.53.76 3.88.76a1 1 0 0 1 1 1v3.5a1 1 0 0 1-1 1C10.07 22 2 13.93 2 4.5a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.35.26 2.67.76 3.88a1 1 0 0 1-.21 1.11l-2.43 2.3z"/>
+                    </svg>
+                </span>
+            </div>
+        </template>
+
+    </div>
+
+    <!-- PROGRESS BAR -->
+    <div class="progress-container">
+        <div class="progress-fill" style={u.progressStyle}></div>
+    </div>
+
+</div>
+
+                </template>
+            </template>
+
+        </div>
+    </div>
+</template>
+
+</template>

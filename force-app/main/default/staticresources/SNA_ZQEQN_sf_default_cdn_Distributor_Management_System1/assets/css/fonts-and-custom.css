@@ -1,0 +1,18 @@
+li.myAccount.uiMenuItem,
+li.communityManageConsole.uiMenuItem {
+    display: none !important;
+}
+
+button[name="SaveAndNew"] {
+    display: none !important;
+}
+
+button[name="ChangeOwner"] {
+    display: none !important;
+}
+
+
+.slds-cell-fixed {
+    background-color: rgba(255, 182, 193, 0.42) !important;  /* Change to your desired color */   
+}
+:root { --dxp-c-section-columns-max-width: 1170px; }

@@ -1,0 +1,95 @@
+<apex:page controller="PicklistPDFController" 
+           showHeader="false" 
+           applyBodyTag="false"
+           contentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" 
+           action="{!setContentDispositionexcel}">
+
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <style>
+            td, th {
+                mso-number-format:\@;
+                border: 1px solid #000000 !important;
+            }
+            .number { mso-number-format:0; }
+        </style>
+    </head>
+    <body>
+        <table border="1" cellpadding="3" cellspacing="0" 
+               style="border: 1px solid #000000; border-collapse: collapse; width: 100%; mso-border-alt: solid black .5pt;">
+            
+            <!-- Header -->
+            <tr>
+                <td colspan="6" style="background: #C1206B; color: white; text-align: center; 
+                            font-weight: bold; font-size: 16px; padding: 10px; border: 1px solid #000000;">
+                    Picklist
+                </td>
+            </tr>
+            
+            <!-- Customer Section Title -->
+            <tr>
+                <td colspan="6" style="background: #f8d7da; color: #c2185b; 
+                            font-weight: bold; padding: 8px; border: 1px solid #000000; text-align: center;">
+                    Customer
+                </td>
+            </tr>
+
+            <!-- First Row: Distributor + Driver Info -->
+            <tr>
+                <td colspan="3" style="padding: 8px; border: 1px solid #000000;">
+                    <b>Distributor Name:</b> {!loggedInContact.Account.Name}<br/>
+                    <b>Mobile:</b> {!loggedInContact.Account.Phone}<br/>
+                    <b>Distributor Address:</b> {!loggedInContact.Account.ShippingStreet} 
+                        {!loggedInContact.Account.ShippingCity} 
+                        {!loggedInContact.Account.ShippingState} 
+                        {!loggedInContact.Account.ShippingPostalCode} 
+                        {!loggedInContact.Account.ShippingCountry}
+                </td>
+                <td colspan="3" style="padding: 8px; border: 1px solid #000000;">
+                    <b>Driver Name:</b> {!deliveryPlans[0].Driver_Name__c}<br/>
+                    <b>Driver Phone:</b> {!deliveryPlans[0].Driver_Number__c}<br/>
+                    <b>Vehicle Number:</b> {!deliveryPlans[0].Vehicle_Number__c}
+                </td>
+            </tr>
+
+            <!-- Date Row -->
+            <tr>
+                <td colspan="3" style="padding: 8px; border: 1px solid #000000;"><b>Date:</b> {!formattedDate}</td>
+                <td colspan="2" style="border: 1px solid #000000;"></td>
+            </tr>
+
+            <!-- Product Details Section -->
+            <tr>
+                <td colspan="6" style="background: #f8d7da; color: #c2185b; 
+                            font-weight: bold; padding: 8px; border: 1px solid #000000; text-align: center;">
+                    Product Details
+                </td>
+            </tr>
+
+            <!-- Product Table Header -->
+            <tr>
+                <th width="40%" style="padding: 8px; text-align: left; border: 1px solid #000000; background: #E5E4E2;">Particulars</th>
+                <th width="12%" style="padding: 8px; text-align: left; border: 1px solid #000000; background: #E5E4E2;">UOM</th>
+                <th width="12%" style="padding: 8px; text-align: left; border: 1px solid #000000; background: #E5E4E2;">Crate</th>
+                <th width="12%" style="padding: 8px; text-align: left; border: 1px solid #000000; background: #E5E4E2;">Quantity</th>
+                <th width="12%" style="padding: 8px; text-align: left; border: 1px solid #000000; background: #E5E4E2;">Price</th>
+                <th width="12%" style="padding: 8px; text-align: left; border: 1px solid #000000; background: #E5E4E2;">Amount</th>
+            </tr>
+
+            <!-- Product Rows -->
+            <apex:repeat value="{!picklistRecords}" var="item">
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #000000;">{!item.Product__r.Name}</td>
+                    <td style="padding: 8px; border: 1px solid #000000;">{!item.UOM__c}</td>
+                    <td style="padding: 8px; border: 1px solid #000000;">{!item.Crate__c}</td>
+                    <td style="padding: 8px; text-align: left; border: 1px solid #000000;" class="number">{!item.Quantity__c}</td>
+                    <td style="padding: 8px; text-align: left; border: 1px solid #000000;" class="number">{!item.Unit_Price__c}</td>
+                    <td style="padding: 8px; text-align: left; border: 1px solid #000000;" class="number">{!item.Gross_Amount__c}</td>
+                </tr>
+            </apex:repeat>
+        </table>
+    </body>
+</html>
+
+</apex:page>

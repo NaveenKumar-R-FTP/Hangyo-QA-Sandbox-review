@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>My_Collections</fullName>
+    <columns>NAME</columns>
+    <columns>Invoice__c</columns>
+    <columns>Retailer_Name__c</columns>
+    <columns>Payment_Method__c</columns>
+    <columns>Payment_Date__c</columns>
+    <columns>Amount_Collected__c</columns>
+    <filterScope>Everything</filterScope>
+    <label>My Collections</label>
+    <sharedTo>
+        <allPartnerUsers></allPartnerUsers>
+    </sharedTo>
+</ListView>

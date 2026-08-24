@@ -1,0 +1,12 @@
+.maintable {
+    border-collapse: collapse;
+}
+
+.maintable td, .maintable th{
+    border: 1px solid black;
+    padding-left: 5px;
+}
+
+.colWidth30 {
+    width: 30%;
+}

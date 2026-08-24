@@ -1,0 +1,161 @@
+<template>
+    <lightning-card title="Add Scheme Hierarchy" icon-name="standard:hierarchy">
+        <div class="slds-p-around_medium">
+            <lightning-radio-group
+                name="holderType"
+                label="Scheme Holder Type"
+                options={holderTypeOptions}
+                value={holderType}
+                onchange={handleHolderTypeChange}
+                type="button">
+            </lightning-radio-group>
+
+            <template if:true={isDistributorMode}>
+                <div class="slds-m-top_medium">
+                    <lightning-input
+                        type="search"
+                        label="Search Distributors"
+                        value={distributorSearchTerm}
+                        onchange={handleDistributorSearchChange}
+                        placeholder="Type at least 2 characters...">
+                    </lightning-input>
+
+                    <template if:true={hasDistributorSearchResults}>
+                        <div class="slds-m-top_small slds-scrollable_y" style="max-height: 260px;">
+                            <template for:each={distributorSearchResults} for:item="opt">
+                                <div key={opt.id} class="slds-p-vertical_xx-small">
+                                    <lightning-input
+                                        type="checkbox"
+                                        label={opt.displayLabel}
+                                        data-id={opt.id}
+                                        checked={opt.selected}
+                                        onchange={handleDistributorToggle}>
+                                    </lightning-input>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+
+                    <template if:true={hasSelectedDistributors}>
+                        <p class="slds-m-top_small slds-text-body_small">
+                            {selectedDistributorCount} distributor(s) selected
+                        </p>
+                    </template>
+                </div>
+            </template>
+
+            <template if:true={isRegionMode}>
+                <div class="slds-m-top_medium">
+                    <lightning-input
+                        type="search"
+                        label="Search Regions"
+                        value={regionSearchTerm}
+                        onchange={handleRegionSearchChange}
+                        placeholder="Type at least 2 characters...">
+                    </lightning-input>
+
+                    <template if:true={hasRegionSearchResults}>
+                        <div class="slds-m-top_small slds-scrollable_y" style="max-height: 260px;">
+                            <template for:each={regionSearchResults} for:item="opt">
+                                <div key={opt.id} class="slds-p-vertical_xx-small">
+                                    <lightning-input
+                                        type="checkbox"
+                                        label={opt.displayLabel}
+                                        data-id={opt.id}
+                                        checked={opt.selected}
+                                        onchange={handleRegionToggle}>
+                                    </lightning-input>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+
+                    <template if:true={hasSelectedRegions}>
+                        <p class="slds-m-top_small slds-text-body_small">
+                            {selectedRegionCount} region(s) selected
+                        </p>
+                    </template>
+                </div>
+            </template>
+
+            <template if:true={isHubMode}>
+                <div class="slds-m-top_medium">
+                    <lightning-input
+                        type="search"
+                        label="Filter Hubs"
+                        value={hubSearchTerm}
+                        onchange={handleHubSearchChange}
+                        placeholder="Type to filter...">
+                    </lightning-input>
+
+                    <template if:true={hasHubSearchResults}>
+                        <div class="slds-m-top_small slds-scrollable_y" style="max-height: 260px;">
+                            <template for:each={hubSearchResults} for:item="opt">
+                                <div key={opt.value} class="slds-p-vertical_xx-small">
+                                    <lightning-input
+                                        type="checkbox"
+                                        label={opt.value}
+                                        data-hub={opt.value}
+                                        checked={opt.selected}
+                                        onchange={handleHubToggle}>
+                                    </lightning-input>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+
+                    <template if:true={hasSelectedHubs}>
+                        <p class="slds-m-top_small slds-text-body_small">
+                            {selectedHubCount} hub(s) selected
+                        </p>
+                    </template>
+                </div>
+            </template>
+
+            <template if:true={isRetailerMode}>
+                <div class="slds-m-top_medium">
+                    <lightning-input
+                        type="search"
+                        label="Search Retailers"
+                        value={retailerSearchTerm}
+                        onchange={handleRetailerSearchChange}
+                        placeholder="Type at least 2 characters...">
+                    </lightning-input>
+
+                    <template if:true={hasRetailerSearchResults}>
+                        <div class="slds-m-top_small slds-scrollable_y" style="max-height: 260px;">
+                            <template for:each={retailerSearchResults} for:item="opt">
+                                <div key={opt.id} class="slds-p-vertical_xx-small">
+                                    <lightning-input
+                                        type="checkbox"
+                                        label={opt.displayLabel}
+                                        data-id={opt.id}
+                                        checked={opt.selected}
+                                        onchange={handleRetailerToggle}>
+                                    </lightning-input>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+
+                    <template if:true={hasSelectedRetailers}>
+                        <p class="slds-m-top_small slds-text-body_small">
+                            {selectedRetailerCount} retailer(s) selected
+                        </p>
+                    </template>
+                </div>
+            </template>
+
+            <template if:true={errorMessage}>
+                <div class="slds-m-top_medium slds-text-color_error">
+                    {errorMessage}
+                </div>
+            </template>
+        </div>
+
+        <div slot="footer" class="slds-align_absolute-center">
+            <lightning-button label="Cancel" onclick={handleCancel} class="slds-m-right_small"></lightning-button>
+            <lightning-button variant="brand" label="Save" onclick={handleSave} disabled={isSaveDisabled}></lightning-button>
+        </div>
+    </lightning-card>
+</template>

@@ -1,0 +1,199 @@
+<template>
+    <div class="rs-page">
+        <div class="rs-page-header">
+            <h1 class="rs-page-title">Record Search</h1>
+        </div>
+
+        <div class="rs-page-body">
+            <template lwc:if={isLoading}>
+                <div class="slds-align_absolute-center slds-p-vertical_large">
+                    <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                </div>
+            </template>
+
+            <template lwc:elseif={initError}>
+                <div class="slds-text-color_error slds-p-around_medium">{initError}</div>
+            </template>
+
+            <template lwc:else>
+                <!-- ===================== FILTER PANEL ===================== -->
+                <div class="rs-form">
+                    <div class="rs-form-grid">
+
+                        <div class="rs-field">
+                            <lightning-input
+                                label={accountFieldLabel}
+                                value={accountName}
+                                variant="label-stacked"
+                                readonly>
+                            </lightning-input>
+                        </div>
+
+                        <div class="rs-field">
+                            <lightning-combobox
+                                label="Object"
+                                placeholder="-- Select Object --"
+                                value={selectedObject}
+                                options={objectOptions}
+                                variant="label-stacked"
+                                onchange={handleObjectChange}
+                                required>
+                            </lightning-combobox>
+                        </div>
+
+                        <template lwc:if={showSearchAccountLookup}>
+                            <div class="rs-field rs-field_lookup">
+                                <div class={lookupContainerClass}>
+                                    <lightning-input
+                                        class="lookup-input"
+                                        label={searchFieldLabel}
+                                        placeholder={searchFieldPlaceholder}
+                                        value={searchTerm}
+                                        variant="label-stacked"
+                                        onkeyup={handleSearchTermChange}
+                                        onblur={handleSearchBlur}>
+                                    </lightning-input>
+                                    <template lwc:if={showLookupClearButton}>
+                                        <button
+                                            type="button"
+                                            class="lookup-clear-btn"
+                                            title="Clear"
+                                            aria-label="Clear"
+                                            onclick={handleClearSearchAccount}>
+                                            &times;
+                                        </button>
+                                    </template>
+                                    <template lwc:if={showLookupResults}>
+                                        <ul class="lookup-dropdown" role="listbox">
+                                            <template for:each={lookupResults} for:item="result">
+                                                <li key={result.id}
+                                                    class="lookup-dropdown-item"
+                                                    role="option"
+                                                    data-id={result.id}
+                                                    onmousedown={handleSelectLookupResult}>
+                                                    {result.displayLabel}
+                                                </li>
+                                            </template>
+                                        </ul>
+                                    </template>
+                                    <template lwc:if={showLookupNoResults}>
+                                        <div class="lookup-dropdown lookup-no-results">No matches found</div>
+                                    </template>
+                                </div>
+                            </div>
+                        </template>
+
+                        <div class="rs-field">
+                            <lightning-input
+                                type="date"
+                                label="From Date"
+                                value={fromDate}
+                                variant="label-stacked"
+                                onchange={handleFromDateChange}>
+                            </lightning-input>
+                        </div>
+
+                        <div class="rs-field">
+                            <lightning-input
+                                type="date"
+                                label="To Date"
+                                value={toDate}
+                                variant="label-stacked"
+                                onchange={handleToDateChange}>
+                            </lightning-input>
+                        </div>
+
+                        <template lwc:if={showStatus}>
+                            <div class="rs-field">
+                                <lightning-combobox
+                                    label="Status"
+                                    value={selectedStatus}
+                                    options={currentStatusOptions}
+                                    variant="label-stacked"
+                                    onchange={handleStatusChange}>
+                                </lightning-combobox>
+                            </div>
+                        </template>
+
+                        <template lwc:if={showInvoiceRecordType}>
+                            <div class="rs-field">
+                                <lightning-combobox
+                                    label="Invoice Record Type"
+                                    value={selectedInvoiceRecordType}
+                                    options={invoiceRecordTypeComboOptions}
+                                    variant="label-stacked"
+                                    onchange={handleInvoiceRecordTypeChange}>
+                                </lightning-combobox>
+                            </div>
+                        </template>
+
+                        <template lwc:if={showGrnStatus}>
+                            <div class="rs-field">
+                                <lightning-combobox
+                                    label="GRN Status"
+                                    value={selectedGrnStatus}
+                                    options={currentGrnStatusOptions}
+                                    variant="label-stacked"
+                                    onchange={handleGrnStatusChange}>
+                                </lightning-combobox>
+                            </div>
+                        </template>
+
+                        <template lwc:if={showInvoiceCreated}>
+                            <div class="rs-field">
+                                <lightning-combobox
+                                    label="Invoice Created"
+                                    value={selectedInvoiceCreated}
+                                    options={invoiceCreatedOptions}
+                                    variant="label-stacked"
+                                    onchange={handleInvoiceCreatedChange}>
+                                </lightning-combobox>
+                            </div>
+                        </template>
+
+                    </div>
+
+                    <div class="rs-actions">
+                        <button
+                            type="button"
+                            class="rs-btn rs-btn_primary"
+                            disabled={isApplyDisabled}
+                            onclick={handleApply}>
+                            Apply
+                        </button>
+                        <button
+                            type="button"
+                            class="rs-btn rs-btn_secondary"
+                            onclick={handleReset}>
+                            Reset
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ===================== RESULTS ===================== -->
+                <div class="rs-results">
+                    <template lwc:if={isSearching}>
+                        <div class="slds-align_absolute-center slds-p-vertical_large">
+                            <lightning-spinner alternative-text="Searching" size="small"></lightning-spinner>
+                        </div>
+                    </template>
+
+                    <template lwc:elseif={hasResults}>
+                        <lightning-datatable
+                            key-field="recordId"
+                            data={results}
+                            columns={columns}
+                            hide-checkbox-column>
+                        </lightning-datatable>
+                    </template>
+
+                    <template lwc:elseif={showNoResults}>
+                        <div class="slds-align_absolute-center slds-text-color_weak slds-p-vertical_large">
+                            No records found for the selected filters.
+                        </div>
+                    </template>
+                </div>
+            </template>
+        </div>
+    </div>
+</template>

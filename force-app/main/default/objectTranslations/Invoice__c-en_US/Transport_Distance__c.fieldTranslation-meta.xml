@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- KM --></help>
+    <label><!-- Transport Distance --></label>
+    <name>Transport_Distance__c</name>
+</CustomFieldTranslation>

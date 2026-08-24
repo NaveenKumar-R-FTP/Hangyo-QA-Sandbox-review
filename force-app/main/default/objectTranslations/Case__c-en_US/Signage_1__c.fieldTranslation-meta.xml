@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Signage 1 --></label>
+    <name>Signage_1__c</name>
+    <picklistValues>
+        <masterLabel>ACP/LE Signage</masterLabel>
+        <translation><!-- ACP/LE Signage --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Back Lit D/S Signage – Vertical</masterLabel>
+        <translation><!-- Back Lit D/S Signage – Vertical --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Back Lit Flange</masterLabel>
+        <translation><!-- Back Lit Flange --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Back Lit Signage</masterLabel>
+        <translation><!-- Back Lit Signage --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>In-Shop Branding</masterLabel>
+        <translation><!-- In-Shop Branding --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>L Shaped Back Lit Signage</masterLabel>
+        <translation><!-- L Shaped Back Lit Signage --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>L Shaped Non Lit Signage</masterLabel>
+        <translation><!-- L Shaped Non Lit Signage --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Lit Standee</masterLabel>
+        <translation><!-- Lit Standee --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Non Lit Flange</masterLabel>
+        <translation><!-- Non Lit Flange --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Non Lit Signage</masterLabel>
+        <translation><!-- Non Lit Signage --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Non Lit Standee</masterLabel>
+        <translation><!-- Non Lit Standee --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Shop Painting</masterLabel>
+        <translation><!-- Shop Painting --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

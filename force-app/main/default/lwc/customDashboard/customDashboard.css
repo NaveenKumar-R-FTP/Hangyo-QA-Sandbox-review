@@ -1,0 +1,18 @@
+.header-bar {
+    display: flex;
+    justify-content: flex-end;   /* both items go to right */
+    align-items: center;
+    padding: 10px;
+    gap: 8px;                    /* spacing between time + refresh btn */
+}
+
+.time-text {
+    font-size: 14px;
+    font-weight: 600;
+    color: #444;
+    opacity: 0.8;
+}
+
+.refresh-btn {
+    cursor: pointer;
+}

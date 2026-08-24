@@ -1,0 +1,47 @@
+.custom-title {
+    text-align: center;
+    font-weight: bold;
+    font-family: Arial ;
+    font-size: 1.25rem; /* Adjust the font size if needed */
+}
+.form-container {
+    margin: 10px;
+}
+
+.input-field {
+    width: 100%;
+    font-family: Arial;
+    font-size: 13px; /* Updated font size */
+}
+
+.input-field label {
+    font-family: Arial;
+    font-size: 13px; /* Label font size */
+}
+
+.input-field input {
+    font-family: Arial;
+    font-size: 13px; /* Input value font size */
+}
+
+.row {
+    display: flex;
+    gap: 10px;
+    font-size: 13px; /* Updated font size for the row */
+}
+
+.input-field.small {
+    flex: 1;
+    font-family: Arial;
+    font-size: 13px; /* Updated font size */
+}
+
+.input-field.medium {
+    width: 49.5%; /* Adjust width for medium-sized fields */
+    font-size: 13px; /* Updated font size */
+}
+
+.lightning-button {
+    font-family: Arial;
+    font-size: 13px; /* Updated font size for button */
+}

@@ -1,0 +1,82 @@
+.custom-title {
+    text-align: center;
+    font-weight: bold;
+    font-family: Arial;
+    font-size: 1.1rem;
+    color: white;
+    background-color: #C1206B;
+    padding: 10px 16px;
+    border-radius: 6px;
+    margin-bottom: 12px;
+    letter-spacing: 0.5px;
+}
+
+.section-label {
+    font-family: Arial;
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: #C1206B;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.radio-group {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 12px;
+    padding: 8px 12px;
+    background: #fff0f6;
+    border-radius: 8px;
+    border: 1px solid #e8c8d8;
+}
+
+.radio-option {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: Arial;
+    font-size: 0.9rem;
+    color: #333;
+    cursor: pointer;
+}
+
+.radio-option input[type="radio"] {
+    accent-color: #C1206B;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.input-field {
+    width: 100%;
+    font-family: Arial;
+    font-size: 13px;
+}
+
+.input-field.small {
+    flex: 1;
+}
+
+.input-field.medium {
+    width: 49.5%;
+}
+
+.slds-button_brand {
+    background-color: #C1206B !important;
+    border-color: #C1206B !important;
+    border-radius: 8px !important;
+    padding: 8px 32px !important;
+    font-size: 1rem !important;
+    font-weight: bold !important;
+}
+
+.slds-button_brand:hover {
+    opacity: 0.85 !important;
+}

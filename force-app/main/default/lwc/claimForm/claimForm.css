@@ -1,0 +1,99 @@
+/* Claim form container */
+.claim-form {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Section styling */
+.section {
+    margin-top: 10px;
+    margin-bottom: 15px;
+    padding: 15px;
+    
+    
+}
+
+/* Section title */
+.section-title {
+    font-weight:normal;
+    font-size: 16px;
+    margin-bottom: 10px !important; /* Enforcing reduced spacing */
+}
+
+/* Input fields */
+.input-field {
+    display: block !important;
+    margin-top: 2px !important; /* Further reduced */
+    margin-bottom: 5px !important; /* Further reduced */
+    width: 100% !important; /* Full-width for consistency */
+}
+
+/* Labels */
+.slds-form-element__label {
+    display: flex !important;
+    align-items: center !important;
+    font-weight:normal !important;
+    font-size: 14px;
+    color: #333 !important;
+    margin-right: 5px !important; /* Reduced space between label and input */
+    margin-bottom: 0px !important; /* Zero margin to remove extra space */
+}
+
+/* Help text */
+.help-text {
+    font-size: 12px !important;
+    color: gray !important;
+    margin: 2px 0 !important; /* Compact spacing */
+}
+
+/* Error messages */
+.error-message {
+    color: #861e4f !important;
+    font-weight: bold !important;
+    margin: 5px 0 !important; /* Compact spacing */
+}
+
+/* Submit button */
+.custom-button {
+    background-color: #C1206B !important;
+    color: #ffffff !important;
+    border: none !important;
+    padding: 0.5rem 1rem !important;
+    font-size: 0.875rem !important;
+    text-transform: uppercase !important;
+    cursor: pointer !important;
+    border-radius: 0.25rem !important;
+}
+
+.custom-button:hover {
+    background-color: #a1185a !important;
+}
+.section-underline {
+    height: 1px;
+    width: 100%;
+    background-color: #c71468af ; /* Light underline color */
+    margin-bottom: 15px; /* Small gap below the underline */
+    margin-top: -5px; /* Small gap between the title and underline */
+}
+
+:host {
+    --lwc-colorTextIconDefault: #C1206B; /* Default icon color */
+    --lwc-colorTextIconDefaultHover: #A1185A; /* Darker hover color for the icon */
+    --lwc-colorBackgroundPopover: #FFFFFF; /* Background for tooltip (optional) */
+    --lwc-colorTextPopover: #C1206B; /* Text color for tooltip */
+}
+
+.center-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    
+}
+
+lightning-input::part(label) {
+    font-size: 20px; /* Change to desired font size */
+    font-weight: bold; /* Make the label bold */
+    color: #333; /* Optional: Customize the label color */
+}

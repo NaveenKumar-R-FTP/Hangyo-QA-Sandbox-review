@@ -1,0 +1,158 @@
+<template>
+    <div class="stmt-container">
+
+        <div class="stmt-header">
+            <div class="header-left">
+                <div class="logo">H</div>
+                <div>
+                    <div class="brand-name">Hangyo Ice Creams Pvt. Ltd.</div>
+                    <div class="report-title">{headerLabel}</div>
+                </div>
+            </div>
+            <template if:true={accountName}>
+                <div class="dist-name">{ownerLabel}: {accountName}</div>
+            </template>
+        </div>
+
+        <div class="controls-bar">
+            <div class="field-group">
+                <label class="field-label">{customerLabel}</label>
+                <div class="search-box-wrap">
+                    <template if:false={selectedCustomer}>
+                        <input
+                            type="text"
+                            class="search-box"
+                            placeholder="Type to search..."
+                            value={searchTerm}
+                            oninput={handleInput}
+                            onblur={handleSearchBlur}
+                            autocomplete="off" />
+                        <template if:true={showList}>
+                            <div class="search-results">
+                                <template for:each={filteredList} for:item="opt" for:index="idx">
+                                    <div key={opt.value}
+                                         class={opt.cls}
+                                         data-idx={idx}
+                                         onmousedown={handlePick}>
+                                        {opt.label}
+                                    </div>
+                                </template>
+                                <template if:true={emptyList}>
+                                    <div class="result-empty">No results found</div>
+                                </template>
+                            </div>
+                        </template>
+                    </template>
+                    <template if:true={selectedCustomer}>
+                        <div class="selected-tag">
+                            <span class="selected-name">{searchTerm}</span>
+                            <span class="clear-btn" onclick={clearSelection}>&nbsp;✕ Change</span>
+                        </div>
+                    </template>
+                </div>
+            </div>
+            <div class="field-group">
+                <label class="field-label">From Date</label>
+                <input type="date" class="date-input" value={fromDate} onchange={handleFromDate} />
+            </div>
+            <div class="field-group">
+                <label class="field-label">To Date</label>
+                <input type="date" class="date-input" value={toDate} onchange={handleToDate} />
+            </div>
+            <button class="btn-primary" onclick={handleGenerate}>Generate</button>
+            <template if:true={hasResult}>
+                <button class="btn-secondary" onclick={handleDownloadPDF}>Download PDF</button>
+            </template>
+        </div>
+
+        <template if:true={isLoading}>
+            <div class="spinner-wrap">
+                <lightning-spinner alternative-text="Loading..." size="medium"></lightning-spinner>
+            </div>
+        </template>
+
+        <template if:true={errorMessage}>
+            <div class="error-box">
+                {errorMessage}
+                <button class="retry-btn" onclick={handleGenerate}>Retry</button>
+            </div>
+        </template>
+
+        <template if:true={hasResult}>
+            <div class="retailer-meta">
+                <span class="retailer-title">{customerName}</span>
+                <span class="period-label">Period: {fromDate} to {toDate}</span>
+                <span class="ob-note">* Opening balance reflects last 12 months only</span>
+            </div>
+
+            <div class="summary-cards">
+                <div class="card">
+                    <div class="card-lbl">Opening Balance</div>
+                    <div class="card-val">{formattedOpeningBal}</div>
+                </div>
+                <div class="card">
+                    <div class="card-lbl">Total Sales</div>
+                    <div class="card-val amt-dr">{formattedTotalSales}</div>
+                </div>
+                <div class="card">
+                    <div class="card-lbl">Returns / Cancels</div>
+                    <div class="card-val amt-cr">{formattedTotalReturns}</div>
+                </div>
+                <div class="card">
+                    <div class="card-lbl">Collections</div>
+                    <div class="card-val amt-cr">{formattedTotalCollections}</div>
+                </div>
+                <div class="card card-highlight">
+                    <div class="card-lbl">Closing Balance</div>
+                    <div class="card-val amt-dr">{formattedClosingBal}</div>
+                </div>
+            </div>
+
+            <div class="table-wrap">
+                <table class="stmt-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>Invoice No.</th>
+                            <th class="num">Debit (Dr)</th>
+                            <th class="num">Credit (Cr)</th>
+                            <th class="num">Balance</th>
+                            <th>Remark</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="opening-row">
+                            <td colspan="5" class="opening-label">Opening Balance</td>
+                            <td class="num"><strong>{formattedOpeningBal}</strong></td>
+                            <td></td>
+                        </tr>
+                        <template for:each={enrichedLines} for:item="line">
+                            <tr key={line.key}>
+                                <td>{line.txnDate}</td>
+                                <td><span class={line.badgeClass}>{line.txnType}</span></td>
+                                <td class="inv-col">{line.invoiceNumber}</td>
+                                <td class="num amt-dr">{line.formattedDebit}</td>
+                                <td class="num amt-cr">{line.formattedCredit}</td>
+                                <td class="num bal-col"><strong>{line.formattedBalance}</strong></td>
+                                <td class="remark-col">{line.comment}</td>
+                            </tr>
+                        </template>
+                        <tr class="totals-row">
+                            <td colspan="3"><strong>Total</strong></td>
+                            <td class="num amt-dr"><strong>{formattedTotalSales}</strong></td>
+                            <td class="num amt-cr"><strong>{formattedTotalCr}</strong></td>
+                            <td class="num"><strong>{formattedClosingBal}</strong></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="stmt-footer">
+                Generated on {generatedOn} &nbsp;|&nbsp; This is a system-generated statement. &nbsp;|&nbsp; Hangyo Ice Creams Pvt. Ltd.
+            </div>
+        </template>
+
+    </div>
+</template>

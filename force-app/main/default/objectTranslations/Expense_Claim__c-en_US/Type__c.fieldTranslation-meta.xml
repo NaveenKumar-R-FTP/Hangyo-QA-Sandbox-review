@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Type --></label>
+    <name>Type__c</name>
+    <picklistValues>
+        <masterLabel>FOW</masterLabel>
+        <translation><!-- FOW --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Municipal Challans</masterLabel>
+        <translation><!-- Municipal Challans --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Others</masterLabel>
+        <translation><!-- Others --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Reliance</masterLabel>
+        <translation><!-- Reliance --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Sample Ice Creams</masterLabel>
+        <translation><!-- Sample Ice Creams --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

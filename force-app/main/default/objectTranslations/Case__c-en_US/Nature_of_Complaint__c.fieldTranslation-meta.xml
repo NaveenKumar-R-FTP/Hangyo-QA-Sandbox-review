@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Nature of Complaint --></label>
+    <name>Nature_of_Complaint__c</name>
+    <picklistValues>
+        <masterLabel>Auto Cut Off Issue //Thermostart Issue</masterLabel>
+        <translation><!-- Auto Cut Off Issue //Thermostart Issue --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Body Expand /Dent</masterLabel>
+        <translation><!-- Body Expand /Dent --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Compressor Not Working</masterLabel>
+        <translation><!-- Compressor Not Working --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Cord Wire Issue / Burnt</masterLabel>
+        <translation><!-- Cord Wire Issue / Burnt --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Door Damage/Problem</masterLabel>
+        <translation><!-- Door Damage/Problem --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Fan Motor Issue</masterLabel>
+        <translation><!-- Fan Motor Issue --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Glass Broken /Sliding Issue</masterLabel>
+        <translation><!-- Glass Broken /Sliding Issue --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Half / No Cooling</masterLabel>
+        <translation><!-- Half / No Cooling --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Ice Formation Issue</masterLabel>
+        <translation><!-- Ice Formation Issue --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Lock Issue</masterLabel>
+        <translation><!-- Lock Issue --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Others</masterLabel>
+        <translation><!-- Others --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Water Leakage Issue</masterLabel>
+        <translation><!-- Water Leakage Issue --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Wheel Damage</masterLabel>
+        <translation><!-- Wheel Damage --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

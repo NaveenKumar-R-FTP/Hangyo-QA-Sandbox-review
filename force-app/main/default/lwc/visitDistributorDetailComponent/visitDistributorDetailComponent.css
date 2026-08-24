@@ -1,0 +1,960 @@
+.main-div{
+    background-color: #ffffff;
+    border-radius: 5px;
+    font-family: "Lucida Sans", sans-serif;
+    }
+    .padding-around{
+    padding: 1px;
+    }
+    
+
+
+    
+    .btn-group-active button:actve {
+        background-color: #ffba48!important;
+    }
+    .slds-box-css{
+        padding:8px;
+        border-radius:5px;
+        border: 1px solid rgb(229, 229, 229);
+        gap: 20px;
+    }
+    
+    
+    .visit-record {
+        padding: 1rem;
+        margin-bottom: 0.5rem;
+        border-radius: 0.25rem;
+        color: #000;
+    }
+    
+    .visit-record-orange {
+        color: #ffba48;
+    }
+    
+    .visit-record-blue{
+        color: #0000ff;
+    }
+    .visit-record-green{
+        color: #04AA6D;
+    }
+    .visit-record-light-red{
+        color: #ff4d4d
+    }
+    .visit-record-red{
+        color: #ff0000
+    }
+    
+    .day-button-green {
+        background-color: #263B8E; 
+        border: 1px solid black;
+        color: white;
+        width: 14.2857%;
+        letter-spacing: 1px;
+        display: inline-block;
+        padding: 15px 0;
+    }
+    
+    .day-button-orange {
+        background-color: #fff;
+        border: 1px solid black;
+        color: black;
+        width: 14.2857%;
+        letter-spacing: 1px;
+        display: inline-block;
+        padding: 15px 0;
+    }
+    .createnewvisit{
+        background-color: #263B8E;
+        color: #FFFFFF;
+        font-size: 0.9375rem; 
+        padding: 0.25rem 1.25rem; 
+        border-radius: 0.25rem;
+        border: #263B8E;
+    }
+    .pop-up-button{
+        background-color: #263B8E;
+        color: #FFFFFF;
+        font-size: 0.9375rem; 
+        padding: 5px 5px;
+        border-radius: 0.25rem;
+        border: #263B8E;
+        margin-bottom: 10px;
+        width: 100px;
+        margin-right: 0;
+        margin-left: auto;
+    }
+    
+    .visit-record-container {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .visit-record {
+        border-radius: 10px;
+    }
+    .insidedate{
+        padding: 10px;
+    }
+    .button-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #f7f8fa; /* Light background color */
+        padding: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .buttons-wrapper {
+        display: flex;
+        justify-content: center;
+        gap: 30px; /* Space between left and right buttons */
+    }
+
+ 
+    .left-buttons, .right-buttons{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 120px; /* Ensure consistent width for alignment */
+    }
+    .buttons-wrapper4 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 buttons per row */
+    gap: 5px; /* Reduce gap between buttons */
+    justify-content: center; /* Center the grid itself */
+    align-items: center;
+    text-align: center;
+    width: 300px; /* Adjust width to control spacing */
+    margin: 0 auto; /* Center the container */
+    }
+
+    .buttons-wrapper3 {
+          display: flex;
+    flex-wrap: wrap;
+    gap: 5px; /* Adjust spacing between buttons */
+    justify-content: center; /* Center align buttons */
+       
+    }
+    
+    .buttons-wrapper4-unproductive {
+        display: grid;
+        grid-template-columns: 1fr; /* Single column for full width */
+        gap: 5px;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        width: 300px; /* Match buttons-wrapper4 width for alignment */
+        margin: 0 auto; /* Center the container */
+    }
+    
+    .buttons-wrapper4-unproductive .taggedbutton,
+    .buttons-wrapper4-unproductive .taggedbutton-Grey {
+        width: 100%; /* Make button full width within its container */
+    }
+    .all3buttons{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100px; /* Ensure consistent width for alignment */
+    }
+    
+
+    .ping-buttonthreeButton {
+        padding: 5px 10px; /* Adjust button size */
+        font-size: 16px;    /* Adjust font size */
+    }
+    /* "X" Close Button Style */
+.close-button {
+    background-color: #C1206B;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    color: #C1206B;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+     padding: 0.5rem 1rem;
+}
+
+.close-button:hover {
+    color: #C1206B;
+    border-color: #722147;
+}
+.button-close {
+    display: flex;
+    justify-content: flex-start; /* Align left */
+    
+    padding: 0.4rem 1.5rem;
+    
+        
+        border: none;
+        border-radius: 13px;
+        cursor: pointer;
+       
+        font-size: 14px;  
+        background-color: #C1206B;
+         
+        color: #fff;
+}
+
+    .custom-threeButton {
+        width: 70%;
+        padding: 0.5rem 0.5rem;
+    
+        font-weight: 600;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    .viewAllOrderbutton{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 180px; /* Ensure consistent width for alignment */
+    }
+    .ping-buttonviewAllOrder {
+        padding: 5px 10px; /* Adjust button size */
+        font-size: 16px;    /* Adjust font size */
+    }
+    
+    .create-order {
+        grid-column: span 2;
+        background-color: #0070d2; /* Salesforce blue */
+    }
+
+    .create-order:hover {
+        background-color: #005fb2;
+    }
+    
+    .ping-button {
+        padding: 10px 20px; /* Adjust button size */
+        font-size: 16px;    /* Adjust font size */
+    }
+    
+    .heading {
+        margin-bottom: 1rem;
+        font-size: 1.2rem;
+        color: #4b60b7;
+        text-align: center;
+    }
+    
+    .assetHeading {
+        margin: 0 auto; /* Centers the element in flex or block layout */
+        font-size: 1.2rem;
+        color: #4b60b7;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+    .taggedbutton{
+         flex: 1 1 calc(70% - 5px); /* Each button takes 50% width minus gap */
+    max-width: 400px; /* Adjust width as needed */
+    text-align: center;
+      padding: 0.5rem 1rem;
+    
+        font-weight: 600;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+       
+        font-size: 16px;  
+        background-color: #C1206B;
+        font-family: amaranth regular;
+        color: #fff;
+       
+    }
+    .taggedbutton:hover {
+        transition: background-color 0.3s ease;
+    background-color: #e0297f;
+    border-color: #722147;
+}
+.taggedbutton2{
+display: grid;
+ 
+    justify-content: center; /* Center the grid itself */
+    align-items: center;
+    text-align: center;
+    width: 300px; /* Adjust width to control spacing */
+    margin: 0 auto; /* Center the container */
+      margin-top: 5px;
+      padding: 0.5rem 1rem;
+      font-family: amaranth regular;
+        font-weight: 600;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+       
+        font-size: 16px;  
+        background-color: #C1206B;
+         
+        color: #fff;
+    }
+     .taggedbutton2:hover {
+        transition: background-color 0.3s ease;
+    background-color: #e0297f;
+    border-color: #722147;
+}
+    .button-containerAst {
+        margin-top: 10px;
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically (if needed) */
+    background-color:#FFFFFF;
+    
+   
+}
+ 
+
+    .custom-button {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+        font-weight: 600;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    
+
+
+    .CheckIn-button,
+    .CheckOut-button,
+    .create-order,
+    .mark-unproductive {
+        background-color: #C1206B;
+        color: #fff;
+    }
+    .CheckIn-button:hover,
+    .CheckOut-button:hover,
+    .create-order:hover,
+    .mark-unproductive:hover {
+        background-color: #da4389;
+    }
+    .CheckCompleted-button {
+        background-color: rgb(224, 224, 27);
+        color: #fff;
+    }
+    .CheckCompleted-button:hover {
+        background-color: rgb(224, 224, 27);
+    }
+
+    .CheckInProgress-button {
+        background-color: rgb(39, 210, 39);
+        color: #fff;
+    }
+    .CheckInProgress-button:hover {
+        background-color: rgb(39, 210, 39);
+    }
+    
+    .custom-button:disabled {
+        background-color: #c7c7c7;
+        cursor: not-allowed;
+    }
+    
+
+    .CheckOut-buttongrey:disabled {
+        background-color: #e0e0e0; /* Light grey background */
+        color: #a0a0a0; /* Grey text */
+        border: 1px solid #d0d0d0; /* Grey border */
+        cursor: not-allowed; /* Change cursor to indicate disabled state */
+    }
+    
+    /*pop-up*/
+    
+    
+    .slds-modal__container {
+        max-width: 100%; /* Full width on mobile screens */
+        width: 90%; /* Slight margin on sides */
+        margin: 0 auto; /* Center the modal */
+       
+    }
+    
+    /* Modal header */
+    .slds-modal__header {
+        font-size: 1.2rem; /* Slightly larger font size for header */
+    }
+    
+    /* Modal body */
+    .slds-modal__content {
+        padding: 1rem; /* Adjust padding for mobile */
+    }
+    
+    /* Modal footer */
+    .slds-modal__footer {
+        display: flex;
+        flex-direction: column; /* Stack buttons vertically on mobile */
+        align-items: stretch; /* Stretch buttons to full width */
+    }
+    
+    /* Modal buttons */
+    .slds-modal__footer lightning-button {
+        margin: 0.5rem 0; /* Space between buttons */
+        width: 100%; /* Full width buttons */
+    }
+    
+    /* Dropdown styles for mobile */
+    .dropdown {
+        position: relative;
+        width: 100%; /* Full width for dropdown on mobile */
+        background: white;
+        border: 1px solid #d8dde6;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+    }
+    
+    .dropdown-item {
+        width: 100%; /* Full width dropdown items */
+        box-sizing: border-box; /* Ensure padding and border are included in width */
+        padding: 10px;
+        cursor: pointer;
+    }
+    .dropdown-item:hover {
+        background-color: #f4f6f9;
+    }
+    /* Responsive text and input fields */
+    .slds-text-heading_medium {
+        font-size: 1.5rem; /* Adjust font size for mobile */
+    }
+    
+    .lightning-input {
+        width: 100%; /* Full width input fields */
+        margin-bottom: 1rem; /* Space below inputs */
+    }
+    
+    /* Adjust padding for modal and body content */
+    .slds-modal__header,
+    .slds-modal__content,
+    .slds-modal__footer {
+        padding: 1rem; /* Add some padding around content */
+    }
+    
+    /* Adjust the backdrop */
+    .slds-backdrop {
+        background-color: rgba(0, 0, 0, 0.5); /* Slightly darker backdrop */
+    }
+   
+    
+    
+    .search-filter-container {
+        display: flex;
+        align-items: center;
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+    
+    .search {
+        flex-grow: 1;
+        margin-right: 10px; 
+    }
+    
+    .filter-icon-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+        border: 1px solid #d8dde6; /* Border similar to picklist */
+        border-radius: 4px; /* Rounded corners similar to picklist */
+        padding: 0 8px; /* Padding inside the border */
+        background-color: #fff; /* Background color similar to picklist */
+        cursor: pointer; /* Indicates it's clickable */
+        margin-top: 15px;
+    }
+    
+    .checkbox-filter {
+        margin-top: 10px;
+        border: 1px solid #d8dde6; /* Border for the filter dropdown */
+        border-radius: 4px; /* Rounded corners */
+        background-color: #fff; /* Background color */
+        padding: 10px; /* Padding inside the dropdown */
+        position: absolute;
+        right: 10px;
+    }
+
+    .large-heading1 {
+        font-size: 16px; /* Adjust size as needed */
+        font-weight: bold; /* Optional: to make it more prominent */
+        font-family: amaranth regular;
+    }
+
+    .large-heading2 {
+        font-size: 16px; /* Adjust size as needed */
+        font-weight: bold; /* Optional: to make it more prominent */
+        margin-left: 10px;
+        font-family: amaranth regular;
+        color: #C1206B; /* Neutral color for values */
+        overflow-wrap: break-word;
+        word-break: break-word;
+        margin-top: 0;
+        margin-bottom: 0;
+        line-height: 1.4;
+    }
+    
+    .heading-with-image {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem; /* Space between image and name */
+    }
+
+    .retailer-header {
+        flex: 1;
+        min-height: 70px;
+        word-wrap: break-word;
+        padding: 0; /* Remove old padding */
+        text-align: left; /* Align text to the left of its container */
+    }
+
+    .retailer-image-top-right {
+        position: static; /* Remove absolute positioning */
+        margin-left: 15px;
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+    }
+
+    .metrics-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #f9f9f9; /* Light background for better contrast */
+        padding: 15px;
+        border-radius: 2px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        gap: 1px; /* Spacing between items */
+        margin-right: 1rem;
+        margin-left: 0.8rem;
+    
+    }
+    
+    .metric-item {
+        flex: 1; /* Ensures all sections have equal width */
+        text-align: center; /* Centers content in each section */
+        padding-left: 0.5px;
+        padding-right: 0.5px;
+        border-right: 1px solid #ddd; /* Divides sections */
+    }
+    
+   
+    
+    
+    .metric-value {
+        display: block;
+        font-size: 12px; /* Makes the value prominent */
+        font-weight: bold;
+        margin-bottom: 5px; /* Space between value and label */
+        color: #333; /* Neutral color for values */
+        font-family: amaranth regular;
+
+    }
+    
+    .metric-label {
+        font-size: 12px; /* Slightly smaller font for labels */
+        color: #636363; /* Subtle color for labels */
+        font-weight: bold;
+        font-family: amaranth regular;
+    }
+
+    .metric-item:last-child {
+        border-right: none; /* Removes border from the last item */
+    }
+    
+    
+    .metric-label span {
+        display: block; /* Each word on a new line */
+    }
+
+    .slds-hide {
+        display: none;
+    }
+
+    .search-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+    }
+    
+    .search-input {
+        width: 100%;
+        padding: 10px 35px 10px 10px; /* Space for the icon */
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+    
+    .cancel-icon {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 18px;
+        color: #666;
+    }
+    
+
+    
+    .scrollable-users-container {
+        max-height: 120px; /* Adjust as needed */
+        overflow-y: auto;
+        border: 1px solid #d8dde6;
+        border-radius: 4px;
+        margin-top: 8px; /* Add spacing below the search container */
+        width: 100%; /* Matches the width of the input field */
+        box-sizing: border-box; /* Ensures padding and border are included in width */
+    }
+    
+    .user-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+        border-bottom: 1px solid #f4f6f9;
+    }
+    
+    .user-item:hover {
+        background-color: #f4f6f9;
+    }
+
+
+    
+.save-button {
+    background-color: #C1206B;
+    color: #FFFFFF;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    padding: 5px 15px; /* Adjust button size */
+        font-size: 16px;    /* Adjust font size */
+margin-left: 40px;
+}
+
+
+
+
+.save-button:hover {
+    background-color: #da4389;
+}
+
+
+
+  
+  header.slds-card__header.slds-grid{
+    padding-top:0px;
+  } 
+
+
+
+
+  .spinner {
+    border: 1px solid;
+    position: fixed;
+    z-index: 10001;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 50 50'%3E%3Cpath d='M28.43 6.378C18.27 4.586 8.58 11.37 6.788 21.533c-1.791 10.161 4.994 19.851 15.155 21.643l.707-4.006C14.7 37.768 9.392 30.189 10.794 22.24c1.401-7.95 8.981-13.258 16.93-11.856l.707-4.006z'%3E%3CanimateTransform attributeType='xml' attributeName='transform' type='rotate' from='0 25 25' to='360 25 25' dur='0.6s' repeatCount='indefinite'/%3E%3C/path%3E%3C/svg%3E") center / 50px no-repeat;
+  }
+
+
+
+
+  .taggedbutton-Grey{
+    flex: 1 1 calc(70% - 5px); /* Each button takes 50% width minus gap */
+max-width: 400px; /* Adjust width as needed */
+text-align: center;
+ padding: 0.5rem 1rem;
+
+   font-weight: 600;
+   border: none;
+   border-radius: 6px;
+   cursor: pointer;
+   font-family: amaranth regular;
+   font-size: 16px;  
+   background-color: #e0e0e0; /* Light grey background */
+        color: rgba(0, 0, 0, 0.795); /* Grey text */
+  
+}
+.taggedbutton-Grey:hover {
+   transition: background-color 0.3s ease;
+   background-color: #e0e0e0; /* Light grey background */
+border-color:#e0e0e0; /* Light grey background */
+}
+
+
+
+
+
+.slds-modal {
+    width: 100%;
+    max-width: 500px;
+}
+
+.slds-list_dotted {
+    list-style-type: disc;
+    padding-left: 20px;
+}
+
+.slds-modal__header h2 {
+    margin-bottom: 0;
+}
+
+.custom-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px; /* Optional for spacing */
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+	/*Styling for button container as a fixed footer*/
+    .button-containerNo {
+        position: fixed;
+        bottom: 0;          /* Positions the footer at the bottom of the screen */
+        left: 0;            /* Aligns the footer to the left of the screen */
+        width: 100%;        /* Ensures the footer spans the full width of the screen */
+        background-color: #f9f6f8;  /* Footer background color */
+        padding: 10px 20px; /* Adds padding around the buttons */
+        display: flex;      /* Makes the buttons align properly */
+        justify-content: space-between; /* Center the buttons horizontally */
+        gap: 10px;          /* Adds space between the buttons */
+        z-index: 100;       /* Ensures the footer stays on top of other content */
+    }
+    
+    /* Style for buttons */
+    .buttons {
+        padding: 3px 10px;
+        background-color: #C1206B;
+        color: White;
+        font-family: amaranth regular;
+        font-size: 1rem;
+        border: none;
+        border-radius: 0.25rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+	/*Styling for button container as a fixed footer*/
+    .button-containerJoint {
+        position: fixed;
+        bottom: 0;          /* Positions the footer at the bottom of the screen */
+        left: 0;            /* Aligns the footer to the left of the screen */
+        width: 100%;        /* Ensures the footer spans the full width of the screen */
+        background-color: #f9f6f8;  /* Footer background color */
+        padding: 10px 20px; /* Adds padding around the buttons */
+        display: flex;      /* Makes the buttons align properly */
+        justify-content: flex-end; /* Center the buttons horizontally */
+        gap: 10px;          /* Adds space between the buttons */
+        z-index: 100;       /* Ensures the footer stays on top of other content */
+    }
+
+ 
+    .button-containerGeneral {
+        position: fixed; /* Change from sticky to fixed */
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: #f9f6f8;  /* Footer background color */
+        padding: 10px 20px; /* Adds padding around the buttons */
+        text-align: left; /* Aligns button to the left */
+        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow for better visibility */
+    }
+    
+    .buttonsGeneral {
+        padding: 3px 10px;
+        background-color: #C1206B;
+        color: white;
+        font-family: amaranth regular;
+        font-size: 1rem;
+        border: none;
+        border-radius: 0.25rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+
+       
+    }
+    .scroll-container {
+        height: 90vh; /* Adjust height as needed */
+        max-width: 100%;
+    }
+    .slds-scrollable_y {
+        overflow-y: auto;
+    }
+
+    .headingOrder {
+        margin-bottom: -21px;
+        font-size: 16px; /* Adjust size as needed */
+        font-weight: bold; /* Optional: to make it more prominent */
+        color: #C1206B;
+    margin-left: 18px;
+        font-family: amaranth regular;
+    }
+    
+
+
+
+    .flow-layout {
+    position: relative;
+    /* Apply font family to the flow content (may require !important) */
+    font-family: amaranth regular !important;
+    
+     width: 100%;
+    height: 100%;
+    background: white;
+    
+    
+}
+
+.flow-back-button {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    z-index: 1000;
+    background-color: #C1206B;
+    color: white;
+    padding: 5px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+   
+    
+}
+
+/* Target SLDS classes within the flow (may not work due to shadow DOM) */
+.flow-layout .slds-text-heading_medium,
+.flow-layout .slds-form-element__label {
+    font-family: amaranth regular !important;
+}
+
+.large-headingSelfie {
+    margin-top: 1rem;
+ 
+    font-size: 18px; /* Adjust size as needed */
+    font-weight: bold; /* Optional: to make it more prominent */
+    color: #C1206B;
+margin-left: 18px;
+    margin-bottom: -20px;
+    font-family: amaranth regular;
+}
+
+/* Style for the file upload input */
+.selfie{
+    size: small; 
+    padding-left: 40px;
+}
+
+
+.camera-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.upload-btn, .capture-btn, .cancel-btn {
+    margin: 10px;
+    padding: 10px 20px;
+    background-color: #C1206B;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.capture-btn {
+    background-color: #C1206B; /* Green for capture */
+}
+
+.cancel-btn {
+    background-color: #C1206B; /* Red for cancel */
+}
+
+.video-feed {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 10px;
+    max-height:400px;
+}
+
+.hidden-canvas {
+    display: none; /* Only used for processing image */
+}
+
+	/* Style for the Buttons */
+    .custom-buttonSelfie {
+        background-color: #C1206B; /* Exact pink color */
+        color: white; /* White text color */
+        border: none; /* Remove border */
+        padding: 0.5rem 1rem; /* Adjust padding */
+        font-size: 16px; /* Standard font size */
+        font-weight: bold;
+        border-radius: 0.8rem; /* Fully rounded button */
+        cursor: pointer;
+        outline: none; /* Remove default outline */
+        box-shadow: 0 0 3px 2px #791746; /* Blue outline shadow */
+    }
+    
+    /* Style for the button hover */
+    .custom-buttonSelfie:hover {
+        background-color: #A6195C; /* Slightly darker for hover effect */
+    }
+    /* Style for the button focus */
+    .custom-buttonSelfie:focus {
+        outline: none; /* Remove focus outline */
+        box-shadow: 0 0 5px 3px #791746; /* Increase focus shadow */
+    }
+
+    .map-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.map-container-back{
+    background-color: white;
+    border-radius: 20px;
+}
+
+/*Styling for action buttons below the date buttons*/
+.actionButtons{
+    background-color: #C1206B;
+    color: white;
+    font-family: amaranth regular;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 0.25rem 0.25rem 0.25rem 0.25rem; 
+    border-radius: 0.25rem;
+    border: #0b0b0b;
+}
+
+/* Hide asterisk for Other Reason field while keeping it required */
+.other-reason-container .slds-required,
+.other-reason-container abbr.slds-required,
+.other-reason-container lightning-input[required] abbr,
+.other-reason-input abbr.slds-required,
+.other-reason-label .slds-required,
+.other-reason-label abbr.slds-required {
+    display: none !important;
+}
+
+.other-reason-input lightning-base-formatted-text abbr.slds-required {
+    display: none !important;
+}

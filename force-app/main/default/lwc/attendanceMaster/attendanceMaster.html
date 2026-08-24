@@ -1,0 +1,195 @@
+<template>
+    <div class="unique-font-family">
+            <lightning-card class="attendance-card">
+                <div class="card-header">
+                    <!-- Title with centered alignment and custom icon -->
+                    <lightning-icon icon-name="action:new_event" size="small" class="title-icon"></lightning-icon>
+                    <h1 class="title-text">Mark Attendance</h1>
+                </div>
+
+                <div class="slds-align_absolute-center slds-p-vertical_small">
+                    <p class="Today-Date">
+                        Today's Date: {currentDate}
+                    </p>
+                </div>
+
+                
+
+                <div class="slds-grid slds-gutters slds-wrap slds-align_absolute-center slds-p-around_medium button-container">
+
+                   
+
+                    <template if:false={isPresentMarked}>
+                        <button 
+                            class="custom-button present-button"                        
+                            onclick={handlePresentClick}>
+                            Present 
+                        </button>
+                    </template>
+                    <!-- Added by hari - EOD button when Present marked; hidden after Submit -->
+                    <template if:true={showEODButton}>
+                        <button 
+                            class="custom-button present-button"                        
+                            onclick={handleEODClick}>
+                            EOD 
+                        </button>
+                    </template>
+                    <!-- Added by hari - hide Leave button after EOD is submitted -->
+                    <template if:true={showLeaveButton}>
+                        <button 
+                            class="custom-button present-button"                        
+                            onclick={handleLeaveClick}>
+                            Leave 
+                        </button>
+                    </template>
+                </div>
+
+                <!-- Display Leave Applications with Name and Approval Status -->
+            <!--div class="existingLeave">
+                <template if:true={leaveApplications}>
+                    <template for:each={leaveApplications} for:item="leaveApp">
+                        <p key={leaveApp.Id} class="slds-text-heading_small slds-text-align_center slds-text-color_default">
+                            <lightning-icon icon-name="utility:report_issue" size="small" alternative-text="Help Icon" class="slds-m-right_small"></lightning-icon>
+                            <strong>You have already applied a leave for today's date which is in "{leaveApp.Approval_Statuses__c}" <span> status</span></strong>
+                        </p>
+                    </template>
+                </template>
+                <template if:true={attendanceMessage}>
+                    <div class="slds-align_absolute-center slds-m-top_small">
+                        <p class="slds-text-color_success slds-text-heading_small">
+                            {attendanceMessage}
+                        </p>
+                    </div>
+                </template>
+            </div-->
+            <div class="existingLeave">
+                <!-- Added by hari - show EOD submitted message after Submit, else show normal attendance message -->
+                <template if:true={displayMessage}>
+                    <div class="msg-row">
+                        <p class="slds-text-color_success slds-text-heading_small">
+                            {displayMessage}
+                        </p>
+                    </div>
+                </template>
+                <!-- Leave applications -->
+                <template if:true={leaveApplications}>
+                    <template for:each={leaveApplications} for:item="leaveApp">
+                        <div key={leaveApp.Id} class="msg-row">
+                            <p class="slds-text-heading_small slds-text-align_center slds-text-color_default">
+                                <lightning-icon 
+                                    icon-name="utility:report_issue" 
+                                    size="small" 
+                                    alternative-text="Help Icon" 
+                                    class="slds-m-right_small">
+                                </lightning-icon>
+                                <strong>
+                                    You have already applied a leave for today's date which is in 
+                                    "{leaveApp.Approval_Statuses__c}" <span>status</span>
+                                </strong>
+                            </p>
+                        </div>
+                    </template>
+                </template>
+            </div>
+
+
+
+                <div class="slds-m-top_medium">
+                    <!-- Render Attendance(Present) or AttendanceMgt(Leave) -->
+                    <template if:true={isPresentView}>
+                        <c-attendance></c-attendance>
+                    </template>
+                    <template if:true={isLeaveView}>
+                        <c-attendance-mgt></c-attendance-mgt>
+                    </template>
+                </div>
+
+                <!-- Added by hari - EOD modal: read-only values; responsive popup for mobile -->
+                <template if:true={isEODModalOpen}>
+                    <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open eod-modal-responsive">
+                        <div class="slds-modal__container eod-modal-container">
+                            <header class="slds-modal__header">
+                                <h2 class="slds-modal__title slds-hyphenate">End of Day (EOD) Summary</h2>
+                                <button class="slds-modal__close slds-button slds-button_icon-inverse" title="Close" onclick={handleEODModalCancel}>
+                                    <lightning-icon icon-name="utility:close" alternative-text="Close" size="small"></lightning-icon>
+                                </button>
+                            </header>
+                            <div class="slds-modal__content slds-p-around_medium eod-modal-content" id="eod-modal-content">
+                                <!-- Added by hari - show spinner while EOD details load from EODController -->
+                                <template if:true={isEODLoading}>
+                                    <div class="slds-align_absolute-center slds-p-around_large">
+                                        <lightning-spinner alternative-text="Loading EOD details..." size="medium"></lightning-spinner>
+                                    </div>
+                                </template>
+                                <!-- Added by hari - one metric per line; label : value; aligned values; check-in/out/time spent as plain text (no clock) -->
+                                <template if:false={isEODLoading}>
+                                <div class="eod-metrics-list">
+                                    <div class="eod-metric-row">
+                                        <span class="eod-metric-label">Scheduled Calls</span>
+                                        <span class="eod-metric-sep">: </span>
+                                        <span class="eod-metric-value">{eodFormData.scheduledCalls}</span>
+                                    </div>
+                                    <div class="eod-metric-row">
+                                        <span class="eod-metric-label">Total Calls</span>
+                                        <span class="eod-metric-sep">: </span>
+                                        <span class="eod-metric-value">{eodFormData.totalCalls}</span>
+                                    </div>
+                                    <div class="eod-metric-row">
+                                        <span class="eod-metric-label">Productive Calls</span>
+                                        <span class="eod-metric-sep">: </span>
+                                        <span class="eod-metric-value">{eodFormData.productiveCalls}</span>
+                                    </div>
+                                    <div class="eod-metric-row">
+                                        <span class="eod-metric-label">Not Visited Outlet</span>
+                                        <span class="eod-metric-sep">: </span>
+                                        <span class="eod-metric-value">{eodFormData.notVisitedOutlet}</span>
+                                    </div>
+                                    <div class="eod-metric-row">
+                                        <span class="eod-metric-label">New Outlet Onboarded</span>
+                                        <span class="eod-metric-sep">: </span>
+                                        <span class="eod-metric-value">{eodFormData.newOutletOnboarded}</span>
+                                    </div>
+                                    <div class="eod-metric-row">
+                                        <span class="eod-metric-label">DF Transfer</span>
+                                        <span class="eod-metric-sep">: </span>
+                                        <span class="eod-metric-value">{eodFormData.dfTransfer}</span>
+                                    </div>
+                                    <div class="eod-metric-row">
+                                        <span class="eod-metric-label">Distributor Visit</span>
+                                        <span class="eod-metric-sep">: </span>
+                                        <span class="eod-metric-value">{eodFormData.distributorVisit}</span>
+                                    </div>
+                                    <div class="eod-metric-row">
+                                        <span class="eod-metric-label">First Check In Time</span>
+                                        <span class="eod-metric-sep">: </span>
+                                        <span class="eod-metric-value">{eodFormData.firstCheckInTime}</span>
+                                    </div>
+                                    <div class="eod-metric-row">
+                                        <span class="eod-metric-label">Last Check Out Time</span>
+                                        <span class="eod-metric-sep">: </span>
+                                        <span class="eod-metric-value">{eodFormData.lastCheckOutTime}</span>
+                                    </div>
+                                    <div class="eod-metric-row">
+                                        <span class="eod-metric-label">Total Time Spent</span>
+                                        <span class="eod-metric-sep">: </span>
+                                        <span class="eod-metric-value">{eodFormData.totalTimeSpent}</span>
+                                    </div>
+                                    <div class="eod-metric-row">
+                                        <span class="eod-metric-label">Total Order Value</span>
+                                        <span class="eod-metric-sep">: </span>
+                                        <span class="eod-metric-value">{eodFormData.totalOrderValue}</span>
+                                    </div>
+                                </div>
+                                </template>
+                            </div>
+                            <footer class="slds-modal__footer">
+                                <lightning-button variant="neutral" label="Cancel" onclick={handleEODModalCancel} class="slds-m-right_x-small"></lightning-button>
+                                <lightning-button variant="brand" label="Submit" onclick={handleEODModalSubmit} disabled={isEODSubmitLoading} title="Submit"></lightning-button>
+                            </footer>
+                        </div>
+                    </section>
+                    <div class="slds-backdrop slds-backdrop_open"></div>
+                </template>
+            </lightning-card>
+    </div>
+</template>

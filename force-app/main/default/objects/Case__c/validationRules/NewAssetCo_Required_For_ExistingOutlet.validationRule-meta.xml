@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>NewAssetCo_Required_For_ExistingOutlet</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+    Case_Type__r.Name = &quot;Existing Outlet New Asset request&quot;,
+    ISBLANK( New_Asset_Code__c )
+)</errorConditionFormula>
+    <errorDisplayField>New_Asset_Code__c</errorDisplayField>
+    <errorMessage>New Asset Code is required when Case Type is &apos;Existing Outlet New Asset Request&apos;.</errorMessage>
+</ValidationRule>

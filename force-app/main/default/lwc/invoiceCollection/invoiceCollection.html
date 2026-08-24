@@ -1,0 +1,214 @@
+<template>
+    <div style ="height: 100%; width: 100%; overflow: auto;">
+    <template if:true={showComponent}>
+        <lightning-card title="Invoice Collection">
+            <div  style ="min-height:70vh;height:100%;" >
+            <div class="slds-p-around_medium">    
+            <div class="slds-grid slds-gutters">
+                <template if:true={creditNotes}>
+                    <div class="slds-col"></div>
+                    <div class="slds-col"></div>
+                    <div class="slds-col"></div>
+                    <div class="slds-col"></div>
+                    <div class="slds-col">
+                        <p>
+                            <strong>Available Credit Notes:</strong>&nbsp; {totalCreditNotes}
+                            
+                        </p>
+                       <p>
+                            <strong>Total Credit Amount:</strong> &nbsp;<lightning-formatted-number value={totalCreditAmount} format-style="currency"></lightning-formatted-number>
+                        </p>
+                    </div>
+                </template>
+            </div>
+            <div class="slds-p-around_medium"> </div>
+                <div >
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered slds-border_left slds-border_right">
+                        <thead>
+                            <tr>
+                                <th>Invoice Number</th>
+                                <th>Customer Name</th>
+                                <th>Invoice Date</th>
+                                <th>Invoice Amount</th>
+                                <th>Current Outstanding Amount</th>
+                                
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                                <tr>
+                                    <td>{invoices.Invoice_Number__c}</td>
+                                    <td>
+                                        <template if:true={isSecondaryInvoiceUnderSS}>
+                                            {invoices.Under_SS__r.Name}
+                                        </template>
+                                        <template if:false={isSecondaryInvoiceUnderSS}>
+                                            {invoices.Retailer_Account__r.Name}
+                                        </template>
+                                    </td>
+                                    <td>{formattedDate}</td>
+                                    <td>₹{invoices.Invoice_Amount__c}</td>
+                                    <td>₹{invoices.Total_Payable_Balance__c}</td>
+                                    
+                                    
+                                </tr>
+                            
+                        </tbody>
+                    </table>
+                </div>
+                <div class="slds-p-around_medium"> </div>
+                <div>
+                <div class="slds-p-around_medium slds-box slds-theme_shade">
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col slds-size_1-of-2">
+                            <label> Do you wish to use credit amount? </label>
+                            <lightning-input 
+                                type="checkbox" 
+                                checked={isCreditUse} 
+                                onchange={handleCreditUse}
+                                disabled={isCreditboxDisabled}>                            
+                            </lightning-input>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-input 
+                                            label="Enter credit amount to be used" 
+                                            value={creditAmountEntered} 
+                                            onchange={handleCreditAmountEntered}
+                                            disabled={isAmountEntered}>
+                            </lightning-input>
+                        </div>                        
+                    </div>
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-combobox 
+                            name="paymentMethodDropdown"
+                            label="Payment Method"
+                            placeholder="Select Payment Method"
+                            options={paymentMethodOptions}
+                            value={selectedPaymentMethod}
+                            onchange={handlePaymentMethodChange}>
+                        </lightning-combobox>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-input 
+                                        label="Amount Collected in ₹" 
+                                        value={amountCollected} 
+                                        onchange={handleAmountChange}
+                                        disabled={isAmountDisabled}
+                                                type="number" 
+                                                 step="0.01"
+                                        >
+                        </lightning-input>
+                    </div>                   
+                </div>
+                <div class="slds-p-around_medium"></div>
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-input 
+                            type="date"
+                            label="Payment Date"
+                            value={paymentDate}
+                            onchange={handlePaymentDateChange}>
+                        </lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-input 
+                        type="text"
+                        label="Narration"
+                        value={narration}
+                        onchange={handleNarrationChange}>
+                        </lightning-input>
+                    </div>                   
+                </div>
+                <div class="slds-p-around_medium"></div>
+                
+                <template if:true={isCheque}>
+                    <div class="slds-p-top_medium slds-grid slds-wrap slds-gutters">
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-input 
+                                label="Cheque Number" 
+                                value={chequeDetails.chequeNumber} 
+                                data-field="chequeNumber"
+                                onchange={handleInputChange}>
+                            </lightning-input>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-input 
+                                type="date" 
+                                label="Cheque Date" 
+                                value={chequeDetails.chequeDate}
+                                data-field="chequeDate" 
+                                onchange={handleInputChange}>
+                            </lightning-input>
+                        </div>
+                    </div>
+                    <div class="slds-p-top_medium slds-grid slds-wrap slds-gutters">
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-input 
+                                label="Branch Name" 
+                                value={chequeDetails.branchName} 
+                                data-field="branchName"
+                                onchange={handleInputChange}>
+                            </lightning-input>
+                        </div>
+                        
+                        <div class="slds-col slds-size_1-of-2" style="margin-top: 7px;">
+                            <label> Cleared</label>
+                            <lightning-input 
+                                type="checkbox"                                 
+                                checked={chequeDetails.isChequeCleared} 
+                                data-field="isChequeCleared"
+                                onchange={handleInputChange}>
+                            </lightning-input>
+                        </div>                        
+                    </div>
+                </template>
+                </div>
+                <div class="slds-p-around_medium slds-box slds-theme_shade">
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col slds-size_1-of-3">
+                            <label> Payable balance </label>
+                            ₹{payableBalance}
+                        </div> 
+                        <div class="slds-col slds-size_1-of-3">
+                            <template if:true={isCreditUse}>
+                            <p> 
+                                Credit amount redeemed : ₹ {creditAmountEntered}
+                                
+                            </p> 
+                            </template>                   
+                        </div>
+                        <div class="slds-col slds-size_1-of-3">
+                            <p> 
+                              <strong>  Total collection is ₹{totalCollectionAmount}</strong>
+                            </p>                    
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="slds-p-around_medium"></div>
+                <div class="slds-p-around_medium"></div>
+               
+            </div>
+            <div class="slds-grid slds-wrap slds-grid_align-spread">
+                <div class="slds-size_1-of-2 slds-text-align_center">
+                    <div class="slds-size_1-of-2 slds-text-align_left">
+                        <lightning-button 
+                            variant="brand" 
+                            label="Save Collection" 
+                            onclick={handleSaveCollection}>
+                        </lightning-button>
+                    </div> 
+                </div>
+                <div class="slds-size_1-of-2 slds-text-align_right">
+                    
+                </div>  
+            </div>
+            </div>
+            </div>
+        </lightning-card>
+    </template>
+    
+    </div>
+</template>

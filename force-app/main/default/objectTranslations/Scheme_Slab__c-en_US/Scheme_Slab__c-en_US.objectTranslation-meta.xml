@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Scheme Slab</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Scheme Slabs</value>
+    </caseValues>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- For Amount must be greater than zero. --></errorMessage>
+        <name>For_Amount_must_be_positive</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Please fill exactly one of &apos;Cash Discount&apos; or &apos;Discount Percent&apos;. --></errorMessage>
+        <name>Only_one_discount_type_can_be_selected</name>
+    </validationRules>
+</CustomObjectTranslation>

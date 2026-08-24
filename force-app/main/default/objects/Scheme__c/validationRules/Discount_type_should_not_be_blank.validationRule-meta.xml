@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Discount_type_should_not_be_blank</fullName>
+    <active>false</active>
+    <errorConditionFormula>ISBLANK(Discount_Amount__c) &amp;&amp; ISBLANK(Discount_Percentage__c)</errorConditionFormula>
+    <errorDisplayField>Discount_Percentage__c</errorDisplayField>
+    <errorMessage>&quot;Please enter either &apos;Discount Amount&apos; or &apos;Discount Percentage&apos;.&quot;</errorMessage>
+</ValidationRule>

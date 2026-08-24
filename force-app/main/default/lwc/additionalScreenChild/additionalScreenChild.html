@@ -1,0 +1,82 @@
+<template>
+    <div class="container">
+
+        <!-- NAV + PARENT BLOCK WRAPPER -->
+        <div class="header-parent-wrapper">
+
+            <!-- Navigation Header -->
+            <div class="nav-header">
+                <lightning-button-icon 
+                    icon-name="utility:back"
+                    alternative-text="Back"
+                    onclick={handleGoBack}
+                    class="back-btn"
+                    variant="bare"
+                    size="large"
+                    style="--slds-c-icon-color-foreground-default: #00aaff;">
+                </lightning-button-icon>
+
+                <div class="header-title">Team Snapshot</div>
+            </div>
+
+            <!-- Parent Block (Fixed under nav) -->
+            <div class="parent-block">
+                <template if:true={selectedUser}>
+                    <div class="user-card">
+                        <div class="user-top">
+                            <div class="name">{selectedUser.name}</div>
+                            <div class="role">{selectedUser.role}</div>
+                        </div>
+                        <div class="grid">
+                            <!--<div class="cell">Distributor<br/><span class="num">{selectedUser.metrics.distributorCount}</span></div>
+                            <div class="cell">Beats<br/><span class="num">{selectedUser.metrics.beatCount}</span></div>
+                            <div class="cell">Outlets<br/><span class="num">{selectedUser.metrics.outletCount}</span></div>
+                            <div class="cell">Planned<br/><span class="num">{selectedUser.metrics.plannedCount}</span></div>
+                            <div class="cell">UPC<br/><span class="num">{selectedUser.metrics.upcCount}</span></div>
+                            <div class="cell">UTC<br/><span class="num">{selectedUser.metrics.utcCount}</span></div>-->
+                            <div class="cell">LPC<br/><span class="num">{selectedUser.metrics.lpcCount}</span></div>
+                            <div class="cell">TOTAL LINES CUT<br/><span class="num">{selectedUser.metrics.tlcCount}</span></div>
+                            <div class="cell">NET PAYABLE<br/><span class="num">{selectedUser.metrics.netPay}</span></div>
+                            <div class="cell">QTY(STD UNIT)<br/><span class="num">{selectedUser.metrics.qty}</span></div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+
+        </div>
+        <!-- END header-parent-wrapper -->
+
+
+        <!-- Subordinates Block -->
+        <div class="subs-block">
+            <template if:true={subordinates}>
+                <template for:each={subordinates} for:item="sub">
+                    <div key={sub.id} class="user-card sub" data-id={sub.id} onclick={handleSubClick}>
+                        <div class="user-top">
+                            <div class="name">{sub.name}</div>
+                            <div class="role">{sub.role}</div>
+                        </div>
+
+                        <div class="grid">
+                            <!--<div class="cell">Distributor<br/><span class="num">{sub.metrics.distributorCount}</span></div>
+                            <div class="cell">Beats<br/><span class="num">{sub.metrics.beatCount}</span></div>
+                            <div class="cell">Outlets<br/><span class="num">{sub.metrics.outletCount}</span></div>
+                            <div class="cell">Planned<br/><span class="num">{sub.metrics.plannedCount}</span></div>
+                            <div class="cell">UPC<br/><span class="num">{sub.metrics.upcCount}</span></div>
+                            <div class="cell">UTC<br/><span class="num">{sub.metrics.utcCount}</span></div>-->
+                            <div class="cell">LPC<br/><span class="num">{sub.metrics.lpcCount}</span></div>
+                            <div class="cell">TOTAL LINES CUT<br/><span class="num">{sub.metrics.tlcCount}</span></div>
+                            <div class="cell">NET PAYABLE<br/><span class="num">{sub.metrics.netPay}</span></div>
+                            <div class="cell">QTY(STD UNIT)<br/><span class="num">{sub.metrics.qty}</span></div>
+                        </div>
+                    </div>
+                </template>
+            </template>
+
+            <template if:false={subordinates}>
+                <div>No direct subordinates</div>
+            </template>
+        </div>
+
+    </div>
+</template>

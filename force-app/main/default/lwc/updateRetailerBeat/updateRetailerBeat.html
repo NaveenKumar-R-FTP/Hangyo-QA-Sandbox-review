@@ -1,0 +1,52 @@
+<template>
+    <div class="container">
+        <h2 class="title slds-text-heading_medium">Beat Management</h2>
+        <template if:true={showBeatTable}>
+            <div class="search-filter-container slds-text-title_bold">
+                <lightning-input
+                    label="Search Beat"
+                    type="search"
+                    placeholder="Search by Beat Name"
+                    onchange={handleSearch}>
+                </lightning-input>
+            </div>
+            <div class="table-wrapper-Beat">
+                <lightning-datatable
+                    key-field="Id"
+                    data={beatData}
+                    columns={beatColumns}
+                    selected-rows={selectedBeatRows} 
+                    max-row-selection="1"
+                    onrowselection={handleBeatSelection}>
+                </lightning-datatable>
+            </div>
+            <div class="next-button-container">
+                <button class="buttons" onclick={handleNext}>Next</button>
+            </div>
+        </template>
+
+        <template if:true={showRetailerTable}>
+            <div class="search-filter-container slds-text-title_bold">
+                <lightning-input
+                    label="Search Retailer"
+                    type="search"
+                    placeholder="Search by Retailer Name"
+                    onchange={handleRetailerSearch}>
+                </lightning-input>
+            </div>
+            <div class="table-wrapper-Beat">
+                <lightning-datatable
+                    key-field="Id"
+                    data={retailerData}
+                    columns={retailerColumns}
+                    selected-rows={selectedRetailers}
+                    onrowselection={handleRetailerSelection}>
+                </lightning-datatable>
+            </div>
+            <div class="button-container">
+                <button class="buttons" onclick={handleBackIconClick} >Back</button>
+                <button class="buttons" onclick={updateBeat}>Save</button>
+            </div>
+        </template>
+    </div>
+</template>

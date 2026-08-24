@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Order</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Orders</value>
+    </caseValues>
+    <layouts>
+        <layout>DMS  Under SS Secondary Order</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Pricing --></label>
+            <section>Pricing</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>DMS Counter Page Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Customer Information --></label>
+            <section>Customer Information</section>
+        </sections>
+        <sections>
+            <label><!-- Pricing --></label>
+            <section>Pricing</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>DMS Primary Order layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Pricing --></label>
+            <section>Pricing</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>DMS Primary order Delivered</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>DMS Secondary Order Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Pricing --></label>
+            <section>Pricing</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>DMS Under SS Order Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Pricing --></label>
+            <section>Pricing</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Secondary order Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Price Information --></label>
+            <section>Price Information</section>
+        </sections>
+    </layouts>
+    <recordTypes>
+        <label><!-- Counter Order --></label>
+        <name>Counter_Order</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- Primary Order --></label>
+        <name>Primary_Order</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- Primary Order delivered --></label>
+        <name>Primary_Order_delivered</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- Secondary Order --></label>
+        <name>Secondary_Order</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- Under SS Order --></label>
+        <name>Under_SS_Order</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- Under SS Secondary Order --></label>
+        <name>Under_SS_Secondary_Order</name>
+    </recordTypes>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- You do not have permission to change the record owner. Contact your administrator. --></errorMessage>
+        <name>Prevent_owner_change</name>
+    </validationRules>
+</CustomObjectTranslation>

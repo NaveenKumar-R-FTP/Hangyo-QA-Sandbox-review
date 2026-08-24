@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All_Distributor_Inventory</fullName>
+    <columns>NAME</columns>
+    <columns>Distributor_Name__c</columns>
+    <columns>Product__c</columns>
+    <columns>Quantity_in_hand__c</columns>
+    <columns>Category__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Distributor_Name__c</field>
+        <operation>contains</operation>
+        <value>Dummy</value>
+    </filters>
+    <filters>
+        <field>Product__c</field>
+        <operation>contains</operation>
+        <value>Kaju Draksh (1 x 4 Litres)</value>
+    </filters>
+    <label>All Distributor Inventory</label>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
+</ListView>

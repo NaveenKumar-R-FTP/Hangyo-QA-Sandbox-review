@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Order_Name__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF( RecordType.DeveloperName ==&apos;Primary_Order&apos; || RecordType.DeveloperName ==&apos;Primary_Order_delivered&apos; , &apos;P&apos;+ Name ,  IF(RecordType.DeveloperName ==&apos;Secondary_Order&apos;, &apos;S&apos;+ Name, Name) )</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Order Name</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Scheme Holder Type --></label>
+    <name>Scheme_Holder_Type__c</name>
+    <picklistValues>
+        <masterLabel>Distributor</masterLabel>
+        <translation><!-- Distributor --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Hub</masterLabel>
+        <translation><!-- Hub --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Region</masterLabel>
+        <translation><!-- Region --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Retailer</masterLabel>
+        <translation><!-- Retailer --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

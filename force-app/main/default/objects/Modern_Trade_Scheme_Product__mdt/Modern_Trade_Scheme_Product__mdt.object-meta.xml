@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Qualifying SKUs (by SAP Code) for the Modern Trade free-goods scheme. Any invoice containing one or more of these products earns free &quot;Modern Trade chips&quot; at a 10:40 ratio based on the summed quantity of qualifying products on the invoice. Edit/add/remove records here to change the qualifying SKU list without a code deploy.</description>
+    <label>Modern Trade Scheme Product</label>
+    <pluralLabel>Modern Trade Scheme Products</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Discount Mode --></label>
+    <name>Discount_Mode__c</name>
+    <picklistValues>
+        <masterLabel>None</masterLabel>
+        <translation><!-- None --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Overall</masterLabel>
+        <translation><!-- Overall --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>SKU_Wise</masterLabel>
+        <translation><!-- SKU_Wise --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

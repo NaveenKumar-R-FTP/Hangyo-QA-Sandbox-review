@@ -1,0 +1,131 @@
+/* competitorLineItemCreator.css */
+
+/* ========== Global Styles ========== */
+* {
+    font-family: "Lucida Sans", sans-serif;
+    box-sizing: border-box;
+}
+
+.headingOrder {
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    font-size: 16px;
+    font-weight: bold;
+    color: #C1206B;
+    text-align: center;
+    font-family: amaranth regular;
+}
+
+/* ========== Main Container ========== */
+.main-container {
+    position: relative;
+    padding-bottom: 60px; /* Space for footer */
+    min-height: 100dvh;
+    overflow: hidden;
+}
+
+/* ========== Scrollable Content ========== */
+.scrollable-content {
+    max-height: calc(100dvh - 160px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    padding: 0 0.7rem;
+}
+
+/* ========== Checkbox Section ========== */
+.checkbox-section {
+    margin-bottom: 1.5rem;
+}
+
+.checkbox-container {
+    max-height: 250px;
+    overflow-y: auto;
+    border: 1px solid #dddbda;
+    border-radius: 4px;
+    padding: 0 1rem;
+}
+
+.two-column-checkbox .slds-form-element__control {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    align-content: start;
+}
+
+/* ========== Input Section ========== */
+.input-section {
+    margin-top: 1.5rem;
+}
+
+.input-group {
+    margin-bottom: 1.5rem;
+}
+
+.description-field {
+    margin-top: 0.75rem;
+}
+
+/* ========== Fixed Footer ========== */
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f9f6f8;
+    padding: 10px 20px;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    height: 50px;
+    bottom: env(safe-area-inset-bottom, 0);
+}
+
+.buttonsGeneral {
+    padding: 3px 10px;
+    background-color: #C1206B;
+    color: white;
+    font-family: amaranth regular;
+    font-size: 1rem;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-butt {
+    margin-left: auto;
+}
+
+.submit-butt:disabled {
+    background-color: #cccccc;
+    color: #666666;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* ========== Responsive Design ========== */
+@media screen and (max-width: 620px) {
+    .main-container {
+        padding-bottom: 50px;
+    }
+    
+    .scrollable-content {
+        max-height: calc(100dvh - 135px);
+    }
+
+    .checkbox-container {
+        max-height: 40vh;
+    }
+
+    .two-column-checkbox .slds-form-element__control {
+        grid-template-columns: 1fr;
+    }
+
+    .footer {
+        height: 55px;
+        padding: 4px 16px;
+    }
+}

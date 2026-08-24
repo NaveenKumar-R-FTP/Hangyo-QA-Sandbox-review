@@ -1,0 +1,86 @@
+.container {
+    padding: 0.5rem;
+}
+
+.invoice-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.product-table {
+    width: 100%;
+    border-collapse: collapse;
+    
+}
+
+.product-table th, 
+.product-table td {
+    padding: 0.25rem;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.product-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+.product-image-cell {
+    text-align: center;
+    vertical-align: middle;
+    width: 110px !important; /* Set the desired width */
+    height: 105px !important;
+}
+
+.product-image-rich-text {
+    width: 100%  !important; /* Set the desired width */
+    height: 100% !important; /* Set the desired height */
+    overflow: hidden; /* Ensure content doesn't exceed the container */
+}
+
+.product-image-rich-text img {
+    width: auto; /* Ensure the image scales to fit */
+    height: auto; /* Maintain the aspect ratio */
+    max-width: 50px; /* Limit maximum width */
+    max-height: 50px; /* Limit maximum height */
+    display: block;
+    margin: auto;
+    border-radius: 5px; /* Optional: keep rounded corners */
+    object-fit: cover; /* Ensure the image doesn't distort */
+}
+.details-cell {
+    vertical-align: top;
+}
+
+.details-cell p {
+    margin: 0.2rem 0;
+}
+
+.input-cell {
+    vertical-align: middle;
+    text-align: left;
+}
+
+.lightning-input,
+.lightning-textarea {
+    width: 100%;
+}
+
+.invoice-summary {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap; /* Keep them on one line */
+}
+
+.invoice-summary p {
+    margin: 0;
+}
+
+
+.submit-btn {
+    margin-top: 2rem;
+    margin-right: 10px;
+}

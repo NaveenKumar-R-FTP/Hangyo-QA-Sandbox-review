@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Leave For --></label>
+    <name>Leave_For__c</name>
+    <picklistValues>
+        <masterLabel>First half</masterLabel>
+        <translation><!-- First half --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Second half</masterLabel>
+        <translation><!-- Second half --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

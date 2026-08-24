@@ -1,0 +1,40 @@
+<template>
+    <template if:true={showContactInfoPage}>
+        <lightning-card>
+        <h2 class="custom-title">Contact Information</h2>
+        <div class="slds-p-around_medium">
+            <div class="row">
+                <lightning-input type="text" label="First Name" name="firstname" class="input-field small input-field label" value={firstname} onchange={handleInputChange} placeholder="Enter your first name..." required="true"></lightning-input>
+                <lightning-input type="text" label="Last Name" name="lastname" class="input-field small" value={lastname} onchange={handleInputChange} placeholder="Enter your last name..."></lightning-input>
+            </div>
+            <div class="row">
+                <lightning-input type="phone" label="Phone" name="phone" class="input-field medium" value={phone} onchange={handleInputChange} placeholder="Enter your phone number..." required="true"></lightning-input>
+                <lightning-input type="text" label="Address Line" name="addressline" class="input-field small" value={addressline} onchange={handleInputChange} placeholder="Enter your Address..."></lightning-input>
+            </div>
+            <div class="row">
+                <lightning-input type="email" label="Email" name="email" class="input-field small" value={email} onchange={handleInputChange} placeholder="Enter your email..."></lightning-input>
+                <div class="row" style="width:49.5%">
+                    <lightning-input type="text" label="Postal Code" name="postalcode" class="input-field small" value={postalcode} readonly></lightning-input>
+                    <lightning-input type="text" label="City/Town" name="City" class="input-field small" value={City} readonly></lightning-input>
+                </div>
+            </div>
+            <div class="row">
+                <lightning-input type="text" label="Company" name="company" class="input-field small" value={company} onchange={handleInputChange} placeholder="Enter company name..."></lightning-input>
+                <div class="row" style="width:49.5%">
+                    <lightning-input type="text" label="State" name="State" class="input-field small" value={State} readonly></lightning-input>
+                    <lightning-input type="text" label="Country" name="country" class="input-field small" value={country} readonly></lightning-input>
+                </div>
+            </div>
+            <div class="row" style="width:49.8%">
+                <lightning-input type="text" label="GSTIN" name="gstinNumber" class="input-field small" value={gstinNumber} onchange={handleInputChange} placeholder="Enter GSTIN Number..."></lightning-input>
+            </div>
+            <div class="slds-grid slds-grid_align-center slds-m-top_medium lightning-button">
+                <lightning-button label="Next" variant="brand" onclick={handleNext}></lightning-button>
+            </div>
+        </div>
+    </lightning-card>
+    </template>
+    <template if:true={showCounterPage}>
+        <c-counter-order-product-page state={State} firstname={firstname} lastname={lastname} phone={phone} email={email} addressline={addressline} city={City} postalcode={postalcode} country={country} company={company} gstin={gstinNumber}></c-counter-order-product-page>
+    </template>
+</template>

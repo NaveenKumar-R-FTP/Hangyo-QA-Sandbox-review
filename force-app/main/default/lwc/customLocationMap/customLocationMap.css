@@ -1,0 +1,27 @@
+.custom-container{
+	color : black;
+}
+
+
+.taggedbutton{
+         flex: 1 1 calc(70% - 5px); 
+    max-width: 400px;
+    text-align: center;
+      padding: 0.5rem 1rem;
+    
+        font-weight: 600;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+       
+        font-size: 16px;  
+        background-color: #C1206B;
+        font-family: amaranth regular;
+        color: #fff;
+       
+    }
+    .taggedbutton:hover {
+        transition: background-color 0.3s ease;
+    background-color: #e0297f;
+    border-color: #722147;
+}

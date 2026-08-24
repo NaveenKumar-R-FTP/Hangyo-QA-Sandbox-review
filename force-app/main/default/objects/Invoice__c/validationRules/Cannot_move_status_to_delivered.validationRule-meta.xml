@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cannot_move_status_to_delivered</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+    TEXT(Status__c) == &apos;Delivered&apos; ,
+    TEXT(PRIORVALUE(Status__c)) != &apos;Confirmed&apos;,
+    ISCHANGED(Status__c) 
+   )</errorConditionFormula>
+    <errorDisplayField>Status__c</errorDisplayField>
+    <errorMessage>Please mark the status as &apos;Confirmed&apos; before setting it to &apos;Delivered&apos;</errorMessage>
+</ValidationRule>

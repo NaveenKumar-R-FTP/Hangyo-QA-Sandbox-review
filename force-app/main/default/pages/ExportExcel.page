@@ -1,0 +1,50 @@
+<apex:page Controller="ExportExcelController" cache="true" readOnly="true" contentType="application/vnd.ms-excel; charset=UTF-8">
+    <style>
+        /* Grid table styles */
+        .grid-table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .grid-table th, .grid-table td {
+            border: 1px solid #dddddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .grid-table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        .grid-table td {
+            text-align: left;
+        }
+    </style>
+
+    <apex:pageBlock >
+        <!-- Order Details Table with grid -->
+        <apex:pageBlockTable value="{!orders}" var="order" styleClass="grid-table">
+            <apex:facet name="header">Order Details</apex:facet>
+            <apex:column value="{!order.Name}" headerValue="Order Name" style="text-align: left;"/>
+            <apex:column value="{!order.EffectiveDate__c}" headerValue="Order Start Date" style="text-align: left;"/>
+            <apex:column value="{!order.AccountId__r.Name}" headerValue="Account Name" style="text-align: left;"/>
+            <apex:column value="&#8377; {!order.Total_Order_Value__c}" headerValue="Order Amount" style="text-align: left;"/>
+            <apex:column value="{!order.Type__c}" headerValue="Type"/>
+            <!-- Add more fields as needed -->
+        </apex:pageBlockTable>
+        
+        <br></br>
+        
+        <!-- Order Line Items Table with grid -->
+        <apex:pageBlockTable value="{!orderLineItems}" var="lineItem" styleClass="grid-table">
+            <apex:facet name="header">Order Line Items</apex:facet>
+            <apex:column value="{!lineItem.Name}" headerValue="Order Line Item Name" style="text-align: left;"/>
+            <apex:column value="{!lineItem.Products__r.Name}" headerValue="Product Name" style="text-align: left;"/>
+            <apex:column value="{!lineItem.Ordered_Quantity__c}" headerValue="Ordered Quantity" style="text-align: left;"/>
+            <apex:column value="&#8377; {!lineItem.Product_Price__c}" headerValue="Product Price" style="text-align: left;"/>
+            <apex:column value="&#8377; {!lineItem.Total_Amount__c}" headerValue="Total Amount" style="text-align: left;"/>
+            <!-- Add more fields as needed -->
+        </apex:pageBlockTable>  
+    </apex:pageBlock>
+</apex:page>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Nature_of_Complaint__c</fullName>
+    <label>Nature of Complaint</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Wheel Damage</fullName>
+                <default>false</default>
+                <label>Wheel Damage</label>
+            </value>
+            <value>
+                <fullName>Half / No Cooling</fullName>
+                <default>false</default>
+                <label>Half / No Cooling</label>
+            </value>
+            <value>
+                <fullName>Fan Motor Issue</fullName>
+                <default>false</default>
+                <label>Fan Motor Issue</label>
+            </value>
+            <value>
+                <fullName>Compressor Not Working</fullName>
+                <default>false</default>
+                <label>Compressor Not Working</label>
+            </value>
+            <value>
+                <fullName>Glass Broken /Sliding Issue</fullName>
+                <default>false</default>
+                <label>Glass Broken /Sliding Issue</label>
+            </value>
+            <value>
+                <fullName>Door Damage/Problem</fullName>
+                <default>false</default>
+                <label>Door Damage/Problem</label>
+            </value>
+            <value>
+                <fullName>Cord Wire Issue / Burnt</fullName>
+                <default>false</default>
+                <label>Cord Wire Issue / Burnt</label>
+            </value>
+            <value>
+                <fullName>Body Expand /Dent</fullName>
+                <default>false</default>
+                <label>Body Expand /Dent</label>
+            </value>
+            <value>
+                <fullName>Auto Cut Off Issue //Thermostart Issue</fullName>
+                <default>false</default>
+                <label>Auto Cut Off Issue //Thermostart Issue</label>
+            </value>
+            <value>
+                <fullName>Ice Formation Issue</fullName>
+                <default>false</default>
+                <label>Ice Formation Issue</label>
+            </value>
+            <value>
+                <fullName>Water Leakage Issue</fullName>
+                <default>false</default>
+                <label>Water Leakage Issue</label>
+            </value>
+            <value>
+                <fullName>Lock Issue</fullName>
+                <default>false</default>
+                <label>Lock Issue</label>
+            </value>
+            <value>
+                <fullName>Others</fullName>
+                <default>false</default>
+                <label>Others</label>
+            </value>
+            <value>
+                <fullName>Complaint2</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Complaint2</label>
+            </value>
+            <value>
+                <fullName>Field Work</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Field Work</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,23 @@
+.pink-button {
+    background-color: #C1206B;
+    color: white;
+    
+    padding: 5px 15px;
+    border: none;
+    border-radius: 5px;
+    display: block; /* Ensures button is positioned below the last element */
+    margin: 20px auto; /* Centers button horizontally with some spacing */
+    width: fit-content;
+}
+
+/* Left-aligned button */
+.pink-button.left {
+    float: left;
+    text-align: left;
+}
+
+/* Right-aligned button */
+.pink-button.right {
+    float: right;
+    text-align: right;
+}

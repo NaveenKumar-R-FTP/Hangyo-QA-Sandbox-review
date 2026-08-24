@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Unproductive Reasons --></label>
+    <name>Unproductive_Reasons__c</name>
+    <picklistValues>
+        <masterLabel>Not interested - competing products / brands available</masterLabel>
+        <translation><!-- Not interested - competing products / brands available --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Not interested - pricing / quality issue</masterLabel>
+        <translation><!-- Not interested - pricing / quality issue --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Old stock available</masterLabel>
+        <translation><!-- Old stock available --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Owner not available</masterLabel>
+        <translation><!-- Owner not available --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Shop closed</masterLabel>
+        <translation><!-- Shop closed --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

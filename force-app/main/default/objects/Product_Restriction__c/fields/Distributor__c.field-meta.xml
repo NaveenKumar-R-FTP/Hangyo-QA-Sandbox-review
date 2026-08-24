@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Distributor__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Deprecated — restrictions are now keyed by Hub__c, not by an individual Distributor. Left optional and unused for backward compatibility only; do not populate on new records.</description>
+    <label>Distributor (deprecated)</label>
+    <referenceTo>Account</referenceTo>
+    <relationshipLabel>Product Restrictions</relationshipLabel>
+    <relationshipName>Product_Restrictions</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

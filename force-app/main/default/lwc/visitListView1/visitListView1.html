@@ -1,0 +1,470 @@
+<template>
+    <div class="background">
+        <template if:true={isJourneyScreen}>
+                <template if:true={isLoading}>
+                    <lightning-spinner variant="brand" size="medium"></lightning-spinner>
+                </template>
+                
+                <div class="padding-around" if:false={showChildComponent}>
+                    <div class="main-div" if:false={showModal}>
+                        <div class="fixed">
+                            <div class="fixedCard" id="myHeader">
+                                <div class="btn-group">
+                                    <template for:each={days} for:item="day">
+                                        <button class={day.buttonClass} key={day.key} data-key={day.key} onclick={handleDateClick}>
+                                            {day.label} <br />{day.date}
+                                        </button>
+                                    </template>
+                                    <!-- Status Filter Tabs -->
+                                    <div class="status-tabs-container">
+                                        <button 
+                                            class={tabAllClass} 
+                                            onclick={handleTabClick} 
+                                            data-tab="all">
+                                            All
+                                        </button>
+                                        <button 
+                                            class={tabInProgressClass} 
+                                            onclick={handleTabClick} 
+                                            data-tab="in-progress">
+                                            In<br />Progress
+                                        </button>
+                                        <button 
+                                            class={tabCompletedClass} 
+                                            onclick={handleTabClick} 
+                                            data-tab="completed">
+                                            Completed
+                                        </button>
+                                        <button 
+                                            class={tabCompletedOrderClass} 
+                                            onclick={handleTabClick} 
+                                            data-tab="completed-order">
+                                            Completed<br />Order
+                                        </button>
+                                        <button 
+                                            class={tabCompletedNoOrderClass} 
+                                            onclick={handleTabClick} 
+                                            data-tab="completed-no-order">
+                                            Completed<br />No Order
+                                        </button>
+                                        <button 
+                                            class={tabStartedCancelledClass} 
+                                            onclick={handleTabClick} 
+                                            data-tab="started-cancelled">
+                                            Not Started /<br />Cancelled
+                                        </button>
+                                    </div>
+                                    <div class="button-container">
+                                        <button class="actionButtons" onclick={generateVisitSummary}> Visit Summary PDF </button>&nbsp;&nbsp;&nbsp;
+                                        <button class="actionButtons" onclick={handleCreateNewVisit}>Create New Visit Task</button>&nbsp;&nbsp;&nbsp;
+                                        <button class="actionButtons" onclick={handleBeatChange}>Change Beat</button>
+                                    </div>
+                                    <div class="search-filter-container">                           
+                                                <lightning-input 
+                                                    class="slds-form-element__label"
+                                                    type="search" 
+                                                    label="Search Visit Task"
+                                                    placeholder="Search by Name/Status/Beat Name"
+                                                    value={searchKey} 
+                                                    onchange={handleSearchChange}>
+                                                </lightning-input>
+                                    </div>
+                                </div>                            
+                            </div>                        
+                        </div>
+
+                        <template if:true={hasVisitRecords}>
+                            <!-- Visit records rendering logic -->
+
+                            <template for:each={filteredInProgress} for:item="visit" if:true={filteredInProgress.length}>                            
+                                <div key={visit.Id} class="slds-box visit-record {visit.Status__c}" data-status={visit.Status__c} data-id={visit.Id} onclick={handleVisitClick}>
+                                    <!-- Retailer Name and Classification -->
+                                    <div class="Retailer-Name">
+                                        <strong>{visit.Account__r.Name}</strong>
+                                        <span class="classification">{visit.Account__r.Retailer_classification__c}</span>
+                                    </div>
+                                    <!-- Address -->
+                                    <div class="metric-address">
+                                        <span class="metric-value">{visit.Retailers_Address__c}</span>
+                                    </div>
+                                    
+                                    <!-- Metrics Section -->
+                                    <div class="slds-box insidedate metric-grid">
+                                        <!-- Visit Type -->
+                                        <div class="metric-item">                          
+                                            <span class="metric-value-small">{visit.Beat_Name_Text__c}</span>
+                                        </div>
+                                    
+                                        <!-- Status -->
+                                        <div class="metric-item">
+                                            <span class="metric-value-small">{visit.DisplayStatus__c}</span>
+                                        </div>
+                                        <!-- Last Order -->
+                                        <div class="metric-item">
+                                            <span class="metric-value-small">last Order: {visit.Account__r.Last_Ordered_Date__c}</span>
+                                        </div>
+                                        <!-- Added by Fuzail Invoiced Date  -->
+                                        <div class="metric-item">
+                                            <span class="metric-value-small">Invoiced Date: {visit.Account__r.Last_Confirmed_Invoice_Date__c}</span>
+                                        </div>
+                                        <!-- Added by Fuzail Invoiced Amount  -->
+                                        <!--div class="metric-item">
+                                            Invoiced Value:
+                                            <span class="dollars"> {visit.Account__r.Invoice_Amount__c}</span>
+                                        </div-->
+                                        <div class="metric-item total-order-value-container">
+                                            <span class="metric-value-small total-order-value">
+                                                Invoiced Value:
+                                                <span class="dollars"> {visit.Account__r.Invoice_Amount__c}</span>
+                                            </span>
+                                        </div>
+                                        <!-- Order Frequency -->
+                                        <div class="metric-item">
+                                            <span class="metric-value-small">Order Freq.: {visit.Account__r.Order_Frequency__c}</span>
+                                        </div>
+                                        <div class="metric-item total-order-value-container">
+                                            <span class="metric-value-small total-order-value">
+                                                Total Order Value: 
+                                                <span class="dollars"> {visit.Account__r.Total_Order_Value__c}</span>
+                                            </span>
+                                        </div>
+                                   
+                                    </div>                             
+                                </div>
+                            </template>
+                            
+                            <div class="slds-box-css visit-record-container">
+                                <template for:each={filteredNotStarted} for:item="visit" if:true={filteredNotStarted.length}>
+                                    <div key={visit.Id} class="slds-box visit-record {visit.Status__c}" data-status={visit.Status__c} data-id={visit.Id} onclick={handleVisitClick}>
+                                        <!-- Retailer Name and Classification -->
+                                        <div class="Retailer-Name">
+                                            <strong>{visit.Account__r.Name}</strong>
+                                            <span class="classification">{visit.Account__r.Retailer_classification__c}</span>
+                                        </div>
+                                        <!-- Address -->
+                                        <div class="metric-address">
+                                            <span class="metric-value">{visit.Retailers_Address__c}</span>
+                                        </div>
+                                        
+                                        <!-- Metrics Section -->
+                                        <div class="slds-box insidedate metric-grid">
+                                            <!-- Visit Type -->
+                                            <div class="metric-item">
+                                                <span class="metric-value-small">{visit.Beat_Name_Text__c}</span>
+                                            </div>                            
+                                            <!-- Status -->
+                                            <div class="metric-item">
+                                                <span class="metric-value-small">{visit.DisplayStatus__c}</span>
+                                            </div>
+                                            <!-- Last Order  -->
+                                            <div class="metric-item">
+                                                <span class="metric-value-small">Last Order: {visit.Account__r.Last_Ordered_Date__c}</span>
+                                            </div>
+                                            <!-- Added by Fuzail Invoiced Date  -->
+                                            <div class="metric-item">
+                                            <span class="metric-value-small">Invoiced Date: {visit.Account__r.Last_Confirmed_Invoice_Date__c}</span>
+                                            </div>
+                                            <!-- Added by Fuzail Invoiced Amount  -->
+                                            <div class="metric-item total-order-value-container">
+                                            <span class="metric-value-small total-order-value">
+                                                Invoiced Value:
+                                                <span class="dollars"> {visit.Account__r.Invoice_Amount__c}</span>
+                                            </span>
+                                            </div>
+                                            <!-- Order Frequency -->
+                                            <div class="metric-item">
+                                                <span class="metric-value-small">Order Freq.: {visit.Account__r.Order_Frequency__c}</span>
+                                            </div>
+                                            <div class="metric-item total-order-value-container">
+                                                <span class="metric-value-small total-order-value">
+                                                    Total Order Value: 
+                                                    <span class="dollars"> {visit.Account__r.Total_Order_Value__c}</span>
+                                                </span>
+                                            </div>
+                                        </div>      
+                                    </div>
+                                </template>
+
+                                <template for:each={filteredCompletedOrderReceived} for:item="visit" if:true={filteredCompletedOrderReceived.length}>
+                                    <div key={visit.Id} class="slds-box visit-record {visit.Status__c}" data-status={visit.Status__c} data-id={visit.Id} onclick={handleVisitClick}>
+                                        <!-- Retailer Name and Classification -->
+                                        <div class="Retailer-Name">
+                                            <strong>{visit.Account__r.Name}</strong>
+                                            <span class="classification">{visit.Account__r.Retailer_classification__c}</span>
+                                        </div>
+                                        <!-- Address -->
+                                        <div class="metric-address">
+                                            <span class="metric-value">{visit.Retailers_Address__c}</span>
+                                        </div>
+                                        
+                                        <!-- Metrics Section -->
+                                        <div class="slds-box insidedate metric-grid">
+                                            <!-- Visit Type -->
+                                            <div class="metric-item">                                   
+                                                <span class="metric-value-small">{visit.Beat_Name_Text__c}</span>
+                                            </div>
+                                            <!-- Status -->
+                                            <div class="metric-item">
+                                                <span class="metric-value-small">{visit.DisplayStatus__c}</span>
+                                            </div>
+                                            <!-- Last Order  -->
+                                            <div class="metric-item">
+                                                <span class="metric-value-small">Last Order:: {visit.Account__r.Last_Ordered_Date__c}</span>
+                                            </div>
+                                            <!-- Added by Fuzail Invoiced Date  -->
+                                            <div class="metric-item">
+                                            <span class="metric-value-small">Invoiced Date: {visit.Account__r.Last_Confirmed_Invoice_Date__c}</span>
+                                            </div>
+                                            <!-- Added by Fuzail Invoiced Amount  -->
+                                            <div class="metric-item total-order-value-container">
+                                                <span class="metric-value-small total-order-value">
+                                                Invoiced Value:
+                                                <span class="dollars"> {visit.Account__r.Invoice_Amount__c}</span>
+                                            </span>
+                                            </div>
+                                            <!-- Order Frequency -->
+                                            <div class="metric-item">
+                                                <span class="metric-value-small">Order Freq.: {visit.Account__r.Order_Frequency__c}</span>
+                                            </div>
+                                            <div class="metric-item total-order-value-container">
+                                                <span class="metric-value-small total-order-value">
+                                                    Total Order Value: 
+                                                    <span class="dollars"> {visit.Account__r.Total_Order_Value__c}</span>
+                                                </span>
+                                            </div>
+                                        </div>      
+                                    </div>
+                                </template>
+
+                                <template for:each={filteredCompletedDistributor} for:item="visit" if:true={filteredCompletedDistributor.length}>
+                                    <div key={visit.Id} class="slds-box visit-record {visit.Status__c}" data-status={visit.Status__c} data-id={visit.Id} onclick={handleVisitClick}>
+                                        <!-- Distributor Name and Classification -->
+                                        <div class="Retailer-Name">
+                                            <strong>{visit.Account__r.Name}</strong>
+                                            <span class="classification">{visit.Account__r.Retailer_classification__c}</span>
+                                        </div>
+                                        <!-- Address -->
+                                        <div class="metric-address">
+                                            <span class="metric-value">{visit.Retailers_Address__c}</span>
+                                        </div>
+                                        
+                                        <!-- Metrics Section -->
+                                        <div class="slds-box insidedate metric-grid">
+                                            <!-- Visit Type -->
+                                            <div class="metric-item">                                   
+                                                <span class="metric-value-small">{visit.Beat_Name_Text__c}</span>
+                                            </div>
+                                            <!-- Status -->
+                                            <div class="metric-item">
+                                                <span class="metric-value-small">{visit.DisplayStatus__c}</span>
+                                            </div>
+                                            <!-- Last Order  -->
+                                            <div class="metric-item">
+                                                <span class="metric-value-small">Last Order: {visit.Account__r.Last_Ordered_Date__c}</span>
+                                            </div>
+                                            <!-- Added by Fuzail Invoiced Date  -->
+                                            <div class="metric-item">
+                                            <span class="metric-value-small">Invoiced Date: {visit.Account__r.Last_Confirmed_Invoice_Date__c}</span>
+                                            </div>
+                                            <!-- Added by Fuzail Invoiced Amount  -->
+                                            <div class="metric-item total-order-value-container">
+                                                <span class="metric-value-small total-order-value">
+                                                Invoiced Value:
+                                                <span class="dollars"> {visit.Account__r.Invoice_Amount__c}</span>
+                                            </span>
+                                            </div>
+                                            <!-- Order Frequency -->
+                                            <div class="metric-item">
+                                                <span class="metric-value-small">Order Freq.: {visit.Account__r.Order_Frequency__c}</span>
+                                            </div>
+                                            <div class="metric-item total-order-value-container">
+                                                <span class="metric-value-small total-order-value">
+                                                    Total Order Value: 
+                                                    <span class="dollars"> {visit.Account__r.Total_Order_Value__c}</span>
+                                                </span>
+                                            </div>
+                                        </div>      
+                                    </div>
+                                </template>
+                                
+                                <template for:each={filteredCompletedUnproductive} for:item="visit" if:true={filteredCompletedUnproductive.length}>
+                                    <div key={visit.Id} class="slds-box visit-record {visit.Status__c}" data-status={visit.Status__c} data-id={visit.Id} onclick={handleVisitClick}>
+                                        <!-- Retailer Name and Classification -->
+                                        <div class="Retailer-Name">
+                                            <strong>{visit.Account__r.Name}</strong>
+                                            <span class="classification">{visit.Account__r.Retailer_classification__c}</span>
+                                        </div>
+                                        <!-- Address -->
+                                        <div class="metric-address">
+                                            <span class="metric-value">{visit.Retailers_Address__c}</span>
+                                        </div>
+                                        
+                                        <!-- Metrics Section -->
+                                        <div class="slds-box insidedate metric-grid">
+                                            <!-- Visit Type -->
+                                            <div class="metric-item">                               
+                                                <span class="metric-value-small">{visit.Beat_Name_Text__c}</span>
+                                            </div>
+                                            <!-- Status -->
+                                            <div class="metric-item">
+                                                <span class="metric-value-small">{visit.DisplayStatus__c}</span>
+                                            </div>
+                                            <!-- Last Order  -->
+                                            <div class="metric-item">
+                                                <span class="metric-value-small">Last Order: {visit.Account__r.Last_Ordered_Date__c}</span>
+                                            </div>
+                                            <!-- Added by Fuzail Invoiced Date  -->
+                                            <div class="metric-item">
+                                            <span class="metric-value-small">Invoiced Date: {visit.Account__r.Last_Confirmed_Invoice_Date__c}</span>
+                                            </div>
+                                            <!-- Added by Fuzail Invoiced Amount  -->
+                                            <div class="metric-item total-order-value-container">
+                                            <span class="metric-value-small total-order-value">
+                                                Invoiced Value:
+                                                <span class="dollars"> {visit.Account__r.Invoice_Amount__c}</span>
+                                            </span>
+                                            </div>
+                                            <!-- Order Frequency -->
+                                            <div class="metric-item">
+                                                <span class="metric-value-small">Order Freq.: {visit.Account__r.Order_Frequency__c}</span>
+                                            </div>
+                                            <div class="metric-item total-order-value-container">
+                                                <span class="metric-value-small total-order-value">
+                                                    Total Order Value: 
+                                                    <span class="dollars"> {visit.Account__r.Total_Order_Value__c}</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
+                                
+                                <template for:each={filteredCancelled} for:item="visit" if:true={filteredCancelled.length}>
+                                    <div key={visit.Id} class="slds-box visit-record {visit.Status__c}" data-status={visit.Status__c} data-id={visit.Id} onclick={handleVisitClick}>
+                                        <!-- Retailer Name and Classification -->
+                                        <div class="Retailer-Name">
+                                            <strong>{visit.Account__r.Name}</strong>
+                                            <span class="classification">{visit.Account__r.Retailer_classification__c}</span>
+                                        </div>
+                                        <!-- Address -->
+                                        <div class="metric-address">
+                                            <span class="metric-value">{visit.Retailers_Address__c}</span>
+                                        </div>
+                                        
+                                        <!-- Metrics Section -->
+                                        <div class="slds-box insidedate metric-grid">
+                                            <!-- Visit Type -->
+                                            <div class="metric-item">                          
+                                                <span class="metric-value-small">{visit.Beat_Name_Text__c}</span>
+                                            </div>
+                                            <!-- Status -->
+                                            <div class="metric-item">
+                                                <span class="metric-value-small">{visit.DisplayStatus__c}</span>
+                                            </div>
+                                            <!-- Last Order  -->
+                                            <div class="metric-item">
+                                                <span class="metric-value-small">Last Order: {visit.Account__r.Last_Ordered_Date__c}</span>
+                                            </div>
+                                            <!-- Added by Fuzail Invoiced Date  -->
+                                            <div class="metric-item">
+                                            <span class="metric-value-small">Invoiced Date: {visit.Account__r.Last_Confirmed_Invoice_Date__c}</span>
+                                            </div>
+                                            <!-- Added by Fuzail Invoiced Amount  -->
+                                            <div class="metric-item total-order-value-container">
+                                            <span class="metric-value-small total-order-value">
+                                                Invoiced Value:
+                                                <span class="dollars"> {visit.Account__r.Invoice_Amount__c}</span>
+                                            </span>
+                                            </div>
+                                            <!-- Order Frequency -->
+                                            <div class="metric-item">
+                                                <span class="metric-value-small">Order Freq.: {visit.Account__r.Order_Frequency__c}</span>
+                                            </div>
+                                            <div class="metric-item total-order-value-container">
+                                                <span class="metric-value-small total-order-value">
+                                                    Total Order Value: 
+                                                    <span class="dollars"> {visit.Account__r.Total_Order_Value__c}</span>
+                                                </span>
+                                            </div>
+                                        </div>      
+                                    </div>
+                                </template>
+
+                                <template for:each={filteredRemainingVisits} for:item="visit" if:true={filteredRemainingVisits.length}>
+                                    <div key={visit.Id} class="slds-box visit-record {visit.Status__c}" data-status={visit.Status__c} data-id={visit.Id} onclick={handleVisitClick}>
+                                        <!-- Retailer Name and Classification -->
+                                        <div class="Retailer-Name">
+                                            <strong>{visit.Account__r.Name}</strong>
+                                            <span class="classification">{visit.Account__r.Retailer_classification__c}</span>
+                                        </div>
+                                        <!-- Address -->
+                                        <div class="metric-address">
+                                            <span class="metric-value">{visit.Retailers_Address__c}</span>
+                                        </div>
+                                        
+                                        <!-- Metrics Section -->
+                                        <div class="slds-box insidedate metric-grid">
+                                            <!-- Visit Type -->
+                                            <div class="metric-item">                             
+                                                <span class="metric-value-small">{visit.Beat_Name_Text__c}</span>
+                                            </div>
+                                            <!-- Status -->
+                                            <div class="metric-item">
+                                                <span class="metric-value-small">{visit.DisplayStatus__c}</span>
+                                            </div>
+                                            <!--  Last Order  -->
+                                            <div class="metric-item">
+                                                <span class="metric-value-small">Last Order: {visit.Account__r.Last_Ordered_Date__c}</span>
+                                            </div>
+                                            <!-- Added by Fuzail Invoiced Date  -->
+                                            <div class="metric-item">
+                                            <span class="metric-value-small">Invoiced Date: {visit.Account__r.Last_Confirmed_Invoice_Date__c}</span>
+                                            </div>
+                                            <!-- Added by Fuzail Invoiced Amount  -->
+                                            <div class="metric-item total-order-value-container">
+                                            <span class="metric-value-small total-order-value">
+                                                Invoiced Value:
+                                                <span class="dollars"> {visit.Account__r.Invoice_Amount__c}</span>
+                                            </span>
+                                            </div>
+                                            <!-- Order Frequency -->
+                                            <div class="metric-item">
+                                                <span class="metric-value-small">Order Freq.: {visit.Account__r.Order_Frequency__c}</span>
+                                            </div>
+                                            <div class="metric-item total-order-value-container">
+                                                <span class="metric-value-small total-order-value">
+                                                    Total Order Value: 
+                                                    <span class="dollars"> {visit.Account__r.Total_Order_Value__c}</span>
+                                                </span>
+                                            </div>
+                                        </div>    
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+
+                        <template if:true={hasNoVisitRecords}>
+                            <p class="no-Records"><strong>No Visit Tasks Records Found</strong></p>
+                        </template>               
+                    </div>
+                </div>
+            
+                <template if:true={showChildComponent}>
+                    <!-- added by fuzail - Show Distributor component for Distributor visits, Retailer component for Retailer visits -->
+                    <template if:true={isDistributorVisit}>
+                        <c-visit-distributor-detail-component 
+                            account-id={selectedVisit} 
+                            visit-id={selectedVisit} 
+                            onback={handleBack}>
+                        </c-visit-distributor-detail-component>
+                    </template>
+                    <template if:false={isDistributorVisit}>
+                        <c-visit-account-detail-component 
+                            account-id={selectedVisit} 
+                            visit-id={selectedVisit} 
+                            onback={handleBack}>
+                        </c-visit-account-detail-component>
+                    </template>
+                </template>
+            </template>
+    </div>
+</template>

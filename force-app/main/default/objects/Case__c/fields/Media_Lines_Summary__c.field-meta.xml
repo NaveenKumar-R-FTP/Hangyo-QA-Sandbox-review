@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Media_Lines_Summary__c</fullName>
+    <description>Flattened list of the requested media lines, e.g. &quot;Standee - ACP/LE Signage x3; Poster - Wall Wrap x2&quot;. Exists because approval pages cannot display child records, so this is how approvers see what was requested.</description>
+    <externalId>false</externalId>
+    <label>Requested Media</label>
+    <length>255</length>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

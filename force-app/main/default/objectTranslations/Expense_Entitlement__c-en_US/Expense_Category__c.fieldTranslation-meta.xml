@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Expense Category --></label>
+    <name>Expense_Category__c</name>
+    <picklistValues>
+        <masterLabel>Daily Allowance</masterLabel>
+        <translation><!-- Daily Allowance --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Travel Allowance</masterLabel>
+        <translation><!-- Travel Allowance --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

@@ -1,0 +1,120 @@
+/*Color fills & Font family across component*/
+.backgroundcolor{
+    background-color: White;
+    font-family: amaranth regular;
+
+}
+/*Back icon styling*/
+.back-button {
+    margin-top: 4px;
+    margin-right: 1rem;
+    --slds-c-icon-color-foreground-default: #fff;
+}
+
+/*styling for lightning input labels*/
+.slds-form-element__label{
+    --slds-s-label-font-size: 16px;
+    font-weight: bold;
+}
+
+/*Todays date styling*/
+.beat-message{
+    font-family: amaranth regular;
+    font-size: 14px;
+    font-weight: bold;
+    color: black;
+    margin-left: 20px;
+}
+/* Input column spacing at left*/
+.input-column {
+    flex: 1; 
+    margin-right: 1rem; 
+}
+/* Input column spacing at right*/
+.input-column:last-child {
+    margin-right: 0; 
+}
+/* Buttons fixed footer */
+.fixed-card lightning-button {
+    margin-top: 1rem; 
+}
+/* Buttons container */
+.button-container {
+    position: fixed;
+    bottom: 0;          /* Positions the footer at the bottom of the screen */
+    left: 0;            /* Aligns the footer to the left of the screen */
+    width: 100%;        /* Ensures the footer spans the full width of the screen */
+    background-color: #f9f6f8;  /* Footer background color */
+    padding: 10px 20px; /* Adds padding around the buttons */
+    display: flex;      /* Makes the buttons align properly */
+    justify-content: space-between; /* Center the buttons horizontally */
+    gap: 10px;          /* Adds space between the buttons */
+    z-index: 100;       /* Ensures the footer stays on top of other content */
+}
+
+/* Style for buttons */
+.buttons {
+    padding: 3px 10px;
+    background-color: #C1206B;
+    color: White;
+    font-family: amaranth regular;
+    font-size: 1rem;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Data table for Beat */
+.table-wrapper-Beat{
+    border: 1px solid #d8dde6; 
+    height: 70vh;
+    font-family: amaranth regular;
+    font-size: 16px;
+}
+
+/* Data table for Retailer */
+.table-wrapper {
+    border: 1px solid #d8dde6; 
+    height: 72vh;
+    font-family: amaranth regular;
+    font-size: 16px;
+}
+
+/* Styling for Heading */
+.visitplanner {
+    background-color: #C1206B; 
+    color: White; 
+    font-family: amaranth regular;
+    display: flex;
+    padding: 0.5rem;
+}
+
+/* Styling for Heading */
+.visitplanner h1 {
+    flex: 1;
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Styling for Search container */
+.search-filter-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 6px;
+    margin-left: 20px;
+    font-family: amaranth regular;    
+}
+
+/* Styling for Search container  */
+.search-filter-container lightning-input {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+lightning-datatable ::part(selection-checkbox) {
+    pointer-events: none;
+    opacity: 1;
+}

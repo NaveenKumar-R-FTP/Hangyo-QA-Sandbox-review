@@ -1,0 +1,72 @@
+.headingOrder {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-size: 16px; /* Adjust size as needed */
+    font-weight: bold; /* Optional: to make it more prominent */
+    color: #C1206B;
+    text-align: center;
+
+    font-family: amaranth regular;
+}
+
+.dark-box {
+    margin-right: 10px;
+    margin-left: 5px;
+    background-color: #f3f3f3; /* Light gray background */
+   
+    /* Optionally add a border to distinguish the box */
+    border: 1px solid #716f6f; /* Light border for contrast */
+}
+
+
+.order-details {
+    display: flex;
+    flex-direction: column;
+    gap: 5px; /* Adds space between the lines */
+}
+
+.order-details p {
+    display: flex;
+    justify-content: space-between; /* Aligns the label and value */
+  
+}
+
+
+.order-value {
+    color: black; /* Dark gray color */
+}
+.scroll-container {
+    height: calc(90vh - 50px); /* Adjust height dynamically to prevent button overlap */
+    max-width: 100%;
+    overflow-y: auto; /* Enables vertical scrolling */
+    padding-bottom: 60px; /* Extra space so last item is not hidden */
+}
+
+.slds-scrollable_y {
+    overflow-y: auto;
+    max-height: calc(90vh - 50px); /* Ensure it doesn't extend beyond the viewport */
+}
+
+
+.button-container {
+    position: fixed; /* Keeps button at the bottom */
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #f9f6f8;
+    padding: 10px 20px;
+    text-align: left;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.buttons {
+    padding: 3px 10px;
+    background-color: #C1206B;
+    color: white;
+    font-family: amaranth regular;
+    font-size: 1rem;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}

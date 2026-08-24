@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>End_Call_Location__c</fullName>
+    <displayLocationInDecimal>false</displayLocationInDecimal>
+    <label>End Call Location</label>
+    <required>false</required>
+    <scale>5</scale>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Location</type>
+</CustomField>

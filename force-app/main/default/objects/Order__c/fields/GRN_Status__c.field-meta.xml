@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>GRN_Status__c</fullName>
+    <label>GRN Status</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Pending</fullName>
+                <default>false</default>
+                <label>Pending</label>
+            </value>
+            <value>
+                <fullName>Completed</fullName>
+                <default>false</default>
+                <label>Completed</label>
+            </value>
+            <value>
+                <fullName>Received</fullName>
+                <default>false</default>
+                <label>Received</label>
+            </value>
+            <value>
+                <fullName>Partially GRN</fullName>
+                <default>false</default>
+                <label>Partially GRN</label>
+            </value>
+            <value>
+                <fullName>Fully GRN</fullName>
+                <default>false</default>
+                <label>Fully GRN</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

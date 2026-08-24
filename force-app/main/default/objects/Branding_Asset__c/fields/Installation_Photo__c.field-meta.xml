@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Installation_Photo__c</fullName>
+    <description>Renders the installation photo captured at the outlet.</description>
+    <externalId>false</externalId>
+    <formula>IF( Installation_Image_URL__c != null ,(IMAGE(Installation_Image_URL__c , &apos;Installation Photo&apos;, 200, 200)) ,&apos;&apos; )</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Installation Photo</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

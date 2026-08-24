@@ -1,0 +1,2314 @@
+<apex:page showHeader="false"
+    sidebar="false"
+    standardStylesheets="false"
+    docType="html-5.0"
+    applyHtmlTag="false"
+    cache="false"
+>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,width=device-width" />
+    <style type="text/css">
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background: #ffffff;
+        }
+        #hangyoMap {
+            height: 100%;
+            width: 100%;
+            background: #ffffff;
+        }
+
+        /*
+         * Maps injects layered wrappers — default white fills read as a halo outside our rounded black border.
+         * Clear backgrounds/box-shadow on those shells; our card carries the real shape + drop-shadow.
+         */
+        #hangyoMap .gm-style .gm-style-iw,
+        #hangyoMap .gm-style .gm-style-iw-ch,
+        #hangyoMap .gm-style .gm-style-iw-chr,
+        #hangyoMap .gm-style .gm-style-iw-tc {
+            background-color: transparent !important;
+            background: transparent !important;
+            box-shadow: none !important;
+        }
+        #hangyoMap .gm-style-iw-c {
+            padding: 0 !important;
+            border-radius: 0 !important;
+            outline: none;
+            max-height: none !important;
+            background-color: transparent !important;
+            background: transparent !important;
+            box-shadow: none !important;
+        }
+        #hangyoMap .gm-style .gm-style-iw-ch,
+        #hangyoMap .gm-style .gm-style-iw-chr {
+            padding: 0 !important;
+            margin: 0 !important;
+            max-height: none !important;
+            height: auto !important;
+            min-height: 0 !important;
+        }
+        #hangyoMap .gm-style .gm-style-iw-tc {
+            padding-top: 0 !important;
+            height: auto !important;
+            max-height: none !important;
+        }
+        #hangyoMap .gm-style .gm-style-iw-t::after {
+            display: none !important;
+            height: 0 !important;
+        }
+        #hangyoMap .gm-style-iw-d {
+            padding: 0 !important;
+            margin: 0 !important;
+            overflow: visible !important;
+            max-height: none !important;
+            background-color: transparent !important;
+            background: transparent !important;
+            box-shadow: none !important;
+        }
+        /* Inline max-height on scroll panes survives without this (clips extra detail rows). */
+        #hangyoMap .gm-style-iw-d[style] {
+            max-height: none !important;
+            overflow: visible !important;
+        }
+        /* Default Maps close sits in a dedicated white strip — hide it; we use Hangyo header close. */
+        #hangyoMap .gm-style .gm-ui-hover-effect,
+        #hangyoMap .gm-style-iw-c > button {
+            display: none !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+            width: 0 !important;
+            height: 0 !important;
+        }
+
+        /*
+         * Hangyo brand aligns with Lightning dashboard (see userTrackingDashboard.css --hangyo-brand).
+         * Thick border + tinted header mimic client mockup without extra Maps padding above title.
+         */
+        .hangyo-iw-brand {
+            --hangyo-infowin-brand: #c1206b;
+            --hangyo-infowin-on-brand: #ffffff;
+            margin: 0;
+            padding: 0;
+            /* Shadow on wrapper so rounded card can use overflow:hidden without clipping elevation. */
+            filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.14));
+        }
+
+        .hangyo-iw-card {
+            margin: 0;
+            overflow: hidden;
+            border-radius: 10px;
+            border: 3px solid #181818;
+            background: #ffffff;
+            box-sizing: border-box;
+            box-shadow: none;
+            min-width: 240px;
+            max-width: 320px;
+        }
+
+        .hangyo-iw-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            background: var(--hangyo-infowin-brand);
+            color: var(--hangyo-infowin-on-brand);
+            font-weight: 700;
+            font-size: 14px;
+            line-height: 1.35;
+            margin: 0;
+            padding: 11px 12px 11px 14px;
+            letter-spacing: 0.03em;
+            box-sizing: border-box;
+        }
+
+        .hangyo-iw-head-title {
+            flex: 1;
+            min-width: 0;
+        }
+
+        /* Ghost into header — avoids a chunky boxed look for the × on magenta. */
+        .hangyo-iw-close {
+            flex-shrink: 0;
+            box-sizing: border-box;
+            width: 30px;
+            height: 30px;
+            margin: 0;
+            padding: 0;
+            border: 0;
+            border-radius: 4px;
+            background: transparent;
+            color: var(--hangyo-infowin-on-brand);
+            font-size: 26px;
+            font-weight: 300;
+            line-height: 1;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .hangyo-iw-close:hover {
+            background: rgba(255, 255, 255, 0.14);
+        }
+
+        .hangyo-iw-close:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.55);
+        }
+
+        .hangyo-iw-close:focus-visible {
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.75);
+        }
+
+        /*
+         * ~4 rows visible (single-line rows); remainder scrolls inside the white body.
+         * padding + row1 lh + rows 2-4 (gap + lh) + bottom pad + rounding slack.
+         */
+        .hangyo-iw-body {
+            font: 12px/1.45 'Segoe UI', Arial, sans-serif;
+            color: #212121;
+            padding: 12px 8px 12px 14px;
+            margin: 0;
+            box-sizing: border-box;
+            background: #ffffff;
+            max-height: calc(
+                12px + (12px * 1.45) + 3 * (8px + (12px * 1.45)) + 12px + 6px
+            );
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
+            scrollbar-gutter: stable;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(193, 32, 107, 0.45) rgba(0, 0, 0, 0.04);
+        }
+
+        .hangyo-iw-body::-webkit-scrollbar {
+            width: 7px;
+        }
+
+        .hangyo-iw-body::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.035);
+            border-radius: 4px;
+            margin: 6px 0;
+        }
+
+        .hangyo-iw-body::-webkit-scrollbar-thumb {
+            background: rgba(193, 32, 107, 0.45);
+            border-radius: 4px;
+        }
+
+        .hangyo-iw-body::-webkit-scrollbar-thumb:hover {
+            background: rgba(193, 32, 107, 0.65);
+        }
+
+        .hangyo-iw-row {
+            margin: 8px 0 0;
+            word-wrap: break-word;
+        }
+        .hangyo-iw-row:first-child {
+            margin-top: 0;
+        }
+
+        .hangyo-iw-key {
+            color: #3e3938;
+            font-weight: 600;
+            display: inline-block;
+            min-width: 112px;
+            vertical-align: top;
+        }
+
+        /* Fallback if class applied without card wrapper */
+        .hangyo-iw {
+            font: 12px/1.45 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+    <script type="text/javascript">
+        (function () {
+            //API KEY
+            var HANGYO_GM_KEY = '{!JSENCODE($Label.Google_Maps_API_Key)}';
+
+            /**
+             * Trusted LEX parent origin for VF → LWC postMessage.
+             * Wildcard '*' exposes route/activity payloads to any origin — never use it.
+             * Resolved from hpo query param (UserTrackingController.getUserTrackingMapEmbedUrl)
+             * with document.referrer as a validated fallback only.
+             */
+            function hangyoParseQueryParam(name) {
+                var search = window.location.search || '';
+                if (!search || search.length < 2) {
+                    return '';
+                }
+                var parts = search.substring(1).split('&');
+                var i;
+                for (i = 0; i < parts.length; i++) {
+                    var pair = parts[i].split('=');
+                    if (pair[0] === name && pair.length > 1) {
+                        try {
+                            return decodeURIComponent(pair.slice(1).join('=').replace(/\+/g, ' '));
+                        } catch (exDec) {
+                            return pair.slice(1).join('=');
+                        }
+                    }
+                }
+                return '';
+            }
+
+            /**
+             * Explicit Salesforce hostname suffixes — never indexOf/includes on the origin string.
+             * Substring checks accept spoofed hosts (e.g. https://fake-force.com contains ".force.com").
+             */
+            var HANGYO_TRUSTED_SF_HOST_SUFFIXES = [
+                '.vf.force.com',
+                '.sandbox.vf.force.com',
+                '.visualforce.com',
+                '.lightning.force.com',
+                '.my.salesforce.com',
+                '.sandbox.my.salesforce.com',
+                '.cloudforce.com'
+            ];
+
+            var HANGYO_TRUSTED_PARENT_HOST_SUFFIXES = [
+                '.lightning.force.com',
+                '.my.salesforce.com',
+                '.sandbox.my.salesforce.com'
+            ];
+
+            function hangyoHostnameMatchesSuffixList(hostname, suffixList) {
+                if (!hostname || typeof hostname !== 'string') {
+                    return false;
+                }
+                var h = hostname.toLowerCase();
+                var i;
+                for (i = 0; i < suffixList.length; i++) {
+                    if (h.endsWith(suffixList[i])) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            function hangyoIsTrustedSalesforceOrigin(origin) {
+                if (origin == null || typeof origin !== 'string') {
+                    return false;
+                }
+                var trimmed = origin.trim();
+                if (!trimmed) {
+                    return false;
+                }
+                try {
+                    var parsed = new URL(trimmed);
+                    if (parsed.protocol !== 'https:') {
+                        return false;
+                    }
+                    return hangyoHostnameMatchesSuffixList(
+                        parsed.hostname,
+                        HANGYO_TRUSTED_SF_HOST_SUFFIXES
+                    );
+                } catch (exOrigin) {
+                    return false;
+                }
+            }
+
+            function hangyoIsTrustedLightningParentOrigin(origin) {
+                if (origin == null || typeof origin !== 'string') {
+                    return false;
+                }
+                var trimmed = origin.trim();
+                if (!trimmed) {
+                    return false;
+                }
+                try {
+                    var parsed = new URL(trimmed);
+                    if (parsed.protocol !== 'https:') {
+                        return false;
+                    }
+                    return hangyoHostnameMatchesSuffixList(
+                        parsed.hostname,
+                        HANGYO_TRUSTED_PARENT_HOST_SUFFIXES
+                    );
+                } catch (exParent) {
+                    return false;
+                }
+            }
+
+            function hangyoResolveTrustedParentPostMessageOrigin() {
+                var fromUrl = hangyoParseQueryParam('hpo');
+                if (hangyoIsTrustedLightningParentOrigin(fromUrl)) {
+                    return fromUrl.trim();
+                }
+                try {
+                    var ref = document.referrer;
+                    if (ref) {
+                        var refOrigin = new URL(ref).origin;
+                        if (hangyoIsTrustedLightningParentOrigin(refOrigin)) {
+                            return refOrigin;
+                        }
+                    }
+                } catch (exRef) {}
+                return '';
+            }
+
+            var HANGYO_TRUSTED_PARENT_ORIGIN = hangyoResolveTrustedParentPostMessageOrigin();
+
+            var map;
+            var polyline;
+            var activityMarkers = [];
+
+            var mapHoverInfoWindow = null;
+            var hangyoLegendControlPushed = false;
+
+            /** Incremented each render — stale Directions callbacks skip drawing. */
+            var routeRequestGen = 0;
+            /** Lazy init after google.maps loads. */
+            var directionsService = null;
+            var directionsRenderer = null;
+
+            function hangyoHideDirectionsRenderer() {
+                if (directionsRenderer) {
+                    try {
+                        directionsRenderer.setMap(null);
+                    } catch (ehDr) {}
+                }
+            }
+
+            var pendingPayload = null;
+
+            var DEFAULT_CENTER = { lat: 12.9716, lng: 77.5946 };
+            var DEFAULT_ZOOM = 11;
+            /** Google allows origin + destination + max 23 stopover waypoints per request */
+            var DIRECTIONS_MAX_INTERMEDIATE = 23;
+            /** Origin + destination + 23 waypoints = 25 tracked positions in one Directions call */
+            var GOOGLE_DIRECTIONS_MAX_POSITIONS_SINGLE = 25;
+            /** Transient Directions failures: brief backoff per Google troubleshooting patterns */
+            var HANGYO_DIRECTIONS_RETRY_ATTEMPTS = 3;
+            var HANGYO_DIRECTIONS_RETRY_BASE_MS = 400;
+            /** Paced chained Directions calls reduce OVER_QUERY_LIMIT risk on chunked routes */
+            var HANGYO_DIRECTIONS_CHUNK_GAP_MS = 100;
+            //Added by Hari - For rectify the production issue for no line in map
+            var HANGYO_DIRECTIONS_REQUEST_TIMEOUT_MS = 20000;
+            //Added by Hari - For rectify the production issue for no line in map
+            var HANGYO_DIRECTIONS_ROUTE_WATCHDOG_MS = 60000;
+            //Added by Hari - For rectify the production issue for no line in map
+            var directionsRouteWatchdog = null;
+            //Added by Hari - For rectify the production issue for no line in map
+            var routeLineSettledForGen = 0;
+            /** Skip duplicate HANGYO_MAP_ROUTE while a Directions chain for the same payload is in flight. */
+            var hangyoLastRoutePayloadFingerprint = '';
+            /** Generation with an active Directions request (cleared when route line settles). */
+            var routeDirectionsInFlightGen = 0;
+
+            var HANGYO_ROUTE_STROKE = '#D32F2F';
+            var HANGYO_ROUTE_WEIGHT = 4;
+            /** Skip consecutive path points at almost the same GPS (duplicate rows / same site). */
+            var HANGYO_PATH_CONSEC_DEDUP_DEG_SQ = 1.0e-7;
+            /**
+             * If the day's last coordinate is essentially a return to the starting area, Directions draws a closed loop.
+             * Drop that closing point for routing so the trace is one open line (markers still include all stops).
+             */
+            var HANGYO_LOOP_RETURN_DEG_SQ = 3.6e-7;
+
+            /** True if adjacent latlng are the same junction (overlap between chunked routes). */
+            function hangyoLngLatClose(a, b) {
+                if (!a || !b) return false;
+                return (
+                    1e-9 > Math.abs(Number(a.lat) - Number(b.lat)) &&
+                    1e-9 > Math.abs(Number(a.lng) - Number(b.lng))
+                );
+            }
+
+            /** Sanitized {lat,lng} list from dashboard path (preserve order, dedupe streaks, trim return loop for routing). */
+            function hangyoSanitizeLatLngPath(pathArr) {
+                var raw = [];
+                var i;
+                for (i = 0; pathArr.length > i; i++) {
+                    var pt = pathArr[i];
+                    var la = Number(pt && pt.lat);
+                    var ln = Number(pt && pt.lng);
+                    if (!isFinite(la) || !isFinite(ln)) {
+                        continue;
+                    }
+                    raw.push({ lat: la, lng: ln });
+                }
+                var pts = [];
+                for (i = 0; raw.length > i; i++) {
+                    if (
+                        pts.length === 0 ||
+                        HANGYO_PATH_CONSEC_DEDUP_DEG_SQ <=
+                            hangyoPlanarSqDeg(
+                                pts[pts.length - 1].lat,
+                                pts[pts.length - 1].lng,
+                                raw[i].lat,
+                                raw[i].lng
+                            )
+                    ) {
+                        pts.push(raw[i]);
+                    }
+                }
+                if (
+                    pts.length >= 3 &&
+                    HANGYO_LOOP_RETURN_DEG_SQ >
+                        hangyoPlanarSqDeg(
+                            pts[0].lat,
+                            pts[0].lng,
+                            pts[pts.length - 1].lat,
+                            pts[pts.length - 1].lng
+                        )
+                ) {
+                    return pts.slice(0, pts.length - 1);
+                }
+                return pts;
+            }
+
+            /**
+             * Valid coordinates in dashboard order — does not drop nearby consecutive stops.
+             * Near-duplicate GPS is expanded (same spiral as markers) so route + km reflect every visit.
+             */
+            function hangyoPathLiteralsValidOnly(pathArr) {
+                var raw = [];
+                var i;
+                for (i = 0; pathArr.length > i; i++) {
+                    var pt = pathArr[i];
+                    var la = Number(pt && pt.lat);
+                    var ln = Number(pt && pt.lng);
+                    if (isFinite(la) && isFinite(ln)) {
+                        raw.push({ lat: la, lng: ln });
+                    }
+                }
+                return raw;
+            }
+
+            function hangyoPathForRouting(pathArr) {
+                var literals = hangyoPathLiteralsValidOnly(pathArr);
+                if (literals.length < 2) {
+                    return literals;
+                }
+                var prep = [];
+                var pi;
+                for (pi = 0; literals.length > pi; pi++) {
+                    prep.push({ lat: literals[pi].lat, lng: literals[pi].lng });
+                }
+                hangyoApplyCoincidentMarkerDisplayPositions(prep);
+                var out = [];
+                for (pi = 0; prep.length > pi; pi++) {
+                    out.push({
+                        lat:
+                            prep[pi]._dispLat != null && isFinite(Number(prep[pi]._dispLat))
+                                ? Number(prep[pi]._dispLat)
+                                : prep[pi].lat,
+                        lng:
+                            prep[pi]._dispLng != null && isFinite(Number(prep[pi]._dispLng))
+                                ? Number(prep[pi]._dispLng)
+                                : prep[pi].lng
+                    });
+                }
+                return out;
+            }
+
+            function hangyoHaversineMeters(a, b) {
+                var R = 6371000;
+                var lat1 = (Number(a.lat) * Math.PI) / 180;
+                var lat2 = (Number(b.lat) * Math.PI) / 180;
+                var dLat = lat2 - lat1;
+                var dLng = ((Number(b.lng) - Number(a.lng)) * Math.PI) / 180;
+                var h =
+                    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                    Math.cos(lat1) *
+                        Math.cos(lat2) *
+                        Math.sin(dLng / 2) *
+                        Math.sin(dLng / 2);
+                return 2 * R * Math.asin(Math.min(1, Math.sqrt(h)));
+            }
+
+            function hangyoSumGeodesicPathMeters(pts) {
+                if (!pts || pts.length < 2) {
+                    return 0;
+                }
+                var sum = 0;
+                var i;
+                for (i = 1; pts.length > i; i++) {
+                    sum += hangyoHaversineMeters(pts[i - 1], pts[i]);
+                }
+                return sum;
+            }
+
+            /** Maps Polylines are most reliable when the path is LatLng[], not anonymous objects. */
+            function hangyoPathLiteralsToMvcPath(g, literals) {
+                var out = [];
+                if (!g || !literals || !literals.length) {
+                    return out;
+                }
+                var i;
+                for (i = 0; literals.length > i; i++) {
+                    var np = hangyoNormalizeLatLngPoint(literals[i]);
+                    if (np) {
+                        out.push(new g.LatLng(np.lat, np.lng));
+                    }
+                }
+                return out;
+            }
+
+            /** Normalize mixed LatLng / literal arrays before prune or polyline draw. */
+            function hangyoSanitizePathLiteralsForDraw(path) {
+                var out = [];
+                var i;
+                if (!path || !path.length) {
+                    return out;
+                }
+                for (i = 0; path.length > i; i++) {
+                    var np = hangyoNormalizeLatLngPoint(path[i]);
+                    if (np) {
+                        out.push(np);
+                    }
+                }
+                return out;
+            }
+
+            function hangyoAttachStraightPolyline(g, pts, bounds) {
+                hangyoHideDirectionsRenderer();
+                if (polyline) {
+                    polyline.setMap(null);
+                    polyline = null;
+                }
+                var mvc = hangyoPathLiteralsToMvcPath(g, pts);
+                if (mvc.length < 2) {
+                    return;
+                }
+                polyline = new g.Polyline({
+                    path: mvc,
+                    geodesic: true,
+                    strokeColor: HANGYO_ROUTE_STROKE,
+                    strokeOpacity: 0.92,
+                    strokeWeight: HANGYO_ROUTE_WEIGHT,
+                    zIndex: 320,
+                    map: map
+                });
+                var pi;
+                for (pi = 0; mvc.length > pi; pi++) {
+                    bounds.extend(mvc[pi]);
+                }
+            }
+
+            /** Google LatLng instances can expose .lat()/.lng(), or readable number properties (.lat/.lng). */
+            function hangyoNormalizeLatLngPoint(ll) {
+                if (!ll || typeof ll !== 'object') {
+                    return null;
+                }
+                var la;
+                var ln;
+                if (typeof ll.lat === 'function' && typeof ll.lng === 'function') {
+                    la = Number(ll.lat());
+                    ln = Number(ll.lng());
+                } else {
+                    la = Number(ll.lat);
+                    ln = Number(ll.lng);
+                }
+                return isFinite(la) && isFinite(ln) ? { lat: la, lng: ln } : null;
+            }
+
+            /** Decoded {lat,lng}[] from Directions overview_polyline.points (when overview_path verts are absent). */
+            function hangyoDecodeEncodedPolyline(pointsStr) {
+                try {
+                    var path = [];
+                    if (!pointsStr || typeof pointsStr !== 'string') {
+                        return path;
+                    }
+                    var index = 0;
+                    var len = pointsStr.length;
+                    var lat = 0;
+                    var lng = 0;
+                    var iterations = 0;
+                    /** Corrupt/stray strings must not wedge the iframe script */
+                    while (len > index && 8192 > iterations++) {
+                        var b;
+                        var shift = 0;
+                        var result = 0;
+                        do {
+                            if (!(len > index)) {
+                                return path;
+                            }
+                            b = pointsStr.charCodeAt(index++) - 63;
+                            result |= (b & 0x1f) << shift;
+                            shift += 5;
+                        } while (b >= 32);
+                        var dlat = result & 1 ? ~(result >> 1) : result >> 1;
+                        lat += dlat;
+                        shift = 0;
+                        result = 0;
+                        do {
+                            if (!(len > index)) {
+                                return path;
+                            }
+                            b = pointsStr.charCodeAt(index++) - 63;
+                            result |= (b & 0x1f) << shift;
+                            shift += 5;
+                        } while (b >= 32);
+                        var dlng = result & 1 ? ~(result >> 1) : result >> 1;
+                        lng += dlng;
+                        path.push({ lat: lat / 100000, lng: lng / 100000 });
+                    }
+                    return path;
+                } catch (exDl) {
+                    return [];
+                }
+            }
+
+            function hangyoOverviewPathToLiterals(overviewPath) {
+                var out = [];
+                if (!overviewPath) return out;
+                var i;
+                if (typeof overviewPath.getLength === 'function' && typeof overviewPath.getAt === 'function') {
+                    for (i = 0; overviewPath.getLength() > i; i++) {
+                        var nm = hangyoNormalizeLatLngPoint(overviewPath.getAt(i));
+                        if (nm) {
+                            out.push(nm);
+                        }
+                    }
+                    return out;
+                }
+                if (!overviewPath.length) {
+                    return out;
+                }
+                for (i = 0; overviewPath.length > i; i++) {
+                    var norm = hangyoNormalizeLatLngPoint(overviewPath[i]);
+                    if (norm) {
+                        out.push(norm);
+                    }
+                }
+                return out;
+            }
+
+            /** One Directions step polyline → {lat,lng}[] */
+            function hangyoStepPathToLiterals(step) {
+                var out = [];
+                if (!step || !step.path) {
+                    return out;
+                }
+                var p = step.path;
+                var i;
+                var ll;
+                var np;
+                if (typeof p.getLength === 'function' && typeof p.getAt === 'function') {
+                    for (i = 0; p.getLength() > i; i++) {
+                        ll = p.getAt(i);
+                        np = hangyoNormalizeLatLngPoint(ll);
+                        if (np) {
+                            out.push(np);
+                        }
+                    }
+                    return out;
+                }
+                if (p.length) {
+                    for (i = 0; p.length > i; i++) {
+                        np = hangyoNormalizeLatLngPoint(p[i]);
+                        if (np) {
+                            out.push(np);
+                        }
+                    }
+                }
+                return out;
+            }
+
+            /**
+             * Full driving geometry from leg steps (avoids overview_path forks / double corridors). Falls back elsewhere.
+             */
+            function hangyoRouteToDetailPathLiterals(route) {
+                var acc = [];
+                if (!route || !route.legs || !route.legs.length) {
+                    return acc;
+                }
+                var li;
+                for (li = 0; route.legs.length > li; li++) {
+                    var leg = route.legs[li];
+                    /** Incomplete leg: keep partial detail if usable, otherwise caller falls back */
+                    if (!leg || !leg.steps || !leg.steps.length) {
+                        return acc.length >= 2 ? acc : [];
+                    }
+                    var si;
+                    for (si = 0; leg.steps.length > si; si++) {
+                        var chunk = hangyoStepPathToLiterals(leg.steps[si]);
+                        var ci;
+                        for (ci = 0; chunk.length > ci; ci++) {
+                            var pt = chunk[ci];
+                            if (
+                                acc.length === 0 ||
+                                HANGYO_PATH_CONSEC_DEDUP_DEG_SQ <=
+                                    hangyoPlanarSqDeg(
+                                        acc[acc.length - 1].lat,
+                                        acc[acc.length - 1].lng,
+                                        pt.lat,
+                                        pt.lng
+                                    )
+                            ) {
+                                acc.push(pt);
+                            }
+                        }
+                    }
+                }
+                return acc;
+            }
+
+            /** Directions route exposes encoded overview on overview_polyline (string .points or function). */
+            function hangyoEncodedOverviewPoints(route) {
+                if (!route || !route.overview_polyline) {
+                    return '';
+                }
+                var op = route.overview_polyline;
+                if (typeof op === 'string') {
+                    return op;
+                }
+                if (typeof op.points === 'string') {
+                    return op.points;
+                }
+                if (typeof op.points === 'function') {
+                    try {
+                        return String(op.points());
+                    } catch (ePt) {
+                        return '';
+                    }
+                }
+                return '';
+            }
+
+            /**
+             * Official road-aligned outline for the whole Directions route (preferred over stitching step paths).
+             * Uses Maps geometry.encoding.decodePath when the geometry library loads; falls back to local decoder.
+             */
+            function hangyoDecodedOverviewPolylineLiterals(route) {
+                var out = [];
+                try {
+                    var encStr = hangyoEncodedOverviewPoints(route);
+                    if (!encStr) {
+                        return out;
+                    }
+                    var geom = window.google && window.google.maps && window.google.maps.geometry;
+                    if (geom && geom.encoding && typeof geom.encoding.decodePath === 'function') {
+                        var arr = geom.encoding.decodePath(encStr);
+                        var di;
+                        for (di = 0; arr.length > di; di++) {
+                            var np = hangyoNormalizeLatLngPoint(arr[di]);
+                            if (np) {
+                                out.push(np);
+                            }
+                        }
+                    }
+                    if (out.length >= 2) {
+                        return out;
+                    }
+                    return hangyoDecodeEncodedPolyline(encStr);
+                } catch (exOv) {
+                    return [];
+                }
+            }
+
+            /** Prefer dense step geometry (≥ 2 verts); fallback to overview_path then overview_polyline decode. */
+            function hangyoResolvedRoutePathLiterals(route, overviewPath) {
+                var decodedOv = hangyoDecodedOverviewPolylineLiterals(route);
+                if (decodedOv.length >= 2) {
+                    return decodedOv;
+                }
+                var ov = hangyoOverviewPathToLiterals(overviewPath);
+                if (ov.length >= 2) {
+                    return ov;
+                }
+                var det = hangyoRouteToDetailPathLiterals(route);
+                if (det.length >= 2) {
+                    return det;
+                }
+                var enc = hangyoEncodedOverviewPoints(route);
+                var decLegacy = hangyoDecodeEncodedPolyline(enc);
+                if (decLegacy.length >= 2) {
+                    return decLegacy;
+                }
+                return ov.length ? ov : det;
+            }
+
+            function hangyoSafeResolvedRouteLiterals(route) {
+                try {
+                    return hangyoResolvedRoutePathLiterals(route, route && route.overview_path);
+                } catch (eRes) {
+                    try {
+                        return hangyoOverviewPathToLiterals(route && route.overview_path);
+                    } catch (eO) {
+                        return [];
+                    }
+                }
+            }
+
+            /** Remove planar “bulges” where the polyline revisits ~the same junction (alternate spur then re-merge). */
+            function hangyoPrunePlanarNearLoops(path) {
+                if (!path || path.length < 14) {
+                    return;
+                }
+                try {
+                    var CLOSE_DEG_SQ = 2.4e-7;
+                    var MIN_SPAN = 8;
+                    var outer = 0;
+                    while (outer < 52 && path.length >= 14) {
+                        outer++;
+                        var n = path.length;
+                        var best = null;
+                        var ii;
+                        var jj;
+                        for (ii = n - 1; ii >= MIN_SPAN + 2; ii--) {
+                            var ptI = hangyoNormalizeLatLngPoint(path[ii]);
+                            if (!ptI) {
+                                continue;
+                            }
+                            var iLo = ii - MIN_SPAN - Math.min(620, ii);
+                            for (jj = ii - MIN_SPAN; jj >= iLo; jj--) {
+                                var ptJ = hangyoNormalizeLatLngPoint(path[jj]);
+                                if (!ptJ) {
+                                    continue;
+                                }
+                                if (
+                                    CLOSE_DEG_SQ >
+                                    hangyoPlanarSqDeg(
+                                        ptI.lat,
+                                        ptI.lng,
+                                        ptJ.lat,
+                                        ptJ.lng
+                                    )
+                                ) {
+                                    var span = ii - jj;
+                                    if (!best || span > best.span) {
+                                        best = { j: jj, i: ii, span: span };
+                                    }
+                                }
+                            }
+                        }
+                        if (!best) {
+                            return;
+                        }
+                        path.splice(best.j + 1, best.i - best.j - 1);
+                    }
+                } catch (exPrune) {}
+            }
+
+            /**
+             * Chunked Directions calls share a waypoint but each response's overview_path can re-route an alternate spur
+             * (~same destination). Strip leading verts that hug the stitched tail (~90 m) so only one corridor is drawn.
+             */
+            function hangyoMinSqDegToAccumTailWindow(accum, pt, tailLen) {
+                if (!accum || !accum.length || !pt) {
+                    return Infinity;
+                }
+                var n = accum.length;
+                var fromIx = Math.max(0, n - tailLen);
+                var ix;
+                var minSq = Infinity;
+                for (ix = fromIx; n > ix; ix++) {
+                    var a = accum[ix];
+                    var dsq = hangyoPlanarSqDeg(a.lat, a.lng, pt.lat, pt.lng);
+                    if (dsq < minSq) {
+                        minSq = dsq;
+                    }
+                }
+                return minSq;
+            }
+
+            function hangyoAppendPathChunkToAccumulated(accum, chunkLiterals, skipFirstIfDup) {
+                var chunk = chunkLiterals || [];
+                var start = 0;
+                if (!chunk.length) {
+                    return;
+                }
+                if (skipFirstIfDup && accum.length > 0) {
+                    var CHUNK_TAIL = 112;
+                    var CHUNK_MERGE_MAX_DEG_SQ = 1.15e-6;
+                    var stripGuard = 0;
+                    var minRemain =
+                        chunk.length >= 48 ? 10 : chunk.length >= 24 ? 5 : chunk.length >= 8 ? 3 : 2;
+                    if (hangyoLngLatClose(accum[accum.length - 1], chunk[0])) {
+                        start = 1;
+                        stripGuard++;
+                    }
+                    /** Dense step paths only — short chunk overviews must not be stripped to a few points. */
+                    if (chunk.length >= 48) {
+                        while (
+                            stripGuard < 980 &&
+                            chunk.length - start > minRemain &&
+                            hangyoMinSqDegToAccumTailWindow(
+                                accum,
+                                chunk[start],
+                                CHUNK_TAIL
+                            ) < CHUNK_MERGE_MAX_DEG_SQ
+                        ) {
+                            start++;
+                            stripGuard++;
+                        }
+                    }
+                }
+                var i;
+                for (i = start; chunk.length > i; i++) {
+                    accum.push(chunk[i]);
+                }
+            }
+
+            function hangyoAppendOverviewToAccumulated(accum, overviewPath, skipFirstIfDup) {
+                hangyoAppendPathChunkToAccumulated(
+                    accum,
+                    hangyoOverviewPathToLiterals(overviewPath),
+                    skipFirstIfDup
+                );
+            }
+
+            /** Sum Maps API leg distances (metres) for driving routes[].legs[]. */
+            function sumRouteLegsMeters(route) {
+                if (!route || !route.legs) {
+                    return 0;
+                }
+                var legs = route.legs;
+                var sumM = 0;
+                var li;
+                for (li = 0; legs.length > li; li++) {
+                    if (legs[li] && legs[li].distance && typeof legs[li].distance.value === 'number') {
+                        sumM += legs[li].distance.value;
+                    }
+                }
+                return sumM;
+            }
+
+            function postRoadDrivingDistanceKm(meters, generation, geodesicFallbackPts) {
+                if (generation !== routeRequestGen) {
+                    return;
+                }
+                var m = Number(meters);
+                if ((!isFinite(m) || m < 1) && geodesicFallbackPts && geodesicFallbackPts.length >= 2) {
+                    m = hangyoSumGeodesicPathMeters(geodesicFallbackPts);
+                }
+                var kmNum = Math.round((m / 1000) * 100) / 100;
+                postToHangyoAncestors({
+                    type: 'HANGYO_MAP_ROAD_DISTANCE_KM',
+                    roadDistanceKm: kmNum,
+                    directionsFailed: false
+                });
+            }
+
+            function postRoadDrivingDistanceFailed(generation, geodesicFallbackPts) {
+                if (generation !== routeRequestGen) {
+                    return;
+                }
+                var km = null;
+                if (geodesicFallbackPts && geodesicFallbackPts.length >= 2) {
+                    km = Math.round((hangyoSumGeodesicPathMeters(geodesicFallbackPts) / 1000) * 100) / 100;
+                }
+                postToHangyoAncestors({
+                    type: 'HANGYO_MAP_ROAD_DISTANCE_KM',
+                    roadDistanceKm: km,
+                    directionsFailed: true
+                });
+            }
+
+            function postHaversineDistanceKm(generation, pts) {
+                if (generation !== routeRequestGen) {
+                    return;
+                }
+                var m = hangyoSumGeodesicPathMeters(pts);
+                var kmNum = Math.round((m / 1000) * 100) / 100;
+                postToHangyoAncestors({
+                    type: 'HANGYO_MAP_ROAD_DISTANCE_KM',
+                    roadDistanceKm: kmNum,
+                    directionsFailed: false,
+                    distanceSource: 'haversine'
+                });
+            }
+
+            //Added by Hari - For rectify the production issue for no line in map
+            function hangyoClearDirectionsRouteWatchdog() {
+                if (directionsRouteWatchdog) {
+                    window.clearTimeout(directionsRouteWatchdog);
+                    directionsRouteWatchdog = null;
+                }
+            }
+
+            //Added by Hari - For rectify the production issue for no line in map
+            function hangyoMarkRouteLineSettled(generation) {
+                routeLineSettledForGen = generation;
+                routeDirectionsInFlightGen = 0;
+                hangyoClearDirectionsRouteWatchdog();
+            }
+
+            //Added by Hari - For rectify the production issue for no line in map
+            function hangyoNotifyRouteFallbackToParent() {
+                postToHangyoAncestors({
+                    type: 'HANGYO_MAP_ROUTE_FALLBACK',
+                    message:
+                        'Google driving route could not be drawn for this day\'s stops. Showing a straight-line path between visits instead.'
+                });
+            }
+
+            //Added by Hari - Notify dashboard when driving route polyline is drawn successfully
+            function hangyoNotifyRouteOkToParent() {
+                postToHangyoAncestors({
+                    type: 'HANGYO_MAP_ROUTE_OK'
+                });
+            }
+
+            function hangyoRoutePayloadFingerprint(data) {
+                var path = (data && data.path) || [];
+                var markers = (data && data.markers) || [];
+                var p0 = path.length > 0 ? path[0] : null;
+                var pl = path.length > 0 ? path[path.length - 1] : null;
+                return JSON.stringify({
+                    rm:
+                        data && data.renderMode === 'distanceOnly'
+                            ? 'distanceOnly'
+                            : 'full',
+                    rt:
+                        data && data.routingMode === 'directions'
+                            ? 'directions'
+                            : 'haversine',
+                    pc: path.length,
+                    mc: markers.length,
+                    p0lat: p0 != null ? p0.lat : null,
+                    p0lng: p0 != null ? p0.lng : null,
+                    pllat: pl != null ? pl.lat : null,
+                    pllng: pl != null ? pl.lng : null,
+                    dz: data && typeof data.defaultZoom === 'number' ? data.defaultZoom : null
+                });
+            }
+
+            //Added by Hari - For rectify the production issue for no line in map
+            function hangyoApplyDirectionsRouteFallback(
+                g,
+                generation,
+                pts,
+                bounds,
+                distanceOnly,
+                fitMapFn
+            ) {
+                if (generation !== routeRequestGen) {
+                    return;
+                }
+                hangyoMarkRouteLineSettled(generation);
+                postRoadDrivingDistanceFailed(generation, pts);
+                if (!distanceOnly && pts && pts.length >= 2) {
+                    hangyoHideDirectionsRenderer();
+                    hangyoAttachStraightPolyline(g, pts, bounds);
+                    if (typeof fitMapFn === 'function') {
+                        fitMapFn();
+                    }
+                    hangyoNotifyRouteFallbackToParent();
+                }
+            }
+
+            //Added by Hari - For rectify the production issue for no line in map
+            function hangyoArmDirectionsRouteWatchdog(
+                g,
+                generation,
+                pts,
+                bounds,
+                distanceOnly,
+                fitMapFn
+            ) {
+                hangyoClearDirectionsRouteWatchdog();
+                directionsRouteWatchdog = window.setTimeout(function () {
+                    directionsRouteWatchdog = null;
+                    if (generation !== routeRequestGen || routeLineSettledForGen === generation) {
+                        return;
+                    }
+                    hangyoApplyDirectionsRouteFallback(
+                        g,
+                        generation,
+                        pts,
+                        bounds,
+                        distanceOnly,
+                        fitMapFn
+                    );
+                }, HANGYO_DIRECTIONS_ROUTE_WATCHDOG_MS);
+            }
+
+            /**
+             * Wraps DirectionsService.route with retries for OVER_QUERY_LIMIT / UNKNOWN_ERROR only.
+             */
+            function hangyoDirectionsRouteWithRetry(gArg, ds, routeRequestPayload, generation, onDone) {
+                var GS = gArg.DirectionsStatus;
+                var maxTries = HANGYO_DIRECTIONS_RETRY_ATTEMPTS;
+                var baseMs = HANGYO_DIRECTIONS_RETRY_BASE_MS;
+                var settled = false;
+                //Added by Hari - For rectify the production issue for no line in map
+                var routeTimeoutId = null;
+
+                function finish(response, status) {
+                    if (settled) {
+                        return;
+                    }
+                    settled = true;
+                    if (routeTimeoutId) {
+                        window.clearTimeout(routeTimeoutId);
+                        routeTimeoutId = null;
+                    }
+                    onDone(response, status);
+                }
+
+                //Added by Hari - For rectify the production issue for no line in map
+                routeTimeoutId = window.setTimeout(function () {
+                    if (generation !== routeRequestGen) {
+                        return;
+                    }
+                    finish(null, 'HANGYO_TIMEOUT');
+                }, HANGYO_DIRECTIONS_REQUEST_TIMEOUT_MS);
+
+                function tryRoute(attemptIx) {
+                    ds.route(routeRequestPayload, function (response, status) {
+                        if (generation !== routeRequestGen) {
+                            finish(response, status);
+                            return;
+                        }
+                        if (status === GS.OK) {
+                            finish(response, status);
+                            return;
+                        }
+                        var retryable = status === GS.OVER_QUERY_LIMIT || status === GS.UNKNOWN_ERROR;
+                        if (retryable && attemptIx + 1 < maxTries) {
+                            window.setTimeout(function () {
+                                tryRoute(attemptIx + 1);
+                            }, baseMs * (attemptIx + 1));
+                            return;
+                        }
+                        finish(response, status);
+                    });
+                }
+
+                tryRoute(0);
+            }
+
+            /**
+             * Driving route: ≤25 stops uses DirectionsRenderer (reliable snapped road polyline). Chunked days merge
+             * decoded overview polylines. Visit order stays fixed (optimizeWaypoints false).
+             * Sum of leg distances is posted to Lightning for the summary tile (road km).
+             * @param distanceOnly If true, compute driving distance only (Load Data) — no polyline/markers in this path.
+             */
+            function hangyoDirectionsApplyRoute(
+                g,
+                pathArr,
+                bounds,
+                dc,
+                dz,
+                baseHasBoundsForFit,
+                generation,
+                distanceOnly
+            ) {
+                if (!directionsService) {
+                    directionsService = new g.DirectionsService();
+                }
+                routeDirectionsInFlightGen = generation;
+                var pts = hangyoPathForRouting(pathArr);
+                if (2 > pts.length) {
+                    return;
+                }
+
+                function segmentEndInclusive(startIdx) {
+                    var last = pts.length - 1;
+                    var maxEnd = startIdx + DIRECTIONS_MAX_INTERMEDIATE + 1;
+                    return maxEnd > last ? last : maxEnd;
+                }
+
+                function fitMap() {
+                    if (generation !== routeRequestGen) {
+                        return;
+                    }
+                    if (baseHasBoundsForFit || !bounds.isEmpty()) {
+                        map.fitBounds(bounds, 56);
+                    } else {
+                        map.setCenter(dc);
+                        map.setZoom(dz);
+                    }
+                }
+
+                //Added by Hari - For rectify the production issue for no line in map
+                hangyoArmDirectionsRouteWatchdog(
+                    g,
+                    generation,
+                    pts,
+                    bounds,
+                    distanceOnly,
+                    fitMap
+                );
+
+                /** ≤25 pts: DirectionsRenderer paints Google's snapped driving route (markers stay custom). */
+                if (pts.length <= GOOGLE_DIRECTIONS_MAX_POSITIONS_SINGLE) {
+                    var wMidSingle = [];
+                    var wx;
+                    for (wx = 1; pts.length - 1 > wx; wx++) {
+                        wMidSingle.push({ location: pts[wx], stopover: true });
+                    }
+                    hangyoDirectionsRouteWithRetry(
+                        g,
+                        directionsService,
+                        {
+                            origin: pts[0],
+                            destination: pts[pts.length - 1],
+                            waypoints: wMidSingle,
+                            travelMode: g.TravelMode.DRIVING,
+                            optimizeWaypoints: false
+                        },
+                        generation,
+                        function (resp, stat) {
+                            if (generation !== routeRequestGen) {
+                                return;
+                            }
+                            if (
+                                stat !== g.DirectionsStatus.OK ||
+                                !(resp && resp.routes && resp.routes[0])
+                            ) {
+                                //Added by Hari - For rectify the production issue for no line in map
+                                hangyoApplyDirectionsRouteFallback(
+                                    g,
+                                    generation,
+                                    pts,
+                                    bounds,
+                                    distanceOnly,
+                                    fitMap
+                                );
+                                return;
+                            }
+                            var routeSingle = resp.routes[0];
+                            var legM = sumRouteLegsMeters(routeSingle);
+                            postRoadDrivingDistanceKm(legM, generation, pts);
+                            if (distanceOnly) {
+                                //Added by Hari - For rectify the production issue for no line in map
+                                hangyoMarkRouteLineSettled(generation);
+                                fitMap();
+                                return;
+                            }
+                            if (polyline) {
+                                polyline.setMap(null);
+                                polyline = null;
+                            }
+                            hangyoHideDirectionsRenderer();
+                            try {
+                                var litSingle = hangyoDecodedOverviewPolylineLiterals(routeSingle);
+                                if (litSingle.length < 2) {
+                                    litSingle = hangyoSafeResolvedRouteLiterals(routeSingle);
+                                }
+                                litSingle = hangyoSanitizePathLiteralsForDraw(litSingle);
+                                var drawSingle = litSingle.slice();
+                                var mvcSingle = hangyoPathLiteralsToMvcPath(g, drawSingle);
+                                if (mvcSingle.length < 2) {
+                                    hangyoApplyDirectionsRouteFallback(
+                                        g,
+                                        generation,
+                                        pts,
+                                        bounds,
+                                        distanceOnly,
+                                        fitMap
+                                    );
+                                    return;
+                                }
+                                polyline = new g.Polyline({
+                                    path: mvcSingle,
+                                    geodesic: false,
+                                    strokeColor: HANGYO_ROUTE_STROKE,
+                                    strokeOpacity: 0.92,
+                                    strokeWeight: HANGYO_ROUTE_WEIGHT,
+                                    zIndex: 320,
+                                    map: map
+                                });
+                                var zSingle;
+                                for (zSingle = 0; mvcSingle.length > zSingle; zSingle++) {
+                                    bounds.extend(mvcSingle[zSingle]);
+                                }
+                            } catch (exDrawSingle) {
+                                hangyoApplyDirectionsRouteFallback(
+                                    g,
+                                    generation,
+                                    pts,
+                                    bounds,
+                                    distanceOnly,
+                                    fitMap
+                                );
+                                return;
+                            }
+                            //Added by Hari - For rectify the production issue for no line in map
+                            hangyoMarkRouteLineSettled(generation);
+                            if (!distanceOnly) {
+                                hangyoNotifyRouteOkToParent();
+                            }
+                            fitMap();
+                        }
+                    );
+                    return;
+                }
+
+                var accumulatedChunked = [];
+                var chunkedMetersSum = 0;
+
+                function runLeg(startIdx, skipDup) {
+                    var endIdx = segmentEndInclusive(startIdx);
+                    hangyoDirectionsRouteWithRetry(
+                        g,
+                        directionsService,
+                        {
+                            origin: pts[startIdx],
+                            destination: pts[endIdx],
+                            waypoints: (function () {
+                                var wps = [];
+                                var w;
+                                for (w = startIdx + 1; endIdx > w; w++) {
+                                    wps.push({ location: pts[w], stopover: true });
+                                }
+                                return wps;
+                            })(),
+                            travelMode: g.TravelMode.DRIVING,
+                            optimizeWaypoints: false
+                        },
+                        generation,
+                        function (response, status) {
+                            if (generation !== routeRequestGen) {
+                                return;
+                            }
+                            if (
+                                status !== g.DirectionsStatus.OK ||
+                                !(response && response.routes && response.routes[0])
+                            ) {
+                                //Added by Hari - For rectify the production issue for no line in map
+                                hangyoApplyDirectionsRouteFallback(
+                                    g,
+                                    generation,
+                                    pts,
+                                    bounds,
+                                    distanceOnly,
+                                    fitMap
+                                );
+                                return;
+                            }
+                            var r0 = response.routes[0];
+                            chunkedMetersSum += sumRouteLegsMeters(r0);
+                            var op2 = r0.overview_path;
+                            if (!distanceOnly) {
+                                var prevAccumLen = accumulatedChunked.length;
+                                var legPts = hangyoSanitizePathLiteralsForDraw(
+                                    hangyoDecodedOverviewPolylineLiterals(r0)
+                                );
+                                if (legPts.length < 2) {
+                                    legPts = hangyoSanitizePathLiteralsForDraw(
+                                        hangyoSafeResolvedRouteLiterals(r0)
+                                    );
+                                }
+                                if (legPts.length >= 2) {
+                                    hangyoAppendPathChunkToAccumulated(accumulatedChunked, legPts, skipDup);
+                                } else {
+                                    var ovPts = hangyoOverviewPathToLiterals(op2);
+                                    if (ovPts.length >= 2) {
+                                        hangyoAppendPathChunkToAccumulated(accumulatedChunked, ovPts, skipDup);
+                                    } else {
+                                    var ii;
+                                    for (ii = startIdx; endIdx >= ii; ii++) {
+                                        var vertex = pts[ii];
+                                        if (
+                                            skipDup &&
+                                            ii === startIdx &&
+                                            accumulatedChunked.length > 0 &&
+                                            HANGYO_PATH_CONSEC_DEDUP_DEG_SQ >
+                                                hangyoPlanarSqDeg(
+                                                    accumulatedChunked[accumulatedChunked.length - 1].lat,
+                                                    accumulatedChunked[accumulatedChunked.length - 1].lng,
+                                                    vertex.lat,
+                                                    vertex.lng
+                                                )
+                                        ) {
+                                            continue;
+                                        }
+                                        accumulatedChunked.push(vertex);
+                                    }
+                                    }
+                                }
+                                var k;
+                                for (k = prevAccumLen; accumulatedChunked.length > k; k++) {
+                                    bounds.extend(accumulatedChunked[k]);
+                                }
+                            }
+                            if (endIdx >= pts.length - 1) {
+                                postRoadDrivingDistanceKm(chunkedMetersSum, generation, pts);
+                                if (distanceOnly) {
+                                    //Added by Hari - For rectify the production issue for no line in map
+                                    hangyoMarkRouteLineSettled(generation);
+                                    fitMap();
+                                    return;
+                                }
+                                hangyoHideDirectionsRenderer();
+                                if (polyline) {
+                                    polyline.setMap(null);
+                                    polyline = null;
+                                }
+                                var chunkedPathFinal = hangyoSanitizePathLiteralsForDraw(
+                                    accumulatedChunked.slice()
+                                );
+                                var mvcFinal = hangyoPathLiteralsToMvcPath(g, chunkedPathFinal);
+                                if (mvcFinal.length < 2) {
+                                    mvcFinal = hangyoPathLiteralsToMvcPath(g, accumulatedChunked);
+                                }
+                                if (mvcFinal.length < 2 && !distanceOnly) {
+                                    //Added by Hari - For rectify the production issue for no line in map
+                                    hangyoApplyDirectionsRouteFallback(
+                                        g,
+                                        generation,
+                                        pts,
+                                        bounds,
+                                        distanceOnly,
+                                        fitMap
+                                    );
+                                    return;
+                                }
+                                polyline = new g.Polyline({
+                                    path: mvcFinal,
+                                    geodesic: false,
+                                    strokeColor: HANGYO_ROUTE_STROKE,
+                                    strokeOpacity: 0.92,
+                                    strokeWeight: HANGYO_ROUTE_WEIGHT,
+                                    zIndex: 320,
+                                    map: map
+                                });
+                                //Added by Hari - For rectify the production issue for no line in map
+                                hangyoMarkRouteLineSettled(generation);
+                                hangyoNotifyRouteOkToParent();
+                                fitMap();
+                                return;
+                            }
+                            window.setTimeout(function () {
+                                if (generation !== routeRequestGen) {
+                                    return;
+                                }
+                                runLeg(endIdx, true);
+                            }, HANGYO_DIRECTIONS_CHUNK_GAP_MS);
+                        }
+                    );
+                }
+
+                runLeg(0, false);
+            }
+
+            function hangyoNormalizeActLabel(t) {
+                return (t && String(t).toLowerCase().replace(/\s+/g, ' ').trim()) || '';
+            }
+
+            function colorForActivityType(t) {
+                var s = hangyoNormalizeActLabel(t);
+                if (!s) {
+                    return '#757575';
+                }
+                if (s.indexOf('attendance') !== -1) {
+                    return '#FFEB3B';
+                }
+                if (s.indexOf('eod') !== -1) {
+                    return '#1976D2';
+                }
+                /* New outlet before productive / non-productive (word "outlet" appears in several types). */
+                if (s.indexOf('new outlet') !== -1 || s.indexOf('new-outlet') !== -1) {
+                    return '#212121';
+                }
+                if (s.indexOf('non') !== -1 && s.indexOf('productive') !== -1) {
+                    return '#D32F2F';
+                }
+                if (
+                    s.indexOf('productive') !== -1 ||
+                    s.indexOf('order') !== -1 ||
+                    s.indexOf('sales') !== -1
+                ) {
+                    return '#2E7D32';
+                }
+                return '#757575';
+            }
+
+            function hangyoMarkerStrokeColor(hexFill) {
+                if (hexFill === '#212121') {
+                    return '#E0E0E0';
+                }
+                if (hexFill === '#FFEB3B') {
+                    return '#827717';
+                }
+                return '#FFFFFF';
+            }
+
+            /**
+             * SVG data-URL icons render reliably as map pins (Symbol paths can be ignored or downgraded in some contexts).
+             * Anchor is the pin tip on the LatLng.
+             */
+            var HANGYO_PIN_PATH_D =
+                'M12 23 C8.8 18.8 7 13.92 7 10 C7 6.24 9.24 4 12 4 C14.76 4 17 6.24 17 10 C17 13.93 15.23 18.84 12 23 Z';
+
+            function hangyoPinHoleFill(fillHex) {
+                if (fillHex === '#212121') {
+                    return '#EEEEEE';
+                }
+                return '#FFFFFF';
+            }
+
+            function hangyoActivityPinIcon(g, fillHex) {
+                var stroke = hangyoMarkerStrokeColor(fillHex);
+                var hole = hangyoPinHoleFill(fillHex);
+                var svg =
+                    '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="56" viewBox="0 0 24 28">' +
+                    '<path fill="' +
+                    fillHex +
+                    '" stroke="' +
+                    stroke +
+                    '" stroke-width="1.1" stroke-linejoin="round" d="' +
+                    HANGYO_PIN_PATH_D +
+                    '"/>' +
+                    '<circle cx="12" cy="9.4" r="2.35" fill="' +
+                    hole +
+                    '"/>' +
+                    '</svg>';
+                //Client changes added by hari - 26/05/2026 — map marker pins +25% (×0.5 factor: 36→45, 42→53; not ×1.5)
+                var wPx = 45;
+                var hPx = 53;
+                var ax = Math.round((12 / 24) * wPx);
+                var ay = Math.round((23 / 28) * hPx);
+                return {
+                    url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg),
+                    scaledSize: new g.Size(wPx, hPx),
+                    anchor: new g.Point(ax, ay)
+                };
+            }
+
+            function hangyoEscapeHtml(unsafe) {
+                if (unsafe === null || unsafe === undefined) {
+                    return '';
+                }
+                return String(unsafe)
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;');
+            }
+
+            function hangyoFmtLocalFromIsoMaybe(iso) {
+                if (!iso) {
+                    return hangyoEscapeHtml('—');
+                }
+                var d = new Date(iso);
+                if (!isFinite(d.getTime())) {
+                    return hangyoEscapeHtml(String(iso));
+                }
+                return hangyoEscapeHtml(d.toLocaleString());
+            }
+
+            function hangyoRupeeEscaped(n) {
+                if (!isFinite(Number(n))) {
+                    return '';
+                }
+                var ru = '\u20B9 ' + Number(n).toLocaleString(undefined, { maximumFractionDigits: 2 });
+                return hangyoEscapeHtml(ru);
+            }
+
+            /** Google Maps InfoWindow HTML: client field order; all rows shown; click opens only. */
+            function hangyoBuildActivityHoverHtml(rawMk) {
+                var mk = rawMk || {};
+                var act = mk.activityType != null ? String(mk.activityType).trim() : '';
+                var actLow = act.toLowerCase();
+                var dash = hangyoEscapeHtml('—');
+                
+                //EOD
+                if (mk.infoWindowMode === 'eod' || actLow === 'eod') {
+                    var htmlEod = '';
+                    htmlEod += '<div class="hangyo-iw hangyo-iw-brand">';
+                    htmlEod += '<div class="hangyo-iw-card">';
+                    htmlEod +=
+                        '<div class="hangyo-iw-head">' +
+                        '<span class="hangyo-iw-head-title">Activity Details</span>' +
+                        '<button type="button" class="hangyo-iw-close" aria-label="Close">&times;</button>' +
+                        '</div>';
+                    htmlEod += '<div class="hangyo-iw-body">';
+                    htmlEod +=
+                        '<div class="hangyo-iw-row"><span class="hangyo-iw-key">Activity Type : </span>' +
+                        (act ? hangyoEscapeHtml(act) : dash) +
+                        '</div>';
+                    htmlEod +=
+                        '<div class="hangyo-iw-row"><span class="hangyo-iw-key">Date &amp; Time : </span>' +
+                        hangyoFmtLocalFromIsoMaybe(mk.eodDateTimeIso) +
+                        '</div>';
+                    var eodLoc = mk.eodLocationDetail != null ? String(mk.eodLocationDetail).trim() : '';
+                    htmlEod +=
+                        '<div class="hangyo-iw-row"><span class="hangyo-iw-key">Location : </span>' +
+                        (eodLoc ? hangyoEscapeHtml(eodLoc) : dash) +
+                        '</div>';
+                    htmlEod += '</div>';
+                    htmlEod += '</div>';
+                    htmlEod += '</div>';
+                    return htmlEod;
+                }
+
+                //Attendance
+                if (
+                    mk.infoWindowMode === 'attendance' ||
+                    (actLow.indexOf('attendance') !== -1 && actLow.indexOf('productive') === -1)
+                ) {
+                    var htmlAtt = '';
+                    htmlAtt += '<div class="hangyo-iw hangyo-iw-brand">';
+                    htmlAtt += '<div class="hangyo-iw-card">';
+                    htmlAtt +=
+                        '<div class="hangyo-iw-head">' +
+                        '<span class="hangyo-iw-head-title">Activity Details</span>' +
+                        '<button type="button" class="hangyo-iw-close" aria-label="Close">&times;</button>' +
+                        '</div>';
+                    htmlAtt += '<div class="hangyo-iw-body">';
+                    htmlAtt +=
+                        '<div class="hangyo-iw-row"><span class="hangyo-iw-key">Activity Type : </span>' +
+                        (act ? hangyoEscapeHtml(act) : dash) +
+                        '</div>';
+                    htmlAtt +=
+                        '<div class="hangyo-iw-row"><span class="hangyo-iw-key">Date &amp; Time : </span>' +
+                        hangyoFmtLocalFromIsoMaybe(mk.attendanceAppliedOnIso) +
+                        '</div>';
+                    var attSt = mk.attendanceStatus != null ? String(mk.attendanceStatus).trim() : '';
+                    htmlAtt +=
+                        '<div class="hangyo-iw-row"><span class="hangyo-iw-key">Status : </span>' +
+                        (attSt ? hangyoEscapeHtml(attSt) : dash) +
+                        '</div>';
+                    var attLoc = mk.attendanceLocationDetail != null ? String(mk.attendanceLocationDetail).trim() : '';
+                    htmlAtt +=
+                        '<div class="hangyo-iw-row"><span class="hangyo-iw-key">Location details : </span>' +
+                        (attLoc ? hangyoEscapeHtml(attLoc) : dash) +
+                        '</div>';
+                    htmlAtt += '</div>';
+                    htmlAtt += '</div>';
+                    htmlAtt += '</div>';
+                    return htmlAtt;
+                }
+
+                //New Outlet
+                if (
+                    mk.infoWindowMode === 'newOutlet' ||
+                    actLow.indexOf('new outlet') !== -1 ||
+                    actLow.indexOf('new-outlet') !== -1
+                ) {
+                    var outletNameNew = mk.outlet != null ? String(mk.outlet).trim() : '';
+                    var htmlNew = '';
+                    htmlNew += '<div class="hangyo-iw hangyo-iw-brand">';
+                    htmlNew += '<div class="hangyo-iw-card">';
+                    htmlNew +=
+                        '<div class="hangyo-iw-head">' +
+                        '<span class="hangyo-iw-head-title">Activity Details</span>' +
+                        '<button type="button" class="hangyo-iw-close" aria-label="Close">&times;</button>' +
+                        '</div>';
+                    htmlNew += '<div class="hangyo-iw-body">';
+                    htmlNew +=
+                        '<div class="hangyo-iw-row"><span class="hangyo-iw-key">Activity Type : </span>' +
+                        (act ? hangyoEscapeHtml(act) : dash) +
+                        '</div>';
+                    htmlNew +=
+                        '<div class="hangyo-iw-row"><span class="hangyo-iw-key">Outlet name : </span>' +
+                        (outletNameNew ? hangyoEscapeHtml(outletNameNew) : dash) +
+                        '</div>';
+                    var onboardIso = mk.onboardDateIso != null ? String(mk.onboardDateIso).trim() : '';
+                    var onboardDisp = dash;
+                    if (onboardIso) {
+                        var dOb = new Date(onboardIso);
+                        onboardDisp = isFinite(dOb.getTime())
+                            ? hangyoEscapeHtml(dOb.toLocaleDateString())
+                            : hangyoEscapeHtml(onboardIso);
+                    }
+                    htmlNew +=
+                        '<div class="hangyo-iw-row"><span class="hangyo-iw-key">Onboard Date : </span>' +
+                        onboardDisp +
+                        '</div>';
+                    var newLoc =
+                        mk.newOutletLocationDetail != null
+                            ? String(mk.newOutletLocationDetail).trim()
+                            : '';
+                    htmlNew +=
+                        '<div class="hangyo-iw-row"><span class="hangyo-iw-key">Location : </span>' +
+                        (newLoc ? hangyoEscapeHtml(newLoc) : dash) +
+                        '</div>';
+                    htmlNew += '</div>';
+                    htmlNew += '</div>';
+                    htmlNew += '</div>';
+                    return htmlNew;
+                }
+
+                //Productive Outlet
+                var outletName = mk.outlet != null ? String(mk.outlet).trim() : '';
+                var html = '';
+                html += '<div class="hangyo-iw hangyo-iw-brand">';
+                html += '<div class="hangyo-iw-card">';
+                html +=
+                    '<div class="hangyo-iw-head">' +
+                    '<span class="hangyo-iw-head-title">Activity Details</span>' +
+                    '<button type="button" class="hangyo-iw-close" aria-label="Close">&times;</button>' +
+                    '</div>';
+                html += '<div class="hangyo-iw-body">';
+                html +=
+                    '<div class="hangyo-iw-row"><span class="hangyo-iw-key">Activity Type : </span>' +
+                    (act ? hangyoEscapeHtml(act) : dash) +
+                    '</div>';
+                html +=
+                    '<div class="hangyo-iw-row"><span class="hangyo-iw-key">Outlet Name : </span>' +
+                    (outletName ? hangyoEscapeHtml(outletName) : dash) +
+                    '</div>';
+                html +=
+                    '<div class="hangyo-iw-row"><span class="hangyo-iw-key">Checkin Time : </span>' +
+                    hangyoFmtLocalFromIsoMaybe(mk.checkInIso) +
+                    '</div>';
+                html +=
+                    '<div class="hangyo-iw-row"><span class="hangyo-iw-key">Checkout Time : </span>' +
+                    hangyoFmtLocalFromIsoMaybe(mk.checkOutIso) +
+                    '</div>';
+                if (mk.orderValue != null && isFinite(Number(mk.orderValue))) {
+                    html +=
+                        '<div class="hangyo-iw-row"><span class="hangyo-iw-key">Order Value : </span>' +
+                        hangyoRupeeEscaped(mk.orderValue) +
+                        '</div>';
+                } else {
+                    html +=
+                        '<div class="hangyo-iw-row"><span class="hangyo-iw-key">Order Value : </span>' +
+                        dash +
+                        '</div>';
+                }
+                html += '</div>';
+                html += '</div>';
+                html += '</div>';
+                return html;
+            }   
+
+            function hangyoEnsureActivityInfoWindow(g) {
+                if (!mapHoverInfoWindow) {
+                    mapHoverInfoWindow = new g.InfoWindow({
+                        maxWidth: 356,
+                        disableAutoPan: false
+                    });
+                }
+                return mapHoverInfoWindow;
+            }
+
+            /** Open InfoWindow on marker click only (all marker types use the same handler). */
+            function hangyoAttachMarkerHoverCard(g, marker, rawMk) {
+                var iw = hangyoEnsureActivityInfoWindow(g);
+                var gmEv = window.google && window.google.maps && window.google.maps.event;
+                if (!gmEv) {
+                    return;
+                }
+                gmEv.addListener(marker, 'click', function () {
+                    iw.setContent(hangyoBuildActivityHoverHtml(rawMk));
+                    gmEv.addListenerOnce(iw, 'domready', function () {
+                        var btn = document.querySelector('.hangyo-iw .hangyo-iw-close');
+                        if (!btn) {
+                            return;
+                        }
+                        btn.addEventListener('click', function (ev) {
+                            ev.preventDefault();
+                            ev.stopPropagation();
+                            iw.close();
+                        });
+                    });
+                    iw.open({ map: map, anchor: marker });
+                });
+            }
+
+            /**
+             * Salesforce rows can land a few metres apart ("same outlet") but rounded keys miss that.
+             * Cluster by planar distance (~60 m) and spiral offsets ~40 m+ so labels stay readable when zoomed to route.
+             */
+            var HANGYO_CLUSTER_RADIUS_DEG_SQ = 2.85e-7;
+
+            function hangyoPlanarSqDeg(lat1, lng1, lat2, lng2) {
+                var avgLatRad = (((lat1 + lat2) / 2) * Math.PI) / 180;
+                var dy = lat1 - lat2;
+                var scaledLngDelta = (lng1 - lng2) * Math.cos(avgLatRad);
+                return dy * dy + scaledLngDelta * scaledLngDelta;
+            }
+
+            function hangyoWithinClusterDist(aLat, aLng, bLat, bLng) {
+                return HANGYO_CLUSTER_RADIUS_DEG_SQ > hangyoPlanarSqDeg(aLat, aLng, bLat, bLng);
+            }
+
+            /** slot 0 anchored to earliest record in cluster at its true coords. */
+            function hangyoOffsetCoincidentSlot(lat, lng, slotWithinGroup, groupTotal) {
+                if (!slotWithinGroup || 1 >= groupTotal) {
+                    return { lat: lat, lng: lng };
+                }
+                var TWO_PI = Math.PI * 2;
+                var rDegBase = 0.000365;
+                var ring = Math.floor((slotWithinGroup - 1) / 8);
+                var posInRing = (slotWithinGroup - 1) % 8;
+                var angle = TWO_PI * (posInRing + 1) / 8 + ring * 0.28;
+                var radScale = ring + 1;
+                var step = rDegBase * radScale;
+                var latRad = (lat * Math.PI) / 180;
+                return {
+                    lat: lat + step * Math.cos(angle),
+                    lng: lng + (step * Math.sin(angle)) / Math.cos(latRad || 1e-6)
+                };
+            }
+
+            /** Mutates rows with _dispLat/_dispLng; preserves dashboard order inside each spatial cluster (earliest anchored). */
+            function hangyoApplyCoincidentMarkerDisplayPositions(rows) {
+                var n = rows.length;
+                if (!n) {
+                    return;
+                }
+                var seen = [];
+                var gi;
+                for (gi = 0; n > gi; gi++) {
+                    seen[gi] = false;
+                }
+                var qi;
+                for (qi = 0; n > qi; qi++) {
+                    if (seen[qi]) {
+                        continue;
+                    }
+                    var stack = [];
+                    stack.push(qi);
+                    seen[qi] = true;
+                    var groupIdx = [];
+                    while (stack.length) {
+                        var popIdx = stack.pop();
+                        groupIdx.push(popIdx);
+                        var vi;
+                        for (vi = 0; n > vi; vi++) {
+                            if (seen[vi]) {
+                                continue;
+                            }
+                            var ra = rows[popIdx];
+                            var rb = rows[vi];
+                            if (
+                                hangyoWithinClusterDist(ra.lat, ra.lng, rb.lat, rb.lng)
+                            ) {
+                                seen[vi] = true;
+                                stack.push(vi);
+                            }
+                        }
+                    }
+                    groupIdx.sort(function (aIdx, bIdx) {
+                        return aIdx - bIdx;
+                    });
+                    var gx;
+                    var gLen = groupIdx.length;
+                    var anchorLat = rows[groupIdx[0]].lat;
+                    var anchorLng = rows[groupIdx[0]].lng;
+                    for (gx = 0; groupIdx.length > gx; gx++) {
+                        var rRow = rows[groupIdx[gx]];
+                        var offSlot = gx;
+                        var oDisp = hangyoOffsetCoincidentSlot(anchorLat, anchorLng, offSlot, gLen);
+                        rRow._dispLat = oDisp.lat;
+                        rRow._dispLng = oDisp.lng;
+                    }
+                }
+            }
+
+            function clearGraphics() {
+                if (mapHoverInfoWindow) {
+                    mapHoverInfoWindow.close();
+                }
+                //Added by Hari - For rectify the production issue for no line in map
+                hangyoClearDirectionsRouteWatchdog();
+                routeLineSettledForGen = 0;
+                routeDirectionsInFlightGen = 0;
+                hangyoHideDirectionsRenderer();
+                if (polyline) {
+                    polyline.setMap(null);
+                    polyline = null;
+                }
+                for (var i = 0; activityMarkers.length > i; i++) {
+                    activityMarkers[i].setMap(null);
+                }
+                activityMarkers = [];
+            }
+
+            function ensureMap(g, center, zoom) {
+                var el = document.getElementById('hangyoMap');
+                var c = center || DEFAULT_CENTER;
+                var z = typeof zoom === 'number' ? zoom : DEFAULT_ZOOM;
+                if (!map && g && typeof g.Map === 'function') {
+                    map = new g.Map(el, {
+                        center: c,
+                        zoom: z,
+                        mapTypeId: 'roadmap',
+                        fullscreenControl: false
+                    });
+                }
+                return map;
+            }
+
+            function hangyoEnsureMapLegend(g, useDirections) {
+                if (hangyoLegendControlPushed || !map || !g || !map.controls || !g.ControlPosition) {
+                    return;
+                }
+                var routeHint = useDirections
+                    ? 'Hover or tap a point for details. Driving route follows roads (red line) in visit order.'
+                    : 'Hover or tap a point for details. Route is straight-line between visits (Haversine), not road distance.';
+                //Client changes added by hari - 26/05/2026 — Activity pins legend text 1.5x only (info window unchanged)
+                var box = document.createElement('div');
+                box.style.cssText =
+                    'margin:10px;padding:8px 10px 32px 10px;background:#fff;border-radius:4px;box-shadow:0 1px 4px rgba(0,0,0,0.3);color:#212121;pointer-events:auto;overflow:hidden;';
+                box.innerHTML =
+                    '<div style="transform:scale(1.5);transform-origin:top left;width:66.666667%;font:11px/1.55 Segoe UI,Arial,sans-serif">' +
+                    '<div style="font-weight:600;margin-bottom:5px">Activity pins</div>' +
+                    '<div style="display:flex;align-items:center;gap:6px;margin:2px 0"><svg width="14" height="18" viewBox="0 0 24 28" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0"><path fill="#FFEB3B" stroke="#827717" stroke-width="1.2" d="M12 23 C8.8 18.8 7 13.92 7 10 C7 6.24 9.24 4 12 4 C14.76 4 17 6.24 17 10 C17 13.93 15.23 18.84 12 23 Z"/></svg>Attendance</div>' +
+                    '<div style="display:flex;align-items:center;gap:6px;margin:2px 0"><svg width="14" height="18" viewBox="0 0 24 28" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0"><path fill="#2E7D32" stroke="#1B5E20" stroke-width="1.2" d="M12 23 C8.8 18.8 7 13.92 7 10 C7 6.24 9.24 4 12 4 C14.76 4 17 6.24 17 10 C17 13.93 15.23 18.84 12 23 Z"/></svg>Productive outlets</div>' +
+                    '<div style="display:flex;align-items:center;gap:6px;margin:2px 0"><svg width="14" height="18" viewBox="0 0 24 28" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0"><path fill="#D32F2F" stroke="#B71C1C" stroke-width="1.2" d="M12 23 C8.8 18.8 7 13.92 7 10 C7 6.24 9.24 4 12 4 C14.76 4 17 6.24 17 10 C17 13.93 15.23 18.84 12 23 Z"/></svg>Non-productive outlets</div>' +
+                    '<div style="display:flex;align-items:center;gap:6px;margin:2px 0"><svg width="14" height="18" viewBox="0 0 24 28" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0"><path fill="#212121" stroke="#9E9E9E" stroke-width="1.2" d="M12 23 C8.8 18.8 7 13.92 7 10 C7 6.24 9.24 4 12 4 C14.76 4 17 6.24 17 10 C17 13.93 15.23 18.84 12 23 Z"/></svg>New outlet added</div>' +
+                    '<div style="display:flex;align-items:center;gap:6px;margin:2px 0"><svg width="14" height="18" viewBox="0 0 24 28" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0"><path fill="#1976D2" stroke="#0D47A1" stroke-width="1.2" d="M12 23 C8.8 18.8 7 13.92 7 10 C7 6.24 9.24 4 12 4 C14.76 4 17 6.24 17 10 C17 13.93 15.23 18.84 12 23 Z"/></svg>EOD</div>' +
+                    '<div style="margin-top:7px;color:#757575;font-size:10px;line-height:1.35">' +
+                    routeHint +
+                    '</div>' +
+                    '</div>';
+                map.controls[g.ControlPosition.LEFT_BOTTOM].push(box);
+                hangyoLegendControlPushed = true;
+            }
+
+            function renderPayload(data) {
+                var g = window.google && window.google.maps;
+                if (!g || !data) {
+                    return false;
+                }
+
+                var routeFp = hangyoRoutePayloadFingerprint(data);
+                var forceRouteRender = data.forceRouteRender === true;
+                if (!forceRouteRender) {
+                    if (
+                        routeFp === hangyoLastRoutePayloadFingerprint &&
+                        routeRequestGen > 0 &&
+                        routeLineSettledForGen === routeRequestGen
+                    ) {
+                        return true;
+                    }
+                    if (
+                        routeFp === hangyoLastRoutePayloadFingerprint &&
+                        routeDirectionsInFlightGen === routeRequestGen &&
+                        routeRequestGen > 0
+                    ) {
+                        return true;
+                    }
+                }
+                hangyoLastRoutePayloadFingerprint = routeFp;
+
+                var distanceOnly = data.renderMode === 'distanceOnly';
+                var useDirections = data.routingMode === 'directions';
+                var path = data.path || [];
+                var markers = data.markers || [];
+                var dc = data.defaultCenter || DEFAULT_CENTER;
+                var dz = typeof data.defaultZoom === 'number' ? data.defaultZoom : DEFAULT_ZOOM;
+
+                clearGraphics();
+                ensureMap(g, dc, dz);
+                if (!map) {
+                    return false;
+                }
+                if (!distanceOnly) {
+                    hangyoEnsureMapLegend(g, useDirections);
+                }
+
+                var bounds = new g.LatLngBounds();
+                var hasBounds = false;
+
+                if (!distanceOnly) {
+                    var markerPrep = [];
+                    for (var m = 0; markers.length > m; m++) {
+                        var mk0 = markers[m];
+                        var la0 = Number(mk0 && mk0.lat);
+                        var ln0 = Number(mk0 && mk0.lng);
+                        if (!isFinite(la0) || !isFinite(ln0)) {
+                            continue;
+                        }
+                        markerPrep.push({
+                            mk: mk0,
+                            lat: la0,
+                            lng: ln0
+                        });
+                    }
+                    hangyoApplyCoincidentMarkerDisplayPositions(markerPrep);
+
+                    var m2;
+                    for (m2 = 0; markerPrep.length > m2; m2++) {
+                        var row = markerPrep[m2];
+                        var mk = row.mk;
+                        var pos = { lat: row._dispLat, lng: row._dispLng };
+                        bounds.extend(pos);
+                        hasBounds = true;
+
+                        var fillHx = colorForActivityType(
+                            mk.activityType || mk.callType || mk.title
+                        );
+
+                        //The markers are marked in the Google Map
+                        var marker = new g.Marker({
+                            position: pos,
+                            map: map,
+                            title: '',
+                            zIndex: 140 + m2,
+                            optimized: false,
+                            icon: hangyoActivityPinIcon(g, fillHx)
+                        });
+                        hangyoAttachMarkerHoverCard(g, marker, mk);
+                        activityMarkers.push(marker);
+                    }
+                }
+
+                routeRequestGen += 1;
+                var routingGen = routeRequestGen;
+
+                var routePts = hangyoPathForRouting(path);
+                if (routePts.length < 2 && markers.length >= 2) {
+                    var markerPathIn = [];
+                    var mxi;
+                    for (mxi = 0; markers.length > mxi; mxi++) {
+                        var mla = Number(markers[mxi].lat);
+                        var mln = Number(markers[mxi].lng);
+                        if (isFinite(mla) && isFinite(mln)) {
+                            markerPathIn.push({ lat: mla, lng: mln });
+                        }
+                    }
+                    routePts = hangyoPathForRouting(markerPathIn);
+                }
+
+                if (2 > routePts.length) {
+                    if (useDirections) {
+                        postRoadDrivingDistanceKm(0, routingGen, routePts);
+                    } else {
+                        postHaversineDistanceKm(routingGen, routePts);
+                    }
+                    if (!distanceOnly && routePts.length >= 2) {
+                        hangyoAttachStraightPolyline(g, routePts, bounds);
+                    }
+                } else {
+                    var rp;
+                    for (rp = 0; routePts.length > rp; rp++) {
+                        bounds.extend(routePts[rp]);
+                        hasBounds = true;
+                    }
+                    if (useDirections) {
+                        hangyoDirectionsApplyRoute(
+                            g,
+                            routePts,
+                            bounds,
+                            dc,
+                            dz,
+                            hasBounds,
+                            routingGen,
+                            distanceOnly
+                        );
+                    } else {
+                        if (!distanceOnly) {
+                            hangyoAttachStraightPolyline(g, routePts, bounds);
+                        }
+                        postHaversineDistanceKm(routingGen, routePts);
+                    }
+                }
+
+                if (hasBounds) {
+                    map.fitBounds(bounds, 56);
+                } else {
+                    map.setCenter(dc);
+                    map.setZoom(dz);
+                }
+
+                return true;
+            }
+
+            function postToHangyoAncestors(data) {
+                var payload = {};
+                var k;
+                for (k in data) {
+                    if (Object.prototype.hasOwnProperty.call(data, k)) {
+                        payload[k] = data[k];
+                    }
+                }
+                // LEX nested frames can expose an outer event.origin (e.g. *.lightning.force.com).
+                // The parent MUST post back using the embedded document origin (*.vf.force.com).
+                payload.embedOrigin = window.location.origin || '';
+
+                var targetOrigin = HANGYO_TRUSTED_PARENT_ORIGIN;
+                if (!targetOrigin || !hangyoIsTrustedLightningParentOrigin(targetOrigin)) {
+                    if (typeof console !== 'undefined' && console.error) {
+                        console.error(
+                            '[UserTrackingMapEmbed] Cannot postMessage: trusted Salesforce parent origin is unknown. ' +
+                                'Deploy UserTrackingController.getUserTrackingMapEmbedUrl() with hpo param; never use wildcard "*".'
+                        );
+                    }
+                    return;
+                }
+
+                var json = JSON.stringify(payload);
+                try {
+                    if (window.parent && window.parent !== window) {
+                        window.parent.postMessage(json, targetOrigin);
+                    }
+                } catch (e1) {}
+                try {
+                    var t = window.top;
+                    if (t && t !== window && t !== window.parent) {
+                        t.postMessage(json, targetOrigin);
+                    }
+                } catch (e2) {}
+            }
+
+            function tryApplyPending() {
+                if (!pendingPayload) {
+                    return;
+                }
+                if (renderPayload(pendingPayload)) {
+                    pendingPayload = null;
+                }
+            }
+
+            function postMapFailureToParent(message) {
+                postToHangyoAncestors({
+                    type: 'HANGYO_MAP_LOAD_FAILED',
+                    message: message || 'Google Maps did not load in this frame.'
+                });
+            }
+
+            function hangyoMapReflow() {
+                var g = window.google && window.google.maps;
+                if (!map || !g || !g.event) {
+                    return;
+                }
+                try {
+                    g.event.trigger(map, 'resize');
+                } catch (exRf) {}
+            }
+
+            window.addEventListener('message', function (e) {
+                if (!hangyoIsTrustedSalesforceOrigin(e.origin)) {
+                    return;
+                }
+                var d = e.data;
+                if (typeof d === 'string') {
+                    if (2 > d.length || d.charAt(0) !== '{') {
+                        return;
+                    }
+                    try {
+                        d = JSON.parse(d);
+                    } catch (ex) {
+                        return;
+                    }
+                }
+                if (!d || typeof d !== 'object') {
+                    return;
+                }
+                if (d.type === 'HANGYO_MAP_REFLOW') {
+                    hangyoMapReflow();
+                    return;
+                }
+                if (d.type !== 'HANGYO_MAP_ROUTE') {
+                    return;
+                }
+                pendingPayload = {
+                    path: d.path || [],
+                    markers: d.markers || [],
+                    defaultCenter: d.defaultCenter || DEFAULT_CENTER,
+                    defaultZoom: typeof d.defaultZoom === 'number' ? d.defaultZoom : DEFAULT_ZOOM,
+                    renderMode: d.renderMode === 'distanceOnly' ? 'distanceOnly' : 'full',
+                    routingMode: d.routingMode === 'directions' ? 'directions' : 'haversine',
+                    forceRouteRender: d.forceRouteRender === true
+                };
+                tryApplyPending();
+            });
+
+            window.hangyoMapsCb = function () {
+                postToHangyoAncestors({ type: 'HANGYO_MAP_EMBED_READY' });
+                tryApplyPending();
+            };
+
+            function hangyoMapScriptFailed() {
+                if (window.google && window.google.maps) {
+                    return;
+                }
+                var el = document.getElementById('hangyoMap');
+                var scriptMsg =
+                    'Could not load the Google Maps script from maps.googleapis.com (network/DNS block, CSP or Trusted URLs, API key referrer restrictions, HTML error page returned instead of JavaScript — add *.vf.force.com/*.sandbox.vf.force.com/.my.salesforce.com to HTTP referrers — or invalid key).';
+                showMapsLoadError(el);
+                postMapFailureToParent(scriptMsg);
+            }
+
+            try {
+                postToHangyoAncestors({ type: 'HANGYO_MAP_SHELL_READY' });
+            } catch (eShell) {}
+
+            function showMapsLoadError(el) {
+                if (!el || map) {
+                    return;
+                }
+                while (el.firstChild) {
+                    el.removeChild(el.firstChild);
+                }
+                var wrap = document.createElement('div');
+                wrap.style.cssText =
+                    'padding:16px;font-family:Segoe UI,Arial,sans-serif;font-size:13px;color:#333;line-height:1.55';
+                wrap.appendChild(
+                    document.createTextNode(
+                        'Google Maps did not load in this frame. Check: Maps JavaScript API enabled, billing on the Google Cloud project, Custom Label '
+                    )
+                );
+                var s1 = document.createElement('strong');
+                s1.appendChild(document.createTextNode('Google_Maps_API_Key'));
+                wrap.appendChild(s1);
+                wrap.appendChild(document.createTextNode(', and Salesforce '));
+                var s2 = document.createElement('strong');
+                s2.appendChild(document.createTextNode('Trusted URLs'));
+                wrap.appendChild(s2);
+                wrap.appendChild(
+                    document.createTextNode(
+                        ' for maps.googleapis.com / *.gstatic.com, and HTTP referrer restriction on API key '
+                    )
+                );
+                var s3 = document.createElement('strong');
+                s3.appendChild(
+                    document.createTextNode(
+                        'https://*.vf.force.com/* and https://*.sandbox.vf.force.com/* (Visualforce)'
+                    )
+                );
+                wrap.appendChild(s3);
+                wrap.appendChild(document.createTextNode('.'));
+                el.appendChild(wrap);
+            }
+
+            window.setTimeout(function () {
+                if (window.google && window.google.maps) {
+                    return;
+                }
+                var el = document.getElementById('hangyoMap');
+                var failMsg =
+                    'Google Maps did not load within 12 seconds. Check: Maps JavaScript API enabled, billing on the Google Cloud project, Custom Label Google_Maps_API_Key, VF HTTP referrers on the key (*.vf.force.com/*.sandbox.vf.force.com/*.my.salesforce.com), and Trusted URLs for maps.googleapis.com and *.gstatic.com.';
+                showMapsLoadError(el);
+                postMapFailureToParent(failMsg);
+                try {
+                    postToHangyoAncestors({ type: 'HANGYO_MAP_EMBED_READY' });
+                } catch (e2) {}
+            }, 12000);
+
+            function hangyoAppendGoogleMaps() {
+                if (document.getElementById('hangyoGoogleMapsSdk')) {
+                    return;
+                }
+                var k = (HANGYO_GM_KEY || '').trim();
+                var elFallback = document.getElementById('hangyoMap');
+                if (!k) {
+                    showMapsLoadError(elFallback);
+                    postMapFailureToParent('Custom Label Google_Maps_API_Key is empty.');
+                    postToHangyoAncestors({ type: 'HANGYO_MAP_EMBED_READY' });
+                    return;
+                }
+                var sc = document.createElement('script');
+                sc.id = 'hangyoGoogleMapsSdk';
+                sc.async = true;
+                sc.defer = true;
+                sc.onerror = hangyoMapScriptFailed;
+                sc.src =
+                    'https://maps.googleapis.com/maps/api/js?key=' +
+                    encodeURIComponent(k) +
+                    '&libraries=geometry&loading=async&callback=hangyoMapsCb';
+                document.head.appendChild(sc);
+            }
+
+            hangyoAppendGoogleMaps();
+        })();
+    </script>
+</head>
+<body>
+    <div id="hangyoMap"></div>
+</body>
+</html>
+</apex:page>

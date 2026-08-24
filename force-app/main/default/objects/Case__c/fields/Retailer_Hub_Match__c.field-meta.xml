@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Retailer_Hub_Match__c</fullName>
+    <description>Plain text copy of the retailer&apos;s hub, written by the Case Copy Retailer Hub Location flow. Exists solely so the Vendor lookup filter has something it can compare against: a lookup filter cannot use a picklist across objects, nor a formula field.</description>
+    <externalId>false</externalId>
+    <label>Retailer Hub Match</label>
+    <length>255</length>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Type --></label>
+    <name>Type__c</name>
+    <picklistValues>
+        <masterLabel>Bulk Upload</masterLabel>
+        <translation><!-- Bulk Upload --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Counter Order</masterLabel>
+        <translation><!-- Counter Order --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>DMS</masterLabel>
+        <translation><!-- DMS --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Field Order</masterLabel>
+        <translation><!-- Field Order --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Under Super Stockist</masterLabel>
+        <translation><!-- Under Super Stockist --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reason__c</fullName>
+    <label>Reason</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Asset Not Found at Location</fullName>
+                <default>false</default>
+                <label>Asset Not Found at Location</label>
+            </value>
+            <value>
+                <fullName>Outlet Closed During Visit</fullName>
+                <default>false</default>
+                <label>Outlet Closed During Visit</label>
+            </value>
+            <value>
+                <fullName>Time Constraint During Visit</fullName>
+                <default>false</default>
+                <label>Time Constraint During Visit</label>
+            </value>
+            <value>
+                <fullName>Misplaced / Shifted To New Location</fullName>
+                <default>false</default>
+                <label>Misplaced / Shifted To New Location</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

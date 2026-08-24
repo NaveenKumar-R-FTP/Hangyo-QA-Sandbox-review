@@ -1,0 +1,256 @@
+<template>
+<div style ="height: 100%; width: 100%; overflow: auto;">
+    
+    <lightning-card title="Edit Delivery Plan">
+        <div  style ="min-height:70vh;height:100%;" >
+        <div class="slds-p-around_medium">
+            <!-- Input Fields -->
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col">
+                    <lightning-input 
+                        type="date" 
+                        label="Date" 
+                        value={deliveryPlan.Date__c} 
+                        onchange={handleDateChange} 
+                        data-field="Date__c">
+                    </lightning-input>
+                </div>
+                <div class="slds-col">
+                    <lightning-input 
+                        type="text" 
+                        label="Driver Name" 
+                        value={deliveryPlan.Driver_Name__c} 
+                        onchange={handleDriverNameChange} 
+                        data-field="Driver_Name__c" class="driver-name-input">
+                    </lightning-input>
+                </div>
+                <div class="slds-col">
+                    <lightning-input 
+                        type="tel" 
+                        label="Driver Number" 
+                        value={deliveryPlan.Driver_Number__c} 
+                        onchange={handleDriverNumberChange} 
+                        data-field="Driver_Number__c" class="driver-number-input">
+                    </lightning-input>
+                </div>
+                <div class="slds-col">
+                    <lightning-input 
+                        type="text" 
+                        label="Vehicle Number" 
+                        value={deliveryPlan.Vehicle_Number__c} 
+                        onchange={handleVehicleNumberChange} 
+                        data-field="Vehicle_Number__c">
+                    </lightning-input>
+                </div>
+            </div>
+            
+        </div>
+
+        <!-- Modal -->
+        <template if:true={isModalOpen}>
+    <section class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container" >
+            <header class="slds-modal__header">
+                <h2 class="slds-text-heading_medium">Select Invoices</h2>
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" 
+                        title="Close" 
+                        onclick={handleCloseModal}>
+                    <lightning-icon icon-name="utility:close" alternative-text="close" variant="bare"></lightning-icon>
+                </button>
+            </header>
+            <div class="slds-modal__content slds-p-around_medium">
+                <!-- Search Input -->
+                <div class="slds-m-bottom_medium">
+                    <lightning-input 
+                        type="text" 
+                        label="Search Invoices" 
+                        placeholder="Search by Invoice Number" 
+                        value={searchTerm} 
+                        onchange={handleSearchChange}>
+                    </lightning-input>
+                </div>
+
+                <!-- Invoice Table -->
+                <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                    <thead>
+                        <tr>
+                            <th>Invoice Number</th>
+                            <th>Customer Name</th>
+                            <th>Beat</th>
+                            <th>Quantity</th>
+                            <th>Grand Total</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template for:each={filteredInvoices} for:item="invoice">
+                            <tr key={invoice.Id}>
+                                <td>{invoice.Invoice_Number__c}</td>
+                                <td>{invoice.RetailerName}</td>
+                                <td>{invoice.Beat__c}</td>
+                                <td>{invoice.Total_Quantity__c}</td>
+                                <td>{invoice.Invoice_Amount__c}</td>
+                                <td>
+                                    <button 
+                                        class="custom-button" 
+                                        data-id={invoice.Id} 
+                                        onclick={handleRowAction}>
+                                        Select
+                                    </button>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+            <footer class="slds-modal__footer">
+                <button class="custom-button" onclick={handleCloseModal}>OK</button>
+            </footer>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+        <!-- Table for Selected Invoices -->
+
+            <lightning-tabset class="custom-tabset-spacing" >
+                <!-- Tab 1: Invoice Details -->
+                <lightning-tab label="Invoices" >
+                   <!-- <div class="slds-m-top_medium slds-m-left_medium slds-grid slds-grid_align-left">
+                        <button class="custom-button slds-m-right_medium" onclick={handleOpenModal}>Add Invoices</button>
+                        <button class="custom-button" onclick={handleSave}>Save Delivery Plan</button>
+                    </div>-->
+                    
+                    <template if:true={selectedInvoicesWithDetails}>
+                        <template for:each={selectedInvoicesWithDetails} for:item="invoice" for:index="index">
+                            <div key={invoice.Id} class="invoice-container">
+                                <lightning-card >
+                                    <div class="slds-p-horizontal_medium">
+                                        <table class="slds-table custom-bordered-table">
+                                            <thead>
+                                                <tr>
+                                                    <th><strong>Invoice Number</strong></th>
+                                                    <th><strong>Customer Name</strong></th>
+                                                    <th><strong>Beat</strong></th>
+                                                    <th><strong>Quantity</strong></th>
+                                                    <th><strong>Grand Total</strong></th>
+                                                    <th><strong>Show Line Items</strong></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>{invoice.InvoiceNumber}</td>
+                                                    <td>{invoice.RetailerName}</td>
+                                                    <td>{invoice.BeatName}</td>
+                                                    <td>{invoice.Quantity}</td>
+                                                    <td>{invoice.GrandTotal}</td>
+                                                    <td>
+                                                        <lightning-button-icon
+                                                            icon-name="utility:chevrondown"
+                                                            alternative-text="Expand/Collapse"
+                                                            variant="bare"
+                                                            data-id={invoice.Id}
+                                                            onclick={toggleLineItems}>
+                                                        </lightning-button-icon>
+                                                    </td>
+                                                    <td>    
+                                                        <lightning-button-icon
+                                                            icon-name="utility:delete"
+                                                            alternative-text="Delete Invoice"
+                                                            variant="bare"
+                                                            class="slds-m-left_small"
+                                                            data-id={invoice.Id}
+                                                            onclick={handleDeleteInvoice}>
+                                                    </lightning-button-icon>
+                                                </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </lightning-card>
+                                <!-- Line Items Table (Toggled) -->
+                                <template if:true={invoice.showLineItems}>
+                                    <lightning-card>
+                                        <div class="slds-p-horizontal_small" style="max-width: 900px; margin: 0 auto;">
+                                            <table
+                                                class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_fixed-layout"
+                                                style="border: 1px solid #d8dde6;">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="border: 1px solid #d8dde6;">
+                                                            <strong>Product Name</strong>
+                                                        </th>
+                                                        <th style="border: 1px solid #d8dde6;">
+                                                            <strong>Quantity</strong>
+                                                        </th>
+                                                        <th style="border: 1px solid #d8dde6;">
+                                                            <strong>Price</strong>
+                                                        </th>
+                                                        <th style="border: 1px solid #d8dde6;">
+                                                            <strong>UOM</strong>
+                                                        </th>
+                                                        <th style="border: 1px solid #d8dde6;">
+                                                            <strong>Total Amount</strong>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <template for:each={invoice.lineItems} for:item="item">
+                                                        <tr key={item.Id}>
+                                                            <td style="border: 1px solid #d8dde6;">{item.ProductName}</td>                                                        
+                                                            <td style="border: 1px solid #d8dde6;">{item.Quantity}</td>
+                                                            <td style="border: 1px solid #d8dde6;">{item.Price}</td>
+                                                            <td style="border: 1px solid #d8dde6;">{item.Uom}</td>
+                                                            <td style="border: 1px solid #d8dde6;">{item.totalAmt}</td>
+                                                        </tr>
+                                                    </template>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </lightning-card>
+                                </template>
+                            </div>
+                        </template>
+                        
+                    </template>
+                </lightning-tab>
+
+                <!-- Tab 2: Picklist -->
+                <lightning-tab label="Picklist">
+                    <div class="slds-m-around_medium">
+                    <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                        <thead>
+                            <tr>
+                                <th style="border: 1px solid #d8dde6;">Product Name</th>
+                                <th style="border: 1px solid #d8dde6;">UOM</th>
+                                <th style="border: 1px solid #d8dde6;">Crate</th>
+                                <th style="border: 1px solid #d8dde6;">Total Quantity</th>
+                                <th style="border: 1px solid #d8dde6;">Unit Price</th>
+                                <th style="border: 1px solid #d8dde6;">Gross Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={aggregatedProducts} for:item="product">
+                                <tr key={product.productName}>
+                                    <td style="border: 1px solid #d8dde6;">{product.productName}</td>
+                                    <td style="border: 1px solid #d8dde6;">{product.uom}</td>
+                                    <td style="border: 1px solid #d8dde6;">{product.crateText}</td>
+                                    <td style="border: 1px solid #d8dde6;">{product.totalQuantity}</td>
+                                    <td style="border: 1px solid #d8dde6;">{product.unitPrice}</td>
+                                    <td style="border: 1px solid #d8dde6;">{product.totalPrice}</td>
+                                </tr>
+                            </template>
+                    </tbody>
+                    </table>
+                </div>
+                </lightning-tab>
+            </lightning-tabset>
+            <div class="slds-m-top_medium slds-grid slds-grid_align-center">
+                <button class="custom-button slds-m-right_medium" onclick={handleOpenModal}>Add Invoices</button>
+                <button class="custom-button" onclick={handleSave}>Save Delivery Plan</button>
+            </div>
+        </div>
+        </lightning-card>
+        
+</div>
+</template>

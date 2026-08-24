@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- As per approval on case to case basis by HHs and VP Sales --></help>
+    <label><!-- Product Complaint --></label>
+    <name>Product_Complaint__c</name>
+</CustomFieldTranslation>

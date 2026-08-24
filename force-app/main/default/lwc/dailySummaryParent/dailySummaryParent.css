@@ -1,0 +1,26 @@
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.actionButtons {
+    background-color: #C1206B;
+    color: white;
+    font-family: 'Amaranth', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0px 2px 5px rgba(0,0,0,0.3);
+    transition: 0.25s ease-in-out;
+    width: 100%;
+}
+
+/*.actionButtons:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 4px 8px rgba(0,0,0,0.4);
+*/

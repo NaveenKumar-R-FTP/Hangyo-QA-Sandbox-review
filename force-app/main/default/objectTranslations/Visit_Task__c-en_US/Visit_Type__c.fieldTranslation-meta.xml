@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Visit Type --></label>
+    <name>Visit_Type__c</name>
+    <picklistValues>
+        <masterLabel>Ad-Hoc</masterLabel>
+        <translation><!-- Ad-Hoc --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Planned</masterLabel>
+        <translation><!-- Planned --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

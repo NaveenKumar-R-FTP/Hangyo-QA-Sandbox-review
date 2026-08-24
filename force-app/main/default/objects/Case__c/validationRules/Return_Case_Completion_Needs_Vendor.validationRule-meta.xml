@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Return_Case_Completion_Needs_Vendor</fullName>
+    <active>true</active>
+    <description>A branding return case cannot reach Completed until Mahesh has chosen the vendor and recorded what became of the asset. Checked on the way into Completed only, so earlier stages are unaffected.</description>
+    <errorConditionFormula>AND(
+  Case_Type__r.Name = &apos;Branding &amp; Marketing Asset transfer Request&apos;,
+  ISPICKVAL(Status__c, &apos;Completed&apos;),
+  OR(
+    ISBLANK(Vendor__c),
+    ISPICKVAL(Branding_Return_Status__c, &apos;&apos;)
+  )
+)</errorConditionFormula>
+    <errorMessage>Select the Vendor and the Branding Return Status before completing this return case.</errorMessage>
+</ValidationRule>

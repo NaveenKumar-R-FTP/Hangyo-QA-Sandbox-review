@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Role xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseAccessLevel>None</caseAccessLevel>
+    <contactAccessLevel>Edit</contactAccessLevel>
+    <mayForecastManagerShare>false</mayForecastManagerShare>
+    <name>SO2-ASM(1)-ASM(2)-ZSM-VP_NAS</name>
+    <opportunityAccessLevel>Edit</opportunityAccessLevel>
+    <parentRole>ASM_1_ASM_2_ZSM_VP_NAS</parentRole>
+</Role>

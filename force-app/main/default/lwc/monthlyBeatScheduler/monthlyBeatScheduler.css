@@ -1,0 +1,203 @@
+/* ===============================
+   Theme Variables
+=============================== */
+:host {
+    --brand-color: #c2185b;      /* Magenta */
+    --light-bg: #fde7ef;         /* Light pink */
+    --cell-bg: #fff7fa;          /* Soft grid background */
+    --cell-border: #f2c6d6;      /* Grid border */
+    --border-color: #e0e0e0;
+    --text-dark: #2e2e2e;
+
+    display: block;
+    position: relative;
+}
+
+.title {
+    text-align: center;
+    background-color: #C1206B;
+    font-family: amaranth regular;
+    color: white;
+    padding: 5px 0;
+    margin-bottom: 10px;
+    border-radius: 1px;
+}
+
+/* ===============================
+   Card Header – TRUE CENTER
+=============================== */
+lightning-card::part(header) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+lightning-card::part(title) {
+    color: var(--brand-color);
+    font-weight: 700;
+    font-size: 1.25rem;
+    text-align: center;
+}
+
+
+/* Card radius */
+lightning-card {
+    --slds-c-card-radius-border: 8px;
+}
+
+/* ===============================
+   Filter Section
+=============================== */
+.slds-m-around_medium {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 1rem;
+    border: 1px solid var(--border-color);
+}
+
+/* ===============================
+   Calendar Table
+=============================== */
+.slds-table {
+    border-collapse: separate;
+    border-spacing: 10px;
+}
+
+/* Weekday header */
+.slds-table thead th {
+    background: var(--brand-color);
+    color: #ffffff;
+    text-align: center;
+    padding: 12px 6px;
+    font-weight: 600;
+    border-radius: 8px;
+    font-size: 0.85rem;
+}
+
+/* ===============================
+   Calendar Cells (Date Grid)
+=============================== */
+.calendar-cell {
+    min-height: 125px;
+    vertical-align: top;
+    background: var(--cell-bg);
+    border-radius: 10px;
+    padding: 10px;
+    border: 1px solid var(--cell-border);
+    transition: box-shadow 0.2s ease, transform 0.1s ease;
+}
+
+.calendar-cell:hover {
+    box-shadow: 0 4px 10px rgba(194, 24, 91, 0.15);
+}
+
+/* Empty cells */
+.calendar-cell:empty {
+    background: transparent;
+    border: none;
+}
+
+/* ===============================
+   Date Badge
+=============================== */
+.date-number {
+    background: var(--light-bg);
+    color: var(--brand-color);
+    font-weight: 700;
+    font-size: 0.75rem;
+    padding: 4px 9px;
+    border-radius: 50%;
+    margin-bottom: 8px;
+    display: inline-block;
+}
+
+/* Extra space so dropdown never overlaps Save button */
+.calendar-wrapper {
+    padding-bottom: 10rem;
+}
+
+/* Flip dropdown UP for last 2 calendar rows */
+.beat-calendar tbody tr:nth-last-child(-n+2)
+    lightning-combobox {
+    --slds-c-dropdown-position: top;
+}
+
+/* ===============================
+   Beat Dropdown
+=============================== */
+lightning-combobox {
+    margin-top: 6px;
+}
+
+/* ===============================
+   Sticky Save Button (Bottom)
+=============================== */
+.slds-align_absolute-center {
+    position: sticky;
+    bottom: 0;
+    background: #ffffff;
+    padding: 10px 0;
+    border-top: 1px solid var(--border-color);
+    z-index: 10;
+}
+
+.slds-align_absolute-center lightning-button {
+    --slds-c-button-brand-color-background: var(--brand-color);
+    --slds-c-button-brand-color-border: var(--brand-color);
+    --slds-c-button-brand-text-color: #ffffff;
+    --slds-c-button-radius-border: 24px;
+    min-width: 160px;
+    font-weight: 600;
+}
+
+.slds-grid.slds-wrap.slds-m-around_medium {
+    flex-wrap: nowrap;                  /* Force single line */
+    align-items: flex-end;
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 16px 20px;
+    border: 1px solid #e0e0e0;
+    gap: 20px;
+}
+
+/* User picker wider */
+.slds-grid.slds-wrap.slds-m-around_medium
+.slds-col.slds-size_1-of-3 {
+    flex: 1.8;
+}
+
+/* Month & Year compact */
+.slds-grid.slds-wrap.slds-m-around_medium
+.slds-col.slds-size_1-of-6 {
+    flex: 1;
+}
+
+/* Prevent inputs from shrinking */
+.slds-grid.slds-wrap.slds-m-around_medium lightning-record-picker,
+.slds-grid.slds-wrap.slds-m-around_medium lightning-combobox {
+    min-width: 180px;
+}
+
+/* Limit dropdown height using SLDS token */
+lightning-combobox {
+    --slds-c-dropdown-sizing-max-height: 110px; /* ~3 options */
+}
+
+/* Ensure scrolling is enabled */
+lightning-combobox::part(listbox) {
+    overflow-y: auto;
+}
+
+/* ===============================
+   Responsive Improvements
+=============================== */
+@media (max-width: 768px) {
+    .calendar-cell {
+        min-height: 100px;
+    }
+
+    .slds-table thead th {
+        font-size: 0.75rem;
+        padding: 8px 4px;
+    }
+}

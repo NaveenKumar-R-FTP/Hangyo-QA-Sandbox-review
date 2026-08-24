@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Type__c</fullName>
+    <label>Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Same Product – Free</fullName>
+                <default>false</default>
+                <label>Same Product – Free</label>
+            </value>
+            <value>
+                <fullName>Other Product – Free</fullName>
+                <default>false</default>
+                <label>Other Product – Free</label>
+            </value>
+            <value>
+                <fullName>Other Product – Discounted</fullName>
+                <default>false</default>
+                <label>Other Product – Discounted</label>
+            </value>
+            <value>
+                <fullName>Same Product – Discounted</fullName>
+                <default>false</default>
+                <label>Same Product – Discounted</label>
+            </value>
+            <value>
+                <fullName>Flat Discount</fullName>
+                <default>false</default>
+                <label>Flat Discount</label>
+            </value>
+            <value>
+                <fullName>Free Product</fullName>
+                <default>false</default>
+                <label>Free Product</label>
+            </value>
+            <value>
+                <fullName>Purchase Quantity Discount</fullName>
+                <default>false</default>
+                <label>Purchase Quantity Discount</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

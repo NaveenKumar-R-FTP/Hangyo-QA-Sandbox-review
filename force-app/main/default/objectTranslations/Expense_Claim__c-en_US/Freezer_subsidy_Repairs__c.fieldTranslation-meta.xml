@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- DF Repairs &amp;Transport) (Bills certified by the ASM to be attached --></help>
+    <label><!-- Freezer subsidy/ Repairs --></label>
+    <name>Freezer_subsidy_Repairs__c</name>
+</CustomFieldTranslation>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Primary Order Under SS --></label>
+    <name>Primary_Order_Under_SS__c</name>
+    <relationshipLabel><!-- Primary order Under SS --></relationshipLabel>
+</CustomFieldTranslation>

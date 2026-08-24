@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Status --></label>
+    <name>Status__c</name>
+    <picklistValues>
+        <masterLabel>Approved</masterLabel>
+        <translation><!-- Approved --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Closed</masterLabel>
+        <translation><!-- Closed --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Completed</masterLabel>
+        <translation><!-- Completed --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Installation Pending</masterLabel>
+        <translation><!-- Installation Pending --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Installed</masterLabel>
+        <translation><!-- Installed --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>L1 Approved</masterLabel>
+        <translation><!-- L1 Approved --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>L2 Approved</masterLabel>
+        <translation><!-- L2 Approved --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>L3 Approved</masterLabel>
+        <translation><!-- L3 Approved --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Open</masterLabel>
+        <translation><!-- Open --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Pending</masterLabel>
+        <translation><!-- Pending --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Reject</masterLabel>
+        <translation><!-- Reject --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

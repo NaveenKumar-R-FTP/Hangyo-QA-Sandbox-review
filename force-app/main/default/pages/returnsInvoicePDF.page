@@ -1,0 +1,202 @@
+<apex:page renderAs="pdf" controller="ReturnsInvoiceVFController" showHeader="false" applyBodyTag="false">
+
+    
+    <div style="font-family: Arial, sans-serif; font-size: 12px; color: #000;">
+        <center> <h2 style="color: #c2185b; font-size: 16px; margin-bottom: 10px;">Returns Tax Invoice / Credit Note</h2> </center>
+        
+        <h3 style="color: #c2185b; font-size: 14px; margin-bottom: 10px;">Invoice Details</h3>
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+            <tr>
+                <td style="border: 1px solid #f8d7da; padding: 8px; width: 200px;"><b>Return Invoice Number:</b></td>
+                <td style="border: 1px solid #f8d7da; padding: 8px;">{!returnRecord.Name}</td>
+                <td style="border: 1px solid #f8d7da; padding: 8px; width: 200px;"><b>Return Invoice Date:</b></td>
+                <td style="border: 1px solid #f8d7da; padding: 8px;">
+                    <apex:outputText value="{0,date,dd-MM-yyyy}">
+                        <apex:param value="{!returnRecord.CreatedDate}" />
+                    </apex:outputText>
+                </td>
+            </tr>
+        </table>
+        
+        <h3 style="color: #c2185b; font-size: 14px; margin-bottom: 10px;">Invoice Details</h3>
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+            <tr>
+                <td style="border: 1px solid #f8d7da; padding: 8px;"><b>Order Number:</b></td>
+                <td style="border: 1px solid #f8d7da; padding: 8px;">{!order.Name}</td>
+                <td style="border: 1px solid #f8d7da; padding: 8px;"><b>Invoice Number:</b></td>
+                <td style="border: 1px solid #f8d7da; padding: 8px;">{!invoice.Invoice_Number__c}</td>    
+            </tr>
+            <tr>
+                <td style="border: 1px solid #f8d7da; padding: 8px;"><b>Order Date:</b></td>
+                <td style="border: 1px solid #f8d7da; padding: 8px;">
+                    <apex:outputText value="{0,date,dd-MM-yyyy}">
+                        <apex:param value="{!order.EffectiveDate__c}" />
+                    </apex:outputText>
+                </td>
+                <td style="border: 1px solid #f8d7da; padding: 8px;"><b>Invoice Date:</b></td>
+                <td style="border: 1px solid #f8d7da; padding: 8px;">
+                    <apex:outputText value="{0,date,dd-MM-yyyy}">
+                        <apex:param value="{!invoice.Invoice_Date__c}" />
+                    </apex:outputText>
+                </td>
+            </tr> 
+            <td style="border: 1px solid #f8d7da; padding: 8px;"><b>Ordered By:</b></td>
+            <td style="border: 1px solid #f8d7da; padding: 8px;">{!order.Ordered_By__r.Name}</td>
+        </table>
+        
+        <h3 style="color: #c2185b; font-size: 14px; margin-bottom: 10px;">Company Details</h3>
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+            <tr>
+                <td style="border: 1px solid #f8d7da; padding: 8px;"><b>Name:</b></td>
+                <td style="border: 1px solid #f8d7da; padding: 8px;">{!invoice.Distributor_Account__r.Name}</td>
+                <td style="border: 1px solid #f8d7da; padding: 8px;"><b>GSTIN:</b></td>
+                <td style="border: 1px solid #f8d7da; padding: 8px;">{!invoice.Distributor_Account__r.GSTIN__c}</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #f8d7da; padding: 8px;"><b>Mobile Number:</b></td>
+                <td style="border: 1px solid #f8d7da; padding: 8px;">{!invoice.Distributor_Account__r.Owners_Number__c}</td>
+                <td style="border: 1px solid #f8d7da; padding: 8px;"><b>Email:</b></td>
+                <td style="border: 1px solid #f8d7da; padding: 8px;">{!invoice.Distributor_Account__r.Email__c}</td>
+            </tr>
+        </table>
+        
+        <h3 style="color: #c2185b; font-size: 14px; margin-bottom: 10px;">Customer Details</h3>
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+            <tr>
+                <td style="border: 1px solid #f8d7da; padding: 8px;"><b>Name:</b></td>
+                <td style="border: 1px solid #f8d7da; padding: 8px;">    
+                    <apex:outputText value="{!IF(NOT(ISBLANK(invoice.Retailer_Account__r.Name)), invoice.Retailer_Account__r.Name, invoice.Under_SS__r.Name)}" />
+                </td>
+                <td style="border: 1px solid #f8d7da; padding: 8px;"><b>GSTIN:</b></td>
+                <td style="border: 1px solid #f8d7da; padding: 8px;">    
+                    <apex:outputText value="{!IF(NOT(ISBLANK(invoice.Retailer_Account__r.Name)), invoice.Retailer_Account__r.GSTIN__c, invoice.Under_SS__r.GSTIN__c)}" />
+                </td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #f8d7da; padding: 8px;"><b>Mobile Number:</b></td>
+                <td style="border: 1px solid #f8d7da; padding: 8px;">  
+                    <apex:outputText value="{!IF(NOT(ISBLANK(invoice.Retailer_Account__r.Name)), invoice.Retailer_Account__r.Owners_Number__c, invoice.Under_SS__r.Owners_Number__c)}" />
+                </td>
+                <td style="border: 1px solid #f8d7da; padding: 8px;"><b>Email:</b></td>
+                <td style="border: 1px solid #f8d7da; padding: 8px;">  
+                    <apex:outputText value="{!IF(NOT(ISBLANK(invoice.Retailer_Account__c)), invoice.Retailer_Account__r.Email__c, invoice.Under_SS__r.Email__c)}" />
+                </td>
+            </tr>
+        </table>
+
+        <h3 style="color: #c2185b; font-size: 14px; margin-bottom: 10px;">Products</h3>
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+            <tr>
+                <th style="border: 1px solid #f8d7da; padding: 9px; background-color: #E5E4E2; text-align: left;">Product</th>
+                <th style="border: 1px solid #f8d7da; padding: 9px; background-color: #E5E4E2; text-align: left;">Quantity</th>
+                <th style="border: 1px solid #f8d7da; padding: 9px; background-color: #E5E4E2; text-align: left;">UOM</th>
+                <th style="border: 1px solid #f8d7da; padding: 9px; background-color: #E5E4E2; text-align: left;">Unit Price</th>
+                <th style="border: 1px solid #f8d7da; padding: 9px; background-color: #E5E4E2; text-align: left;">Amount</th>
+            </tr>
+            <apex:repeat value="{!orderItems}" var="item">
+                <tr>
+                    <td style="border: 1px solid #f8d7da; padding: 8px;">{!item.Product__r.Name}</td>
+                    <td style="border: 1px solid #f8d7da; padding: 8px;">{!item.Total_returns__c}</td>
+                    <td style="border: 1px solid #f8d7da; padding: 8px;">{!item.Product__r.Unit_of_Measure__c}</td>
+                    <td style="border: 1px solid #f8d7da; padding: 8px; text-align: right;">{!item.Unit_Price__c}</td>
+                    <td style="border: 1px solid #f8d7da; padding: 8px; text-align: right;">
+                        <apex:outputText value="{0,number,##,##0.00}">
+                            <apex:param value="{!item.Return_Amount__c}" />
+                        </apex:outputText>
+                    </td>
+                </tr>
+            </apex:repeat>
+        </table>
+
+        <h3 style="color: #c2185b; font-size: 14px; margin-bottom: 10px;">Summary</h3>
+<table style="width: 100%; border-collapse: collapse; border: 1px solid #f8d7da; font-family: Arial, sans-serif; margin-top: 20px;">
+  <tr>
+        <td style="border: 1px solid #f8d7da; padding: 8px;"><strong>Total Quantity:</strong></td>
+        <td style="border: 1px solid #f8d7da; padding: 8px;">{!totalQuantity}</td>
+        <td style="border: 1px solid #f8d7da; padding: 8px;"><strong>Subtotal:</strong></td>
+        <td style="border: 1px solid #f8d7da; padding: 8px; text-align: right;">
+            <apex:outputText value="{0,number,##,##0.00}">
+                <apex:param value="{!subtotal}" />
+            </apex:outputText>   
+        </td>
+    </tr>
+
+   <!-- CGST -->
+<tr>
+    <td style="border-left: 1px solid #f8d7da;"></td>
+    <td></td>
+    <td style="border: 1px solid #f8d7da; padding: 8px;">
+        <b>CGST ({!IF(OR(ISNULL(cgst), cgst == 0), 'N/A', TEXT(cgstPercent) & '%')}):</b>
+    </td>
+    <td style="border: 1px solid #f8d7da; padding: 8px; text-align: right;">
+        <apex:outputText rendered="{!NOT(ISNULL(cgst))}" value="{0,number,#,##0.00}">
+            <apex:param value="{!cgst}" />
+        </apex:outputText>
+        <apex:outputText rendered="{!ISNULL(cgst)}" value="N/A" />
+    </td>
+
+</tr>
+
+<!-- SGST -->
+<tr>
+    <td style="border-left: 1px solid #f8d7da;"></td>
+    <td></td>
+    <td style="border: 1px solid #f8d7da; padding: 8px;">
+        <b>SGST ({!IF(OR(ISNULL(sgst), sgst == 0), 'N/A', TEXT(sgstPercent) & '%')}):</b>
+    </td>
+    <td style="border: 1px solid #f8d7da; padding: 8px; text-align: right;">
+        <apex:outputText rendered="{!NOT(ISNULL(sgst))}" value="{0,number,#,##0.00}">
+            <apex:param value="{!sgst}" />
+        </apex:outputText>
+        <apex:outputText rendered="{!ISNULL(sgst)}" value="N/A" />
+    </td>
+
+</tr>
+
+<!-- IGST -->
+<tr>
+    <td style="border-left: 1px solid #f8d7da;"></td>
+    <td></td>
+    <td style="border: 1px solid #f8d7da; padding: 8px;">
+        <b>IGST ({!IF(OR(ISNULL(igst), igst == 0), 'N/A', TEXT(igstPercent) & '%')}):</b>
+    </td>
+    <td style="border: 1px solid #f8d7da; padding: 8px; text-align: right;">
+        <apex:outputText rendered="{!NOT(ISNULL(igst))}" value="{0,number,#,##0.00}">
+            <apex:param value="{!igst}" />
+        </apex:outputText>
+        <apex:outputText rendered="{!ISNULL(igst)}" value="N/A" />
+    </td>
+
+</tr>
+
+
+    <!-- Grand Total -->
+    <tr>
+        <td colspan="3" style="border: 1px solid #f8d7da; padding: 8px; text-align: right;"><strong>Total:</strong></td>
+        <td style="border: 1px solid #f8d7da; padding: 8px; text-align: right;">
+            <strong>
+                <apex:outputText value="{0,number,#,##0.00}">
+                    <apex:param value="{!total}" />
+                </apex:outputText>
+            </strong>
+        </td>
+    </tr>
+
+    <!-- Amount in Words -->
+    <tr>
+        <td colspan="4" style="border: 1px solid #f8d7da; padding: 8px;">
+            <strong>Amount in Words:</strong> {!amountInWords}
+        </td>
+    </tr>
+</table>
+
+<!-- System Note -->
+<p style="margin-top: 10px; font-size: 12px; font-family: Arial, sans-serif;">
+    This document is system generated and does not require a signature.
+</p>
+
+
+
+
+    </div>
+</apex:page>

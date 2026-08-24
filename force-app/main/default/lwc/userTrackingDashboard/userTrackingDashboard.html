@@ -1,0 +1,247 @@
+<template>
+    <template if:true={showAccessCheckSpinner}>
+        <lightning-card>
+            <div class="slds-p-around_large slds-align_absolute-center">
+                <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+            </div>
+        </lightning-card>
+    </template>
+    <template if:true={showDashboard}>
+    <lightning-card>
+        <div data-id="dashboardRoot" class="dashboardRootShell">
+            <!-- Hangyo styled header (full-width bar) -->
+            <div class="dashHeader">
+                <div class="dashTitle">User Tracking Dashboard</div>
+            </div>
+
+            <div class="dashBody slds-p-around_medium">
+
+            <!-- Filters: user+date | View Map and Load Data -->
+            <div class="filterPanel slds-m-top_medium">
+                <div class="filterRowRatio">
+                        <div class="filterCellUser lookupCol">
+                            <div class="lookup">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="userSearchInput">User</label>
+                                    <div class="lookupControlWrap">
+                                        <div class={userSearchControlClass}>
+                                            <lightning-icon
+                                                icon-name="utility:search"
+                                                alternative-text="Search"
+                                                size="x-small"
+                                                class="slds-input__icon slds-input__icon_left slds-icon-text-default"
+                                            ></lightning-icon>
+                                            <input
+                                                id="userSearchInput"
+                                                type="text"
+                                                inputmode="search"
+                                                class="slds-input filterNativeControl filterUserSearchInput"
+                                                value={userSearchText}
+                                                oninput={handleUserSearchInput}
+                                                onfocus={handleUserSearchFocus}
+                                                placeholder="Search user"
+                                                autocomplete="off"
+                                            />
+                                            <template if:true={showUserClearButton}>
+                                                <button
+                                                    type="button"
+                                                    class="slds-button slds-button_icon slds-input__icon slds-input__icon_right userSearchClearBtn"
+                                                    title="Clear"
+                                                    onclick={handleClearUserSearch}
+                                                >
+                                                    <lightning-icon
+                                                        icon-name="utility:close"
+                                                        alternative-text="Clear"
+                                                        size="x-small"
+                                                        class="slds-button__icon"
+                                                    ></lightning-icon>
+                                                </button>
+                                            </template>
+                                        </div>
+
+                                        <template if:true={isUserDropdownOpen}>
+                                            <div class="lookupDropdown slds-box slds-theme_default" role="listbox">
+                                                <template if:true={hasUserMatches}>
+                                                    <ul class="lookupList" role="presentation">
+                                                        <template for:each={userMatches} for:item="u">
+                                                            <li key={u.userId} class="lookupItem" role="presentation">
+                                                                <button
+                                                                    class="slds-button slds-button_reset lookupOption"
+                                                                    type="button"
+                                                                    data-userid={u.userId}
+                                                                    onmousedown={handleUserPick}
+                                                                >
+                                                                    <span class="slds-truncate" title={u.userName}>{u.userName}</span>
+                                                                </button>
+                                                            </li>
+                                                        </template>
+                                                    </ul>
+                                                </template>
+                                                <template if:false={hasUserMatches}>
+                                                    <div class="lookupEmpty">No users found</div>
+                                                </template>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="filterCellDate dateCol">
+                            <!-- Native date input avoids lightning-input's permanent "Format: …" helper under the field -->
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="trackingDateInput">Date</label>
+                                <div class="slds-form-element__control">
+                                    <input
+                                        id="trackingDateInput"
+                                        type="date"
+                                        class="slds-input filterNativeControl"
+                                        value={selectedDate}
+                                        onchange={handleDateChange}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                    <div class="filterCellBtn">
+                        <label class="slds-form-element__label filterBtnLabelSpacer" aria-hidden="true">&#8203;</label>
+                        <button
+                            class="slds-button hangyoButton hangyoButtonFilterPair"
+                            type="button"
+                            title="Load summary tiles and plot the route on the map for the selected user and date"
+                            onclick={handleViewMapForSelected}
+                            disabled={isViewMapDisabled}
+                        >
+                            View Map
+                        </button>
+                    </div>
+                    <div class="filterCellBtn">
+                        <label class="slds-form-element__label filterBtnLabelSpacer" aria-hidden="true">&#8203;</label>
+                        <button
+                            class="slds-button hangyoButton hangyoButtonFilterPair"
+                            type="button"
+                            title="Load summary tiles only for the selected user and date (does not plot the route on the map)"
+                            onclick={handleLoad}
+                            disabled={isLoadDisabled}
+                        >
+                            Load Data
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading -->
+            <template if:true={isLoading}>
+                <div class="slds-m-top_medium slds-is-relative">
+                    <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                </div>
+            </template>
+
+            <!-- Summary: 4 metrics per row (8 total) -->
+            <div class="slds-m-top_medium summaryGrid">
+                <div class="slds-grid slds-wrap slds-gutters">
+                    <div class="slds-col slds-size_1-of-2 slds-large-size_1-of-4">
+                        <div class="statTile">
+                            <div class="statLabel">User Name</div>
+                            <div class="statValue">{summaryUserName}</div>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-large-size_1-of-4">
+                        <div class="statTile" title={totalDistanceTileTitle}>
+                            <div class="statLabel">Total Distance (Km)</div>
+                            <div class="statValue">{totalDistanceDisplay}</div>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-large-size_1-of-4">
+                        <div class="statTile">
+                            <div class="statLabel">Total Order Value (in ₹)</div>
+                            <div class="statValue">{totalOrderValueDisplay}</div>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-large-size_1-of-4">
+                        <div class="statTile">
+                            <div class="statLabel">Visited Outlets</div>
+                            <div class="statValue">{summary.totalVisitedOutlets}</div>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-large-size_1-of-4">
+                        <div class="statTile">
+                            <div class="statLabel">Productive Outlets</div>
+                            <div class="statValue">{summary.totalProductiveOutlets}</div>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-large-size_1-of-4">
+                        <div class="statTile">
+                            <div class="statLabel">Non-Productive Outlets</div>
+                            <div class="statValue">{summary.totalNonProductiveOutlets}</div>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-large-size_1-of-4">
+                        <div class="statTile">
+                            <div class="statLabel">New Outlet Added</div>
+                            <div class="statValue">{summary.newOutletAdded}</div>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-large-size_1-of-4">
+                        <div class="statTile">
+                            <div class="statLabel">Attendance</div>
+                            <div class="statValue">{summary.attendanceCount}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Map: VF iframe — avoid nesting lightning-card (inner body often collapses to 0 height in LEX). -->
+            <div class="slds-m-top_medium hangyoMapCard">
+                <div class={hangyoMapOuterClass}>
+                    <div class="hangyoMapHeader hangyoMapHeaderRow">
+                        <span class="hangyoMapTitle">Map</span>
+                        <lightning-button-icon
+                            icon-name={mapExpandToggleIcon}
+                            variant="border-filled"
+                            alternative-text={mapExpandToggleLabel}
+                            title={mapExpandToggleLabel}
+                            onclick={toggleMapExpanded}
+                            disabled={mapExpandToggleDisabled}
+                            class="hangyoMapExpandBtn"
+                        ></lightning-button-icon>
+                    </div>
+                    <template if:true={mapHintText}>
+                        <div class="mapHint hangyoMapHintPad">
+                            {mapHintText}
+                        </div>
+                    </template>
+                    <div class={mapContainerClass} data-id="map">
+                        <template if:true={mapEmbedUrl}>
+                            <iframe
+                                src={mapIframeSrc}
+                                class="mapIframe"
+                                title="Tracking route map"
+                                data-id="mapIframe"
+                                onload={handleMapIframeLoad}
+                            ></iframe>
+                        </template>
+                        <template if:false={mapEmbedUrl}>
+                            <div class="mapEmbedFallback mapPlaceholder">
+                                <template if:true={mapEmbedWireError}>
+                                    <div>
+                                        <p class="mapFallbackTitle">Map frame could not be loaded.</p>
+                                        <p class="mapFallbackDetail">{mapEmbedWireError}</p>
+                                    </div>
+                                </template>
+                                <template if:false={mapEmbedWireError}>
+                                    Loading map frame…
+                                </template>
+                            </div>
+                        </template>
+                        <template if:true={showMapOverlay}>
+                            <div class="mapOverlay mapPlaceholder">{mapOverlayMessage}</div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </lightning-card>
+    </template>
+</template>

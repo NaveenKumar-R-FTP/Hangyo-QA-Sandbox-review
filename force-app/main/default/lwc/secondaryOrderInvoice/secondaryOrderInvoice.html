@@ -1,0 +1,20 @@
+<template>
+    <div lwc:if={searchOrder}>
+		<lightning-layout multiple-rows> 
+			<lightning-layout-item padding="around-small" >
+				<lightning-input type="text" name="orderRecType" label="Order Type" value="Secondary Order" read-only="true"></lightning-input>
+			</lightning-layout-item>
+			<lightning-layout-item padding="around-small">
+				<lightning-input type="text" name="orderNumber" label="Order Number" onchange={handleSearchKeyword}></lightning-input>
+			</lightning-layout-item>
+			<lightning-layout-item padding="around-small">
+				<div class="slds-p-top_large">
+					<lightning-button variant="brand" label="Search" onclick={handleSearch}></lightning-button>	
+				</div>
+			</lightning-layout-item> 
+		</lightning-layout>
+	</div>
+	<div lwc:else>
+		<c-secondary-invoice order={order} order-line-items={orderLineItems} order-found price-type={order.Price_Type__c} oncancelled={handleCancelEvent} onsave={handleSaveEvent}></c-secondary-invoice>
+	</div>
+</template>

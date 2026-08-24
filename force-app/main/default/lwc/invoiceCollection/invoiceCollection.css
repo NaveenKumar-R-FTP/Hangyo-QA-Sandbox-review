@@ -1,0 +1,77 @@
+/* Add this to the component's CSS file */
+.slds-modal__container {
+    max-width: 50rem;
+    width: auto;
+}
+
+.slds-modal__header {
+    background-color: #f4f6f9;
+}
+
+.slds-modal__footer {
+    text-align: right;
+}
+
+.slds-backdrop_open {
+    display: block;
+    background-color: rgba(0, 0, 0, 0.5); /* Dark grey background */
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out; /* Fade-in effect */
+}
+
+.slds-backdrop {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out; /* Make sure the backdrop fades in */
+}
+
+/* When modal is open, backdrop is visible with full opacity */
+.slds-modal.slds-fade-in-open + .slds-backdrop {
+    opacity: 1;
+}
+
+/* Additional styling for the modal close button */
+.slds-modal__close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+}
+.slds-listbox {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #d8dde6;
+    border-radius: 0.25rem;
+    padding: 0.5rem 0;
+    background-color: #fff;
+    z-index: 1;
+    position: absolute;
+    width: 100%;
+}
+.slds-listbox__item {
+    cursor: pointer;
+    border: 1px solid #d8dde6;
+    background-color: #ffffff;
+    border-radius: 0.25rem;
+}
+
+.slds-listbox__item:hover {
+    background-color: #f4f6f9;
+}
+
+.card-with-border {
+    border: 2px solid #C1206B; /* Solid black border */
+    border-radius: 8px;        /* Rounded corners */
+    padding: 16px;            /* Inner padding for content */
+    margin: 12px;             /* Space between cards */
+    box-shadow: 2px 2px 8px #C1206B(0, 0, 0, 0.1); /* Optional: subtle shadow */
+    display: flex;            /* Flexbox for centering */
+    justify-content: center;  /* Center horizontally */
+    align-items: center;      /* Center vertically */
+    min-height: 150px;        /* Minimum height for uniform appearance */
+    max-width: 300px;         /* Restrict card width */
+    margin-left: auto;        /* Center cards horizontally */
+    margin-right: auto;
+}
+
+.card-content {
+    text-align: left; /* Center-align text inside the card */
+}

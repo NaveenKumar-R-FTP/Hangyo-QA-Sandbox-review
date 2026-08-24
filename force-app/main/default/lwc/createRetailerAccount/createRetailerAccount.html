@@ -1,0 +1,182 @@
+<!-- createRetailerAccount.html -->
+<template>
+    
+    <lightning-card>
+        <div class="slds-p-around_medium">
+            <h1 class="heading">Create Retailer Account</h1>
+            
+            <lightning-record-edit-form object-api-name="Account" >
+                <div class="slds-grid slds-wrap slds-gutters">
+                    <div class="slds-col slds-size_1-of-1">
+                        <lightning-combobox label="Beat Name" required
+    options={beatOptions}
+    value={beatName}
+    onchange={handleBeatChange}>
+</lightning-combobox>
+
+                    </div>
+                    <!-- Retailer Information Section -->
+                    <div class="slds-col slds-size_1-of-1">
+                        <lightning-input label="Retailer Name" required 
+                                      value={retailerName} onchange={handleNameChange}>
+                        </lightning-input>
+                    </div>
+
+                    <!-- Owner Information -->
+                    <div class="slds-col slds-size_1-of-1">
+                        <lightning-input label="Owner Name" value={ownerName} 
+                                       onchange={handleOwnerNameChange}>
+                        </lightning-input>
+                    </div>
+
+                    <div class="slds-col slds-size_1-of-1">
+                        <lightning-input type="tel" label="Owner Number" required
+                                      pattern="^[0-9]{10}$" maxlength="10"
+                                      message-when-pattern-mismatch="Please enter exactly 10 digits"
+                                      value={ownerNumber} onchange={handleOwnerNumberChange}>
+                        </lightning-input>
+                        <template if:true={duplicateError}>
+                            <div class="error-message">Owner Number already exists!</div>
+                        </template>
+                    </div>
+
+                    <!-- Business Details -->
+                    <div class="slds-col slds-size_1-of-1">
+                        <lightning-combobox label="Retailer Type" required 
+                                          options={retailerTypeOptions}
+                                          value={retailerType} onchange={handleRetailerTypeChange}>
+                        </lightning-combobox>
+                    </div>
+
+                    <div class="slds-col slds-size_1-of-1">
+                        <lightning-combobox label="Outlets Channel" required 
+                                          options={outletChannelOptions}
+                                          value={outletChannel} onchange={handleOutletChannelChange}>
+                        </lightning-combobox>
+                    </div>
+
+                    <div class="slds-col slds-size_1-of-1">
+                        <lightning-input label="PAN" value={pan} onchange={handlePANChange}></lightning-input>
+                    </div>
+
+                    <div class="slds-col slds-size_1-of-1">
+                        <lightning-input label="GSTIN" value={gstin} onchange={handleGstinChange}></lightning-input>
+                    </div>
+
+                    <div class="slds-col slds-size_1-of-1">
+                        <lightning-input label="FSSAI" value={fssai} onchange={handleFSSAIChange}></lightning-input>
+                    </div>
+
+                    <template if:true={results}>
+                        <ul class="autocomplete-list">
+                            <template for:each={results} for:item="place">
+                                <li key={place.place_id} class="slds-p-around_xx-small suggestion" 
+                                  onclick={handleSelect}>
+                                    {place.display_name}
+                                </li>
+                            </template>
+                        </ul>
+                    </template>
+
+                    <!-- Integrated Address Component -->
+                    <div class="slds-col slds-size_1-of-1">
+                        <lightning-input-address
+                            address-label="Billing Address"
+                            street-label="Street"
+                            city-label="City"
+                            country-label="Country"
+                            province-label="State"
+                            postal-code-label="Postal Code"
+                            street={address.street}
+                            city={address.city}
+                            country={address.country}
+                            province={address.province}
+                            postal-code={address.postalCode}
+                            province-options={retailerStateOptions}
+                            onchange={handleAddressChange}>
+                        </lightning-input-address>
+                    </div>
+
+                    <!-- Preferred Shipping Address Checkbox -->
+                    <div class="slds-col slds-size_1-of-1">
+                        <div class="slds-form-element">
+                            <div class="slds-form-element__control">
+                                <span class="slds-checkbox">
+                                    <input
+                                    type="checkbox"
+                                    id="shippingPref"
+                                    name="shippingPref"
+                                    onchange={handleShippingCheckbox}
+                                    checked={hasShippingAddress}
+                                    />
+                                    <label class="slds-checkbox__label" for="shippingPref">
+                                    <span class="slds-checkbox_faux"></span>
+                                    <!-- bold-label class applied to the displayed text -->
+                                    <span class="bold-label slds-m-left_x-small">You have a preferred shipping address</span>
+                                    </label>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Shipping Address (conditionally rendered) -->
+                    <template if:true={hasShippingAddress}>
+                        <div class="slds-col slds-size_1-of-1">
+                            <lightning-input-address
+                                address-label="Shipping Address"
+                                street-label="Street"
+                                city-label="City"
+                                country-label="Country"
+                                province-label="State"
+                                postal-code-label="Postal Code"
+                                street={shippingAddress.street}
+                                city={shippingAddress.city}
+                                country={shippingAddress.country}
+                                province={shippingAddress.province}
+                                postal-code={shippingAddress.postalCode}
+                                province-options={retailerStateOptions}
+                                onchange={handleShippingAddressChange}>
+                            </lightning-input-address>
+                        </div>
+                    </template>
+
+                    <!-- Image Capture Section -->
+                    <div class="slds-col slds-size_1-of-1">
+                        <div class="slds-p-around_medium">
+                            <button class="custom-button" onclick={startCamera}>Upload Retailer Image</button>
+                        </div>
+                        <div class="camera-container">
+                            <div if:true={isCameraOn} class="camera-wrapper">
+                                <video autoplay class="video-feed"></video>
+                                <div class="slds-p-around_medium slds-grid slds-grid_align-center">
+                                    <button class="custom-button slds-m-right_small" 
+                                      onclick={capturePhoto}>Capture Image</button>
+                                    <button class="custom-button" onclick={stopCamera}>Cancel</button>
+                                </div>
+                            </div>
+                            <canvas class="hidden-canvas"></canvas>
+                            <img src={photoURL} if:true={photoURL} alt="Captured Retailer Image"/>
+                        </div>
+                    </div>
+
+                   
+                </div>
+                 <!-- Form Actions -->
+                    <div class="slds-p-around_medium slds-grid slds-grid_align-spread">
+                        <button class="custom-button" onclick={handleBack}>Back</button>
+                        <button class="custom-button-submit" onclick={executeChecks} 
+                              disabled={isLoading}>
+                            Submit
+                        </button>
+                          <template if:true={isLoading}>
+            <lightning-spinner 
+                variant="brand" 
+                size="small"
+                class="slds-m-left_x-small"
+            ></lightning-spinner>
+        </template>
+                    </div>
+            </lightning-record-edit-form>
+        </div>
+    </lightning-card>
+</template>

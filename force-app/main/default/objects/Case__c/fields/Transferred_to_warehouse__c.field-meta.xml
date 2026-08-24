@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Transferred_to_warehouse__c</fullName>
+    <label>Transferred to warehouse</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Kirwatti Warehouse</fullName>
+                <default>false</default>
+                <label>Kirwatti Warehouse</label>
+            </value>
+            <value>
+                <fullName>Bangalore Warehouse</fullName>
+                <default>false</default>
+                <label>Bangalore Warehouse</label>
+            </value>
+            <value>
+                <fullName>Herur Warehouse</fullName>
+                <default>false</default>
+                <label>Herur Warehouse</label>
+            </value>
+            <value>
+                <fullName>Tirupati Warehouse</fullName>
+                <default>false</default>
+                <label>Tirupati Warehouse</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

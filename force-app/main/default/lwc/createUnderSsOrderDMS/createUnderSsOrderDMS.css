@@ -1,0 +1,690 @@
+.fixedCard{
+    
+    z-index: 101;
+    position: sticky;
+}
+
+@media screen and (min-width: 1024px){
+    .fixedCard{
+    
+      z-index: 110;
+      position: sticky;
+  }
+}
+/* added by Fuzail */
+.brand-dropdown-item:hover {
+    background-color: #f3f3f3;
+}
+
+/* Custom tab styling - All and Available Stock tabs */
+.custom-tab-container {
+    display: inline-flex;
+    position: relative;
+    align-items: flex-end;
+    vertical-align: bottom;
+}
+
+.custom-tab-button {
+    border-radius: 4px 0 0 0;
+    border: none;
+    border-bottom: 2px solid #C1206B;
+    padding: 0.5rem 0.75rem;
+    font-family: Arial;
+    background: transparent !important;
+    color: #C1206B;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin: 0;
+    vertical-align: bottom;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    box-sizing: border-box;
+    line-height: 1;
+    font-size: 0.875rem;
+}
+
+.custom-tab-button:hover {
+    background: transparent !important;
+}
+
+.custom-tab-arrow {
+    border-radius: 0 4px 0 0;
+    border: none;
+    border-bottom: 2px solid #C1206B;
+    border-left: 1px solid #e0e0e0;
+    padding: 0.5rem 0.4rem;
+    font-family: Arial;
+    background: transparent !important;
+    color: #C1206B;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin: 0;
+    min-width: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: bottom;
+    height: 36px;
+    box-sizing: border-box;
+}
+
+.custom-tab-arrow:hover {
+    background: transparent !important;
+}
+
+/* Ensure all tabs have the same yellow background */
+lightning-tabset {
+    --slds-c-tabs-item-color-background: #fffbf0;
+    --slds-c-tabs-item-color-background-hover: #fff8e0;
+    --slds-c-tabs-item-color-background-active: #fffbf0;
+    --slds-c-tabs-item-color-border-active: #C1206B;
+}
+
+/* Target all tab elements to ensure yellow background */
+lightning-tab {
+    background-color: #fffbf0 !important;
+}
+
+lightning-tab::part(content) {
+    background-color: #fffbf0 !important;
+}
+
+lightning-tab button,
+lightning-tab .slds-tabs_default__item,
+lightning-tab .slds-tabs_default__link {
+    background-color: #fffbf0 !important;
+    background: #fffbf0 !important;
+}
+
+/* Non-selected tabs - yellow by default */
+lightning-tab:not([aria-selected="true"]) {
+    background-color: #fffbf0 !important;
+}
+
+lightning-tab:not([aria-selected="true"]) button,
+lightning-tab:not([aria-selected="true"]) .slds-tabs_default__item,
+lightning-tab:not([aria-selected="true"]) .slds-tabs_default__link {
+    background-color: #fffbf0 !important;
+    background: #fffbf0 !important;
+}
+
+lightning-tab:not([aria-selected="true"])::part(content) {
+    background-color: #fffbf0 !important;
+}
+
+/* Selected tabs - also yellow */
+lightning-tab[aria-selected="true"] {
+    background-color: #fffbf0 !important;
+}
+
+lightning-tab[aria-selected="true"] button,
+lightning-tab[aria-selected="true"] .slds-tabs_default__item,
+lightning-tab[aria-selected="true"] .slds-tabs_default__link {
+    background-color: #fffbf0 !important;
+    background: #fffbf0 !important;
+}
+
+lightning-tab[aria-selected="true"]::part(content) {
+    background-color: #fffbf0 !important;
+}
+
+/* Hover state */
+lightning-tab:hover {
+    background-color: #fff8e0 !important;
+}
+
+lightning-tab:hover button,
+lightning-tab:hover .slds-tabs_default__item,
+lightning-tab:hover .slds-tabs_default__link {
+    background-color: #fff8e0 !important;
+    background: #fff8e0 !important;
+}
+
+lightning-tab:hover::part(content) {
+    background-color: #fff8e0 !important;
+}
+
+/* Remove spacing from tabset to reduce gap with search bar */
+.tabset-container lightning-tabset {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+.tabset-container lightning-tabset::part(content) {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+/* Remove gap between buttons */
+.custom-tab-button + .custom-tab-arrow {
+    margin-left: 0;
+}
+
+/* OLD - Search By row (commented by Fuzail for alignment fix)
+.search-by-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    justify-content: flex-start;
+}
+.search-by-dropdown-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+*/
+
+/* added by Fuzail - Search By row aligned with search bar */
+.search-by-row {
+    display: flex;
+    align-items: flex-end; /* changed by Fuzail - align to bottom for better vertical alignment */
+    gap: 0.5rem;
+    margin-top: -20px;
+    margin-bottom: 4px;
+    justify-content: center;
+}
+.search-by-dropdown-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    flex-shrink: 0;
+    margin-bottom: 2px; /* added by Fuzail - fine-tune vertical alignment with search bar */
+}
+/* added by Fuzail - label aligned with search bar */
+.search-by-label {
+    font-family: Arial;
+    font-size: 0.875rem;
+    color: #C1206B;
+    font-weight: 500;
+}
+/* OLD - search-by-trigger (commented by Fuzail for alignment fix)
+.search-by-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.35rem 0.5rem;
+    font-family: Arial;
+    font-size: 0.8125rem;
+    color: #C1206B;
+    background: white;
+    border: 1px solid #d8dde6;
+    border-radius: 4px;
+    cursor: pointer;
+    min-width: 70px;
+}
+*/
+
+/* added by Fuzail - search-by-trigger aligned with search bar height */
+.search-by-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.5rem 0.5rem;
+    font-family: Arial;
+    font-size: 0.8125rem;
+    color: #C1206B;
+    background: white;
+    border: 1px solid #d8dde6;
+    border-radius: 4px;
+    cursor: pointer;
+    min-width: 70px;
+    height: 32px; /* added by Fuzail - match search bar height */
+    box-sizing: border-box; /* added by Fuzail - include padding in height */
+}
+.search-by-trigger:hover {
+    background: #f3f3f3;
+}
+.search-by-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 2px;
+    background: white;
+    border: 1px solid #d8dde6;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    z-index: 1000;
+    min-width: 100px;
+}
+.search-by-item {
+    padding: 0.5rem 0.75rem;
+    font-family: Arial;
+    font-size: 0.8125rem;
+    cursor: pointer;
+    border-bottom: 1px solid #f3f3f3;
+}
+.search-by-item:last-child {
+    border-bottom: none;
+}
+.search-by-item:hover {
+    background: #f3f3f3;
+}
+/* OLD - search input (commented by Fuzail for alignment fix)
+.search-input-inline {
+    flex: 1;
+    max-width: 70%;
+    font-family: Arial;
+}
+*/
+
+/* added by Fuzail - search input aligned with Search By dropdown */
+.search-input-inline {
+    flex: 1;
+    max-width: 70%;
+    font-family: Arial;
+    align-self: flex-end; /* changed by Fuzail - align to bottom to match Search By */
+    margin-bottom: 0; /* added by Fuzail - ensure no extra margin at bottom */
+}
+
+/* .fixed{
+    margin: 0;
+        padding: 0;
+        width: 100%;
+        top: 0;
+        z-index: 101;
+        position: -webkit-sticky;
+        position: sticky;
+    
+    } */
+
+
+    .fixed{
+        margin: 0;
+            padding: 0;
+            width: 100%;
+            top: 0;
+            z-index: 110;
+            position: -webkit-sticky;
+            position: sticky;
+            background:linear-gradient(to right, rgba(255, 242, 177, 0.719),rgb(253, 238, 163));
+           /*  background:repeating-linear-gradient(45deg, rgb(90 110 145), rgb(84,105,141) 20px, rgba(84,105,141,.97) 20px, rgba(84,105,141,.97) 40px);*/
+        }
+
+    .filter-icon .slds-icon {
+        fill: white;
+       
+    }
+
+    .dollars:before { content:'Rs.'; }
+
+    .quantity-scheme-button {
+        background-color: #C1206B;
+        color: White;
+        font-family: arial;
+       
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        padding-left: 10px;
+        padding-right: 10px;
+            font-size: 13px;    /* Adjust font size */
+    margin-left: 0px;
+    }
+    .value-scheme-button {
+        background-color: #C1206B;
+        color: White;
+        font-family: arial;
+       
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        padding: 5px 15px;
+            font-size: 13px;    /* Adjust font size */
+    margin-left: 0px;
+    }
+
+    .quantity {
+        display: inline-block; 
+      }
+      
+
+      .quantity .input-text.qty {
+        width: 45px;
+        height: 24px;
+        padding: 0 5px;
+        text-align: center;
+        background-color: white;
+        border: 1px solid #efefef;
+       }
+       
+       .quantity.buttons_added {
+        text-align: center;
+        position: relative;
+        white-space: nowrap;
+        vertical-align: 0px; }
+       
+       .quantity.buttons_added input {
+        display: inline-block;
+        margin: 0;
+        vertical-align: top;
+        box-shadow: none;
+       }
+       
+       .quantity.buttons_added .minus,
+       .quantity.buttons_added .plus {
+        padding: 0px 10px 8px;
+        font-size: 18px;
+        color: rgb(0, 0, 0);
+        /*width:20px;*/
+        height: 24px;
+        background-color: #ffffff;
+        border: 1px solid #efefef;
+        cursor:pointer;}
+       
+       .quantity.buttons_added .minus {
+        border-right: 0; }
+       
+       .quantity.buttons_added .plus {
+        border-left: 0; }
+       
+       .quantity.buttons_added .minus:hover,
+       .quantity.buttons_added .plus:hover {
+        background: #eeeeee; }
+       
+       .quantity input::-webkit-outer-spin-button,
+       .quantity input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        margin: 0; }
+        
+        .quantity.buttons_added .minus:focus,
+       .quantity.buttons_added .plus:focus {
+        outline: none;
+       }
+      
+       .quantityCart {
+        /*display: inline-block; */
+      }
+      
+       
+       .quantityCart .input-text.qty {
+        width: 55px;
+        height: 39px;
+        padding: 0 5px;
+        text-align: center;
+        background-color: white;
+        border: 1px solid #efefef;
+       }
+       
+       .quantityCart.buttons_added {
+        text-align: left;
+        position: relative;
+        white-space: nowrap;
+        vertical-align: top; }
+       
+       .quantityCart.buttons_added input {
+        display: inline-block;
+        margin: 0;
+        vertical-align: top;
+        box-shadow: none;
+       }
+       
+       .quantityCart.buttons_added .minus,
+       .quantityCart.buttons_added .plus {
+        padding: 0px 10px 8px;
+        font-size: 30px;
+        color: rgb(0, 0, 0);
+        width:55px;
+        height: 40px;
+        background-color: #ffffff;
+        border: 1px solid #efefef;
+        cursor:pointer;}
+       
+       .quantityCart.buttons_added .minus {
+        border-right: 0; }
+       
+       .quantityCart.buttons_added .plus {
+        border-left: 0; }
+       
+       .quantityCart.buttons_added .minus:hover,
+       .quantityCart.buttons_added .plus:hover {
+        background: #eeeeee; }
+       
+       .quantityCart input::-webkit-outer-spin-button,
+       .quantity input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        margin: 0; }
+        
+        .quantityCart.buttons_added .minus:focus,
+       .quantityCart.buttons_added .plus:focus {
+        outline: none;
+       }
+       header.slds-card__header.slds-grid{
+        padding-top:0px;
+      } 
+
+      .card {
+        /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);*/
+        max-width: 234px;
+        margin: auto;
+        /*text-align: center;*/
+        font-family: arial;
+      }
+      
+      .card:hover {
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+      }
+
+      .addCartButton{
+        border: none;
+        outline: 0;
+       /* padding: 4px;*/
+       background-color: #C1206B;
+       color: White;
+       font-family: arial;
+        text-align: center;
+        cursor: pointer;
+        font-size: 13px;
+        margin-right: 16px;
+      
+      }
+
+         
+  .card button:hover {
+    opacity: 0.7;
+  }
+
+    /* Add some top padding to the page content to prevent sudden quick movement (as the header gets a new position at the top of the page (position:fixed and top:0) */
+    .sticky + .content {
+        padding-top: 102px;
+      }
+
+      .slds-table {
+        text-align: left;
+    }
+
+    
+/* Add scrollbar to the modal content */
+.modal-body-scrollable {
+    max-height: 40vh; /* Limits the height to 70% of the viewport */
+    overflow-y: auto; /* Enables vertical scrolling */
+    padding-right: 1rem; /* Adds spacing to avoid scrollbar overlap */
+    /*flex-grow: 1;*/
+}
+
+/* Optional: Style scrollbar for a better look */
+.modal-body-scrollable::-webkit-scrollbar {
+    width: 8px; /* Width of the scrollbar */
+}
+
+.modal-body-scrollable::-webkit-scrollbar-thumb {
+    background: #ccc; /* Color of the scrollbar thumb */
+    border-radius: 4px; /* Rounded edges for the thumb */
+}
+
+.modal-body-scrollable::-webkit-scrollbar-thumb:hover {
+    background: #888; /* Darker color when hovering */
+}
+
+.modal-body-scrollable::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Track color */
+}
+    
+.slds-modal__header h2 {
+    margin-bottom: 0;
+}
+
+.slds-list_dotted {
+    list-style-type: disc;
+    padding-left: 20px;
+}
+
+.slds-modal {
+    width: 100%;
+    max-width: 500px;
+}
+
+.percentage:before { content:'%'; }
+
+
+    
+    /* Modal footer */
+    .slds-modal__footer {
+        display: flex;
+        flex-direction: column; /* Stack buttons vertically on mobile */
+        align-items: stretch; /* Stretch buttons to full width */
+    }
+    
+    /* Modal buttons */
+    .slds-modal__footer lightning-button {
+        margin: 0.5rem 0; /* Space between buttons */
+        width: 100%; /* Full width buttons */
+    }
+
+        /* Adjust padding for modal and body content */
+        .slds-modal__header,
+        .slds-modal__content,
+        .slds-modal__footer {
+            padding: 1rem; /* Add some padding around content */
+        }
+
+        .button-containerGeneral {
+            position: fixed; /* Change from sticky to fixed */
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #f9f6f8;  /* Footer background color */
+            padding: 10px 20px; /* Adds padding around the buttons */
+            text-align: left; /* Aligns button to the left */
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow for better visibility */
+            justify-content: space-between; /* Pushes one button to the left, one to the right */
+            display: flex;
+
+        }
+ 
+        .place-order-btn {
+            margin-left: auto; /* Ensures it moves to the right */
+        }
+        
+        .buttonsGeneral {
+            padding: 3px 10px;
+            background-color: #C1206B;
+            color: white;
+            font-family: arial;
+            font-size: 13px;
+            border: none;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+    
+           
+        }
+
+        .changeFont {
+ 
+            font-size: 13px; /* Adjust size as needed */
+           
+      
+        
+            font-family: Arial ;
+        }
+
+        
+        .changeMyCartFont {
+ 
+            font-size: 18px; /* Adjust size as needed */
+            color: #C1206B;;
+            font-weight: bold; /* Optional: to make it more prominent */
+
+            font-family: arial;
+        }
+
+        .textarea-container {
+            margin-bottom: 20px; /* Adjust as needed */
+        }
+        
+        .custom-textarea {
+            margin-bottom: 20px; /* Ensures spacing below the textarea */
+        }
+
+        .rich-text-container {
+            max-width : 200px;  /*Adjust the width as needed */
+            height: 150px; /* Maintain aspect ratio */
+        }
+
+        .tabset-container{
+            width: 98% !important;
+        }
+
+        .serial-number-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .serial-number {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #C1206B;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .centered-modal {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            position: fixed;
+        }
+
+        .pink-close-icon {
+            --slds-c-icon-color-foreground-default: #C1206B;
+        }
+
+        .promo-badge {
+            background-color: #2e844a;   /* Salesforce green */
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            line-height: 1;
+            white-space: nowrap;
+        }
+
+        .promo-row {
+            margin-left: 2.5rem;
+            background-color: #f8f9fb;
+            border-left: 4px solid #2e844a;
+            padding-left: 0.5rem;
+        }
+
+/* Cart container styling - added by fuzail */
+.cart-container {
+    z-index: 3;
+    cursor: pointer;
+    position: relative;
+}

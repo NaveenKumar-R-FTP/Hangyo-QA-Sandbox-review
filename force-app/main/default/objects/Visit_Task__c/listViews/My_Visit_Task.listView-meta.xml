@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>My_Visit_Task</fullName>
+    <columns>NAME</columns>
+    <columns>Retailer__c</columns>
+    <columns>Visit__c</columns>
+    <columns>Task_Planned_Date__c</columns>
+    <columns>Beat__c</columns>
+    <columns>Status__c</columns>
+    <filterScope>Mine</filterScope>
+    <label>My Visit Task</label>
+</ListView>

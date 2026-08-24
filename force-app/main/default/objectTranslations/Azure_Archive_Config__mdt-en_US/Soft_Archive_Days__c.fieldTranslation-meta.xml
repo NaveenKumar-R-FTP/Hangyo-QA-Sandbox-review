@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Soft Archive Days --></label>
+    <name>Soft_Archive_Days__c</name>
+</CustomFieldTranslation>

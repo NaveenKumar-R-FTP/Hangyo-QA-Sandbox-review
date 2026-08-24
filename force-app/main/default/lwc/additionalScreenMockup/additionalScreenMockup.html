@@ -1,0 +1,53 @@
+<template>
+    <div class="dashboard-container">
+        <div class="header">
+            <h2 style="font-weight: bold; font-size: 18px;">Team Snapshot</h2>
+            <!--<lightning-button label="See Details" class="see-details-btn" onclick={handleSeeDetails}></lightning-button>-->
+            <button class="see-details-btn" onclick={handleSeeDetails}>See Details</button>
+        </div>
+
+        <div class="metrics-grid">
+            <!--<div class="metric-card">
+                <p class="metric-title">Distributor</p>
+                <p class="metric-value">{distributorCount}</p>
+            </div>
+            <div class="metric-card">
+                <p class="metric-title">Beats</p>
+                <p class="metric-value">{beatsCount}</p>
+            </div>
+            <div class="metric-card">
+                <p class="metric-title">Outlets</p>
+                <p class="metric-value">{outletsCount}</p>
+            </div>
+            <div class="metric-card">
+                <p class="metric-title">Planned</p>
+                <p class="metric-value">{plannedCount}</p>
+            </div>
+            <div class="metric-card">
+                <p class="metric-title">UPC</p>
+                <p class="metric-value">{upcCount}</p>
+            </div>
+            <div class="metric-card">
+                <p class="metric-title">UTC</p>
+                <p class="metric-value">{utcCount}</p>
+            </div>-->
+           
+            <div class="metric-card">
+                <p class="metric-title">LPC</p>
+                <p class="metric-value">{lpcCountRounded}</p>
+            </div>
+            <div class="metric-card">
+                <p class="metric-title">TOTAL LINES CUT</p>
+                <p class="metric-value">{tlcCount}</p>
+            </div>
+            <div class="metric-card">
+                <p class="metric-title">NET VALUE</p>
+                <p class="metric-value">₹{netPayCount}</p>
+            </div>
+            <div class="metric-card">
+                <p class="metric-title">QTY(STD UNIT)</p>
+                <p class="metric-value">{qtyCount}</p>
+            </div>
+        </div>
+    </div>
+</template>

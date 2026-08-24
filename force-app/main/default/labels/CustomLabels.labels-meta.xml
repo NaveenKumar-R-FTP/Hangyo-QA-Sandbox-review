@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>Account_Location_Unavailable</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AccountLocationUnavailable</shortDescription>
+        <value>Account location is unavailable for this visit. Please check the account details.</value>
+    </labels>
+    <labels>
+        <fullName>Admin_User_Name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Admin User Name</shortDescription>
+        <value>hangyoadmin@hangyo.in.uatpartial</value>
+    </labels>
+    <labels>
+        <fullName>Asset_Allocation_Request</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Asset Allocation Request</shortDescription>
+        <value>Asset Allocation Request</value>
+    </labels>
+    <labels>
+        <fullName>Asset_Complaint_Request</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Asset Complaint Request</shortDescription>
+        <value>Asset Complaint Request</value>
+    </labels>
+    <labels>
+        <fullName>Asset_Replacement_Request</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Asset Replacement Request</shortDescription>
+        <value>Asset Replacement Request</value>
+    </labels>
+    <labels>
+        <fullName>Asset_Transfer_Request</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Asset Transfer Request</shortDescription>
+        <value>Asset Transfer Request</value>
+    </labels>
+    <labels>
+        <fullName>Bank_A_C_Number</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Bank A/C Number</shortDescription>
+        <value>077010300001663</value>
+    </labels>
+    <labels>
+        <fullName>Bank_Name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Bank Name</shortDescription>
+        <value>Axis Bank</value>
+    </labels>
+    <labels>
+        <fullName>Beyong_50</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Beyong50</shortDescription>
+        <value>Check-In location is beyond the allowed range of the Retailer location. Either visit the Retailer location or start the call to proceed.</value>
+    </labels>
+    <labels>
+        <fullName>Branding_Final_Approver_Id</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Branding final approver ID</shortDescription>
+        <value>005fu00000DKEDpAAP</value>
+    </labels>
+    <labels>
+        <fullName>Branding_Marketing_Asset_Inventory_Management</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Branding &amp; Marketing Asset Inventory Management</shortDescription>
+        <value>Branding &amp; Marketing Asset Inventory Management</value>
+    </labels>
+    <labels>
+        <fullName>Branding_Marketing_Asset_Request</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Branding &amp; Marketing Asset Request</shortDescription>
+        <value>Branding &amp; Marketing Asset Request</value>
+    </labels>
+    <labels>
+        <fullName>Branding_Marketing_Asset_transfer_Request</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Branding &amp; Marketing Asset transfer Request</shortDescription>
+        <value>Branding &amp; Marketing Asset transfer Request</value>
+    </labels>
+    <labels>
+        <fullName>Case_Notification</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Case Notification</shortDescription>
+        <value>Case_Notification</value>
+    </labels>
+    <labels>
+        <fullName>Chandresh_Rajpooth_User_Id</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Chandresh Rajpooth User Id</shortDescription>
+        <value>005ez0000015M8zAAE</value>
+    </labels>
+    <labels>
+        <fullName>Check_in_Radius</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Check-in Radius</shortDescription>
+        <value>150</value>
+    </labels>
+    <labels>
+        <fullName>Checkin_Location_Beyond_50_Meters</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CheckinLocationBeyond50Meters</shortDescription>
+        <value>Check-In location is beyond the allowed range of the account location</value>
+    </labels>
+    <labels>
+        <fullName>Company_BillingCity</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Company BillingCity</shortDescription>
+        <value>Uttara Kannada District</value>
+    </labels>
+    <labels>
+        <fullName>Company_BillingCountry</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Company BillingCountry</shortDescription>
+        <value>India</value>
+    </labels>
+    <labels>
+        <fullName>Company_BillingState</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Company BillingState</shortDescription>
+        <value>Karnataka</value>
+    </labels>
+    <labels>
+        <fullName>Company_BillingStreet</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Company BillingStreet</shortDescription>
+        <value>NH 63, Hosalli Village Post Kirwatti</value>
+    </labels>
+    <labels>
+        <fullName>Existing_Outlet_New_Asset_request</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Existing Outlet New Asset request</shortDescription>
+        <value>Existing outlet Asset Code Change Request</value>
+    </labels>
+    <labels>
+        <fullName>Google_Maps_API_Key</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Google Maps API Key</shortDescription>
+        <value>AIzaSyCG8AfwzggtzOWZ7EUGfmmewAm8wQ9XYxo</value>
+    </labels>
+    <labels>
+        <fullName>Hangyo_Email</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Hangyo Email</shortDescription>
+        <value>stores.kirwatti@hangyo.in</value>
+    </labels>
+    <labels>
+        <fullName>Hangyo_FSSAI</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Hangyo FSSAI</shortDescription>
+        <value>10019043002565</value>
+    </labels>
+    <labels>
+        <fullName>Hangyo_PAN</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Hangyo PAN</shortDescription>
+        <value>AAHCS6664E</value>
+    </labels>
+    <labels>
+        <fullName>Hangyo_Phone</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Hangyo Phone</shortDescription>
+        <value>+91 9482738907</value>
+    </labels>
+    <labels>
+        <fullName>IFSC_code</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>IFSC code</shortDescription>
+        <value>UTIB0000077</value>
+    </labels>
+    <labels>
+        <fullName>Invoice3000</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Invoice3000</shortDescription>
+        <value>3000</value>
+    </labels>
+    <labels>
+        <fullName>Invoice_Amount_Static_Text</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Invoice Amount Static Text</shortDescription>
+        <value>Invoice Amount Subject to Reverse Charge: Nil</value>
+    </labels>
+    <labels>
+        <fullName>Invoice_HSN</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Invoice HSN</shortDescription>
+        <value>21050000</value>
+    </labels>
+    <labels>
+        <fullName>MAHESH_SIVARAM_User_Id</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MAHESH SIVARAM User Id</shortDescription>
+        <value>005ez0000015MCDAA2</value>
+    </labels>
+    <labels>
+        <fullName>Name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Name</shortDescription>
+        <value>Hangyo Ice creams Pvt Ltd</value>
+    </labels>
+    <labels>
+        <fullName>Nishnu_N_K_User</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Nishnu N K User</shortDescription>
+        <value>005fu000008nhIZAAY</value>
+    </labels>
+    <labels>
+        <fullName>No_Active_Scheme_Available</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>NoActiveSchemeAvailable</shortDescription>
+        <value>No active scheme available at the moment for the product.</value>
+    </labels>
+    <labels>
+        <fullName>No_Cart_Value_Scheme</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>NoCartValueScheme</shortDescription>
+        <value>No active scheme available at the moment for the given cart value.</value>
+    </labels>
+    <labels>
+        <fullName>No_Quantity_Scheme_Available</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>NoQuantitySchemeAvailable</shortDescription>
+        <value>No Quantity scheme available at the moment.</value>
+    </labels>
+    <labels>
+        <fullName>No_Value_Scheme_Available</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>NoValueSchemeAvailable</shortDescription>
+        <value>No Value scheme available at the moment.</value>
+    </labels>
+    <labels>
+        <fullName>OrderValue300</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OrderValue300</shortDescription>
+        <value>300</value>
+    </labels>
+    <labels>
+        <fullName>Product_Code</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Product_Code</shortDescription>
+        <value>5300011,5300125,5300140,5300166,5300181,5300297,5300307,5300424,5300427,5300431,5300581,5300590,5300781,5300790,5300860,5300259,5300880,5301033,5301043,5301081,5301082,5301083,5301084,5301087,5301064,5301065,5301066,5301067,5301072,5301074,5301075,5301077,5301080,5301052,5301053,5301060,5301063,5301088,5301089,5301090,5300038,5300267,5300362,5300366,5300386,5300416,5300457,5301121,5301140,5301123,5301133,5301138,5301139,5301150,5301159,5301162,5300811,5301184,5301256,5301214,5301215,5301314,5301315,5301316,5301321</value>
+    </labels>
+    <labels>
+        <fullName>Product_Default_Image_URL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Product Default Image URL</shortDescription>
+        <value>https://inspiration-ruby-151.file.force.com/sfc/dist/version/download/?oid=00De10000014fon&amp;ids=068GB00000sgOOH&amp;d=%2Fa%2FGB000002Mgcf%2FK.YkPhP8OYlGn0gFTXqDkALyWWhjBafo5XvWL21Z8uQ&amp;asPdf=false</value>
+    </labels>
+    <labels>
+        <fullName>Retailer_Location_Update_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Retailer Location Update Message</shortDescription>
+        <value>Check-In location is beyond the allowed range of the Retailer location. Either Update the Location or Start a Call</value>
+    </labels>
+    <labels>
+        <fullName>Run_Sales_Order_API</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Run Sales Order API</shortDescription>
+        <value>True</value>
+    </labels>
+    <labels>
+        <fullName>Sefie_Capture</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SefieCapture</shortDescription>
+        <value>Please capture a selfie using your camera. Uploads from other sources are restricted..</value>
+    </labels>
+    <labels>
+        <fullName>Seller_GSTIN</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Seller GSTIN</shortDescription>
+        <value>29AAHCS6664E1ZZ</value>
+    </labels>
+    <labels>
+        <fullName>Seller_Name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Seller Name</shortDescription>
+        <value>HANGYO ICECREAMS PRIVATE LIMITED</value>
+    </labels>
+    <labels>
+        <fullName>State_Values</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>State_Values</shortDescription>
+        <value>Andaman and Nico.Is.,Andhra Pradesh,Arunachal Pradesh,Assam,Bihar,Chandigarh,Chhattisgarh,Goa,Gujarat,Haryana,Himachal Pradesh,Jammu and Kashmir,Jharkhand,Karnataka,Kerala,Ladakh,Lakshadweep,Madhya Pradesh,Maharashtra,Manipur,Meghalaya,Mizoram,Nagaland,Odisha,Pondicherry,Punjab,Rajasthan,Sikkim,Tamilnadu,Telangana,Tripura,Uttar Pradesh,Uttarakhand,West Bengal</value>
+    </labels>
+    <labels>
+        <fullName>VINAYAK_A_MOGER_User_Id</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>VINAYAK A MOGER User Id</shortDescription>
+        <value>005GB00000bS4FBYA0</value>
+    </labels>
+    <labels>
+        <fullName>Year</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Year</shortDescription>
+        <value>2040</value>
+    </labels>
+    <labels>
+        <fullName>ZingHR_Password</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ZingHR_Password</shortDescription>
+        <value>o7oomjlckmpkwkez1dts70wrdq1bdg7w0mhan7wio0utcb1yqw0zm14egf5epv5h</value>
+    </labels>
+    <labels>
+        <fullName>ZingHR_Username</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ZingHR_Username</shortDescription>
+        <value>ge1kcp8k5m2x107xjvympzky</value>
+    </labels>
+</CustomLabels>

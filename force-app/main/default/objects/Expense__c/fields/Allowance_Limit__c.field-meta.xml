@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Allowance_Limit__c</fullName>
+    <formula>IF(
+  ISPICKVAL(Expense_Type__c, &apos;Travel Expense Request&apos;),
+  IF(
+    OR(ISPICKVAL(User_Role__c, &apos;SO&apos;), ISPICKVAL(User_Role__c, &apos;SSO&apos;)),
+    IF(
+      OR(ISPICKVAL(Category__c, &apos;Bus&apos;), ISPICKVAL(Category__c, &apos;Train&apos;)),
+      1500,
+      0
+    ),
+    0
+  ),
+  0
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Allowance Limit</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

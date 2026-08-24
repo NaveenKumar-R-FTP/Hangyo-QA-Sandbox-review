@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Transferred to warehouse --></label>
+    <name>Transferred_to_warehouse__c</name>
+    <picklistValues>
+        <masterLabel>Bangalore Warehouse</masterLabel>
+        <translation><!-- Bangalore Warehouse --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Herur Warehouse</masterLabel>
+        <translation><!-- Herur Warehouse --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Kirwatti Warehouse</masterLabel>
+        <translation><!-- Kirwatti Warehouse --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Tirupati Warehouse</masterLabel>
+        <translation><!-- Tirupati Warehouse --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

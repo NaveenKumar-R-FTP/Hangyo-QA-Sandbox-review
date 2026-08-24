@@ -1,0 +1,73 @@
+<!-- invoiceGrnUpdater.html -->
+<template>
+<lightning-card title="Invoice GRN" icon-name="standard:task">
+        <div class="container">
+            <template if:true={invoiceDetails}>
+                <div class="invoice-header">
+                    <p><strong>Invoice:{invoiceDetails.Name}</strong> </p>
+<p><strong>Invoice Date: {formattedInvoiceDate}</strong></p>
+                     <p><strong>Status:{invoiceDetails.Status__c}</strong> </p>
+                    <p><strong>Order:{invoiceDetails.Order__c}</strong> </p>
+                </div>
+
+                <div class="product-table">
+                    <table >
+                        <thead>
+                            <tr>
+                                <!--th>Image</th-->
+                                <th>S. No. </th>
+                                <th>Details</th>
+                                <!--th>Order Quantity</th>
+                                <th>Previous Confirmed</th -->
+                                <th>Current Invoice Qty</th >
+                                <th>Received Quantity <span style="color: red; font-size: 12px;">*</span></th>
+                                <th>Comments</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={invoiceLineItems} for:item="item">
+                                <tr key={item.Id}>
+                                    <!--td class="product-image-cell">
+                                        <img src={item.ProductImageURL} alt={item.ProductImageURL} style="width: 100%; height: 90%;">
+                                    </td-->
+                                    <td>{item.serialNumber}</td>
+                                    <td class="details-cell">
+                                        <p><strong>{item.ProductName}</strong></p>
+                                        <!--p>Product Code: {item.ProductCode}</p -->
+                                        <p>Ordered Quantity: {item.OrderQuantity}</p>
+                                        <p>Previously Invoiced Quantity: {item.PreviousConfirmedQuantity}</p>
+                                      
+                                    </td>
+                                    <!--td>{item.OrderQuantity}</td>
+                                    <td>{item.PreviousConfirmedQuantity}</td -->
+                                    <td>{item.CurrentInvoiceQuantity}</td>
+                                    <td class="input-cell">
+                                        <lightning-input 
+                                            type="number" 
+                                            value={item.ReceivedQuantity} 
+                                            onchange={handleQuantityChange} 
+                                            min="0"
+                                            data-id={item.Id}>
+                                        </lightning-input>
+                                    </td>
+                                    <td class="input-cell">
+                                        <lightning-textarea 
+                                            value={item.Comment} 
+                                            onchange={handleCommentChange} 
+                                            data-id={item.Id}>
+                                        </lightning-textarea>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="invoice-summary">
+    <p><strong>Total Received Quantity: {receivedQuantitySum} </strong></p>
+    <lightning-button variant="brand" label="Submit GRN" class="submit-btn" onclick={handleSubmit} disabled={isSubmitDisabled}></lightning-button>
+</div>
+            </template>
+             </div>
+    </lightning-card>
+</template>

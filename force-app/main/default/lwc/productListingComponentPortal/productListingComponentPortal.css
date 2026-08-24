@@ -1,0 +1,363 @@
+* {
+    font-family: "Lucida Sans", sans-serif;
+}
+
+.card {
+    max-width: 200px;
+    margin: auto;
+}
+
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.addCartButton{
+    border: none;
+    outline: 0;
+    color: white;
+    background-color:#C1206B;
+    text-align: center;
+    cursor: pointer;
+    font-size: 15px;
+    margin-right: 16px;
+    margin-left: 10px;
+}
+
+.addCartButton:hover {
+    opacity: 0.7;
+}
+
+.quantity {
+    display: inline-block; 
+}
+
+.quantity .input-text.qty {
+    width: 45px;
+    height: 24px;
+    padding: 0 5px;
+    text-align: center;
+    background-color: white;
+    border: 1px solid #efefef;
+}
+
+.quantity.buttons_added {
+    text-align: center;
+    position: relative;
+    white-space: nowrap;
+    vertical-align: 0px;
+}
+
+.quantity.buttons_added input {
+    display: inline-block;
+    margin: 0;
+    vertical-align: top;
+    box-shadow: none;
+}
+
+.quantity.buttons_added .minus,
+.quantity.buttons_added .plus {
+    padding: 0px 10px 8px;
+    font-size: 18px;
+    color: rgb(0, 0, 0);
+    height: 24px;
+    background-color: #ffffff;
+    border: 1px solid #efefef;
+    cursor:pointer;
+}
+
+.quantity.buttons_added .minus:hover,
+.quantity.buttons_added .plus:hover {
+    background: #eeeeee; 
+}
+
+.quantity input::-webkit-outer-spin-button,
+.quantity input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    margin: 0; 
+}
+
+.fixed {
+    top: 0px;
+    padding: 0;
+    width: 100%;
+    position: sticky;
+    background:linear-gradient(to right, rgba(255, 242, 177, 0.719),rgb(253, 238, 163));
+    z-index: 2; /* Ensure proper stacking context */
+    justify-content: space-between;
+    gap: 10px;
+   
+}
+.cart-container {
+   
+    z-index: 3; /* Higher than parent z-index */
+    margin-right: 5px;
+    float: right;
+   
+}
+
+
+.footerCart {
+    position: fixed; /* Keep footer pinned */
+    bottom: 0;
+    left: 0;  /* Stretch across full width */
+    right: 0;
+    width: 100%;
+    background-color: #f9f6f8;  /* Footer background color */
+    padding: 10px 20px; /* Spacing inside footer */
+    display: flex;
+    justify-content: space-between; /* Push left + right items apart */
+    align-items: center; /* Vertical centering */
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow */
+    z-index: 1001; /* Keep on top */
+}
+
+.footer {
+   display: flex;
+    justify-content: space-between; /* Places buttons on opposite sides */
+    align-items: center; /* Aligns buttons vertically */
+    margin-left: 10px;
+    width: 95.5%;
+    padding: 5px;
+    background: #ffffff; /* Light gray footer background (optional) */
+
+}
+
+.custom-button {
+    background: #C1206B;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 7px;
+    font-size: 13px;
+    cursor:pointer;
+    font-weight:300;
+    font-family: arial;
+}
+
+.custom-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.dollars:before { 
+    content:'Rs.';
+}
+
+.rich-text-container {
+    max-width: 200px;
+    height: 150px;
+}
+
+.rich-text-container img {
+    max-width: 200px;
+    height: 190px;
+    object-fit: cover;
+}
+
+/* Fix for quantity control positioning */
+.slds-grid_vertical-align-center {
+    position: relative;
+    z-index: 1;
+     align-items: center;
+}
+
+.tabset-container{
+     width: 98% !important;
+}
+
+/* OLD - Search By row (commented by Fuzail for alignment fix)
+.search-by-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1px;
+    margin-bottom: 4px;
+    justify-content: center;
+}
+.search-by-dropdown-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    flex: 0 0 auto;
+}
+.search-by-label {
+    font-family: Arial;
+    font-size: 0.75rem;
+    color: #C1206B;
+    font-weight: 500;
+}
+.search-by-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.35rem;
+    font-family: Arial;
+    font-size: 0.8125rem;
+    color: #C1206B;
+    background: transparent;
+    border: 1px solid #d8dde6;
+    border-radius: 4px;
+    cursor: pointer;
+    min-width: 70px;
+}
+*/
+
+/* added by Fuzail - Search By row aligned and centered with search bar */
+.search-by-row {
+    display: flex;
+    align-items: flex-end; /* changed by Fuzail - align to bottom for better vertical alignment */
+    gap: 0.5rem;
+    margin-top: -40px;
+    margin-bottom: 4px;
+    justify-content: center; /* added by Fuzail - center the whole row */
+}
+.search-by-dropdown-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    flex-shrink: 0;
+    margin-bottom: 2px; /* added by Fuzail - fine-tune vertical alignment with search bar */
+}
+/* added by Fuzail - label aligned with search bar */
+.search-by-label {
+    font-family: Arial;
+    font-size: 0.75rem;
+    color: #C1206B;
+    font-weight: 500;
+}
+/* added by Fuzail - search-by-trigger aligned with search bar height */
+.search-by-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.5rem 0.5rem;
+    font-family: Arial;
+    font-size: 0.8125rem;
+    color: #C1206B;
+    background: white; /* changed by Fuzail - white background like search bar */
+    border: 1px solid #d8dde6;
+    border-radius: 4px;
+    cursor: pointer;
+    min-width: 70px;
+    height: 32px; /* added by Fuzail - match search bar height */
+    box-sizing: border-box; /* added by Fuzail - include padding in height */
+}
+.search-by-trigger:hover {
+    background: #f3f3f3;
+}
+.search-by-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 2px;
+    background: white;
+    border: 1px solid #d8dde6;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    z-index: 1000;
+    min-width: 100px;
+}
+.search-by-item {
+    padding: 0.5rem 0.75rem;
+    font-family: Arial;
+    font-size: 0.8125rem;
+    cursor: pointer;
+    border-bottom: 1px solid #f3f3f3;
+}
+.search-by-item:last-child {
+    border-bottom: none;
+}
+.search-by-item:hover {
+    background: #f3f3f3;
+}
+/* OLD - search input (commented by Fuzail for alignment fix)
+.search-input-inline {
+    font-family: Arial;
+    width: 70%;
+    max-width: 1500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+*/
+
+/* added by Fuzail - search input aligned with Search By dropdown */
+.search-input-inline {
+    font-family: Arial;
+    width: 70%;
+    max-width: 1500px;
+    align-self: flex-end; /* added by Fuzail - align to bottom to match Search By */
+    margin-bottom: 0; /* added by Fuzail - ensure no extra margin at bottom */
+}
+.serial-number-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.serial-number {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: #C1206B;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+@media screen and (min-width: 1024px) {
+ .fixedCard{
+       position: fixed;   /* Keeps the component fixed */
+    top: 115px;        /* Adjust this value to set distance from the top */
+    left: 0;           /* Align to the left */
+    width: 100%;       /* Make it full width */
+    height: calc(100vh - 115px); /* Adjust height based on viewport */
+    background-color: white; /* Change as needed */
+    overflow: auto;    /* Enables scrolling inside the component if needed */
+    z-index: 101;     /* Keeps it above other elements */
+    }
+}
+
+ .quantity-scheme-button {
+        background-color: #C1206B;
+        color: White;
+        font-family: arial;
+       
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        padding-left: 10px;
+        padding-right: 10px;
+            font-size: 13px;    /* Adjust font size */
+    margin-left: 0px;
+    }
+
+ .value-scheme-button {
+        background-color: #C1206B;
+        color: White;
+        font-family: arial;
+       
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        padding: 5px 15px;
+            font-size: 13px;    /* Adjust font size */
+    margin-left: 0px;
+    }
+
+    .promo-badge {
+        background-color: #2e844a;   /* Salesforce green */
+        color: white;
+        font-size: 10px;
+        padding: 2px 6px;
+        border-radius: 10px;
+        line-height: 1;
+        white-space: nowrap;
+    }

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Accommodation place --></label>
+    <name>Accommodation_place__c</name>
+    <picklistValues>
+        <masterLabel>Class A Cities (State Capital/Metro Cities)</masterLabel>
+        <translation><!-- Class A Cities (State Capital/Metro Cities) --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Other Cities</masterLabel>
+        <translation><!-- Other Cities --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

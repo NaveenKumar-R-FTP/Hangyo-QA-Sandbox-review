@@ -1,0 +1,59 @@
+<template>
+    <lightning-card title="Add Leave Details">
+
+        <div class="slds-p-around_medium">
+                <!-- Show Leave Balance -->
+            <template if:true={selectedLeaveType}>
+                <p>
+                    Available Balance :   &nbsp;
+                    <strong>{filteredLeaveBalance}</strong>
+                </p>
+            </template>
+
+                <lightning-combobox 
+                    label="Leave Type" 
+                    value={selectedLeaveType} 
+                    options={leaveTypeOptions} 
+                    onchange={handleLeaveTypeChange}>
+                </lightning-combobox>
+
+                <lightning-combobox 
+                    label="Leave Period" 
+                    value={selectedLeavePeriod} 
+                    options={leavePeriodOptions} 
+                    onchange={handleLeavePeriodChange}>
+                </lightning-combobox>
+
+                <template if:true={showLeaveFor}>
+                    <lightning-combobox 
+                        label="Leave For" 
+                        value={selectedLeaveFor} 
+                        options={leaveForOptions} 
+                        onchange={handleLeaveForChange}>
+                    </lightning-combobox>
+                </template>
+
+                <lightning-textarea 
+                        label="Reason" 
+                        name="reason" 
+                        value={reason} 
+                        onchange={handleDescriptionChange}>
+                    </lightning-textarea>
+
+                    <!-- Selfie Upload -->
+                    <lightning-input class="selfie" 
+                                        type="file" 
+                                        accept="image/*" 
+                                        onchange={handleFileChange} 
+                                        capture="camera" >
+                    </lightning-input>
+
+                    <p class="file-name">Selected file : {fileName}</p>
+                <br/><br/>
+                <button class="custom-button" onclick={handleSubmit}>
+                    Submit
+                </button>
+
+         </div>    
+    </lightning-card>
+</template>

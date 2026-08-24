@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sale_Type__c</fullName>
+    <description>Counter Order sale type (e.g. Cash Sales, Event). Set directly by CounterInvoiceController.createCounterOrder() so it is available as a real, reportable field instead of being parsed out of Description__c.</description>
+    <label>Sale Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Cash Sales</fullName>
+                <default>true</default>
+                <label>Cash Sales</label>
+            </value>
+            <value>
+                <fullName>Event</fullName>
+                <default>false</default>
+                <label>Event</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

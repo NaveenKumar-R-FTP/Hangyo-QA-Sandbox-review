@@ -1,0 +1,75 @@
+<template>
+    <div class="backgroundcolor">
+        <div >            
+                    <div class="visitplanner">
+                        <h1 class="tab-title">Change Beat</h1>
+                    </div>
+
+                    <!-- Step 1: Choose Date -->
+                    <template if:true={showOptions}>
+                        <template if:true={showDates}>
+                                                    
+                        <div class="beat-message">
+                            <p>Change Beat for: {formattedTodayDate}</p>
+                        </div>
+                        </template>
+
+                    <!-- Step 2: Choose Beat -->
+                        <template if:true={showBeatsTable}>
+                            <div class="search-filter-container">
+                                <lightning-input
+                                    class="slds-form-element__label"
+                                    label="Search Beat"
+                                    type="search"
+                                    placeholder="Search by Beat Name"
+                                    onchange={handleSearch}>
+                                </lightning-input>
+                            </div>
+
+                            <div class="table-wrapper-Beat">
+                                <lightning-datatable
+                                    key-field="Id"
+                                    data={filteredBeatData}
+                                    columns={beatColumns}
+                                    max-row-selection="1"
+                                    onrowselection={handleBeatSelection}>
+                                </lightning-datatable>
+                            </div>
+
+                            <div class="button-container">
+                                <button class="buttons" onclick={handleBackOnMyVisitTask} >Back</button>
+                                <button class="buttons" onclick={handleNext}>Next</button>
+                            </div>
+                        </template>
+                    </template>
+
+                    <!-- Step 3: Choose Retailer -->
+                    <template if:true={showRetailerTable}>
+                        <div class="search-filter-container">
+                            <lightning-input
+                                class="slds-form-element__label"
+                                label="Search Retailer"
+                                type="search"
+                                placeholder="Search by Retailer Name"
+                                onchange={handleSearchRetailer}>
+                            </lightning-input>
+                        </div>
+
+                        <div class="table-wrapper">
+                            <lightning-datatable
+                                key-field="Id"
+                                data={filteredRetailerData}
+                                columns={retailerColumns}
+                                selected-rows={selectedRetailers}
+                                onrowselection={handleRowSelection}>
+                            </lightning-datatable>
+                        </div>
+
+                        <div class="button-container">
+                            <button class="buttons" onclick={handleBackIconClick} >Back</button>
+                         <button class="buttons" onclick={createVisits} disabled={isButtonDisabled}>Save</button>
+                        </div>
+                    </template>                
+        </div>
+    </div>
+</template>

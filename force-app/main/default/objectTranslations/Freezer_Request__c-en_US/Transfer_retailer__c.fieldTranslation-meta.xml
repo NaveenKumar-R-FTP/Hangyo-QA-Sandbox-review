@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Transfer retailer --></label>
+    <name>Transfer_retailer__c</name>
+    <relationshipLabel><!-- Freezer Requests (Transfer retailer) --></relationshipLabel>
+</CustomFieldTranslation>

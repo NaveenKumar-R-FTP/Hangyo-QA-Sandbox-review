@@ -1,0 +1,131 @@
+<template>
+        <div class="main-container">
+
+            <template if:true={saving}>
+                <div class="spinner-container">
+                    <lightning-spinner alternative-text="Saving..." size="medium"></lightning-spinner>
+                </div>
+            </template>
+
+            <template if:true={error}>
+                <div class="asset-card no-data-card">
+                    <p class="no-data-text">{error}</p>
+                </div>
+            </template>
+
+            <template if:true={isEmpty}>
+                <div class="asset-card no-data-card">
+                    <p class="no-data-text">No branding is mapped to this outlet.</p>
+                </div>
+            </template>
+
+            <template if:true={showAuditNotice}>
+                <div class={noticeClass}>{auditNotice}</div>
+            </template>
+
+            <template if:true={hasAssets}>
+                <template for:each={displayLines} for:item="line">
+                    <div key={line.assetId} class="asset-card">
+
+                        <div class="top-section">
+                            <img src={line.assetImage}
+                                 data-index={line.index}
+                                 data-kind="asset"
+                                 alt="Installation photo"
+                                 class="asset-image"
+                                 title="Tap to enlarge"
+                                 onclick={handleExpandImage}
+                                 onerror={handleImageError} />
+                            <span class="expand-hint">Tap image to enlarge</span>
+                        </div>
+
+                        <div class="status-row">
+                            <div class="asset-id">{line.mediaType}</div>
+                            <template if:true={line.audited}>
+                                <span class="status-badge">Audited</span>
+                            </template>
+                        </div>
+
+                        <template if:true={line.showLastAudited}>
+                            <div class="last-audited">{line.lastAuditedText}</div>
+                        </template>
+                        <div class="info-row">
+                            <div class="info-col">
+                                <span class="label">Sub Media</span>
+                                <span class="value">{line.subMedia}</span>
+                            </div>
+                        </div>
+
+                        <!-- View is always available; the form only on an audit visit -->
+                        <template if:true={canAudit}>
+                            <lightning-combobox label="Condition" required
+                                data-index={line.index}
+                                value={line.condition}
+                                options={conditionOptions}
+                                onchange={handleCondition}></lightning-combobox>
+
+                            <lightning-input label="Remarks"
+                                required={line.remarksRequired}
+                                data-index={line.index}
+                                value={line.remarks}
+                                onchange={handleRemarks}></lightning-input>
+
+                            <input type="file"
+                                   accept="image/*"
+                                   capture="environment"
+                                   class="hidden-input"
+                                   data-type="branding-photo"
+                                   data-index={line.index}
+                                   onchange={handlePhotoChange} />
+
+                            <template if:true={line.showAddPhoto}>
+                                <label class="label"><span class="required-star">*</span> Damage Photo</label>
+                                <div class="btn-row">
+                                    <button type="button" class="photo-btn"
+                                            data-index={line.index}
+                                            onclick={handlePhotoClick}>📷 Add Photo</button>
+                                </div>
+                            </template>
+
+                            <template if:true={line.showPreview}>
+                                <div class="preview-container">
+                                    <div class="preview-box">
+                                        <img src={line.photoUrl}
+                                             data-index={line.index}
+                                             data-kind="photo"
+                                             alt="Damage photo"
+                                             title="Tap to enlarge"
+                                             onclick={handleExpandImage} />
+                                        <span class="remove-btn"
+                                              data-index={line.index}
+                                              onclick={handleRemovePhoto}>&times;</span>
+                                    </div>
+                                </div>
+                            </template>
+                        </template>
+
+                    </div>
+                </template>
+
+                <template if:true={lineError}>
+                    <p class="line-error">{lineError}</p>
+                </template>
+            </template>
+
+        </div>
+
+        <div class="footer">
+            <button class="footer-back" onclick={handleBack}>Back</button>
+            <template if:true={canAudit}>
+                <button class="audit-btn" onclick={handleSubmit} disabled={saving}>Submit Audit</button>
+            </template>
+        </div>
+
+        <!-- Full-screen view of whichever image was tapped -->
+        <template if:true={showExpanded}>
+            <div class="lightbox" onclick={handleCloseExpanded}>
+                <span class="lightbox-close" onclick={handleCloseExpanded}>&times;</span>
+                <img src={expandedImage} alt="Enlarged photo" class="lightbox-img" />
+            </div>
+        </template>
+</template>

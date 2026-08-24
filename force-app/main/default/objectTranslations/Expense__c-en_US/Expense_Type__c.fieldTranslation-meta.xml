@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Expense Type --></label>
+    <name>Expense_Type__c</name>
+    <picklistValues>
+        <masterLabel>Accommodation Request</masterLabel>
+        <translation><!-- Accommodation Request --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Daily Allowance</masterLabel>
+        <translation><!-- Daily Allowance --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Miscellaneous Request</masterLabel>
+        <translation><!-- Miscellaneous Request --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Travel Allowance</masterLabel>
+        <translation><!-- Travel Allowance --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Travel Expense Request</masterLabel>
+        <translation><!-- Travel Expense Request --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

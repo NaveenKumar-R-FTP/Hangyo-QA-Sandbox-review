@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Collected_Amount__c</fullName>
+    <description>This holds the aggregated value of the payments received from Retailer by the distributor</description>
+    <inlineHelpText>Aggregated sum of payment collected from retailer by the distributor for all delivered invoices.</inlineHelpText>
+    <label>Collected Amount</label>
+    <summarizedField>Collection__c.Total_Amount__c</summarizedField>
+    <summaryForeignKey>Collection__c.Invoice__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

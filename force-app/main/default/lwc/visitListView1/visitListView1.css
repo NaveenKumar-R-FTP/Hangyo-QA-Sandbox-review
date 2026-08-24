@@ -1,0 +1,365 @@
+/*Unique font across the component*/
+.background{
+    font-family: amaranth regular;
+}
+
+/*Styling for My visit page container*/
+    .main-div{
+        background-color: #ffffff;
+        border-radius: 5px;
+        font-family: "Lucida Sans", sans-serif;
+        }
+        /*Styling for My visit page paddings*/
+        .padding-around{
+        padding: 1px;
+        background-color: #ffffff;
+        }
+        /*Styling When no Visit task are there*/
+        .no-Records{
+            display: block; 
+            text-align: center;
+            font-family: amaranth regular;
+        }
+
+        /*Styling for Fixed container*/
+        .fixed{
+        margin: 0;
+            padding: 0;
+            width: 100%;
+            top: 0;
+            z-index: 101; 
+            position: -webkit-sticky;
+            position: sticky;
+        
+        }
+
+        /*Styling for Fixed card container*/
+        .fixedCard{        
+            z-index: 101;
+            position: sticky;
+        }
+
+        /*Styling for Days button headers*/
+        .btn-group {
+            background-color: rgb(255, 255, 255); 
+        } 
+        
+        /*Styling for Visit task detail conatiner*/
+        .visit-record {
+            padding: 0.3rem;
+            margin-bottom: 0.5rem;
+            border-radius: 0.25rem;
+            color: #000;
+            font-family: amaranth regular;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }        
+        
+        /*Styling for unselected date button*/
+        .day-button-green {
+            background-color: #C1206B; 
+            border: 1px solid black;
+            color: white;
+            font-family: amaranth regular;
+            font-size: 14px;
+            font-weight: bold;
+            width: 14.2857%;
+            letter-spacing: 1px;
+            display: inline-block;
+            padding: 15px 0;
+        }
+
+        /*Styling for selected date button*/
+        .day-button-orange {
+            background-color: #f5d3d3;
+            border: 1px solid black;
+            color: #C1206B;
+            font-family: amaranth regular;
+            font-size: 14px;
+            font-weight: bold;
+            width: 14.2857%;
+            letter-spacing: 1px;
+            display: inline-block;
+            padding: 15px 0;
+        }
+
+        /*added by Fuzail - Styling for status tabs container*/
+        .status-tabs-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            padding-right: 5px;
+            padding-left: 5px;
+            padding-bottom: 5px;
+            gap: 5px;
+        }
+
+        /*added by Fuzail - Styling for status tabs*/
+        .status-tab {
+            flex: 1;
+            min-width: 0; /* Allows flex items to shrink */
+            background-color: #C1206B;
+            color: white;
+            font-family: amaranth regular;
+            font-size: 11px;
+            font-weight: bold;
+            padding: 6px 3px;
+            border-radius: 0.25rem;
+            border: 1px solid #0b0b0b;
+            cursor: pointer;
+            text-align: center;
+            white-space: normal; /* Allow text to wrap */
+            overflow: visible; /* Show all text */
+            word-wrap: break-word; /* Break long words if needed */
+            line-height: 1.2; /* Tighter line spacing for multi-line */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 48px; /*added by Fuzail - make tabs square-ish */
+        }
+
+        /*added by Fuzail - Styling for active status tab*/
+        .status-tab.active-tab {
+            background-color: #f5d3d3;
+            color: #C1206B;
+        }
+
+        /*Styling for action buttons below the date buttons container*/
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            padding-right: 5px;
+            padding-left: 5px;
+            padding-bottom: 5px;
+        } 
+        
+        /*Styling for action buttons below the date buttons*/
+        .actionButtons{
+            background-color: #C1206B;
+            color: white;
+            font-family: amaranth regular;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 0.1rem 0.1rem 0.1rem 0.1rem; 
+            border-radius: 0.25rem;
+            border: #0b0b0b;
+        }
+        
+        /*Styling for visit task record*/
+        .visit-record-container {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        
+
+        /*Styling for Retailers datails below the date buttons*/
+        .insidedate{
+            padding: 7px;
+            background-color: #f5d3d3;
+        }
+        
+        /*Styling for Search input container*/
+        .search-filter-container {
+            align-items: center;
+            padding-right: 10px;
+            padding-left: 10px;
+            padding-bottom: 6px;
+            position: static;
+            font-family: amaranth regular;
+            color: black;
+            max-width: 100%;
+        }
+        /*Styling for Search Input box*/
+.slds-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+/*Styling for Search Input box*/
+.slds-col {
+    flex-basis: 100%;
+    max-width: 100%;
+}
+
+
+/*Styling for making input box mobile compatible*/
+@media (min-width: 768px) {
+    .slds-large-size_1-of-3 {
+        flex-basis: 33.3333%;
+        max-width: 33.3333%;
+    }
+}
+
+        
+        /*styling for lightning input labels*/
+        .slds-form-element__label{
+            --slds-s-label-font-size: 16px;
+            font-weight: bold;
+        }
+       
+        /*Styling for Search input*/
+        .search lightning-input {
+            --input-height: 150px; /* Use this custom property to control the height of the lightning input */
+            padding: 3px;
+        }   
+       
+        /*Styling for metric container*/
+        .slds-box .metrics-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin: 10px 0;
+        }
+   
+    /*Styling for metric grid for where we can show the field & its value*/
+    .metric-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 5px;
+    }
+
+    .dollars:before { content:'Rs.'; }
+     /*added by Fuzail*/
+    .dollars {
+    display: inline-block;
+    min-width: 40px;   /* adjust as needed */
+    }
+
+    /*Styling for metric grid for where we can show the field & its value*/
+    .metric-item {
+        display: flex;
+        align-items: center;       
+        flex: 1 1 35%; /* Adjusting item width */
+        max-width: 50%;
+    }
+
+    /*Styling for metric grid for where we can show the Address details*/
+    .metric-address{
+        max-height: 30px;
+        margin: 0.3px 0;
+        color: #52453f;
+        border-radius: 5px;
+        background-color: #fde4f4;
+        border: 1px solid#c9c9c9;
+        display: block;
+        width: 100%;
+        white-space: nowrap;
+        overflow: hidden;            /* Hide the overflow text */
+        text-overflow: ellipsis;
+        padding-left: 6px;
+        font-size: 12px;
+    }
+
+    /*Styling for metric icon*/
+    .metric-icon {
+        margin-right: 8px;  /* Space between icon and value */
+        --slds-c-icon-color-foreground-default: #C1206B;
+    }
+
+    /*Styling for metric value sizing*/
+    .metric-value {
+        font-weight: bold;
+        font-size: 12px;
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;  /* Truncate long text */
+        white-space: nowrap;  /* Prevent text wrapping */
+    }
+
+    /*Styling for metric value small sizing*/
+    .metric-value-small {
+        font-size: 12px;
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;  /* Truncate long text */
+        white-space: nowrap;  /* Prevent text wrapping */
+    }
+
+    /* Special styling for Total Order Value */
+    .total-order-value-container {
+        flex: 1 1 auto;
+        min-width: fit-content; /* Let it expand if needed */
+        max-width: 100%;
+        overflow-x: auto; /* Allow scrolling if it overflows */
+    }
+
+    .total-order-value {
+        white-space: nowrap;
+        overflow: visible;
+        text-overflow: unset;
+    }
+
+    /* Retailer name and classification */
+    .Retailer-Name {
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+        font-family: amaranth regular;
+        font-weight: bold;        
+
+    }
+
+    /* Styling for Retailer name and classification */
+    .classification {
+        font-size: 14px;
+        font-weight: bold;
+        color: #C1206B;
+        text-align: right;  /* Ensure it's aligned to the right */
+        margin-bottom: -1px;
+        margin-top: -1px;
+        font-family: amaranth regular;
+    }
+
+    /* Flex container for general layout */
+    .flex-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 10px 0;
+    }
+
+    /* Styling for fixed column */
+    .column {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+   
+
+    /* Additional spacing for status and visit type */
+    .visit-type,
+    .status {
+        margin-left: 5px;  /* Adjust the spacing between these metrics */
+    }
+
+    /* Ensure that the icon size is consistent */
+    .slds-icon_small {
+        width: 16px;
+        height: 16px;
+    }
+    
+    /* Media query for mobile devices */
+@media (max-width: 767px) {
+    .metric-address {
+        max-width: 100%;
+    }
+    
+    /*added by Fuzail - Mobile-specific tab styling for better visibility */
+    .status-tabs-container {
+        gap: 3px; /* Smaller gap on mobile */
+        padding-left: 3px;
+        padding-right: 3px;
+    }
+    
+    .status-tab {
+        font-size: 10px; /* Smaller font on mobile */
+        padding: 5px 2px; /* Reduced padding on mobile */
+        line-height: 1.3; /* Slightly more line spacing on mobile */
+    }
+}

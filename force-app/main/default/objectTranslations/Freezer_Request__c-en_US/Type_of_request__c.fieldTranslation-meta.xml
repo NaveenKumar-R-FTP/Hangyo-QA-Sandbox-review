@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Type of request --></label>
+    <name>Type_of_request__c</name>
+    <picklistValues>
+        <masterLabel>Pull out to DB</masterLabel>
+        <translation><!-- Pull out to DB --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Pull out to Warehouse</masterLabel>
+        <translation><!-- Pull out to Warehouse --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Transfer to other distributor</masterLabel>
+        <translation><!-- Transfer to other distributor --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Transfer to other outlet</masterLabel>
+        <translation><!-- Transfer to other outlet --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

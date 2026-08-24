@@ -1,0 +1,69 @@
+<template>
+    <template if:true={showcompetitorinfo}>
+        <div class="main-container">
+            <lightning-card>
+                <h3 class="headingOrder">Competitor Information</h3>
+                <div class="slds-m-around_x-small scrollable-content">
+                    
+                    <!-- Checkbox Section -->
+                    <div class="checkbox-section">
+                        <div class="checkbox-container">
+                            <lightning-checkbox-group
+                                name="brands"
+                                label="Ice Cream Brands"
+                                options={brandOptions}
+                                value={selectedBrands}
+                                onchange={handleBrandChange}
+                                class="two-column-checkbox">
+                            </lightning-checkbox-group>
+                        </div>
+                    </div>
+
+                    <!-- Quantity & Description Section -->
+                    <template if:true={lineItems}>
+                        <div class="input-section">
+                            <template for:each={lineItems} for:item="item">
+                                <div key={item.value} class="input-group">
+                                    <lightning-input
+                                        type="number"
+                                        label={item.labelWithQuantity}
+                                        value={item.quantity}
+                                        required
+                                        min="1"
+                                        onchange={handleQuantityChange}
+                                        data-value={item.value}>
+                                    </lightning-input>
+                                    
+                                    <lightning-textarea
+                                        label="Description"
+                                        value={item.description}
+                                        onchange={handleDescriptionChange}
+                                        data-value={item.value}
+                                        class="description-field">
+                                    </lightning-textarea>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+                </div>
+           
+
+            <!-- Fixed Action Buttons -->
+            <footer class="footer">
+                <button class="buttonsGeneral" onclick={handleBack}>Back</button>
+                <button class="buttonsGeneral submit-butt" 
+                        onclick={handleSubmit} 
+                        disabled={isSubmitDisabled}>
+                    Submit
+                </button>
+            </footer>
+        </lightning-card>
+        </div>
+        
+    </template>
+
+    <template if:true={showVisitAccDetailComponentInComp}>
+
+  <c-visit-account-detail-component></c-visit-account-detail-component>
+     </template>
+</template>

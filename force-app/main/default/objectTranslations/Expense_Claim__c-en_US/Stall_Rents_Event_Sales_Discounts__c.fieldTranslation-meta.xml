@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- As per approval by HHs and VP Sales --></help>
+    <label><!-- Stall Rents / Event Sales Discounts --></label>
+    <name>Stall_Rents_Event_Sales_Discounts__c</name>
+</CustomFieldTranslation>

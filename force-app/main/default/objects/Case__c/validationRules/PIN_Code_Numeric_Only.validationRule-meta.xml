@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PIN_Code_Numeric_Only</fullName>
+    <active>true</active>
+    <errorConditionFormula>NOT(
+    REGEX(PIN_Code__c , &quot;^[0-9]*$&quot;)
+)</errorConditionFormula>
+    <errorDisplayField>PIN_Code__c</errorDisplayField>
+    <errorMessage>Please enter a valid PIN code using numbers only.</errorMessage>
+</ValidationRule>

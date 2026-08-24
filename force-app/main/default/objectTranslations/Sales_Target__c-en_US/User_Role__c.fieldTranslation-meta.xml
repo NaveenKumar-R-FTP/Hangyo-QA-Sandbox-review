@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- User Role --></label>
+    <name>User_Role__c</name>
+    <picklistValues>
+        <masterLabel>Area Sales Manager</masterLabel>
+        <translation><!-- Area Sales Manager --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Primary Sales Representative</masterLabel>
+        <translation><!-- Primary Sales Representative --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Sales Officer</masterLabel>
+        <translation><!-- Sales Officer --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Senior Sales Officer</masterLabel>
+        <translation><!-- Senior Sales Officer --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

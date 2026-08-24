@@ -1,0 +1,24 @@
+<template>
+    <div class="container">
+        <h2 class="title slds-text-heading_medium">Visit Summary PDF</h2>
+            <label class="slds-text-title_bold" style="padding: 5px; margin-right: 10px;">Order Date: 
+                <input type="date" value={orderDate} onchange={handleOrderDateChange} class="input-field" />
+            </label>
+            <div class="slds-text-title_bold">
+                <lightning-combobox 
+                    label='Beat'
+                    value={selectedBeat}
+                    options={beatOptions}
+                    onchange={handleBeatChange}
+                    placeholder="Select Beat"
+                    disabled={isBeatDisabled}
+                    style="margin-top: 5px; padding: 5px;">
+                </lightning-combobox>
+            </div>
+            <br>
+            <div class="button-container">
+                <button class="actionButtons" onclick={backToVisitPage}>Back</button>
+                <button class="actionButtons" onclick={handleOpenPdf}> Download PDF </button>&nbsp;
+            </div>
+    </div>
+</template>

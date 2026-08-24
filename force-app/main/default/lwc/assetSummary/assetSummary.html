@@ -1,0 +1,49 @@
+<template>
+    <lightning-card>
+        <div class="card-header">
+            <span class="card-title">Asset</span>
+            <div class="right-tools">
+                <button class="details-btn" onclick={handleSeeDetails}>See Details</button>
+            </div>
+        </div>
+
+        <div class="card-content">
+            <!--div class="donut-container">
+                <svg class="donut-chart" viewBox="0 0 120 120">
+                    <circle class="donut-ring" cx="60" cy="60" r="50" fill="none" stroke="#e4e6eb" stroke-width="20"/>
+                    <circle class="donut-segment" cx="60" cy="60" r="50" fill="none" stroke="#4caf50" stroke-width="20"
+                        stroke-dasharray={donutSegment1} stroke-dashoffset="0"/>
+                    <circle class="donut-segment" cx="60" cy="60" r="50" fill="none" stroke="#2196f3" stroke-width="20"
+                        stroke-dasharray={donutSegment2} stroke-dashoffset={donutOffset2}/>
+                    <circle class="donut-segment" cx="60" cy="60" r="50" fill="none" stroke="#ff9800" stroke-width="20"
+                        stroke-dasharray={donutSegment3} stroke-dashoffset={donutOffset3}/>
+                </svg>
+            </div -->
+
+            <div class="metrics-legend">
+                <div class="metric-item">
+                    <span class="metric-indicator" style="background-color: #4caf50;"></span>
+                    <span class="metric-label">Total DF</span>
+                    <span class="metric-value">{totalDF}</span>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-indicator" style="background-color: #2196f3;"></span>
+                    <span class="metric-label">Billed DF</span>
+                    <span class="metric-value">{billedDF}</span>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-indicator" style="background-color: #ff9800;"></span>
+                    <span class="metric-label">MTD Throughput</span>
+                    <span class="metric-value">{formattedThroughput}</span>
+                </div>
+                <template if:true={showZeroBilling}>
+                    <div class="metric-item">
+                        <span class="metric-indicator" style="background-color: #f44336;"></span>
+                        <span class="metric-label">Zero Billing DF</span>
+                        <span class="metric-value">{zeroBillingDF}</span>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </lightning-card>
+</template>

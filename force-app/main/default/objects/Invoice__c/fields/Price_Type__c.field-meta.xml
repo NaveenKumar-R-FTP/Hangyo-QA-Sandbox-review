@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Price_Type__c</fullName>
+    <description>Copied from Order__r.Price_Type__c at invoice creation time. NOTE: this is a one-time snapshot and can go stale if the Order is touched afterward — see the new Price_Type_Live__c formula field for a value that always mirrors the Order and can never disagree with it. This field could not be converted to a formula field or deleted (blocked by another reference), so it&apos;s left as-is.</description>
+    <label>Price Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>MRP</fullName>
+                <default>true</default>
+                <label>MRP</label>
+            </value>
+            <value>
+                <fullName>Dealer Price</fullName>
+                <default>false</default>
+                <label>Dealer Price</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Transfer_Request</fullName>
+    <active>true</active>
+    <label>Transfer Request</label>
+    <picklistValues>
+        <picklist>Approval_Request_Status__c</picklist>
+        <values>
+            <fullName>Request approved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Request in L1 approval</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Request in L2 approval</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Request in L3 approval</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Request received</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Request rejected</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Asset_Status__c</picklist>
+        <values>
+            <fullName>Additional Freezer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Exchange</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Replacement</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Competitor_Converted__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Supporting_Document__c</picklist>
+        <values>
+            <fullName>Aadhar</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Others</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PAN</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rent Agreement</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Transfer_location__c</picklist>
+        <values>
+            <fullName>Distributor point</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Retailer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Warehouse</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Type_of_request__c</picklist>
+        <values>
+            <fullName>Pull out to DB</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pull out to Warehouse</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Transfer to other distributor</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Transfer to other outlet</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

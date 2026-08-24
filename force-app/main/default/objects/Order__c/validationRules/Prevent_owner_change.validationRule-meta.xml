@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prevent_owner_change</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+  ISCHANGED(OwnerId),
+  $Profile.Name =&quot;DMS Partner Community Custom&quot;
+)</errorConditionFormula>
+    <errorMessage>You do not have permission to change the record owner. Contact your administrator.</errorMessage>
+</ValidationRule>
