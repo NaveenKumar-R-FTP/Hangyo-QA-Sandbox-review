@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Partial_Tally__c</fullName>
+    <description>The per-day tally accumulated so far, as JSON of day to row count. Carried on the run record because the walk spans many transactions and each one must hand its work to the next; only when the walk completes is the tally written out as Archive Day Count rows. Small in practice - it holds one entry per day on which an archival run happened, which is a handful, not one per record.</description>
+    <label>Partial Tally</label>
+    <length>131072</length>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>6</visibleLines>
+</CustomField>

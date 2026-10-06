@@ -594,6 +594,11 @@
             <field>Visit_Number__c</field>
             <table>Visit__c.Visit_Tasks__r</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Visit_Name__c</field>
+            <table>Visit__c.Visit_Tasks__r</table>
+        </columns>
         <masterLabel>Visit Tasks</masterLabel>
     </sections>
 </ReportType>

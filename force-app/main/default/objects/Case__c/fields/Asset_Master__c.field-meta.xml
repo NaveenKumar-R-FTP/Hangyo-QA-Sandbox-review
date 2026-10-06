@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Asset_Master__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Stable reference to the asset this case is about. Stamped at case creation so approvals resolve correctly even if the asset code or outlet changes afterwards.</description>
+    <label>Asset Master</label>
+    <referenceTo>Asset_Master__c</referenceTo>
+    <relationshipLabel>Cases</relationshipLabel>
+    <relationshipName>Asset_Master_Cases</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

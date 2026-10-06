@@ -2070,6 +2070,16 @@
             <field>Archived_Date__c</field>
             <table>Account.Orders__r.Order_Line_Items__r</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Per_Pieces__c</field>
+            <table>Account.Orders__r.Order_Line_Items__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Order_Name__c</field>
+            <table>Account.Orders__r.Order_Line_Items__r</table>
+        </columns>
         <masterLabel>Order Line Items</masterLabel>
     </sections>
 </ReportType>

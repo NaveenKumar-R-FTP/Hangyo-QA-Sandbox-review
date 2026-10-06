@@ -12,9 +12,9 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Reused</fullName>
+                <fullName>Re Use</fullName>
                 <default>false</default>
-                <label>Reused</label>
+                <label>Re Use</label>
             </value>
             <value>
                 <fullName>Consumed</fullName>
@@ -25,6 +25,12 @@
                 <fullName>Damaged</fullName>
                 <default>false</default>
                 <label>Damaged</label>
+            </value>
+            <value>
+                <fullName>Reused</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Reused</label>
             </value>
         </valueSetDefinition>
     </valueSet>

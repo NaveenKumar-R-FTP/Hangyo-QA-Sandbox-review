@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Counted_At__c</fullName>
+    <description>When the walk that produced this figure finished. The report shows it, because a rollup is only as current as its last walk and a new archival run makes it stale.</description>
+    <label>Counted At</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>DateTime</type>
+</CustomField>

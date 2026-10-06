@@ -1070,6 +1070,36 @@
             <field>SKU_Discount_Percent__c</field>
             <table>Order__c.Invoices__r.Invoice_Line_Items__r</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Invoice_Number__c</field>
+            <table>Order__c.Invoices__r.Invoice_Line_Items__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Product_Name__c</field>
+            <table>Order__c.Invoices__r.Invoice_Line_Items__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Quantity_Scheme_Applied_Type__c</field>
+            <table>Order__c.Invoices__r.Invoice_Line_Items__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Quantity_Scheme_Applied_Discount_Percent__c</field>
+            <table>Order__c.Invoices__r.Invoice_Line_Items__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Product_HSN__c</field>
+            <table>Order__c.Invoices__r.Invoice_Line_Items__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Product_Unit_of_Measure__c</field>
+            <table>Order__c.Invoices__r.Invoice_Line_Items__r</table>
+        </columns>
         <masterLabel>Invoice Line Items</masterLabel>
     </sections>
 </ReportType>

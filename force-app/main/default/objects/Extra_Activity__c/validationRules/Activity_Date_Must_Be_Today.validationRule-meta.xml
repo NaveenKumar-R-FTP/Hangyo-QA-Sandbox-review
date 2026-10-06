@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Activity_Date_Must_Be_Today</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND( ISNEW(), Activity_Date__c &lt;&gt; TODAY() )</errorConditionFormula>
+    <errorDisplayField>Activity_Date__c</errorDisplayField>
+    <errorMessage>Extra Activities can only be recorded for today&apos;s date.</errorMessage>
+</ValidationRule>

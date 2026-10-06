@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QuickAction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Mahesh&apos;s approval path for a New Branding Request - collects the hub-filtered Vendor, then approves.</description>
+    <flowDefinition>Approve_New_Request</flowDefinition>
+    <label>Approve</label>
+    <optionsCreateFeedItem>false</optionsCreateFeedItem>
+    <type>Flow</type>
+</QuickAction>

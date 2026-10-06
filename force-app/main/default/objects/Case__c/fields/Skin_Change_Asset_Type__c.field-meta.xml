@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Skin_Change_Asset_Type__c</fullName>
+    <description>Which kind of asset a Skin Change request is re-skinning. Branding Asset points at Branding_Asset__c; Deep Freezer points at Assigned_Asset__c. Exactly one of the two is filled.</description>
+    <label>Skin Change Asset Type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Branding Asset</fullName>
+                <default>false</default>
+                <label>Branding Asset</label>
+            </value>
+            <value>
+                <fullName>Deep Freezer</fullName>
+                <default>false</default>
+                <label>Deep Freezer</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

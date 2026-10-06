@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Customer_Api_Key__c</fullName>
+    <description>Unique secret key for this customer, used when they authenticate via the shared Connected App/credential. TallyInvoiceAPI reads this from the X-Tally-Customer-Key request header and TallyAllowedUserService matches it here to scope results to only this customer&apos;s own invoices, without needing a dedicated Connected App or Run-As User per customer.</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Customer Api Key</label>
+    <length>100</length>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

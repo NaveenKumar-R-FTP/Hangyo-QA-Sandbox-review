@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Distributor__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The distributor the tagged outlet belongs to, carried the same way Asset_Mapping__c carries it. Stamped when the asset is created and re-synced when the retailer moves to another distributor.</description>
+    <label>Distributor</label>
+    <referenceTo>Account</referenceTo>
+    <relationshipLabel>Branding Assets (Distributor)</relationshipLabel>
+    <relationshipName>Branding_Assets_Distributor</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

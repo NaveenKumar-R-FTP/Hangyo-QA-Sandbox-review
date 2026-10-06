@@ -479,7 +479,7 @@ public class SecondaryInvoiceHandlerTest {
         System.runAs(testUser) {
             Test.startTest();
             try {
-                Object result = SecondaryInvoiceHandler.getvalueSchemeFromOrder(Decimal.valueOf(100), testOrder.Id);
+                Object result = SecondaryInvoiceHandler.getvalueSchemeFromOrder(Decimal.valueOf(100), testOrder.Id, null);
                 System.assert(result != null, 'Should return list');
             } catch (Exception e) {
                 System.assert(true, 'Scheme service may throw');

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Extra Activity</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Extra Activities</value>
+    </caseValues>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- Extra Activities can only be recorded for today&apos;s date. --></errorMessage>
+        <name>Activity_Date_Must_Be_Today</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- End the activity before saving it. --></errorMessage>
+        <name>End_Time_Required_To_Complete</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- This activity is already saved and cannot be changed. --></errorMessage>
+        <name>No_Change_After_Completed</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Fill in all required fields for the selected activity type before saving. --></errorMessage>
+        <name>Required_Fields_To_Complete</name>
+    </validationRules>
+</CustomObjectTranslation>

@@ -9,11 +9,6 @@
     <c-asset-screen onback={handlegoBack} visit-task-id={accountId} ></c-asset-screen>
 </template>
 
-<!--  BRANDING AUDIT SCREEN -->
-<template if:true={isBrandingScreen}>
-    <c-mapped-branding onback={handlegoBack} visit-task-id={currentVisitTaskId} is-check-in-done={isCheckInDone} unproductive-reason={unproductiveReason}></c-mapped-branding>
-</template>
-
 <template if:true={isCaseAssetScreen}>
     <template if:true={isLoading}>
         <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
@@ -319,9 +314,8 @@
     
             
     <lightning-card>
-        <div class="buttons-wrapper4">
-            <button class="taggedbutton" type="button" onclick={competitorbuttonclicked} >Competitor Info</button>
-            <button class="taggedbutton" type="button" onclick={handleOpenBranding} >Mapped Branding</button>
+        <div class="buttons-wrapper3">
+            <button class="taggedbutton2" type="button" onclick={competitorbuttonclicked} >Create Competitor Info</button>
         </div>
     </lightning-card>
     

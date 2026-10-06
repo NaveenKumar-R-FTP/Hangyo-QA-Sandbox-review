@@ -263,35 +263,35 @@
             <apex:variable var="totalSchemeAmt" value="{!0}"/>
             <apex:variable var="i" value="{!0}"/>
 
-            <apex:repeat value="{!wrapper.invoiceLineItems}" var="item" id="theRepeat">
+            <apex:repeat value="{!wrapper.lineItemWrappers}" var="line" id="theRepeat">
 
             <apex:variable var="i" value="{!i+1}"/>
-            <apex:variable var="totalAmount" value="{!totalAmount + item.Total_Amount__c}"/>
-            <apex:variable var="totalSchemeAmt" value="{!totalSchemeAmt + IF(ISNULL(item.Scheme_Discount_Amount__c), 0, item.Scheme_Discount_Amount__c)}"/>
-            <apex:variable var="linetotalAmount" value="{!item.Tax__c+item.CGST_Amount__c+item.SGST_Amount__c+item.IGST_Amount__c}"/>
+            <apex:variable var="totalAmount" value="{!totalAmount + line.item.Total_Amount__c}"/>
+            <apex:variable var="totalSchemeAmt" value="{!totalSchemeAmt + IF(ISNULL(line.item.Scheme_Discount_Amount__c), 0, line.item.Scheme_Discount_Amount__c)}"/>
+            <apex:variable var="linetotalAmount" value="{!line.item.Tax__c+line.item.CGST_Amount__c+line.item.SGST_Amount__c+line.item.IGST_Amount__c}"/>
 
             <tr>
-                <td colspan="10">{!i}. {!item.Product__r.Name}
-                    <apex:outputText rendered="{!item.Is_Promotional__c}"> <span style="font-weight:bold; color:#c00000;"> (PROMO)</span>
+                <td colspan="10">{!i}. {!line.productName}
+                    <apex:outputText rendered="{!line.item.Is_Promotional__c}"> <span style="font-weight:bold; color:#c00000;"> (PROMO)</span>
                     </apex:outputText>
                 </td>
-                <td align="right">{!item.Quantity__c}</td>
-                <td align="right"><apex:outputText value="{0,number,##0}"><apex:param value="{!item.MRP__c}" /></apex:outputText></td>
+                <td align="right">{!line.item.Quantity__c}</td>
+                <td align="right"><apex:outputText value="{0,number,##0}"><apex:param value="{!line.item.MRP__c}" /></apex:outputText></td>
                 <td align="right">{!$Label.Invoice_HSN}</td>
-                <!--td align="right">{!item.Price__c}</td-->
+                <!--td align="right">{!line.item.Price__c}</td-->
                 <td align="right">
                     <apex:outputText value="{0, number, 0.00}">
-                        <apex:param value="{!item.Price__c}"/>
+                        <apex:param value="{!line.item.Price__c}"/>
                     </apex:outputText>
                 </td>
-                <td align="right">{!item.Total_Amount__c}</td>
-                <td align="right">{!item.Discount_1__c}</td>
+                <td align="right">{!line.item.Total_Amount__c}</td>
+                <td align="right">{!line.item.Discount_1__c}</td>
                 <apex:outputPanel layout="none" rendered="{!wrapper.hasSchemeDiscount}">
-                <td align="right">{!item.Scheme_Discount_Amount__c}</td>
+                <td align="right">{!line.item.Scheme_Discount_Amount__c}</td>
                 </apex:outputPanel>
-                <td align="right">{!item.Discount_2__c}</td>
-                <td align="right">{!item.Tax__c}</td>
-                <td align="right">{!item.Total_Tax__c}</td>
+                <td align="right">{!line.item.Discount_2__c}</td>
+                <td align="right">{!line.item.Tax__c}</td>
+                <td align="right">{!line.item.Total_Tax__c}</td>
                 <td align="right">{!linetotalAmount}</td>
             </tr>
 
@@ -300,16 +300,16 @@
             <!-- ================= TOTAL ================= -->
             <tr class="totalRow" align="center">
                 <td colspan="10" align="left">Total</td>
-                <td>{!wrapper.invoice.Total_Quantity__c}</td>
+                <td>{!wrapper.totalQuantity}</td>
                 <td></td>
                 <td></td>
                 <td></td>
                 <td>{!totalAmount}</td>
-                <td>{!wrapper.invoice.Total_Discount1__c}</td>
+                <td>{!wrapper.discount1Total}</td>
                 <apex:outputPanel layout="none" rendered="{!wrapper.hasSchemeDiscount}">
                 <td>{!totalSchemeAmt}</td>
                 </apex:outputPanel>
-                <td>{!wrapper.invoice.Total_Discount_2__c}</td>
+                <td>{!wrapper.discount2Total}</td>
                 <td>{!wrapper.invoice.Taxable_Amount__c}</td>
                 <td>{!wrapper.invoice.Total_GST__c}</td>
                 <td>{!wrapper.invoice.Invoice_Amount__c}</td>
@@ -352,7 +352,7 @@
                             <td style="border:1px solid black; font-weight:bold;">Discount %</td>
                             <td style="border:1px solid black; text-align:right; font-weight:bold;">
                                 <apex:outputText value="{0,number,##0.00}">
-                                    <apex:param value="{!wrapper.invoice.Total_Discount_Percent__c}" />
+                                    <apex:param value="{!wrapper.discountPercent}" />
                                 </apex:outputText>
                             </td>
                         </tr>
@@ -360,10 +360,19 @@
                         <tr>
                             <td style="border:1px solid black; font-weight:bold;">Discount Value</td>
                             <td style="border:1px solid black; text-align:right; font-weight:bold;">
-                                {!wrapper.invoice.Total_Discount__c}
+                                {!wrapper.discountTotal}
                             </td>
                         </tr>
             
+                            <apex:outputPanel layout="none" rendered="{!NOT(ISBLANK(wrapper.invoice.Value_Scheme_Applied__c))}">
+                            <tr>
+                                <td style="border:1px solid black; font-weight:bold;">Value Scheme Applied: {!wrapper.invoice.Value_Scheme_Applied__r.Name}</td>
+                                <td style="border:1px solid black; text-align:right; font-weight:bold; color:green;">
+                                    {!wrapper.invoice.Value_Scheme_Discount__c}
+                                </td>
+                            </tr>
+                            </apex:outputPanel>
+
                             <apex:repeat value="{!wrapper.appliedQuantityDiscountSchemes}" var="qs">
                             <tr>
                                 <td style="border:1px solid black; font-weight:bold;">Scheme Applied: {!qs.schemeName} ({!qs.discountPercent}%)</td>

@@ -179,6 +179,100 @@ private class CounterInvoiceControllerTest {
     }
 
     @isTest
+    static void testSaveInvoiceSkipsGstForMrp() {
+        User u = [SELECT Id FROM User WHERE Email LIKE 'testdist%' LIMIT 1];
+        Order__c order = [SELECT Id FROM Order__c WHERE Type__c = 'Counter Order' LIMIT 1];
+
+        System.runAs(u) {
+            Test.startTest();
+            CounterInvoiceController.InvoiceResponse createResp = CounterInvoiceController.createCounterInvoice(order.Id);
+
+            // createCounterInvoice already set CGST__c=9/SGST__c=9/IGST__c=0 (same-state,
+            // from the 'General GST Settings' Order_tax_value__c in @testSetup).
+            Invoice__c invoice = [SELECT Id, CGST__c, SGST__c, IGST__c FROM Invoice__c WHERE Id = :createResp.invoiceId];
+            invoice.Price_Type__c = 'MRP';
+
+            List<Invoice_Line_Item__c> lineItems = [
+                SELECT Id, Invoice__c, Product__c, Quantity__c, Price__c, Discount_1__c, Discount_2__c
+                FROM Invoice_Line_Item__c WHERE Invoice__c = :invoice.Id
+            ];
+            for (Invoice_Line_Item__c li : lineItems) {
+                li.Quantity__c = 2;
+                li.Price__c = 100; // gross = 200, MRP-inclusive
+            }
+
+            CounterInvoiceController.saveInvoice(invoice, lineItems, new List<Id>());
+            Test.stopTest();
+
+            Invoice__c saved = [
+                SELECT Taxable_Amount__c, Total_GST__c, CGST_Amount__c, SGST_Amount__c, IGST_Amount__c, Invoice_Amount__c
+                FROM Invoice__c WHERE Id = :invoice.Id
+            ];
+            // MRP is tax-inclusive — no GST shown/charged separately. Taxable value stays
+            // at the full gross amount and the invoice total is unchanged (200, not 218).
+            System.assertEquals(200, saved.Invoice_Amount__c, 'MRP invoice total must equal the original MRP gross amount, with no GST added.');
+            System.assertEquals(0, saved.Total_GST__c, 'MRP invoices must not show any GST.');
+            System.assertEquals(0, saved.CGST_Amount__c, 'CGST must be 0 for MRP.');
+            System.assertEquals(0, saved.SGST_Amount__c, 'SGST must be 0 for MRP.');
+            System.assertEquals(0, saved.IGST_Amount__c, 'IGST must be 0 for MRP.');
+            System.assertEquals(200, saved.Taxable_Amount__c, 'Taxable value should equal the full gross amount for MRP (no reduction).');
+
+            // NOTE: this test does NOT assert on the per-line CGST_Amount__c/SGST_Amount__c/
+            // IGST_Amount__c/Total_Tax__c fields on Invoice_Line_Item__c. Those turned out to
+            // come back null in this unit test (not stale-non-zero, genuinely untouched) —
+            // meaning whatever populates them in real usage (confirmed: UpdateInvoiceScheduler.cls,
+            // a scheduled batch that ignores Price_Type__c entirely) does not run synchronously
+            // as part of createCounterInvoice()/saveInvoice(), so it can't be exercised or
+            // asserted on from here. That scheduler needs its own Price_Type__c-aware fix and
+            // its own test — tracked separately, not part of this method's responsibility.
+        }
+    }
+
+    @isTest
+    static void testSaveInvoiceAppliesGstForDealerPrice() {
+        User u = [SELECT Id FROM User WHERE Email LIKE 'testdist%' LIMIT 1];
+        Order__c order = [SELECT Id FROM Order__c WHERE Type__c = 'Counter Order' LIMIT 1];
+
+        // DIAGNOSTIC: @testSetup never sets Order__c.Price_Type__c (it's null there — only
+        // Description__c has the legacy 'Type: X | Price: Y' string). If some automation
+        // outside this class/source determines MRP-vs-not from the ORDER's live Price Type
+        // (or a formula mirroring it, e.g. Price_Type_Live__c) rather than from the
+        // Invoice__c.Price_Type__c snapshot this test sets below, a null order Price Type
+        // could be silently treated as MRP-like and zero out GST even here. Setting it
+        // explicitly rules that out (or confirms it, if this test still fails with GST=0).
+        order.Price_Type__c = 'Dealer Price';
+        update order;
+
+        System.runAs(u) {
+            Test.startTest();
+            CounterInvoiceController.InvoiceResponse createResp = CounterInvoiceController.createCounterInvoice(order.Id);
+
+            // createCounterInvoice already sets CGST__c/SGST__c/IGST__c from the same-state
+            // tax settings — only Price_Type__c needs overriding here to confirm the
+            // non-MRP path still applies GST normally (regression check for the MRP fix above).
+            Invoice__c invoice = [SELECT Id, CGST__c, SGST__c, IGST__c FROM Invoice__c WHERE Id = :createResp.invoiceId];
+            invoice.Price_Type__c = 'Dealer Price';
+
+            List<Invoice_Line_Item__c> lineItems = [
+                SELECT Id, Invoice__c, Product__c, Quantity__c, Price__c, Discount_1__c, Discount_2__c
+                FROM Invoice_Line_Item__c WHERE Invoice__c = :invoice.Id
+            ];
+            for (Invoice_Line_Item__c li : lineItems) {
+                li.Quantity__c = 2;
+                li.Price__c = 100;
+            }
+
+            CounterInvoiceController.saveInvoice(invoice, lineItems, new List<Id>());
+            Test.stopTest();
+
+            Invoice__c saved = [SELECT Total_GST__c, CGST_Amount__c, SGST_Amount__c, IGST_Amount__c FROM Invoice__c WHERE Id = :invoice.Id];
+            System.assert(saved.Total_GST__c != null && saved.Total_GST__c > 0,
+                'Dealer Price invoices should still have GST applied normally. Actual Total_GST__c=' + saved.Total_GST__c +
+                ' CGST_Amount__c=' + saved.CGST_Amount__c + ' SGST_Amount__c=' + saved.SGST_Amount__c + ' IGST_Amount__c=' + saved.IGST_Amount__c);
+        }
+    }
+
+    @isTest
     static void testGetTaxRates() {
         Test.startTest();
         Map<String, Decimal> rates = CounterInvoiceController.getTaxRates();

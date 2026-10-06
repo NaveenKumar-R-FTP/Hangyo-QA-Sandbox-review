@@ -84,6 +84,7 @@
 .wd-target { padding: 16px; }
 .t-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
 .t-lbl { font-size: 16px; font-weight: 700; color: #33405f; }
+.t-month { display: block; font-size: 12px; font-weight: 600; color: var(--muted); margin-top: 2px; }
 .t-pct { font-size: 16px; font-weight: 800; color: var(--hangyo); }
 .t-bar { height: 14px; border-radius: 10px; background: #e4e8f2; }
 .t-fill { height: 100%; border-radius: 10px; background: linear-gradient(90deg, var(--hangyo), #E6197F); position: relative; }
@@ -92,6 +93,17 @@
 .t-foot { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; font-size: 14px; }
 .t-foot .amt b { font-size: 19px; font-weight: 800; color: var(--ink); }
 .t-foot .of, .t-foot .days { color: var(--muted); font-weight: 600; }
+
+/* YTD slim line under the monthly target */
+.ytd-line { margin-top: 14px; padding-top: 12px; border-top: 1px dashed #d8deea; }
+.ytd-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.ytd-lbl { font-size: 13px; font-weight: 700; color: #5a6785; }
+.ytd-pct { font-size: 14px; font-weight: 800; color: var(--hangyo); }
+.ytd-bar { height: 8px; border-radius: 8px; background: #e4e8f2; }
+.ytd-fill { height: 100%; border-radius: 8px; background: linear-gradient(90deg, var(--hangyo), #E6197F); }
+.ytd-foot { margin-top: 6px; font-size: 13px; }
+.ytd-foot b { font-size: 15px; font-weight: 800; color: var(--ink); }
+.ytd-foot .of { color: var(--muted); font-weight: 600; }
 
 /* Beat */
 .wd-beat-title { font-size: 19px; font-weight: 600; color: #33405f; margin: 20px 4px 12px; }

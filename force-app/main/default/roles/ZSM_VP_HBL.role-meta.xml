@@ -5,5 +5,5 @@
     <mayForecastManagerShare>false</mayForecastManagerShare>
     <name>ZSM-VP HBL</name>
     <opportunityAccessLevel>Edit</opportunityAccessLevel>
-    <parentRole>APTSKLNK_VP</parentRole>
+    <parentRole>PSR_ASM_AVP_VP_HBL</parentRole>
 </Role>

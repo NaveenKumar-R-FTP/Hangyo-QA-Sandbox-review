@@ -8,7 +8,7 @@
     </values>
     <values>
         <field>Batch_Scope_Size__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:double">200.0</value>
     </values>
     <values>
         <field>Closed_State_Values__c</field>
@@ -16,18 +16,30 @@
     </values>
     <values>
         <field>Dashboard_Max_Days_Back__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:double">90.0</value>
     </values>
     <values>
         <field>Migration_Delete_Enabled__c</field>
-        <value xsi:type="xsd:boolean">false</value>
+        <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
         <field>Object_API_Name__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">Attendance__cWHERE Archived__c = false AND DAY_ONLY(CreatedDate) &lt; :cutoffDate ORDER BY Id Asc</value>
     </values>
     <values>
         <field>Order__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Read_Named_Credential__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Read_Path__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Report_Columns__c</field>
         <value xsi:nil="true"/>
     </values>
     <values>
@@ -36,6 +48,6 @@
     </values>
     <values>
         <field>Soft_Archive_Days__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:double">7.0</value>
     </values>
 </CustomMetadata>

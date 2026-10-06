@@ -1261,14 +1261,22 @@ this.invoiceInfo.Invoice_Amount_In_Words__c = this.amountToWords(this.invoiceInf
     return (this.activeSchemes || []).filter((s) => s.isApplied && s.amountApplied > 0);
   }
   get amountInWordsRowspan() {
-    // Fixed rows always present: Total Unit, Discount 2, Discount Total,
-    // Taxable Value, Total GST, Round Off, Invoice Value = 7
-    // Plus exactly one row per applied scheme, plus 1 more for Net Payable
-    // only when at least one scheme is actually showing.
-    const baseRows = 7;
-    const schemeRows = this.appliedSchemesList.length;
-    const netPayableRow = schemeRows > 0 ? 1 : 0;
-    return baseRows + schemeRows + netPayableRow;
+    // Fixed rows always present: Total Unit, Discount 2, Value Scheme,
+    // Value Scheme Applied, Discount Total, Taxable Value, Total GST,
+    // Round Off, Invoice Value = 9. (Value Scheme / Value Scheme Applied
+    // were previously missing from this count entirely, and the Quantity
+    // Scheme rows below were never counted either — both caused Total GST/
+    // Round Off/Invoice Value to drift out of the summary box whenever a
+    // Quantity Scheme was applied. Ported fix from secondaryInvoice.js.)
+    // Plus one row per applied Quantity Scheme (appliedQuantityDiscountSchemes),
+    // plus one row per applied Retailer Reimbursement scheme (appliedSchemesList),
+    // plus 1 more for Net Payable only when at least one reimbursement scheme
+    // is actually showing.
+    const baseRows = 9;
+    const qtySchemeRows = (this.appliedQuantityDiscountSchemes || []).length;
+    const reimbursementRows = this.appliedSchemesList.length;
+    const netPayableRow = reimbursementRows > 0 ? 1 : 0;
+    return baseRows + qtySchemeRows + reimbursementRows + netPayableRow;
   }
 
   remarksHandler(event) {
@@ -1813,6 +1821,17 @@ this.invoiceInfo.Invoice_Amount_In_Words__c = this.amountToWords(this.invoiceInf
     }).
     catch((error) => {
       console.error('Error in reapplyValueSchemeOnInvoice:', error);
+      // Self-heal: if re-checking the applied scheme fails for any reason (most
+      // notably, the underlying Scheme__c record was deleted or deactivated out
+      // from under an already-applied invoice), don't leave the invoice frozen
+      // showing a stale scheme name/discount forever — clear it the same way an
+      // ordinary below-threshold drop already does above.
+      this.itemList = this.itemList.filter(
+        (item) => !(item.isPromotional && item.promoType === 'VALUE')
+      );
+      this.clearValueScheme();
+      this.itemList.forEach((r, i) => r.rowNo = i + 1);
+      this.itemList = [...this.itemList];
     });
   }
 

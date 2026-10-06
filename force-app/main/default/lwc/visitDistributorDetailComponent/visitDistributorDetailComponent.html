@@ -9,10 +9,6 @@
 <template if:true={isAssetScreen}>
     <c-asset-screen onback={handleGoBack} visit-task-id={visitId}></c-asset-screen>
 </template>
-<!--  BRANDING AUDIT SCREEN -->
-<template if:true={isBrandingScreen}>
-    <c-mapped-branding onback={handleGoBack} visit-task-id={visitId} is-check-in-done={isCheckInDone} unproductive-reason={unproductiveReason}></c-mapped-branding>
-</template>
 <template if:false={showCaseOrAsset}>
    <template if:true={renderFlow}>
     
@@ -221,14 +217,6 @@
                     </div>
                 </lightning-card>
             </template>
-
-            <!-- Viewing mapped branding is never gated; the panel itself decides
-                 whether the audit may be submitted. -->
-            <lightning-card>
-                <div class="buttons-wrapper4">
-                    <button class="taggedbutton" onclick={handleOpenBranding} type="button">Mapped Branding</button>
-                </div>
-            </lightning-card>
     
    </div>
 </div>

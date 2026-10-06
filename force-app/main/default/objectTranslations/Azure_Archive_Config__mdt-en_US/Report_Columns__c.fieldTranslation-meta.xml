@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Comma-separated field API names for the report columns. Blank = use code defaults. --></help>
+    <label><!-- Report Columns --></label>
+    <name>Report_Columns__c</name>
+</CustomFieldTranslation>

@@ -2,6 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Account__c</fullName>
     <deleteConstraint>Cascade</deleteConstraint>
+    <description>The outlet currently holding this branding material. Cleared when a return case completes - the asset stays Active but is no longer tagged to any account.</description>
     <label>Account</label>
     <referenceTo>Account</referenceTo>
     <relationshipLabel>Branding Assets</relationshipLabel>

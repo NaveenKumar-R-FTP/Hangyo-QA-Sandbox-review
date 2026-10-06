@@ -10,7 +10,7 @@
     <filters>
         <field>Status__c</field>
         <operation>equals</operation>
-        <value>Open,Pending,L1 Approved,L2 Approved,L3 Approved,Approved,Installation Pending,Installed,Reject</value>
+        <value>Open,Pending,L1 Approved,L2 Approved,L3 Approved,Approved,Installation Pending,Installed,Reject,Completed,Closed</value>
     </filters>
     <label>All</label>
 </ListView>

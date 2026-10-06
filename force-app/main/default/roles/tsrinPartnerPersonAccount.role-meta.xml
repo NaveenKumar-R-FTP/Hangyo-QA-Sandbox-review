@@ -6,5 +6,5 @@
     <mayForecastManagerShare>false</mayForecastManagerShare>
     <name>tsrin Partner Person Account</name>
     <opportunityAccessLevel>None</opportunityAccessLevel>
-    <parentRole>SOASM_3_RSM_3_ZSM_VP_AP</parentRole>
+    <parentRole>SO_ASM_1_RSM1_SRSM_ZSM_VP_AP</parentRole>
 </Role>

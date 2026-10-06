@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Total_amount_Incl_Tax__c</fullName>
     <externalId>false</externalId>
-    <formula>CGST__c + SGST__c + Total_Credit_amount__c</formula>
+    <formula>CGST__c + SGST__c + Total_Credit_amount__c +  IGST__c</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Total amount(Incl Tax)</label>
     <precision>18</precision>

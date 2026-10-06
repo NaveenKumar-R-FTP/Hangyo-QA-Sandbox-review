@@ -58,11 +58,21 @@
 
     <!-- 4. Target vs Achievement -->
     <div class="wd-card wd-target">
-      <div class="t-head"><span class="t-lbl">Target vs Achievement</span><span class="t-pct">{targetPct}%</span></div>
+      <div class="t-head">
+        <span class="t-lbl">Target vs Achievement<span class="t-month">{monthLabel}</span></span>
+        <span class="t-pct">{targetPct}%</span>
+      </div>
       <div class="t-bar"><div class="t-fill" style={barStyle}><span class="t-knob"></span></div></div>
       <div class="t-foot">
         <span class="amt"><b>{targetAmt}</b> <span class="of">{targetOf}</span></span>
         <span class="days">{daysLeft}</span>
+      </div>
+
+      <!-- YTD (fiscal year Apr -> current month) -->
+      <div class="ytd-line">
+        <div class="ytd-head"><span class="ytd-lbl">{ytdLabel}</span><span class="ytd-pct">{ytdPct}%</span></div>
+        <div class="ytd-bar"><div class="ytd-fill" style={ytdBarStyle}></div></div>
+        <div class="ytd-foot"><b>{ytdAch}</b> <span class="of">of {ytdTarget}</span></div>
       </div>
     </div>
 

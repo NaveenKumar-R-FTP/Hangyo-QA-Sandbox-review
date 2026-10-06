@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>First_Partition_Key__c</fullName>
+    <description>Continuation NextPartitionKey for the page on which this day was first seen during the rollup walk, or blank when that was the first page of the table. PartitionKey is the archive&apos;s only indexed column, so replaying this cursor turns a read of this day from a full table scan into a range scan - measured 6s/0 rows without it against 0s/1000 rows with it for 2026-09-20. A recorded value is a lower bound only: it can skip work but never changes which rows match.</description>
+    <externalId>false</externalId>
+    <label>First Partition Key</label>
+    <length>255</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

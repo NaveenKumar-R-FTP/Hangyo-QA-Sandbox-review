@@ -2053,6 +2053,12 @@ get hideMrpLabel() {
         })
         .catch(error => {
             console.error('Error in reapplyValueSchemeDiscount:', error);
+            // Self-heal: if re-checking the applied scheme fails for any reason
+            // (most notably, the underlying Scheme__c record was deleted or
+            // deactivated out from under an already-applied cart), don't leave
+            // the cart frozen showing a stale scheme name/discount forever —
+            // clear it the same way an ordinary below-threshold drop would.
+            this.removeIneligibleValueScheme();
         });
     }
 

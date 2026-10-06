@@ -3,6 +3,9 @@
     <fullName>Collection_Payment_Status__c</fullName>
     <externalId>false</externalId>
     <formula>IF(
+ISPICKVAL(Status__c, &quot;Cancelled&quot;),
+&quot;Cancelled&quot;,
+IF(
 Total_Payable_Balance__c = 0,
 &quot;Paid&quot;,
 IF(
@@ -12,6 +15,7 @@ IF(
 AND(Total_Payable_Balance__c &gt; 0, Collected_Amount__c &gt; 0),
 &quot;Partially Paid&quot;,
 &quot;Other&quot;
+)
 )
 )
 )</formula>

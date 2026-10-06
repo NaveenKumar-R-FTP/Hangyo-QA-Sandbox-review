@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Return_Status_Transition_Lock</fullName>
+    <active>true</active>
+    <description>Consumed and Damaged are terminal asset states. Once set, the branding return status cannot be changed again; Re Use may still move on to Consumed or Damaged.</description>
+    <errorConditionFormula>AND(
+  ISCHANGED(Branding_Return_Status__c),
+  OR(
+    ISPICKVAL(PRIORVALUE(Branding_Return_Status__c), &quot;Consumed&quot;),
+    ISPICKVAL(PRIORVALUE(Branding_Return_Status__c), &quot;Damaged&quot;)
+  )
+)</errorConditionFormula>
+    <errorDisplayField>Branding_Return_Status__c</errorDisplayField>
+    <errorMessage>This asset status is final and cannot be changed once it is Consumed or Damaged.</errorMessage>
+</ValidationRule>

@@ -1,5 +1,5 @@
 <apex:page controller="SecondaryInvoiceDownloaderCtl" standardStylesheets="false" renderAs="pdf" showHeader="false" applyBodyTag="false" applyHtmlTag="false" readOnly="true" cache="false">
-    
+
     <html>
         <head>
             <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
@@ -19,34 +19,34 @@
                     @top-left{ content:element(header); }
                     @bottom-center{ content:element(footer); }
                 }
-                
-                body{ 
-                    font-family:Tahoma; 
+
+                body{
+                    font-family:Tahoma;
                     font-size:10pt;
                     margin-left:6px;
                     margin-right:12px;
                 }
-                
+
                 table{ page-break-inside:auto; border-collapse:collapse; width:100%; }
                 tr{ page-break-inside:avoid; }
-                
+
                 .header{
                     position:running(header);
                     width:98%;
                     margin-left:5px;
                 }
-                
+
                 .headerBox{
                     border:1px solid black;
                     padding:6px;
                     margin-top:2px;
                 }
-                
+
                 .title{ font-size:11pt; font-weight:bold; text-align:center; }
                 .subtitle{ font-size:8pt; text-align:center; }
                 .companyName{ font-size:14pt; font-weight:bold; }
                 .companyBlock{ font-size:10pt; font-weight:bold; }
-                
+
                 .maintable td,.maintable th{
                     border:1px solid black;
                     padding:1px;
@@ -60,45 +60,45 @@
                     font-weight:bold;
                     background:#d9d9d9;
                 }
-                
+
                 .title{
                     font-size:18px;
                     font-weight:bold;
                 }
                 .subtitle{
                     font-size:11px;
-                    
+
                 }
-                
+
                 .totalRow td{ font-weight:bold; }
                 .summaryRow td{ font-size:8pt; }
-                
+
                 .gstHead td{
                     font-size:7pt;
                     font-weight:bold;
                     background:#d9d9d9;
                 }
-                
+
                 .gstRow td{ font-size:7pt; }
-                
+
                 .termsTitle{ font-size:7pt; font-weight:bold; }
                 .sign{ font-size:8pt; font-weight:bold; }
                 .signNote{ font-size:8pt; }
-                
+
                 #footer{
                     position:running(footer);
                     text-align:center;
                     font-size:10px;
                 }
-                
+
                 .page-number:before{
                     content:"Page " counter(page) " of " counter(pages);
                 }
-                
+
                 body, table, td, th, tr, div, span {
                     font-family: Tahoma !important;
                 }
-                
+
                 .invoiceBody,
                 .invoiceBody table,
                 .invoiceBody td,
@@ -109,34 +109,53 @@
                 }
 
             </style>
+                        <style>
+                .cancelledWatermark {
+                    position: fixed;
+                     top: 42;
+                    left: 0;
+                    width: 100%;
+                    text-align: center;
+                    color: #cccccc;
+                    font-size: 120px;
+                    font-weight: bold;
+                    letter-spacing: 14px;
+                    -webkit-transform: rotate(-30deg);
+                    transform: rotate(-30deg);
+                    z-index: 0;
+                }
+            </style>
         </head>
-    
+
     <body>
-    
+            <apex:outputPanel rendered="{!isCancelled}" layout="none">
+            <div class="cancelledWatermark">CANCELLED</div>
+        </apex:outputPanel>
+
     <!-- ================= HEADER ================= -->
     <div class="header">
         <div class="headerBox">
-    
+
             <table width="100%" style="border-collapse:collapse; height:100%;">
-    
+
                 <!-- ROW 1 : 85% CONTENT -->
                 <tr style="height:90%;">
-    
+
                     <!-- LEFT 15% : LOGO -->
                     <td width="15%" valign="top" style="text-align:left;">
                         <img src="{!dmsUserInfo.MediumPhotoUrl}" width="80" height="80"/>
                     </td>
-    
+
                     <!-- CENTER 70% : TITLE + COMPANY DETAILS -->
                     <td width="70%" valign="top" style="text-align:center;">
-    
-                        <div class="title">Tax Invoice</div>
-                        <div class="subtitle">(Original For Recipient)</div>
-    
+
+                       <div class="title">{!IF(isDuplicateInvoice, 'Duplicate Invoice', 'Tax Invoice')}</div>
+                        <div class="subtitle">{!IF(isDuplicateInvoice, '(For Hangyo MIS Purpose)', '(Original For Recipient)')}</div>
+
                         <div class="companyName">
                             {!dmsUserInfo.Contact.Account.Name}
                         </div>
-    
+
                         <div class="companyBlock">
                             {!dmsUserInfo.Contact.Account.BillingStreet},
                             {!dmsUserInfo.Contact.Account.BillingCity},
@@ -144,18 +163,18 @@
                             {!dmsUserInfo.Contact.Account.BillingPostalCode},
                             {!dmsUserInfo.Contact.Account.BillingCountry}
                         </div>
-    
+
                     </td>
-    
+
                     <!-- RIGHT 15% : QR -->
                     <td width="15%" valign="top" style="text-align:right;">
                         <div class="qrWrapper">
                             <apex:outputText escape="false" value="{!dmsUserInfo.UPI_QR_CODE__c}" />
                         </div>
                     </td>
-    
+
                 </tr>
-    
+
                 <!-- ROW 2 : 15% FOOTER -->
                 <tr style="height:10%;">
                     <td colspan="3" style="padding-top:5px;">
@@ -164,33 +183,33 @@
                                 <td style="text-align:left; font-weight:bold;">
                                     GST No: {!dmsUserInfo.GSTIN__c}
                                 </td>
-    
+
                                 <td style="text-align:right; font-weight:bold;">
                                     Mobile No: {!dmsUserInfo.Contact.Account.Phone_1__c}
                                 </td>
                             </tr>
-                        </table>   
+                        </table>
                     </td>
-                </tr>    
+                </tr>
             </table>
-    
+
         </div>
     </div>
-    
+
     <!-- FOOTER -->
     <div id="footer">
     <div class="page-number"></div>
     </div>
-    
+
     <!-- ================= INVOICE LOOP ================= -->
     <div class="invoiceBody">
     <apex:repeat value="{!invoiceWrappers}" var="wrapper">
-    
+
     <table class="maintable">
-    
+
     <!-- ================= ROW 2 (3 COLUMN) ================= -->
     <tr>
-    
+
     <!-- BUYER -->
     <td colspan="{!IF(hasSchemeDiscount, 11, 10)}" valign="top" style="font-family:Tahoma;">
         <b>Buyer Name:</b>
@@ -202,13 +221,13 @@
             {!wrapper.invoice.Under_SS__r.BillingState}</b>
         </div>
         </apex:outputText>
-        
+
         <b>Ph No:</b>
         <apex:outputText rendered="{!ISNULL(wrapper.invoice.Retailer_Account__r) && NOT(ISNULL(wrapper.invoice.Under_SS__r))}">
             <b>{!wrapper.invoice.Order__r.Ordered_By__r.MobilePhone}</b>
-        </apex:outputText><br/>   
+        </apex:outputText><br/>
     </td>
-    
+
     <!-- BEAT / SALESMAN -->
     <td colspan="6" valign="top" style="font-family:Tahoma;">
         GST No:
@@ -219,24 +238,24 @@
         Invoice Date:
             <apex:outputText value="{0,date,dd-MM-yyyy}">
                 <apex:param value="{!wrapper.invoice.Invoice_Date__c}"/>
-            </apex:outputText>   
+            </apex:outputText>
     </td>
-    
+
     <!-- INVOICE INFO -->
-    <td colspan="4" valign="top" style="font-family:Tahoma;">   
+    <td colspan="4" valign="top" style="font-family:Tahoma;">
         FSSAI No: {!wrapper.invoice.Distributor_Account__r.FSSAI__c}
         <!--apex:outputText rendered="{!ISNULL(wrapper.invoice.Retailer_Account__r) && NOT(ISNULL(wrapper.invoice.Under_SS__r))}">
             {!wrapper.invoice.Under_SS__r.FSSAI__c}
         </apex:outputText-->
         <br/>
-        
+
         E-Way Bill No: <br/>
-        
-        Credit Period: {!wrapper.invoice.Credit_Period__c}    
+
+        Credit Period: {!wrapper.invoice.Credit_Period__c}
     </td>
-    
+
     </tr>
-    
+
     <!-- ================= HEADER ROW ================= -->
     <tr class="headerRow" align="center" style="font-family:Tahoma;">
         <th colspan="11" width="30%">Item Description</th>
@@ -253,40 +272,40 @@
         <th width="9%">Tax Amt</th>
         <th width="8%">Net Amt</th>
     </tr>
-    
+
     <!-- ================= ITEMS ================= -->
     <apex:variable var="totalAmount" value="{!0}"/>
     <apex:variable var="totalSchemeAmt" value="{!0}"/>
     <apex:variable var="i" value="{!0}"/>
 
-    <apex:repeat value="{!wrapper.invoiceLineItems}" var="item">
+    <apex:repeat value="{!wrapper.lineItemWrappers}" var="line">
 
     <apex:variable var="i" value="{!i+1}"/>
-    <apex:variable var="totalAmount" value="{!totalAmount + item.Total_Amount__c}"/>
-    <apex:variable var="totalSchemeAmt" value="{!totalSchemeAmt + IF(ISNULL(item.Scheme_Discount_Amount__c), 0, item.Scheme_Discount_Amount__c)}"/>
-    <apex:variable var="linetotalAmount" value="{!item.Tax__c+item.CGST_Amount__c+item.SGST_Amount__c+item.IGST_Amount__c}"/>
+    <apex:variable var="totalAmount" value="{!totalAmount + line.item.Total_Amount__c}"/>
+    <apex:variable var="totalSchemeAmt" value="{!totalSchemeAmt + IF(ISNULL(line.item.Scheme_Discount_Amount__c), 0, line.item.Scheme_Discount_Amount__c)}"/>
+    <apex:variable var="linetotalAmount" value="{!line.item.Tax__c+line.item.CGST_Amount__c+line.item.SGST_Amount__c+line.item.IGST_Amount__c}"/>
 
     <tr>
-        <td colspan="11">{!i}. {!item.Product__r.Name}
-            <apex:outputText rendered="{!item.Is_Promotional__c}"> <span style="font-weight:bold; color:#c00000;"> (PROMO)</span>
+        <td colspan="11">{!i}. {!line.productName}
+            <apex:outputText rendered="{!line.item.Is_Promotional__c}"> <span style="font-weight:bold; color:#c00000;"> (PROMO)</span>
             </apex:outputText>
         </td>
-        <td align="right">{!item.Quantity__c}</td>
-        <td align="right"><apex:outputText value="{0,number,##0}"><apex:param value="{!item.MRP__c}" /></apex:outputText></td>
+        <td align="right">{!line.item.Quantity__c}</td>
+        <td align="right"><apex:outputText value="{0,number,##0}"><apex:param value="{!line.item.MRP__c}" /></apex:outputText></td>
         <td align="right">{!$Label.Invoice_HSN}</td>
-        <!--td align="right">{!item.Price__c}</td-->
+        <!--td align="right">{!line.item.Price__c}</td-->
         <td align="right">
             <apex:outputText value="{0, number, 0.00}">
-                <apex:param value="{!item.Price__c}"/>
+                <apex:param value="{!line.item.Price__c}"/>
             </apex:outputText>
         </td>
-        <td align="right">{!item.Total_Amount__c}</td>
+        <td align="right">{!line.item.Total_Amount__c}</td>
         <apex:outputPanel layout="none" rendered="{!hasSchemeDiscount}">
-        <td align="right">{!item.Scheme_Discount_Amount__c}</td>
+        <td align="right">{!line.item.Scheme_Discount_Amount__c}</td>
         </apex:outputPanel>
-        <td align="right">{!item.Total_Discount__c}</td>
-        <td align="right">{!item.Tax__c}</td>
-        <td align="right">{!item.Total_Tax__c}</td>
+        <td align="right">{!line.totalDiscount}</td>
+        <td align="right">{!line.item.Tax__c}</td>
+        <td align="right">{!line.item.Total_Tax__c}</td>
         <td align="right">{!linetotalAmount}</td>
     </tr>
 
@@ -295,7 +314,7 @@
     <!-- ================= TOTAL ================= -->
     <tr class="totalRow" align="center">
         <td colspan="11" align="left">Total</td>
-        <td>{!wrapper.invoice.Total_Quantity__c}</td>
+        <td>{!wrapper.totalQuantity}</td>
         <td></td>
         <td></td>
         <td></td>
@@ -303,61 +322,70 @@
         <apex:outputPanel layout="none" rendered="{!hasSchemeDiscount}">
         <td>{!totalSchemeAmt}</td>
         </apex:outputPanel>
-        <td>{!wrapper.invoice.Total_Discount__c}</td>
+        <td>{!wrapper.discountTotal}</td>
         <td>{!wrapper.invoice.Taxable_Amount__c}</td>
         <td>{!wrapper.invoice.Total_GST__c}</td>
         <td>{!wrapper.invoice.Invoice_Amount__c}</td>
     </tr>
-        
+
     <!-- ================= AMOUNT + SUMMARY SECTION ================= -->
     <tr>
-    
+
         <!-- LEFT SIDE : AMOUNT + BANK DETAILS -->
         <td colspan="{!IF(hasSchemeDiscount, 17, 16)}" valign="top" style="border:1px solid black; padding:6px;">
-    
+
             <b>Amount: {!wrapper.invoice.Invoice_Amount_In_Words__c}</b><br/><br/>
-    
+
             <b>Invoice Amount Subject to Reverse Charge: NIL</b>
             <br/><br/>
-    
+
             <b>Payment Against Delivery:</b><br/>
             <b>(Cash/QR Scan/NEFT – Refer Bank Details Below.)</b><br/><br/>
-    
+
             <b>Account Name:</b> {!dmsUserInfo.Name}<br/>
             <b>Bank Name:</b> {!dmsUserInfo.Bank_Name__c}<br/>
             <b>Bank A/c No:</b> {!dmsUserInfo.Bank_Account_Number__c}<br/>
             <b>IFSC Code:</b> {!dmsUserInfo.IFSC_Code__c}
-    
+
         </td>
-    
+
         <!-- RIGHT SIDE : SUMMARY BOX -->
         <td colspan="4" valign="top" style="padding:-2px;">
-    
+
             <table width="100%" style="border-collapse:collapse;">
-    
+
                 <tr>
                     <td style="border:1px solid black; font-weight:bold;">Sub Total</td>
                     <td style="border:1px solid black; text-align:right; font-weight:bold;">
                         {!totalAmount}
                     </td>
                 </tr>
-    
-                <tr>
+
+                <!--tr>
                     <td style="border:1px solid black; font-weight:bold;">Discount %</td>
                     <td style="border:1px solid black; text-align:right; font-weight:bold;">
                         <apex:outputText value="{0,number,##0.00}">
                             <apex:param value="{!discountPercent}" />
                         </apex:outputText>
                     </td>
-                </tr>
-    
+                </tr-->
+
                 <tr>
                     <td style="border:1px solid black; font-weight:bold;">Discount Value</td>
                     <td style="border:1px solid black; text-align:right; font-weight:bold;">
-                        {!wrapper.invoice.Total_Discount__c}
+                        {!wrapper.discountTotal}
                     </td>
                 </tr>
-    
+
+                <apex:outputPanel layout="none" rendered="{!NOT(ISBLANK(wrapper.invoice.Value_Scheme_Applied__c))}">
+                <tr>
+                    <td style="border:1px solid black; font-weight:bold;">Value Scheme Applied: {!wrapper.invoice.Value_Scheme_Applied__r.Name}</td>
+                    <td style="border:1px solid black; text-align:right; font-weight:bold; color:green;">
+                        {!wrapper.invoice.Value_Scheme_Discount__c}
+                    </td>
+                </tr>
+                </apex:outputPanel>
+
                    <apex:repeat value="{!appliedQuantityDiscountSchemes}" var="qs">
                     <tr>
                         <td style="border:1px solid black; font-weight:bold;">Scheme Applied: {!qs.schemeName} ({!qs.discountPercent}%)</td>
@@ -397,7 +425,7 @@
                     </td>
                 </tr>
 
-                
+
 
                 <apex:repeat value="{!wrapper.reimbursementLines}" var="rLine">
                     <tr>
@@ -416,16 +444,16 @@
                         {!wrapper.invoice.Net_Payable__c}
                     </td>
                 </tr>
-    
+
             </table>
-    
+
         </td>
     </tr>
-    
+
     <!-- ================= HSN SUMMARY ================= -->
-    <tr>   
+    <tr>
         <td colspan="12" valign="top" style="padding:0px;">
-    
+
             <table width="100%" style="border-collapse:collapse; table-layout:fixed;">
     <tr style="background:#d9d9d9; font-weight:bold;">
         <td colspan="2" width="13%" align="center" style="border:1px solid black; font-size:7pt !important; padding:2px; word-wrap:break-word;">HSN Code</td>
@@ -455,9 +483,9 @@
         <td colspan="4" align="center" style="border:1px solid black; font-size:7pt !important; padding:2px;">{!wrapper.invoice.IGST_Amount__c}</td>
     </tr>
 </table>
-    
+
        </td>
-        <td colspan="10" style="border:1px solid black; padding:4px; vertical-align:top;">
+        <td colspan="{!IF(hasSchemeDiscount, 9, 8)}" style="border:1px solid black; padding:4px; vertical-align:top;">
             <apex:outputPanel layout="none" rendered="{!NOT(ISBLANK(wrapper.invoice.Remarks__c))}">
                 <b>Remarks: </b>{!wrapper.invoice.Remarks__c}
             </apex:outputPanel>
@@ -466,27 +494,27 @@
     </tr>
 
     <!-- ================= TERMS ================= -->
-    
+
     <!-- ================= TERMS ================= -->
         <tr>
-            <td colspan="10">      
+            <td colspan="10">
                 <div class="termsTitle">Terms and Conditions</div>
-                {!dmsUserInfo.Terms_and_Conditions__c}        
+                {!dmsUserInfo.Terms_and_Conditions__c}
             </td>
-            
-            <td colspan="10" align="center">       
+
+            <td colspan="10" align="center">
                 <div class="sign">
                     For {!dmsUserInfo.Contact.Account.Name}
                 </div>
-                
+
                 <div class="signNote">
-                    This is a computer generated invoice hence signature is not required
-                </div>       
+                    {!IF(isDuplicateInvoice, 'This is a computer-generated MIS document', 'This is a computer generated invoice hence signature is not required')}
+                </div>
             </td>
         </tr>
-    
+
     </table>
-    
+
     </apex:repeat>
     </div>
     </body>

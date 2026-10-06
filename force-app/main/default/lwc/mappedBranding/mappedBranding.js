@@ -28,6 +28,13 @@ export default class MappedBranding extends LightningElement {
     @track visitsUntilDue = 0;
     @track windowLoaded = false;
     @track windowError = '';
+    // Mapping-aware state. With nothing mapped to the outlet there is nothing to
+    // be due, so no warning is shown and check-out is never held up.
+    @track hasMappedAssets = false;
+    @track dueAssetCount = 0;
+    @track assetCount = 0;
+    @track nextDueVisit = 0;
+    @track lastAuditDate;
 
     conditionOptions = [
         { label: 'Present', value: 'Present' },
@@ -51,6 +58,7 @@ export default class MappedBranding extends LightningElement {
                     a.Installation_Image_URL__c || a.Request_Image_URL__c
                 ),
                 audited: false,
+                isDue: false,
                 lastAuditedText: '',
                 condition: '',
                 remarks: '',
@@ -94,6 +102,9 @@ export default class MappedBranding extends LightningElement {
                     return {
                         ...l,
                         audited: !!s.auditedThisVisit,
+                        // This asset's own cycle - a card can read "Due" while
+                        // the one under it does not.
+                        isDue: !!s.isDue,
                         lastAuditedText: this.formatAuditDate(s.lastAuditDate)
                     };
                 });
@@ -109,6 +120,11 @@ export default class MappedBranding extends LightningElement {
                 this.alreadySubmitted = !!window.alreadySubmitted;
                 this.visitNumber = window.visitNumber;
                 this.visitsUntilDue = window.visitsUntilDue;
+                this.hasMappedAssets = !!window.hasAssets;
+                this.assetCount = window.assetCount || 0;
+                this.dueAssetCount = window.dueAssetCount || 0;
+                this.nextDueVisit = window.nextDueVisit || 0;
+                this.lastAuditDate = window.lastAuditDate;
                 this.windowError = '';
                 this.windowLoaded = true;
             })
@@ -127,10 +143,46 @@ export default class MappedBranding extends LightningElement {
     get canAudit() {
         return this.windowLoaded
             && !this.windowError
+            && this.hasMappedAssets
             && this.auditDue
             && !this.alreadySubmitted
             && !this.isExemptVisit
             && !!this.isCheckInDone;
+    }
+
+    // ================= NEXT AUDIT DUE HEADER =================
+    // Sits at the top of the panel so the rep sees where this outlet stands
+    // before scrolling through the cards.
+    get showDueHeader() {
+        return this.windowLoaded && !this.windowError && this.hasMappedAssets;
+    }
+
+    get dueHeaderClass() {
+        return this.auditDue && !this.alreadySubmitted
+            ? 'due-header due-header-now'
+            : 'due-header';
+    }
+
+    get dueHeaderLabel() {
+        return (this.auditDue && !this.alreadySubmitted) ? 'Audit Due Now' : 'Next Audit Due';
+    }
+
+    // Visit numbers and visit counts are deliberately kept out of everything the
+    // rep reads - they drive the cadence, they are not something to act on.
+    get dueHeaderText() {
+        if (this.auditDue && !this.alreadySubmitted) {
+            const due = this.dueAssetCount;
+            return due + (due === 1 ? ' asset is' : ' assets are') + ' due for audit.';
+        }
+        if (this.alreadySubmitted) {
+            return 'Audit completed for this visit.';
+        }
+        return 'Not due on this visit.';
+    }
+
+    get lastAuditText() {
+        const text = this.formatAuditDate(this.lastAuditDate);
+        return text ? text.replace('Last Audited: ', 'Last audited ') : '';
     }
 
     /**
@@ -153,6 +205,9 @@ export default class MappedBranding extends LightningElement {
     get auditNotice() {
         if (!this.windowLoaded) return '';
         if (this.windowError) return this.windowError;
+        // Nothing mapped means nothing is due. The empty-state card already says
+        // so; a due warning on top of it would be wrong.
+        if (!this.hasMappedAssets) return '';
         if (this.alreadySubmitted) {
             return 'The branding audit for this visit has already been submitted.';
         }
@@ -161,9 +216,7 @@ export default class MappedBranding extends LightningElement {
                 + '". The branding audit is not required and cannot be submitted for this visit.';
         }
         if (!this.auditDue) {
-            const visits = this.visitsUntilDue;
-            return 'Branding audit is due every 3rd visit. The next audit is due in ' + visits
-                + (visits === 1 ? ' visit.' : ' visits.');
+            return 'The branding audit is not due on this visit.';
         }
         if (!this.isCheckInDone) {
             return 'Please check in before submitting the branding audit.';
@@ -224,6 +277,8 @@ export default class MappedBranding extends LightningElement {
                 showAddPhoto: showPhoto && !l.photoUrl,
                 showPreview: showPhoto && !!l.photoUrl,
                 showLastAudited: !!l.lastAuditedText,
+                // "Due" only reads on the cards that are actually owed an audit.
+                showDueBadge: !!l.isDue && !l.audited,
                 // Nothing to explain when the branding is simply there; Damage and
                 // Missing both need a reason recorded.
                 remarksRequired: !!l.condition && l.condition !== 'Present'

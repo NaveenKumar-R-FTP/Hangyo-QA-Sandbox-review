@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>New_Request_Approval_Needs_Vendor</fullName>
+    <active>true</active>
+    <description>Mahesh must name the vendor before a new branding request is approved. Installation Pending is the approved status for this type. Scoped to the transition with ISCHANGED so cases already at that status are not trapped by later edits.</description>
+    <errorConditionFormula>AND(
+  Case_Type__r.Name = &quot;Branding &amp; Marketing Asset Request&quot;,
+  ISCHANGED(Status__c),
+  ISPICKVAL(Status__c, &quot;Installation Pending&quot;),
+  ISBLANK(Vendor__c)
+)</errorConditionFormula>
+    <errorDisplayField>Vendor__c</errorDisplayField>
+    <errorMessage>Select the Vendor on this approval page, then approve.</errorMessage>
+</ValidationRule>

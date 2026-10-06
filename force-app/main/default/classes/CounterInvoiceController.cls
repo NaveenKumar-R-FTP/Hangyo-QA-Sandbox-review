@@ -366,8 +366,8 @@ order.Description__c = 'Type: ' + saleTypeVal + ' | Price: ' + priceTypeVal;
                 FROM Invoice__c WHERE Id = :invoiceId LIMIT 1
             ];
 
-                        if (!InvoiceEditWindow.isEditable(inv)) {
-                data.message = 'This invoice is locked. The 2-day edit window has closed or the invoice is cancelled.';
+            if (inv.Status__c != 'Draft') {
+                data.message = 'Invoice is ' + inv.Status__c + '. Only Draft invoices can be edited.';
                 return data;
             }
 
@@ -394,7 +394,7 @@ order.Description__c = 'Type: ' + saleTypeVal + ' | Price: ' + priceTypeVal;
 
             List<Invoice_Line_Item__c> lineItems = [
                 SELECT Id, Product__c, Product__r.Name, Quantity__c, Price__c,
-                  Total_Amount__c, MRP__c, Discount_1__c, Discount_2__c, SKU_Discount_Percent__c
+                       Total_Amount__c, MRP__c, Discount_1__c, Discount_2__c
                 FROM Invoice_Line_Item__c WHERE Invoice__c = :invoiceId
                 ORDER BY Product__r.Name ASC
             ];

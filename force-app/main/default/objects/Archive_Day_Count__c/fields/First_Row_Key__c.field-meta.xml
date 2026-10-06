@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>First_Row_Key__c</fullName>
+    <description>The NextRowKey half of the cursor recorded in First Partition Key. Table Storage resumes on the pair, so the two are only meaningful together and are always written and read as one.</description>
+    <externalId>false</externalId>
+    <label>First Row Key</label>
+    <length>255</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

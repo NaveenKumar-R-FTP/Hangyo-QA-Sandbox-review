@@ -50,6 +50,10 @@
                 <behavior>Edit</behavior>
                 <field>Visit_Task__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Retailer_Code__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

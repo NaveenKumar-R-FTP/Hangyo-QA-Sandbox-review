@@ -13,6 +13,7 @@
     <label>Hangyo Reports App</label>
     <navType>Standard</navType>
     <tabs>standard-report</tabs>
+    <tabs>Archived_Data</tabs>
     <tabs>Branding_Audit__c</tabs>
     <tabs>Vendor__c</tabs>
     <uiType>Lightning</uiType>

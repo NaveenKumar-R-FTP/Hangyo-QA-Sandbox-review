@@ -254,7 +254,6 @@ public without sharing class EditSecondaryInvoiceHandler {
     
     @AuraEnabled
     public static InvoiceData saveInvoiceAndLineItems(Invoice__c invoice, List<Invoice_Line_Item__c> invItemList,List<Id> deletedItemIds){
-        InvoiceEditWindow.assertEditable(invoice.Id);
         try {
             InvoiceData oInvData = new InvoiceData();
             System.debug('save invoice***' + invoice);
@@ -656,14 +655,87 @@ public without sharing class EditSecondaryInvoiceHandler {
         );
     }
     
+    // ─────────────────────────────────────────────────────────────────────────
+    // FIXED (2026-08-22): getvalueSchemeFromOrder() now accepts cartLinesJson, mirroring
+    // the fix already proven in SecondaryInvoiceHandler.getvalueSchemeFromOrder() (decision
+    // log §8.4). Previously this always passed null for cartLines, so a Flat Discount
+    // scheme scoped via Scheme_Applicability__c resolved its qualifying subtotal against
+    // the WHOLE invoice total instead of just the matched Products/Brand lines — the same
+    // root cause as the (now-closed) bug on the Order-based "Invoice From Order" flow.
+    // ─────────────────────────────────────────────────────────────────────────
     @AuraEnabled
-    public static List<SchemeDetailsWrapper> getvalueSchemeFromOrder(Decimal totalAmount, Id invoiceId) {
+    public static List<SchemeDetailsWrapper> getvalueSchemeFromOrder(Decimal totalAmount, Id invoiceId, String cartLinesJson) {
         Map<String, Object> buyerInfo = resolveBuyerFromInvoice(invoiceId);
+
+        // Prefer the LIVE cart lines the LWC sends (built from its current, possibly
+        // user-edited invoice line items) so a Flat Discount scheme scoped via
+        // Scheme_Applicability__c resolves against what the invoice ACTUALLY shows right
+        // now. Falling back to re-querying Invoice_Line_Item__c only covers the case the
+        // caller has no live line data yet.
+        String linesJson = String.isNotBlank(cartLinesJson) ? cartLinesJson : null;
+        if (linesJson == null) {
+            List<SchemeEvaluationService.CartLineWrapper> fallbackLines = buildCartLinesForOrder(invoiceId);
+            linesJson = fallbackLines == null ? null : JSON.serialize(fallbackLines);
+        }
+
         return SchemeEvaluationService.getvalueScheme(
             totalAmount,
+            linesJson,
             (Id)     buyerInfo.get('buyerAccountId'),
             (String) buyerInfo.get('buyerRegion'),
             (Boolean)buyerInfo.get('isUnderSS')
+        );
+    }
+
+    // Mirrors SecondaryInvoiceHandler.buildCartLinesForOrder(), built from
+    // Invoice_Line_Item__c instead of Order_Line_Item__c since this edit flow works
+    // directly off an already-created Invoice, not an Order. Promotional/free lines are
+    // excluded, matching the equivalent client-side builders' behavior.
+    private static List<SchemeEvaluationService.CartLineWrapper> buildCartLinesForOrder(Id invoiceId) {
+        List<Invoice_Line_Item__c> lines = [
+            SELECT Product__c, Total_Amount__c, Is_Promotional__c,
+                   Product__r.Product_Brand__c
+            FROM Invoice_Line_Item__c
+            WHERE Invoice__c = :invoiceId
+        ];
+        if (lines.isEmpty()) {
+            return null;
+        }
+
+        List<SchemeEvaluationService.CartLineWrapper> result = new List<SchemeEvaluationService.CartLineWrapper>();
+        for (Invoice_Line_Item__c line : lines) {
+            if (line.Is_Promotional__c == true || line.Product__c == null) {
+                continue;
+            }
+            SchemeEvaluationService.CartLineWrapper w = new SchemeEvaluationService.CartLineWrapper();
+            w.productId = line.Product__c;
+            w.productBrand = line.Product__r != null ? line.Product__r.Product_Brand__c : null;
+            w.lineAmount = line.Total_Amount__c != null ? line.Total_Amount__c : 0;
+            result.add(w);
+        }
+        return result.isEmpty() ? null : result;
+    }
+
+    // FIXED (2026-08-22): companion to getvalueSchemeFromOrder() above, mirroring
+    // SecondaryInvoiceHandler.getAppliedValueSchemeForOrder() (decision log §8.4). The
+    // Apply action previously called SchemeEvaluationService.getAppliedValueScheme(String) —
+    // the original 1-arg method that only reads Scheme__c.Discount_Amount__c/
+    // Discount_Percentage__c directly. For a Flat Discount scheme those fields are blank
+    // (the discount lives on Scheme_Slab__c), so applying silently gave a 0/null discount
+    // with no error surfaced. This new method delegates to the already-correct
+    // getAppliedValueSchemeForCart(), same as the Order-based flow.
+    @AuraEnabled
+    public static AppliedValueSchemeWrapper getAppliedValueSchemeForOrder(
+            Id valueSchemId, Id invoiceId, Decimal cartTotal, String cartLinesJson) {
+        String linesJson = String.isNotBlank(cartLinesJson) ? cartLinesJson : null;
+        if (linesJson == null) {
+            List<SchemeEvaluationService.CartLineWrapper> fallbackLines = buildCartLinesForOrder(invoiceId);
+            linesJson = fallbackLines == null ? null : JSON.serialize(fallbackLines);
+        }
+        return SchemeEvaluationService.getAppliedValueSchemeForCart(
+            valueSchemId,
+            cartTotal,
+            linesJson
         );
     }
 }

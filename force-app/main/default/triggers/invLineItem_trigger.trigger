@@ -1,17 +1,11 @@
 trigger invLineItem_trigger on Invoice_Line_Item__c (After Insert,After update , after delete, after undelete) {
     
+    if (TriggerBypass.isBypassed('Invoice_Line_Item__c')) return;
+
     if (Trigger.isAfter && Trigger.isUpdate){
         UpdateQuantityInHand.updatePrimaryInvoiceQuantity(Trigger.new , Trigger.oldMap);
-
-	// NEW FUNCTIONALITY - Added by Fuzail - Update GRN Status on Order (Update)
         GRNStatusController.updateGRNStatus(Trigger.new, Trigger.oldMap);
-
     }
-   // Added By Fuzail
-	/*if (Trigger.isAfter && Trigger.isInsert){
-        // NEW FUNCTIONALITY - Added by Fuzail - Update GRN Status on Order (Insert)
-        GRNStatusController.updateGRNStatus(Trigger.new, null);
-    }*/
     
     if (Trigger.isAfter){
         if(Trigger.isInsert || Trigger.isUpdate || Trigger.isUndelete){

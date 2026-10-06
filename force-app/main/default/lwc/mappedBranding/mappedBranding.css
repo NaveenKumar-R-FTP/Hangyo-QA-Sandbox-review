@@ -283,3 +283,52 @@
     justify-content: center;
     z-index: 999;
 }
+
+/* ===== Next audit due header - top of the section ===== */
+.due-header {
+    background: #F4F6F9;
+    border-left: 5px solid #0B5CAB;
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin: 0 0 12px 0;
+}
+
+/* An audit owed right now reads as an alert, not as information. */
+.due-header-now {
+    background: #FDECF2;
+    border-left-color: #C1206B;
+}
+
+.due-header-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: #0B5CAB;
+    margin-bottom: 2px;
+}
+
+.due-header-now .due-header-label {
+    color: #C1206B;
+}
+
+.due-header-value {
+    font-size: 15px;
+    font-weight: 700;
+    color: #222;
+}
+
+.due-header-sub {
+    font-size: 12px;
+    color: #777;
+    margin-top: 3px;
+}
+
+.due-badge {
+    background: #C1206B;
+    color: #fff;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}

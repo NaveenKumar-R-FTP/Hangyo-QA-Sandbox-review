@@ -1,108 +1,80 @@
-public without sharing class MigrationDeleteBatch implements Database.Batchable<sObject>, Database.Stateful {
+public without sharing class MigrationDeleteBatch implements Database.Batchable<sObject>, Database.Stateful, Schedulable {
 
-    private static final String LOG_STATUS_MIGRATION_VALIDATED = 'Migration-Validated';
-    private static final String LOG_STATUS_HARD_DELETED = 'Hard-Deleted';
+    private static final String OBJECT_API_NAME = 'Order_Line_Item__c';
     private static final Integer DEFAULT_SCOPE_SIZE = 200;
+    private static final Integer DEFAULT_SOFT_ARCHIVE_DAYS = 7;
 
-    private final String objectApiName;
     private final Azure_Archive_Config__mdt cfg;
 
     // Stateful accumulators - survive across every execute() chunk.
     private Integer recordsDeletedThisRun = 0;
     private Integer recordsFailedThisRun = 0;
-    private Boolean pausedDuringRun = false;
     private final List<String> chunkErrors = new List<String>();
     private final Datetime jobStart = Datetime.now();
 
-    public MigrationDeleteBatch(String objectApiName) {
-        this(objectApiName, null);
+    public MigrationDeleteBatch() {
+        this(null);
     }
 
     @TestVisible
-    MigrationDeleteBatch(String objectApiName, Azure_Archive_Config__mdt injectedCfgForTests) {
-        if (String.isBlank(objectApiName)) {
-            throw new MigrationDeleteException('objectApiName is required.');
-        }
-        this.objectApiName = objectApiName;
-
+    MigrationDeleteBatch(Azure_Archive_Config__mdt injectedCfgForTests) {
         if (injectedCfgForTests != null) {
             this.cfg = injectedCfgForTests;
             return;
         }
 
         List<Azure_Archive_Config__mdt> cfgRows = [
-            SELECT Object_API_Name__c, Batch_Scope_Size__c, Migration_Delete_Enabled__c, Order__c
+            SELECT Object_API_Name__c, Batch_Scope_Size__c, Migration_Delete_Enabled__c,
+                   Soft_Archive_Days__c, Order__c
             FROM Azure_Archive_Config__mdt
-            WHERE Object_API_Name__c = :objectApiName
+            WHERE Object_API_Name__c = :OBJECT_API_NAME
             LIMIT 1
         ];
-        if (cfgRows.isEmpty()) {
-            throw new MigrationDeleteException(
-                'No Archive_Config__mdt row found for ' + objectApiName + '.');
-        }
+        
         this.cfg = cfgRows[0];
+
+        if (!isEnabled()) {
+            throw new MigrationDeleteException(
+                'Migration_Delete_Enabled__c is false for ' + OBJECT_API_NAME + '. Aborting batch.');
+        }
     }
 
     public Database.QueryLocator start(Database.BatchableContext bc) {
-        if (!isEnabled()) {
-            pausedDuringRun = true;
-            return Database.getQueryLocator(
-                [SELECT Id FROM Archival_Log__c WHERE Id = null]);
-        }
+        Datetime cutoff = jobStart.addDays(-getSoftArchiveDays());
+
+        System.debug('MigrationDeleteBatch running for: ' + OBJECT_API_NAME);
+        System.debug('cutoff (Archived_Date__c <): ' + cutoff);
 
         return Database.getQueryLocator([
-            SELECT Id, Archived_Record_Id__c
-            FROM Archival_Log__c
-            WHERE Archived_Object__c = :objectApiName
-            AND Status__c = :LOG_STATUS_MIGRATION_VALIDATED
+            SELECT Id, Archived__c, Archived_Date__c
+            FROM Order_Line_Item__c
+            WHERE Archived__c = true
+            AND Archived_Date__c != null
+            AND Archived_Date__c < :cutoff
             ORDER BY Id ASC
         ]);
     }
 
     public void execute(Database.BatchableContext bc, List<sObject> rawScope) {
-        List<Archival_Log__c> scope = (List<Archival_Log__c>) rawScope;
+        List<Order_Line_Item__c> scope = (List<Order_Line_Item__c>) rawScope;
         if (scope.isEmpty()) {
             return;
         }
 
-        if (!isEnabled()) {
-            pausedDuringRun = true;
-            return; 
-        }
-
         List<Id> recordIds = new List<Id>();
-        Map<Id, Archival_Log__c> logByRecordId = new Map<Id, Archival_Log__c>();
-        for (Archival_Log__c logRow : scope) {
-            try {
-                Id recordId = Id.valueOf(logRow.Archived_Record_Id__c);
-                recordIds.add(recordId);
-                logByRecordId.put(recordId, logRow);
-            } catch (Exception e) {
-                chunkErrors.add(logRow.Id + ': invalid Archived_Record_Id__c "' +
-                    logRow.Archived_Record_Id__c + '" - ' + e.getMessage());
-                recordsFailedThisRun++;
-            }
-        }
-        if (recordIds.isEmpty()) {
-            return;
+        for (Order_Line_Item__c oli : scope) {
+            recordIds.add(oli.Id);
         }
 
         Database.DeleteResult[] results = Database.delete(recordIds, false);
 
         List<Id> deletedIds = new List<Id>();
-        List<Archival_Log__c> logsToUpdate = new List<Archival_Log__c>();
         for (Integer i = 0; i < results.size(); i++) {
             Database.DeleteResult dr = results[i];
             Id recordId = recordIds[i];
-            Archival_Log__c logRow = logByRecordId.get(recordId);
 
             if (dr.isSuccess()) {
                 deletedIds.add(recordId);
-                logsToUpdate.add(new Archival_Log__c(
-                    Id = logRow.Id,
-                    Status__c = LOG_STATUS_HARD_DELETED,
-                    Hard_Deleted_Date__c = Datetime.now()
-                ));
             } else {
                 recordsFailedThisRun++;
                 for (Database.Error err : dr.getErrors()) {
@@ -111,13 +83,13 @@ public without sharing class MigrationDeleteBatch implements Database.Batchable<
             }
         }
 
-        if (!logsToUpdate.isEmpty()) {
-            update logsToUpdate;
+        if (!deletedIds.isEmpty()) {
             recordsDeletedThisRun += deletedIds.size();
             try {
                 Database.emptyRecycleBin(deletedIds);
             } catch (Exception e) {
-                chunkErrors.add('emptyRecycleBin failed for a chunk of ' + deletedIds.size() + ' record(s): ' + e.getMessage());
+                chunkErrors.add('emptyRecycleBin failed for a chunk of ' +
+                    deletedIds.size() + ' record(s): ' + e.getMessage());
             }
         }
     }
@@ -125,14 +97,16 @@ public without sharing class MigrationDeleteBatch implements Database.Batchable<
     public void finish(Database.BatchableContext bc) {
         Boolean hasErrors = !chunkErrors.isEmpty();
         insertJobLog(bc, hasErrors);
-
-        if (hasErrors) {
-            notifyAdmins(hasErrors);
-        }
     }
 
     private Boolean isEnabled() {
         return cfg.Migration_Delete_Enabled__c == true;
+    }
+
+    private Integer getSoftArchiveDays() {
+        return (cfg.Soft_Archive_Days__c != null)
+            ? (Integer) cfg.Soft_Archive_Days__c
+            : DEFAULT_SOFT_ARCHIVE_DAYS;
     }
 
     private void insertJobLog(Database.BatchableContext bc, Boolean hasErrors) {
@@ -144,60 +118,21 @@ public without sharing class MigrationDeleteBatch implements Database.Batchable<
             }
         }
 
-        /*try {
-            insert new Archival_Job_Log__c(
-                Batch_Class__c = 'MigrationDeleteBatch',
-                Object_API_Name__c = objectApiName,
-                Records_Processed__c = recordsDeletedThisRun + recordsFailedThisRun,
-                Records_Succeeded__c = recordsDeletedThisRun,
-                Records_Failed__c = recordsFailedThisRun,
-                Error_Message__c = errorSummary,
-                Job_Start__c = jobStart,
-                Job_End__c = Datetime.now(),
-                AsyncApexJobId__c = bc.getJobId(),
-                Status__c = pausedDuringRun ? 'Paused' : (hasErrors ? 'Completed with Errors' : 'Completed')
-            );
-        } catch (Exception e) {
-            System.debug(LoggingLevel.WARN,
-                'MigrationDeleteBatch: failed to insert Archival_Job_Log__c - ' + e.getMessage());
-        }*/
-    }
-
-    private void notifyAdmins(Boolean hasErrors) {
-        List<GroupMember> admins = [
-            SELECT UserOrGroupId
-            FROM GroupMember
-            WHERE Group.DeveloperName = 'Archive_Admin_Alerts'
-            LIMIT 50
-        ];
-
-        List<String> toAddresses = new List<String>();
-        for (GroupMember gm : admins) {
-            if (String.valueOf(gm.UserOrGroupId).startsWith('005')) {
-                toAddresses.add(gm.UserOrGroupId);
-            }
-        }
-        if (toAddresses.isEmpty()) {
-            return;
-        }
-
-        Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
-        mail.setTargetObjectId(toAddresses[0]);
-        mail.setSaveAsActivity(false);
-        mail.setSubject('Migration delete job completed with errors for ' + objectApiName);
-        mail.setPlainTextBody(
-            'Object: ' + objectApiName +
-            '\nRecords deleted this run: ' + recordsDeletedThisRun +
-            '\nRecords failed this run: ' + recordsFailedThisRun +
-            '\n\nDetails were logged to Archival_Job_Log__c. Failed records remain' +
-            ' Status__c = \'Migration-Validated\' on Archival_Log__c and will be retried automatically.'
+        Archival_Job_Log__c ajl = new Archival_Job_Log__c(
+            Archive_Batch_Id__c = bc.getJobId(),
+            Archived_Object__c  = OBJECT_API_NAME,
+            Error_Message__c    = errorSummary,
+            Total_Archived__c   = 0,
+            Total_Failed__c     = recordsFailedThisRun,
+            Total_Processed__c  = recordsDeletedThisRun + recordsFailedThisRun,
+            Deletion_Batch__c   = true
         );
-        try {
-            Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ mail });
-        } catch (Exception e) {
-            System.debug(LoggingLevel.WARN, 'MigrationDeleteBatch: failed to send admin alert - ' + e.getMessage());
-        }
+        insert ajl;
     }
 
     public class MigrationDeleteException extends Exception {}
+    
+    public void execute(SchedulableContext sc) {
+        Database.executeBatch(new MigrationDeleteBatch(), 200);
+    }
 }

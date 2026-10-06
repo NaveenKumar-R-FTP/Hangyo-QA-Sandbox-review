@@ -19,6 +19,17 @@
                 </div>
             </template>
 
+            <!-- Next audit due - first thing in the section, above the cards -->
+            <template if:true={showDueHeader}>
+                <div class={dueHeaderClass}>
+                    <div class="due-header-label">{dueHeaderLabel}</div>
+                    <div class="due-header-value">{dueHeaderText}</div>
+                    <template if:true={lastAuditText}>
+                        <div class="due-header-sub">{lastAuditText}</div>
+                    </template>
+                </div>
+            </template>
+
             <template if:true={showAuditNotice}>
                 <div class={noticeClass}>{auditNotice}</div>
             </template>
@@ -43,6 +54,9 @@
                             <div class="asset-id">{line.mediaType}</div>
                             <template if:true={line.audited}>
                                 <span class="status-badge">Audited</span>
+                            </template>
+                            <template if:true={line.showDueBadge}>
+                                <span class="due-badge">Due</span>
                             </template>
                         </div>
 

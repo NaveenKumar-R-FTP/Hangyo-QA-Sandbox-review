@@ -1,4 +1,9 @@
-trigger AssetMappingTrigger on Asset_Mapping__c (after insert, after update) {
+trigger AssetMappingTrigger on Asset_Mapping__c (before insert, before update, after insert, after update) {
+
+    if (Trigger.isBefore && (Trigger.isInsert || Trigger.isUpdate)) {
+        AssetMappingTriggerHandler.validateDuplicateMapping(Trigger.new, Trigger.oldMap);
+    }
+
     if (AssetMappingTriggerHandler.isRunning) return;
     if (Trigger.isAfter && (Trigger.isInsert || Trigger.isUpdate)) {
         AssetMappingTriggerHandler.isRunning = true;

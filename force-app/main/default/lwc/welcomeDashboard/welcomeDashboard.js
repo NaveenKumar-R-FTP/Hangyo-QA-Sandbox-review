@@ -1,4 +1,4 @@
-import { LightningElement, wire, track } from 'lwc';
+import { LightningElement, track } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
 import getDashboard from '@salesforce/apex/WelcomeDashboardController.getDashboard';
 import getTodayAttendanceStatus from '@salesforce/apex/WelcomeDashboardController.getTodayAttendanceStatus';
@@ -15,13 +15,21 @@ export default class WelcomeDashboard extends NavigationMixin(LightningElement) 
     // circumference of an r=15.9 ring in a 42x42 viewBox === 100 (percent maths)
     C = 100;
 
-    @wire(getDashboard)
-    wiredDashboard({ data, error }) {
-        if (data) { this.d = data; this.error = undefined; }
-        else if (error) { this.error = error; }
+    // Load the dashboard imperatively (non-cacheable) so every open pulls fresh
+    // server data — avoids any stale/empty cached result being shown.
+    loadDashboard() {
+        getDashboard()
+            .then((data) => { this.d = data; this.error = undefined; })
+            .catch((e) => {
+                this.error = e;
+                // Surface the real error instead of a silent blank page.
+                // eslint-disable-next-line no-console
+                console.error('WelcomeDashboard getDashboard error', JSON.stringify(e));
+            });
     }
 
     connectedCallback() {
+        this.loadDashboard();
         this.loadStatus();
         // Re-check when the rep returns to the app/tab (e.g., after submitting EOD),
         // plus a light periodic check as a fallback for in-app tab switches.
@@ -112,11 +120,27 @@ export default class WelcomeDashboard extends NavigationMixin(LightningElement) 
     get orderThroughPutR()  { return this.d ? this.num(this.d.order.throughPut) : '0'; }
     get orderValueR()       { return this.num(this.rings.orderValue); }
     get saleValueR()        { return this.num(this.rings.saleValue); }
+    get monthLabel() {
+        const mons = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+        const d = new Date();
+        return `${mons[d.getMonth()]} ${d.getFullYear()}`;
+    }
     get targetPct()  { return this.d ? this.d.target.percent : 0; }
     get targetAmt()  { return this.d ? this.inr(this.d.target.achievement) : '₹0'; }
     get targetOf()   { return this.d ? `of ${this.inr(this.d.target.monthlyTarget)}` : ''; }
     get daysLeft()   { return this.d ? `${this.d.target.daysLeft} days left` : ''; }
     get barStyle()   { return `width:${this.targetPct}%`; }
+
+    // ---- YTD (fiscal year Apr -> current month) -----------------------------
+    get ytd()        { return this.d ? this.d.ytd : {}; }
+    get ytdPct()     { return this.d ? this.ytd.percent : 0; }
+    get ytdAch()     { return this.d ? this.inr(this.ytd.achievement) : '₹0'; }
+    get ytdTarget()  { return this.d ? this.inr(this.ytd.target) : '₹0'; }
+    get ytdBarStyle(){ const p = this.d ? this.ytd.percent : 0; return `width:${p > 100 ? 100 : p}%`; }
+    get ytdLabel() {
+        const mons = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        return `YTD (Apr–${mons[new Date().getMonth()]})`;
+    }
 
     get beatTitle() {
         if (!this.d) return '';

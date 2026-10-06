@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>New_Request_Vendor_Hub_Must_Match</fullName>
+    <active>true</active>
+    <description>A new branding request must go to a vendor in the retailer&apos;s own hub. Same logic as the return-case rule, keyed to this case type so either can be retired independently.</description>
+    <errorConditionFormula>AND(
+  Case_Type__r.Name = &quot;Branding &amp; Marketing Asset Request&quot;,
+  NOT(ISBLANK(Vendor__c)),
+  NOT(ISBLANK(TEXT(Retailer_Hub__c))),
+  TEXT(Vendor__r.Hub__c) &lt;&gt; TEXT(Retailer_Hub__c)
+)</errorConditionFormula>
+    <errorDisplayField>Vendor__c</errorDisplayField>
+    <errorMessage>Selected vendor&apos;s hub does not match the retailer&apos;s hub. Choose a vendor mapped to the retailer&apos;s hub.</errorMessage>
+</ValidationRule>

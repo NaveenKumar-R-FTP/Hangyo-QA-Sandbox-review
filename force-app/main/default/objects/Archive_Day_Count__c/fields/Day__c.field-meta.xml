@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Day__c</fullName>
+    <description>The calendar day, on the date basis named alongside. The report sums Row Count across the days its date range covers, which is why the rollup is stored per day rather than as one total per object.</description>
+    <label>Day</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

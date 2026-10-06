@@ -16,27 +16,6 @@ import getDistributorsByUser from '@salesforce/apex/CaseScreenController.getDist
 import checkAssetCodeInMaster from '@salesforce/apex/CaseScreenController.checkAssetCodeInMaster';
 import { getBarcodeScanner } from 'lightning/mobileCapabilities';
 import checkSerialNumber from '@salesforce/apex/CaseScreenController.checkSerialNumber';
-import submitInstallation from '@salesforce/apex/CaseScreenController.submitInstallation';
-import getMediaLineOptions from '@salesforce/apex/CaseScreenController.getMediaLineOptions';
-import getAccountRecordType from '@salesforce/apex/CaseScreenController.getAccountRecordType';
-import saveCaseWithLines from '@salesforce/apex/CaseScreenController.saveCaseWithLines';
-import getRetailerBrandingAssets from '@salesforce/apex/CaseScreenController.getRetailerBrandingAssets';
-import hasPendingReturnCase from '@salesforce/apex/CaseScreenController.hasPendingReturnCase';
-import USER_ID from '@salesforce/user/Id';
-
-// Statuses shown under the completed tab. Kept in sync with
-// CaseScreenController.COMPLETED_STATUSES. Lowercase for case-insensitive match.
-const COMPLETED_STATUSES = ['approved', 'installation pending', 'installed', 'completed', 'closed'];
-const INSTALLATION_PENDING = 'installation pending';
-// One photo only - for the case request and for the installation proof.
-const MAX_PHOTOS = 1;
-// OEM / asset code length bounds, inclusive.
-const MIN_ASSET_CODE_LENGTH = 13;
-const MAX_ASSET_CODE_LENGTH = 20;
-// Case type that captures several media items instead of a single one.
-const INVENTORY_CASE_TYPE = 'Branding & Marketing Asset Inventory Management';
-// Old transfer type, repurposed as the Branding Return Case.
-const RETURN_CASE_TYPE = 'Branding & Marketing Asset transfer Request';
 
 export default class CaseScreen extends LightningElement {
     @api visitTaskId;
@@ -47,7 +26,6 @@ export default class CaseScreen extends LightningElement {
     @track showPopup = false;
     @track searchType = '';
     @track selectedType = '';
-    @track selectedTypeLabel = '';
     @track showTypeDropdown = false;
     @track isFormScreen = false;
     @track caseTypes = [];
@@ -59,12 +37,6 @@ export default class CaseScreen extends LightningElement {
     @track dynamicFields = [];
     @track formData = {};
     @track uploadedFiles = [];
-    @track installImages = [];
-    @track installError = '';
-    @track mediaLines = [];
-    @track mediaTypeOptions = [];
-    @track mediaSubTypeOptions = [];
-    @track mediaLineError = '';
     @track fileError = '';
     @track isSubmitting = false;
     @track isLoading = false;
@@ -78,37 +50,15 @@ export default class CaseScreen extends LightningElement {
     scanner;
     _retailerId;
 
-    /**
-     * A record page hands the component one account id with no indication of its
-     * type, so a distributor used to land in retailerId and show up in the Retailer
-     * field. Resolve the record type and route it to the right context instead of
-     * trusting which property it arrived in.
-     */
     @api
     set retailerId(value) {
         this._retailerId = value;
-        if (value) this.resolveAccountContext(value);
+        if (value) {
+            this.fetchDistributor(value, 'Distributor__c');
+        }
     }
     get retailerId() {
         return this._retailerId;
-    }
-
-    async resolveAccountContext(accountId) {
-        try {
-            const recordType = await getAccountRecordType({ accountId });
-            if (recordType === 'Distributor' || recordType === 'SuperStockist') {
-                // Not a retailer - move it across so it renders in Distributor.
-                this._retailerId = null;
-                this.distributorId = accountId;
-                this.formData = { ...this.formData, Distributor__c: accountId };
-                return;
-            }
-            // Retailer (or unknown): keep it and derive its distributor.
-            this.fetchDistributor(accountId, 'Distributor__c');
-        } catch (error) {
-            // Fall back to the previous behaviour rather than blocking the form.
-            this.fetchDistributor(accountId, 'Distributor__c');
-        }
     }
 
     // ================= INIT =================
@@ -175,9 +125,8 @@ export default class CaseScreen extends LightningElement {
                         type: rec.Case_Type__r ? rec.Case_Type__r.Name : '',
                         retailers: retailers,
                         createdBy: rec.CreatedBy ? rec.CreatedBy.Name : '',
-                        createdById: rec.CreatedById,
                         status: statusValue,
-                        tabstatus: COMPLETED_STATUSES.includes(statusValue.toLowerCase()) ? 'Approved' : 'Open',
+                        tabstatus: statusValue.toLowerCase() === 'approved' ? 'Approved' : 'Open',
                         statusClass: this.getStatusClass(statusValue)
                     };
                 });
@@ -207,322 +156,11 @@ export default class CaseScreen extends LightningElement {
         }
     }
 
-    // ================= BRANDING RETURN CASE =================
-    @track brandingAssetOptions = [];
-    @track selectedBrandingAssetId = '';
-    @track brandingAssetError = '';
-    brandingAssetsById = {};
-
-    get isReturnCaseType() {
-        return this.selectedTypeLabel === RETURN_CASE_TYPE;
-    }
-
-    async loadRetailerBrandingAssets() {
-        this.brandingAssetOptions = [];
-        this.selectedBrandingAssetId = '';
-        this.brandingAssetError = '';
-        this.brandingAssetsById = {};
-        if (!this.retailerId) {
-            this.brandingAssetError = 'No retailer on this case - branding assets cannot be listed.';
-            return;
-        }
-        try {
-            const assets = await getRetailerBrandingAssets({ retailerId: this.retailerId });
-            this.brandingAssetsById = {};
-            this.brandingAssetOptions = (assets || []).map(a => {
-                this.brandingAssetsById[a.Id] = a;
-                // "Asset ID - Media Type - Sub Media"
-                return {
-                    label: [a.Name, a.Media_Type__c, a.Media_Sub_Type__c].filter(Boolean).join(' - '),
-                    value: a.Id
-                };
-            });
-            if (this.brandingAssetOptions.length === 0) {
-                this.brandingAssetError = 'This outlet has no active branding assets to return.';
-            }
-        } catch (error) {
-            this.brandingAssetError = (error.body && error.body.message) || 'Could not load branding assets.';
-        }
-    }
-
-    async handleBrandingAssetChange(event) {
-        const assetId = event.detail.value;
-        this.selectedBrandingAssetId = assetId;
-        this.brandingAssetError = '';
-
-        const asset = this.brandingAssetsById[assetId];
-        if (!asset) return;
-
-        // Branding_Asset__c.Media_Sub_Type__c -> Case__c.Media_Sub_type__c (lowercase t)
-        this.formData = {
-            ...this.formData,
-            Branding_Asset__c: asset.Id,
-            Asset_ID__c: asset.Name,
-            Media_Type__c: asset.Media_Type__c,
-            Media_Sub_type__c: asset.Media_Sub_Type__c
-        };
-
-        try {
-            const pending = await hasPendingReturnCase({ brandingAssetId: assetId });
-            if (pending) {
-                this.brandingAssetError = 'A pending return case already exists for this asset';
-                this.selectedBrandingAssetId = '';
-                this.formData = {
-                    ...this.formData,
-                    Branding_Asset__c: null, Asset_ID__c: null,
-                    Media_Type__c: null, Media_Sub_type__c: null
-                };
-            }
-        } catch (error) {
-            this.brandingAssetError = (error.body && error.body.message) || 'Could not check for existing return cases.';
-        }
-    }
-
-    // ================= MEDIA LINES (Inventory Management) =================
-    get isInventoryCaseType() {
-        return this.selectedTypeLabel === INVENTORY_CASE_TYPE;
-    }
-
-    // Lines are rendered from this, with the index baked in so each row can
-    // identify itself on change/remove.
-    get mediaLinesForDisplay() {
-        return this.mediaLines.map((line, i) => ({
-            ...line,
-            index: i,
-            rowLabel: `Item ${i + 1}`,
-            isRemovable: this.mediaLines.length > 1,
-            hasPhoto: !!line.photoUrl,
-            subTypeOptions: this.subTypeOptionsFor(line.mediaType)
-        }));
-    }
-
-    // Sub types narrow to the chosen media type once parent dependencies are
-    // configured on the picklist records. Until then no option carries a parent,
-    // so the full list is shown rather than an empty dropdown.
-    subTypeOptionsFor(mediaType) {
-        const dependent = this.mediaSubTypeOptions.filter(o => o.parent);
-        if (dependent.length === 0) return this.mediaSubTypeOptions;
-        if (!mediaType) return [];
-        return dependent.filter(o => o.parent === mediaType);
-    }
-
-    // Add Line only appears once every existing line is complete, so the user
-    // fills one row at a time as asked.
-    get canAddMediaLine() {
-        return this.mediaLines.length > 0 && this.mediaLines.every(l => this.isMediaLineComplete(l));
-    }
-
-    // Every field on an item is mandatory, photo included.
-    isMediaLineComplete(line) {
-        return !!line.mediaType && !!line.mediaSubType && !!line.photoUrl &&
-               line.quantity !== null && line.quantity !== undefined &&
-               String(line.quantity).trim() !== '' && Number(line.quantity) > 0;
-    }
-
-    async loadMediaLineOptions() {
-        try {
-            const result = await getMediaLineOptions();
-            this.mediaTypeOptions = (result.mediaTypes || []).map(o => ({ label: o.label, value: o.value }));
-            this.mediaSubTypeOptions = (result.mediaSubTypes || []).map(o => ({
-                label: o.label, value: o.value, parent: o.parent
-            }));
-        } catch (error) {
-            this.showError('Error loading media options', error);
-        }
-    }
-
-    resetMediaLines() {
-        // Always start with exactly one blank line.
-        this.mediaLines = [this.blankMediaLine()];
-        this.mediaLineError = '';
-    }
-
-    blankMediaLine() {
-        return { mediaType: '', mediaSubType: '', quantity: '', photoUrl: '', photoName: '' };
-    }
-
-    handleMediaLinePhotoClick(event) {
-        const index = event.currentTarget.dataset.index;
-        const input = Array.from(this.template.querySelectorAll('input[data-type="media-line-photo"]'))
-            .find(i => i.dataset.index === index);
-        if (input) input.click();
-    }
-
-    async handleMediaLinePhotoChange(event) {
-        const index = parseInt(event.target.dataset.index, 10);
-        const file = event.target.files && event.target.files[0];
-        if (!file) return;
-
-        this.mediaLineError = '';
-        try {
-            if (!['image/jpeg', 'image/png'].includes(file.type)) {
-                this.mediaLineError = 'Only JPG/PNG allowed';
-                return;
-            }
-            if (file.size > 5 * 1024 * 1024) {
-                this.mediaLineError = `File is too large (${(file.size / (1024 * 1024)).toFixed(1)} MB). Must be under 5 MB.`;
-                return;
-            }
-            const compressed = await this.compressToJpegWithQuality(file, 1.5);
-            const updated = [...this.mediaLines];
-            updated[index] = {
-                ...updated[index],
-                photoUrl: compressed,
-                photoName: file.name.replace(/\.[^/.]+$/, '.jpg')
-            };
-            this.mediaLines = updated;
-        } catch (error) {
-            this.mediaLineError = 'Image processing failed';
-        } finally {
-            event.target.value = null;
-        }
-    }
-
-    handleRemoveMediaLinePhoto(event) {
-        const index = parseInt(event.currentTarget.dataset.index, 10);
-        const updated = [...this.mediaLines];
-        updated[index] = { ...updated[index], photoUrl: '', photoName: '' };
-        this.mediaLines = updated;
-    }
-
-    handleMediaLineChange(event) {
-        const index = parseInt(event.target.dataset.index, 10);
-        const fieldName = event.target.dataset.field;
-        const value = event.detail?.value !== undefined ? event.detail.value : event.target.value;
-
-        const updated = [...this.mediaLines];
-        updated[index] = { ...updated[index], [fieldName]: value };
-        // Changing the media type invalidates a sub type that belonged to the old one.
-        if (fieldName === 'mediaType') {
-            const stillValid = this.subTypeOptionsFor(value)
-                .some(o => o.value === updated[index].mediaSubType);
-            if (!stillValid) updated[index].mediaSubType = '';
-        }
-        this.mediaLines = updated;
-        this.mediaLineError = '';
-    }
-
-    handleAddMediaLine() {
-        if (!this.canAddMediaLine) {
-            this.mediaLineError = 'Complete the current item before adding another.';
-            return;
-        }
-        this.mediaLines = [...this.mediaLines, this.blankMediaLine()];
-        this.mediaLineError = '';
-    }
-
-    handleRemoveMediaLine(event) {
-        const index = parseInt(event.currentTarget.dataset.index, 10);
-        if (this.mediaLines.length <= 1) return;
-        this.mediaLines = this.mediaLines.filter((_, i) => i !== index);
-        this.mediaLineError = '';
-    }
-
-    // ================= INSTALLATION STEP =================
-    // Only the person who raised the case can close out the installation, and
-    // only while it is sitting at Installation Pending.
-    get showInstallationSection() {
-        const status = (this.selectedCase.status || '').trim().toLowerCase();
-        return status === INSTALLATION_PENDING &&
-               this.selectedCase.createdById === USER_ID;
-    }
-
-    get hasInstallImages() {
-        return this.installImages.length > 0;
-    }
-
-    handleInstallPhotoClick(event) {
-        event.preventDefault();
-        const input = this.template.querySelector('.install-box input[type="file"]');
-        if (input) input.click();
-    }
-
-    async handleInstallFileChange(event) {
-        const target = event.target;
-        const files = target && target.files;
-        if (!files || files.length === 0) return;
-
-        this.installError = '';
-        for (const file of files) {
-            if (this.installImages.length >= MAX_PHOTOS) {
-                this.installError = 'Only one photo is allowed. Remove the existing photo first.';
-                break;
-            }
-            if (!['image/jpeg', 'image/png'].includes(file.type)) {
-                this.installError = 'Only JPG/PNG allowed';
-                continue;
-            }
-            if (file.size > 5 * 1024 * 1024) {
-                this.installError = `File is too large (${(file.size / (1024 * 1024)).toFixed(1)} MB). Must be under 5 MB.`;
-                continue;
-            }
-            try {
-                const compressed = await this.compressToJpegWithQuality(file, 1.5);
-                this.installImages = [...this.installImages, {
-                    id: `${Date.now()}_${this.installImages.length}`,
-                    url: compressed,
-                    fileName: file.name.replace(/\.[^/.]+$/, '.jpg')
-                }];
-            } catch (error) {
-                this.installError = 'Image processing failed';
-            }
-        }
-        if (target) target.value = null;
-    }
-
-    removeInstallImage(event) {
-        const id = event.currentTarget.dataset.id;
-        this.installImages = this.installImages.filter(img => img.id !== id);
-        this.installError = '';
-    }
-
-    async handleMarkInstalled() {
-        if (this.isSubmitting) return;
-
-        // Photo is mandatory — the case cannot move to Installed without proof.
-        if (this.installImages.length === 0) {
-            this.installError = 'Please upload a photo of the installed asset before submitting.';
-            return;
-        }
-
-        this.isSubmitting = true;
-        this.installError = '';
-        try {
-            // One call: uploads the photo, records it on the case, then moves to
-            // Installed. If the upload fails the case stays at Installation
-            // Pending so the raiser can retry rather than closing without proof.
-            await submitInstallation({
-                caseId: this.caseId,
-                files: this.installImages.map(img => ({
-                    fileName: img.fileName,
-                    base64: img.url.split(',')[1]
-                }))
-            });
-
-            this.selectedCase = { ...this.selectedCase, status: 'Installed' };
-            this.installImages = [];
-            this.dispatchEvent(new ShowToastEvent({
-                title: 'Success',
-                message: 'Installation submitted. Case marked as Installed.',
-                variant: 'success'
-            }));
-            this.isDetailScreen = false;
-            this.isHideAddIcon = true;
-            await this.loadCases();
-        } catch (error) {
-            this.showError('Could not submit the installation', error);
-        } finally {
-            this.isSubmitting = false;
-        }
-    }
-
     // ================= STATUS CLASS =================
     getStatusClass(status) {
         if (!status) return 'status other';
         const normalized = status.trim().toLowerCase();
         if (normalized === 'approved') return 'status approved';
-        if (normalized === 'installation pending') return 'status installation-pending';
-        if (normalized === 'installed') return 'status installed';
         if (normalized === 'open') return 'status open';
         return 'status other';
     }
@@ -567,16 +205,11 @@ export default class CaseScreen extends LightningElement {
         this.formData = {};
         this.dynamicFields = [];
         this.uploadedFiles = [];
-        this.installImages = [];
-        this.installError = '';
         this.isSubmitting = false;
     }
     openCaseDetail(event) {
         const caseId = event.currentTarget.dataset.id;
         this.caseId = caseId;
-        this.selectedCase = this.cases.find(c => c.id === caseId) || {};
-        this.installImages = [];
-        this.installError = '';
         getCaseFields({ caseId: caseId })
             .then(result => {
                 const priorityFields = [
@@ -653,33 +286,14 @@ export default class CaseScreen extends LightningElement {
         const label = event.currentTarget.dataset.label;
         const value = event.currentTarget.dataset.value;
         this.selectedType = value;
-        this.selectedTypeLabel = label;
         this.searchType = label;
         this.showTypeDropdown = false;
-
-        if (label === INVENTORY_CASE_TYPE) {
-            this.resetMediaLines();
-            this.loadMediaLineOptions();
-        } else {
-            this.mediaLines = [];
-        }
-
-        if (label === RETURN_CASE_TYPE) {
-            this.loadRetailerBrandingAssets();
-        } else {
-            this.brandingAssetOptions = [];
-            this.selectedBrandingAssetId = '';
-            this.brandingAssetError = '';
-        }
     }
     clearSelection() {
     this.selectedType = '';
-    this.selectedTypeLabel = '';
     this.searchType = '';
     this.typeSearchQuery = '';
     this.showTypeDropdown = true;
-    this.mediaLines = [];
-    this.mediaLineError = '';
 }
 
     // ================= LOAD FORM =================
@@ -735,10 +349,7 @@ export default class CaseScreen extends LightningElement {
                 }
 
                 // ================= OUTSIDE VISIT: CONVERT LOOKUP TO PICKLIST FOR USER RETAILERS =================
-                // Skipped when the case is raised from inside an account: that
-                // account is the answer, so it must be pre-filled and locked rather
-                // than replaced by a free choice of the user's own retailers.
-                if (!this.visitTaskId && !this.retailerId && !this.distributorId &&
+                if (!this.visitTaskId &&
                     (f.apiName === 'Retailer_Transfer_From__c' || f.apiName === 'Retailer__c') &&
                     this.userRetailers.length > 0) {
                     return {
@@ -758,8 +369,7 @@ export default class CaseScreen extends LightningElement {
                 }
 
                 // ================= OUTSIDE VISIT: CONVERT LOOKUP TO PICKLIST FOR USER DISTRIBUTORS =================
-                // Same exception as retailers above - account context wins.
-                if (!this.visitTaskId && !this.retailerId && !this.distributorId &&
+                if (!this.visitTaskId &&
                     (f.apiName === 'Distributor_Transfer_From__c' || f.apiName === 'Distributor__c' ||
                      f.apiName === 'Distributor_Transfer_To__c') &&
                     this.userDistributors.length > 0) {
@@ -823,10 +433,7 @@ export default class CaseScreen extends LightningElement {
                             f.apiName === 'Distributor_Transfer_From__c' || f.apiName === 'Distributor_Transfer_To__c',
                         required: f.required, lookupObject: f.lookupObject, options: f.options,
                         isControlling: f.isControlling, filter: filterCriteria,
-                        // Raised from inside a distributor account: show that account.
-                        value: (this.distributorId && !this.retailerId &&
-                                (f.apiName === 'Distributor_Transfer_From__c' || f.apiName === 'Distributor__c'))
-                            ? this.distributorId : distributorValue,
+                        value: (f.apiName === 'Distributor_Transfer_From__c' && this.distributorId && !this.retailerId) ? this.distributorId : distributorValue,
                         isDisabled: f.apiName === 'Distributor_Transfer_To__c' ? false : true,
                         key: `${f.apiName}_${Date.now()}`, images: [],
                         ...this.getFieldTypeFlags(f.type)
@@ -1392,10 +999,10 @@ export default class CaseScreen extends LightningElement {
             }));
             return;
         }
-        if (code.length < MIN_ASSET_CODE_LENGTH || code.length > MAX_ASSET_CODE_LENGTH) {
+        if (code.length !== 13) {
             this.dispatchEvent(new ShowToastEvent({
                 title: 'Error',
-                message: `New Asset Code must be between ${MIN_ASSET_CODE_LENGTH} and ${MAX_ASSET_CODE_LENGTH} characters`,
+                message: 'New Asset Code must be exactly 13 characters',
                 variant: 'error'
             }));
             return;
@@ -1584,13 +1191,6 @@ export default class CaseScreen extends LightningElement {
             if (this.formData[field] !== undefined) filteredFormData[field] = this.formData[field];
         });
         const alwaysIncludeFields = ['Case_Type__c'];
-        // The Branding Return Case writes these straight into formData from the
-        // asset selector. They are not Form_Field__c rows for this case type, so
-        // the visibleFields filter above would otherwise drop them and the case
-        // would insert with no branding asset.
-        if (this.isReturnCaseType) {
-            alwaysIncludeFields.push('Branding_Asset__c', 'Asset_ID__c', 'Media_Type__c', 'Media_Sub_type__c');
-        }
         alwaysIncludeFields.forEach(field => {
             if (this.formData[field] !== undefined) filteredFormData[field] = this.formData[field];
         });
@@ -1663,55 +1263,12 @@ export default class CaseScreen extends LightningElement {
                 }
             }
 
-            if (this.isReturnCaseType) {
-                if (this.brandingAssetError) {
-                    this.isSubmitting = false; this.isLoading = false;
-                    return;
-                }
-                if (!this.selectedBrandingAssetId) {
-                    this.brandingAssetError = 'Select the branding asset being returned.';
-                    this.isSubmitting = false; this.isLoading = false;
-                    return;
-                }
-                // Re-check at submit: another rep may have raised one meanwhile.
-                const pending = await hasPendingReturnCase({ brandingAssetId: this.selectedBrandingAssetId });
-                if (pending) {
-                    this.brandingAssetError = 'A pending return case already exists for this asset';
-                    this.isSubmitting = false; this.isLoading = false;
-                    return;
-                }
-            }
-
-            let caseId;
-            if (this.isInventoryCaseType) {
-                const completeLines = this.mediaLines.filter(l => this.isMediaLineComplete(l));
-                if (completeLines.length === 0) {
-                    this.mediaLineError = 'Add at least one complete media item before submitting.';
-                    this.isSubmitting = false;
-                    this.isLoading = false;
-                    return;
-                }
-                caseId = await saveCaseWithLines({
-                    formData: filteredFormData,
-                    lines: completeLines.map(l => ({
-                        mediaType: l.mediaType,
-                        mediaSubType: l.mediaSubType,
-                        quantity: l.quantity,
-                        photoName: l.photoName,
-                        // Strip the data: prefix - Apex expects raw base64.
-                        photoBase64: l.photoUrl ? l.photoUrl.split(',')[1] : null
-                    }))
-                });
-            } else {
-                caseId = await saveCase({ formData: filteredFormData });
-            }
+            const caseId = await saveCase({ formData: filteredFormData });
             let hasImages = this.dynamicFields.some(f => f.isFile && f.images && f.images.length > 0);
             if (hasImages) await this.uploadImages(caseId);
             this.dispatchEvent(new ShowToastEvent({
                 title: 'Success',
-                message: this.isReturnCaseType
-                    ? 'Branding asset Vendor transfer has been initiated.'
-                    : 'Case Created Successfully',
+                message: 'Case Created Successfully',
                 variant: 'success'
             }));
             this.formData = {};
@@ -1744,8 +1301,8 @@ export default class CaseScreen extends LightningElement {
         if (!files || files.length === 0) return;
         let field = this.dynamicFields[index];
         if (!field.images) field.images = [];
-        if (field.images.length + files.length > MAX_PHOTOS) {
-            this.showError('Error', { message: 'Only one photo is allowed. Remove the existing photo first.' });
+        if (field.images.length + files.length > 2) {
+            this.showError('Error', { message: 'Maximum 2 images allowed' });
             return;
         }
         this.fileError = '';
@@ -1753,7 +1310,7 @@ export default class CaseScreen extends LightningElement {
         for (const file of files) {
             const alreadyExists = field.images.some(img => img.fileName === file.name);
             if (alreadyExists) continue;
-            if (field.images.length >= MAX_PHOTOS) { this.showError('Error', { message: 'Only one photo is allowed. Remove the existing photo first.' }); continue; }
+            if (field.images.length >= 2) { this.showError('Error', { message: 'Maximum 2 images allowed' }); continue; }
             if (!['image/jpeg', 'image/png'].includes(file.type)) { this.showError('Error', { message: 'Only JPG/PNG allowed' }); continue; }
             if (file.size > 5 * 1024 * 1024) {
                 this.showError('Error', { message: `File is too large (${(file.size / (1024 * 1024)).toFixed(1)} MB). File size must be less than 5 MB.` });
@@ -1766,7 +1323,7 @@ export default class CaseScreen extends LightningElement {
                 if (totalSize > 1.5 * 1024 * 1024) { this.showError('Error', { message: 'Total images must be under 1.5 MB' }); continue; }
                 const newImage = { id: Date.now() + Math.random(), url: compressed, fileName: file.name.replace(/\.[^/.]+$/, ".jpg") };
                 field.images = [...field.images, newImage];
-                this.dynamicFields[index] = { ...field, hasPhoto: field.images.length >= MAX_PHOTOS };
+                this.dynamicFields[index] = { ...field };
                 this.dynamicFields = [...this.dynamicFields];
             } catch (error) {
                 this.showError('Error', { message: 'Image processing failed' });
@@ -1814,11 +1371,7 @@ export default class CaseScreen extends LightningElement {
         const index = event.currentTarget.dataset.index;
         let field = this.dynamicFields[index];
         const updatedImages = field.images.filter(img => img.id != id);
-        this.dynamicFields[index] = {
-            ...field,
-            images: updatedImages,
-            hasPhoto: updatedImages.length >= MAX_PHOTOS
-        };
+        this.dynamicFields[index] = { ...field, images: updatedImages };
         this.dynamicFields = [...this.dynamicFields];
         this.fileError = '';
     }

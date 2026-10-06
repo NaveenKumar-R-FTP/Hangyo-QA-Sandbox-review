@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Meeting Type --></label>
+    <name>Meeting_Type__c</name>
+    <picklistValues>
+        <masterLabel>Attended Training</masterLabel>
+        <translation><!-- Attended Training --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Daily Team Gate Meeting</masterLabel>
+        <translation><!-- Daily Team Gate Meeting --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Meeting at Office</masterLabel>
+        <translation><!-- Meeting at Office --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Meeting with Distributor</masterLabel>
+        <translation><!-- Meeting with Distributor --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Meeting with Manager</masterLabel>
+        <translation><!-- Meeting with Manager --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

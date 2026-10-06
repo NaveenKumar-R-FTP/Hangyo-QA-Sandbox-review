@@ -66,6 +66,10 @@
                 <behavior>Readonly</behavior>
                 <field>Allow_Bulk_Upload__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Allow_Invoice_Date_Backdate__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

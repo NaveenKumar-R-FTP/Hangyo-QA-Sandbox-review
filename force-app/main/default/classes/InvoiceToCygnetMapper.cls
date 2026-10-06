@@ -199,7 +199,7 @@ public with sharing class InvoiceToCygnetMapper {
             'TranDtls' => new Map<String, Object>{
                 'TaxSch' => 'GST',
                 'SupTyp' => 'B2B',
-                'RegRev' => 'N',
+                'RegRev' => 'Y',
                 'EcmGstin' => null,
                 // Added by hari - Keep prior Cygnet/NIC mapping; tax split fixed separately for interstate (VAL0050)
                 'IgstOnIntra' => sellerState == buyerState ? 'N' : 'Y'

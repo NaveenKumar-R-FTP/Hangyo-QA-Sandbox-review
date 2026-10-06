@@ -42,7 +42,11 @@
                     </td>
                     <td colspan="4" style="vertical-align:top; padding:10px; border-bottom:1px solid white;">
                         <div>Invoice #: {invoiceInfo.Invoice_Number__c}</div>
-                         <div>Invoice Date: {invoiceInfo.Invoice_Date__c}</div>
+                        <div>Invoice Date:
+                            <lightning-input type="date" variant="label-hidden"
+                                value={invoiceInfo.Invoice_Date__c}
+                                onchange={handleInvoiceDateChange}></lightning-input>
+                        </div>
                         <div>Place of Supply: {invoiceInfo.Place_of_Supply__c}</div>
                         <div>Tax Currency: INR</div>
                         <div>Credit Period:
@@ -86,7 +90,6 @@
                             value={discount2Percent}
                             onchange={handleDiscount2Change}
                             step="0.01">
-                            disabled={skuDiscountActive}>
                         </lightning-input>
                     </td>
                 </tr>
@@ -315,19 +318,6 @@
                                     variant="label-stacked"
                                     value={calculatedDiscountAmt}
                                     disabled>
-                                </lightning-input>
-                            </lightning-layout-item>
-                            <!-- SKU-wise Discount 2 % (mutually exclusive with header Discount 2) -->
-                            <lightning-layout-item size="12" padding="around-small">
-                                <lightning-input
-                                    label="SKU Discount 2 (%)"
-                                    type="number" min="0" max="100" step="0.01"
-                                    variant="label-stacked"
-                                    data-id="ili_sku_discount"
-                                    value={iliSkuDiscountPercent}
-                                    onchange={handleSkuDiscountChange}
-                                    disabled={overallDiscountActive}
-                                    placeholder="Enter SKU-wise Discount 2 %...">
                                 </lightning-input>
                             </lightning-layout-item>
 

@@ -78,7 +78,7 @@ public without sharing class OrderProductController {
         }
         String query = 'SELECT Id, Name, IsActive__c, DisplayURL__c, Focus_Product__c, Image__c, ' +
             'Validity_Start_Date__c, Validity_End_Date__c, Unit_of_Measure__c, ' +
-            'Category_Code__c, Category_Name__c, Product_Code__c , Product_Brand__c, Image_Long__c, MRP__c ' +
+            'Category_Code__c, Category_Name__c, Product_Code__c , Product_Brand__c, Image_Long__c ' +
             'FROM Product__c WHERE Id IN :productIds AND IsActive__c = TRUE ' +
             'AND Secondary_Product__c = TRUE AND RecordTypeId = :productRecordTypeId';
         
@@ -130,7 +130,7 @@ public without sharing class OrderProductController {
                 pw.productImages=master.Image_Long__c.split(',');
                 pw.productDisplayImage = master.Image_Long__c.split(',')[0];
                 pw.state=taxComp;
-                pw.productMRP = master.MRP__c;
+                
                 pw.uom=master.Unit_of_Measure__c;
                 pw.focusProduct = master.Focus_Product__c; // Add Focus_Product__c to the wrapper
                 pw.productCode = master.Product_Code__c;
@@ -218,7 +218,7 @@ public without sharing class OrderProductController {
         }
         String query = 'SELECT Id, Name, IsActive__c, DisplayURL__c, Focus_Product__c, Image__c, ' +
             'Validity_Start_Date__c, Validity_End_Date__c, Unit_of_Measure__c, ' +
-            'Category_Code__c, Category_Name__c, Product_Code__c , Product_Brand__c, Image_Long__c, MRP__c ' +
+            'Category_Code__c, Category_Name__c, Product_Code__c , Product_Brand__c, Image_Long__c ' +
             'FROM Product__c WHERE Id IN :productIds AND IsActive__c = TRUE ' +
             'AND Secondary_Product__c = TRUE AND Focus_Product__c = True AND RecordTypeId = :productRecordTypeId';
         
@@ -274,7 +274,6 @@ public without sharing class OrderProductController {
                 pw.productImages=master.Image_Long__c.split(',');
                 pw.productDisplayImage = master.Image_Long__c.split(',')[0];
                 pw.state=taxComp; 
-                pw.productMRP = master.MRP__c;
                 pw.uom=master.Unit_of_Measure__c;
                 pw.focusProduct = master.Focus_Product__c; // Add Focus_Product__c to the wrapper
                 pw.productCode = master.Product_Code__c;
@@ -608,7 +607,8 @@ public without sharing class OrderProductController {
             System.debug('No valid Users found for Distributor Contacts.');
         }
     }
-        
+    
+    
     //Wrapper for the Product Data
     public class ProductDataWrapper{
         @AuraEnabled public String productId{get;set;}
@@ -622,7 +622,6 @@ public without sharing class OrderProductController {
         @AuraEnabled public Decimal productListPrice{get;set;}
         @AuraEnabled public Integer productQuantity { get; set; }
         @AuraEnabled public Decimal productOfferPrice{get;set;}
-        @AuraEnabled public Decimal productMRP{get;set;}   // ✅ NEW
         @AuraEnabled public Decimal percentageValue {get;set;}
         @AuraEnabled public Boolean offerIsThere {get;set;}
         @AuraEnabled public String state {get;set;}
@@ -631,7 +630,13 @@ public without sharing class OrderProductController {
         @AuraEnabled public String productCode {get;set;}
         @AuraEnabled public Integer availableQuantity { get; set; }
         @AuraEnabled public Boolean availableQuantitySent { get; set; }
-    
+        
+        // Add selectedScheme field
+        //  @AuraEnabled public String selectedScheme { get; set; }
+        // New field to store the scheme ID
+        //  @AuraEnabled public String selectedSchemeId { get; set; }
+        
+        
         public ProductDataWrapper(){
             productImages = new List<String>();
             productQuantity = 0;

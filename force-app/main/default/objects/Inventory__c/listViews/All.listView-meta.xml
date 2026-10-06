@@ -12,7 +12,7 @@
     <filters>
         <field>Distributor_Name__c</field>
         <operation>contains</operation>
-        <value>Prathiksha</value>
+        <value>Prathiksha Enterprise - Kerur,Bagalkot</value>
     </filters>
     <label>All</label>
 </ListView>

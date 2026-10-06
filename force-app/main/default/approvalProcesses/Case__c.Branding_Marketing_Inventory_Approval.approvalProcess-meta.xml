@@ -105,7 +105,7 @@
         </action>
     </initialSubmissionActions>
     <label>Branding Marketing Inventory Approval</label>
-    <processOrder>5</processOrder>
+    <processOrder>4</processOrder>
     <recordEditability>AdminOrCurrentApprover</recordEditability>
     <showApprovalHistory>true</showApprovalHistory>
 </ApprovalProcess>

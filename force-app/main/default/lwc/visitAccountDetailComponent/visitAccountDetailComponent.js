@@ -8,7 +8,6 @@ import getVisitTaskReson  from '@salesforce/apex/VisitController.getVisitTaskRes
 import getVisitTaskStartCallRecord  from '@salesforce/apex/VisitController.getVisitTaskStartCallRecord';
 import getVisitTaskOrderPlacedRecord  from '@salesforce/apex/VisitController.getVisitTaskOrderPlacedRecord';
 import checkAllAssetsAudited from '@salesforce/apex/CaseScreenController.checkAllAssetsAudited';
-import checkAllBrandingAudited from '@salesforce/apex/CaseScreenController.checkAllBrandingAudited';
 import saveCheckOutRecord  from '@salesforce/apex/VisitController.saveCheckOutRecord';
 import saveEndCallRecord  from '@salesforce/apex/VisitController.saveEndCallRecord';
 import updateRetailerLocation  from '@salesforce/apex/VisitController.updateRetailerLocation';
@@ -129,7 +128,6 @@ recordId = '';
   @track showCaseAsset = false;
 @track selectedScreen = '';
 @track isCaseAssetScreen = true;
-@track isBrandingScreen = false;
 @track isenableMappedAsset = false;
 @track retailerId;
 
@@ -143,18 +141,6 @@ handleOpen(event) {
 
     this.isCaseScreen = type === 'case';
     this.isAssetScreen = type === 'asset';
-    this.isBrandingScreen = false;
-    this.isCaseAssetScreen = false;
-}
-
-// Branding audit opens the same way Mapped Asset does - the panel replaces
-// the button grid rather than rendering underneath it. Viewing is never gated;
-// the panel itself decides whether the audit may be submitted.
-handleOpenBranding() {
-    this.showCaseAsset = true;
-    this.isCaseScreen = false;
-    this.isAssetScreen = false;
-    this.isBrandingScreen = true;
     this.isCaseAssetScreen = false;
 }
 
@@ -162,7 +148,6 @@ handlegoBack() {
     this.showCaseAsset = false;
     this.isCaseScreen = false;
     this.isAssetScreen = false;
-    this.isBrandingScreen = false;
      this.isCaseAssetScreen = true;
 }
 
@@ -1176,27 +1161,6 @@ handleCloseModal(){
         }
     }
 
-    // Visit Task Id for child components - same resolution the check-out path uses.
-    get currentVisitTaskId() {
-        return this.recordId != null ? this.recordId : this.visitId;
-    }
-
-    // Reason resolved from the saved record first, then the in-memory /
-    // localStorage copy used before the record is re-fetched.
-    get unproductiveReason() {
-        return (this.currentVisitTask && this.currentVisitTask.Unproductive_Reasons__c)
-            || this.selectedReason
-            || localStorage.getItem('selectedReason');
-    }
-
-    proceedToCheckout() {
-        this.isLoading = false;
-        const visitIdToPass = this.visitId;
-        this.verifyCheckoutLocation(visitIdToPass);
-        localStorage.removeItem(`checkInDoneToTriggerFlow`);
-        this.checkInDoneToTriggerFlow = false;
-    }
-
     //This method will be called to  save check out location details
     handleCheckOutMethod(){
         this.isLoading=true;
@@ -1206,43 +1170,47 @@ handleCloseModal(){
                 this.selectedReason = storedReason;
             }
         }
-        // No Order visits with these reasons skip BOTH the freezer and the branding audit
-        const reason = this.unproductiveReason;
-        if (reason === 'Shop closed' || reason === 'Joint Visit') {
+        if(this.selectedReason === 'Shop closed' || this.selectedReason === 'Joint Visit'){        
             this.showToast('Success', 'Skipping audit check', 'success');
-            this.proceedToCheckout();
+            this.isLoading = false;
+            const visitIdToPass = this.visitId;
+            this.verifyCheckoutLocation(visitIdToPass);
+            localStorage.removeItem(`checkInDoneToTriggerFlow`);
+            this.checkInDoneToTriggerFlow = false;
             return;
         }
+        console.log('recordId:- ' , this.recordId);
+        console.log('recordId:- ' , this.visitId);
         const visitTaskRecordId = this.recordId != null ? this.recordId : this.visitId;
+        //checkAllAssetsAudited({ visitTaskId: this.recordId })
         checkAllAssetsAudited({ visitTaskId: visitTaskRecordId })
         .then(result => {
-            if (result === 'VISIT_AUDITED') {
-                this.showToast('Success', 'All assets have been audited.', 'success');
-            } else if (result === 'MONTH_AUDITED') {
-                this.showToast('Success', 'This asset has already been audited in the last 30 days.', 'success');
-            } else {
-                this.showToast('Error', 'Some assets are missing an audit.', 'error');
-                this.isLoading = false;
-                return null;
+             console.log('result:- ' , result);
+             console.log('this.selectedReason:@11@- ' , this.selectedReason);
+            if (result === 'VISIT_AUDITED' && this.selectedReason !== 'Shop closed') {          
+               this.showToast('Success', 'All assets have been audited.', 'success');
+                this.isLoading=false;
+                const visitIdToPass = this.visitId;  
+                this.verifyCheckoutLocation(visitIdToPass);
+                localStorage.removeItem(`checkInDoneToTriggerFlow`);
+                this.checkInDoneToTriggerFlow = false;
+            } else if(result === 'MONTH_AUDITED' && this.selectedReason !== 'Shop closed'){
+                 this.showToast('Success', 'This asset has already been audited in the last 30 days.', 'success');
+                this.isLoading=false;
+                const visitIdToPass = this.visitId;  
+                this.verifyCheckoutLocation(visitIdToPass);
+                localStorage.removeItem(`checkInDoneToTriggerFlow`);
+                this.checkInDoneToTriggerFlow = false;
+
+            }else {
+               this.showToast('Error', 'Some assets are missing an audit.', 'error');
+                this.isLoading=false;
             }
-            // Freezer audit is clear - now gate on the mapped branding audit
-            return checkAllBrandingAudited({ visitTaskId: visitTaskRecordId })
-                .then(brandingResult => {
-                    if (brandingResult === 'VISIT_AUDITED') {
-                        this.proceedToCheckout();
-                    } else if (brandingResult === 'NOT_AUDITED') {
-                        this.showToast('Error', 'Please complete the Mapped Branding audit before check-out.', 'error');
-                        this.isLoading = false;
-                    } else {
-                        this.showToast('Error', 'Could not verify the Mapped Branding audit. Please try again.', 'error');
-                        this.isLoading = false;
-                    }
-                });
         })
         .catch(error => {
             this.showToast('Error', 'Error checking audit status: ' + error.body.message, 'error');
             this.isLoading=false;
-        });
+        });     
     }
 
     async verifyCheckoutLocation(finalVisitId) {

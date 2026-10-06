@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cache_Key__c</fullName>
+    <caseSensitive>false</caseSensitive>
+    <description>Identifies the question this row answers: object, date basis and date range, joined. Unique and an external id so the controller can upsert a count request without first querying for one, and so two users asking the same question share one count rather than starting two.</description>
+    <externalId>true</externalId>
+    <label>Cache Key</label>
+    <length>255</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>true</unique>
+</CustomField>

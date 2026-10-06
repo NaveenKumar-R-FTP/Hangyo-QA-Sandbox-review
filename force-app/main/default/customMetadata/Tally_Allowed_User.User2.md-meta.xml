@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>User2</label>
+    <protected>false</protected>
+    <values>
+        <field>Customer_Api_Key__c</field>
+        <value xsi:type="xsd:string">0084b3a26ed546718d176e6276acd5ad</value>
+    </values>
+    <values>
+        <field>Integration_User_Id__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Is_Active__c</field>
+        <value xsi:type="xsd:string">True</value>
+    </values>
+    <values>
+        <field>User_Id__c</field>
+        <value xsi:type="xsd:string">005e1000003dbSbAAI</value>
+    </values>
+    <values>
+        <field>User_Name__c</field>
+        <value xsi:type="xsd:string">Jagrut Oil Depot</value>
+    </values>
+</CustomMetadata>

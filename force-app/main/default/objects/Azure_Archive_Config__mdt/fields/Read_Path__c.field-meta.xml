@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Read_Path__c</fullName>
+    <description>Path appended to the read Named Credential for the archive READ (GET) operation. The archive exposes one route per object under the gateway&apos;s /retrieve base, so this is the object segment - e.g. /OrderLineItems. Leave blank to use the per-object default in ArchiveReadService, which currently knows only Order_Line_Item__c =&gt; /OrderLineItems. An object with neither a configured nor a default path is treated as having no published route, and the report falls back to the Archival Log index for it.</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>GET path for reading this object&apos;s archived records, e.g. /OrderLineItems. Blank = use code default.</inlineHelpText>
+    <label>Read Path</label>
+    <length>255</length>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

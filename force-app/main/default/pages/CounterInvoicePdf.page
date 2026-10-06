@@ -73,9 +73,29 @@
                 font-size: 9pt !important;
             }
         </style>
+                <style>
+            .cancelledWatermark {
+                position: fixed;
+                top: 42%;
+                left: 0;
+                width: 100%;
+                text-align: center;
+                color: #cccccc;
+                font-size: 120px;
+                font-weight: bold;
+                letter-spacing: 14px;
+                -webkit-transform: rotate(-30deg);
+                transform: rotate(-30deg);
+                z-index: 0;
+            }
+        </style>
     </head>
 
 <body>
+    <apex:outputPanel rendered="{!isCancelled}" layout="none">
+    <div class="cancelledWatermark">CANCELLED</div>
+        
+    </apex:outputPanel>
 
 <!-- ================= HEADER ================= -->
 <div class="header">
@@ -125,7 +145,6 @@
 <div id="footer">
     <div class="page-number"></div>
 </div>
-
 <!-- ================= INVOICE BODY ================= -->
 <div class="invoiceBody">
 <apex:repeat value="{!invoiceWrappers}" var="wrapper">
@@ -196,7 +215,7 @@
 <apex:variable var="i" value="{!i+1}"/>
 
 <tr>
-    <td colspan="10">{!i}. {!item.rec.Product__r.Name}</td>
+    <td colspan="10">{!i}. {!item.productName}</td>
     <td align="right">{!item.rec.Quantity__c}</td>
     <td align="right">
         <apex:outputText value="{0,number,##0}">
@@ -212,7 +231,7 @@
     <td align="right">{!item.displayBasicAmt}</td>
     <td align="right">{!item.displayDiscount}</td>
     <td align="right">{!item.rec.Tax__c}</td>
-    <td align="right">{!item.rec.Total_Tax__c}</td>
+    <td align="right">{!item.displayTotalTax}</td>
     <td align="right">{!item.lineNetAmt}</td>
 </tr>
 </apex:repeat>
@@ -220,7 +239,7 @@
 <!-- ================= TOTALS ROW ================= -->
 <tr class="totalRow" align="center">
     <td colspan="10" align="left">Total</td>
-    <td>{!wrapper.invoice.Total_Quantity__c}</td>
+    <td>{!wrapper.totalQuantity}</td>
     <td></td>
     <td></td>
     <td></td>

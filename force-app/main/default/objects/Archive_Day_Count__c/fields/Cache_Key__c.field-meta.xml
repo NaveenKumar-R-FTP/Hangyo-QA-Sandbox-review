@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cache_Key__c</fullName>
+    <caseSensitive>false</caseSensitive>
+    <description>Object, date basis and day joined - e.g. Order_Line_Item__c|ARCHIVED|2026-08-30. Unique and an external id so a rollup can upsert its tally without first querying for what is already there.</description>
+    <externalId>true</externalId>
+    <label>Cache Key</label>
+    <length>255</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>true</unique>
+</CustomField>

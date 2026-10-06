@@ -856,6 +856,17 @@ public class SchemeEvaluationServiceTest {
         );
         insert inv;
 
+        // A newer, unrelated org-side validation on Invoice_Line_Item__c requires a
+        // matching Inventory__c record to deduct against whenever a line's quantity
+        // increases — added directly in QA at some point after this test was written
+        // (found 2026-08-25, blocking an otherwise-unrelated deploy). Not present when
+        // this test was originally written; give it the stock record it now expects.
+        insert new Inventory__c(
+            Product__c = testProduct.Id,
+            Quantity_in_hand__c = 50,
+            Distributor_Name__c = acc.Id
+        );
+
         Invoice_Line_Item__c ili = new Invoice_Line_Item__c(
             Invoice__c = inv.Id,
             Product__c = testProduct.Id,

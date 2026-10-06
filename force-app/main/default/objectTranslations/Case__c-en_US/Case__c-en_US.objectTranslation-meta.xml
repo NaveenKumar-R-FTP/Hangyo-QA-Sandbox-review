@@ -59,6 +59,14 @@
             <section>Warehouse / Processing</section>
         </sections>
     </layouts>
+    <quickActions>
+        <label><!-- Approve --></label>
+        <name>Approve</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Approve Return --></label>
+        <name>Approve_Return</name>
+    </quickActions>
     <startsWith>Consonant</startsWith>
     <validationRules>
         <errorMessage><!-- New Asset Code is required when Case Type is &apos;Existing Outlet New Asset Request&apos;. --></errorMessage>
@@ -67,6 +75,14 @@
     <validationRules>
         <errorMessage><!-- Please enter only numbers (0–9) in Asset Code.Special characters or letters are not allowed. --></errorMessage>
         <name>NewAssetCode_Only_Alphanumeric</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Select the Vendor on this approval page, then approve. --></errorMessage>
+        <name>New_Request_Approval_Needs_Vendor</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Selected vendor&apos;s hub does not match the retailer&apos;s hub. Choose a vendor mapped to the retailer&apos;s hub. --></errorMessage>
+        <name>New_Request_Vendor_Hub_Must_Match</name>
     </validationRules>
     <validationRules>
         <errorMessage><!-- Old Asset Code is required when Case Type is &apos;Existing Outlet New Asset Request&apos;. --></errorMessage>
@@ -81,12 +97,20 @@
         <name>PIN_Code_Numeric_Only</name>
     </validationRules>
     <validationRules>
-        <errorMessage><!-- Select the Vendor and the Branding Return Status before completing this return case. --></errorMessage>
+        <errorMessage><!-- Select the Vendor and Branding Return Status on this approval page, then approve. --></errorMessage>
         <name>Return_Case_Completion_Needs_Vendor</name>
     </validationRules>
     <validationRules>
         <errorMessage><!-- Select the Branding Asset being returned and its Condition. --></errorMessage>
         <name>Return_Case_Requires_Asset_And_Condition</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- This asset status is final and cannot be changed once it is Consumed or Damaged. --></errorMessage>
+        <name>Return_Status_Transition_Lock</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Selected vendor&apos;s hub does not match the retailer&apos;s hub. Choose a vendor mapped to the retailer&apos;s hub. --></errorMessage>
+        <name>Return_Vendor_Hub_Must_Match</name>
     </validationRules>
     <validationRules>
         <errorMessage><!-- Serial Number can only contain letters and numbers. Special characters are not allowed. --></errorMessage>

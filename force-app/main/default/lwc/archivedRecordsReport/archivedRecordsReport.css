@@ -1,0 +1,141 @@
+.filter-bar {
+    background-color: var(--lwc-colorBackgroundAlt, #ffffff);
+    /* Combobox dropdowns are absolutely positioned and must escape the box. */
+    overflow: visible;
+    /*
+     * Tighter than slds-box_small's own padding. Everything above the table is
+     * height the table does not get, and the footer pager has to stay on screen,
+     * so the filter bar is trimmed to the smallest padding that still reads as a
+     * grouped box.
+     */
+    padding: 0.5rem 0.25rem 0.25rem;
+}
+
+/*
+ * Vertical breathing room between filters once the bar wraps onto a second row
+ * on narrower screens - the layout's padding only separates them horizontally.
+ * On one row this margin is pure lost height, so it is deliberately small.
+ */
+.filter-bar .filter-field {
+    margin-bottom: 0.25rem;
+}
+
+/* Refresh sits in the card header; keep the header actions on one line. */
+.header-actions {
+    flex-wrap: nowrap;
+    white-space: nowrap;
+}
+
+/*
+ * Apply and Reset sit centred on their own row under the filters; a little
+ * space keeps them off the fields above without spending a full row of height.
+ */
+.filter-actions {
+    padding-top: 0.5rem;
+}
+
+/*
+ * Loading panel. lightning-spinner positions itself absolutely against the
+ * nearest relative ancestor, so it needs a box of its own height to sit in -
+ * without one it would centre itself over the whole results area and drift away
+ * from the text beneath it.
+ */
+.loading-spinner-holder {
+    height: 3rem;
+}
+
+/* Kept under the table area's own floor so a first run does not force a scroll. */
+.loading-panel {
+    min-height: 11rem;
+}
+
+.loading-hint {
+    max-width: 34rem;
+    margin-left: auto;
+    margin-right: auto;
+    color: var(--lwc-colorTextWeak, #5c5c5c);
+}
+
+/*
+ * The table is the only thing on this page that scrolls.
+ *
+ * The real height is set from JS, in fitTableToViewport, because it depends on
+ * how much chrome sits above the table on this particular screen - a figure no
+ * constant here can stand for. What is left in CSS is only the starting value
+ * used for the first paint, kept small so the page cannot flash a table taller
+ * than the window before the measurement lands.
+ */
+.table-wrapper {
+    height: 10rem;
+    overflow-y: auto;
+    /* Wide column sets scroll inside the table, never the page. */
+    overflow-x: auto;
+}
+
+/* Italic record count, as on the report this one is modelled on. */
+.result-count {
+    font-style: italic;
+}
+
+/*
+ * Footer: page label bottom-left, Previous/Next centred.
+ *
+ * The card footer shrinks its content to fit and centres it, which is what put
+ * the label underneath the Previous button - first with the spread layout, then
+ * with three equal thirds, where a third of a shrunk footer was narrower than the
+ * button group and the buttons spilled over the label.
+ *
+ * So the footer claims the full width, and the row is a grid of 1fr | auto | 1fr.
+ * The two 1fr columns are always equal, which keeps the pager centred; and a 1fr
+ * track never shrinks below its own content, so the label and the pager cannot
+ * overlap however narrow the footer gets - the label wraps instead.
+ */
+.table-footer {
+    display: block;
+    width: 100%;
+    flex: 1 1 100%;
+}
+
+.table-footer-grid {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    column-gap: 0.75rem;
+    width: 100%;
+}
+
+.table-footer-label {
+    text-align: left;
+    justify-self: start;
+}
+
+.table-footer-pager {
+    justify-self: center;
+}
+
+/*
+ * The result-set total. Sized to be read at a glance without becoming another
+ * heading competing with the card title, and laid out so the "not exact"
+ * qualifier sits on the same baseline as the number rather than below it.
+ */
+.count-bar {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+}
+
+.count-total {
+    font-weight: 600;
+}
+
+/*
+ * lightning-spinner is absolutely positioned against its nearest relative
+ * ancestor, so it needs a box of its own to occupy - otherwise it centres
+ * itself over the whole count bar and lands on top of the number.
+ */
+.count-spinner {
+    width: 1.25rem;
+    height: 1.25rem;
+    flex: 0 0 auto;
+}

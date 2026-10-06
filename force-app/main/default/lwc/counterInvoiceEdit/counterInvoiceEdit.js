@@ -35,7 +35,6 @@ export default class CounterInvoiceEdit extends NavigationMixin(LightningElement
     @track iliPrice;
     @track iliDiscountInput = 0;
     @track iliDiscountType  = 'Value';
-    @track iliSkuDiscountPercent = 0;
     @track iliStockInHand;
     @track iliProduct;
     @track iliMrp           = 0;
@@ -54,13 +53,6 @@ export default class CounterInvoiceEdit extends NavigationMixin(LightningElement
     invoiceId         = '';
 
     get isDraft()     { return this.invoiceInfo.Status__c === 'Draft'; }
-    get skuDiscountActive() {
-    return (this.itemList || []).some((i) => Number(i.SKU_Discount_Percent__c) > 0);
-}
-
-get overallDiscountActive() {
-    return Number(this.discount2Percent) > 0;
-}
     get isConfirmed() { return this.invoiceInfo.Status__c === 'Confirmed'; }
     get modalTitle()  { return this.iliEdit ? 'Edit Line Item' : 'Add Line Item'; }
     get isDiscountValue()      { return this.iliDiscountType === 'Value'; }
@@ -157,7 +149,6 @@ get overallDiscountActive() {
             CurrentStock: stockMap[li.Product__c] || 0,
             discountAmt:  li.Discount_1__c || 0,
             discount2Amt: li.Discount_2__c || 0,
-            SKU_Discount_Percent__c: li.SKU_Discount_Percent__c || 0,
             discountType: 'Value',
             netAmount:    ((li.Quantity__c * li.Price__c) - (li.Discount_1__c || 0) - (li.Discount_2__c || 0)).toFixed(2)
         }));
@@ -182,8 +173,6 @@ get overallDiscountActive() {
             // each line's own gross amount — same pattern as secondaryInvoice.js/
             // editSecondaryInvoice.js — so it scales per line instead of being a flat,
             // invoice-level lump sum that ignores line composition.
-            const skuPct    = parseFloat(item.SKU_Discount_Percent__c) || 0;
-            const effPct    = skuPct > 0 ? skuPct : dis2Pct;
             const discount2 = Math.round((gross * dis2Pct / 100) * 100) / 100;
             item.discount2Amt = discount2;
 
@@ -262,7 +251,6 @@ get overallDiscountActive() {
             this.iliPrice         = row.Price__c;
             this.iliDiscountType  = row.discountType || 'Value';
             this.iliDiscountInput = row.discountAmt  || 0;
-            this.iliSkuDiscountPercent = row.SKU_Discount_Percent__c || 0;
             this.iliStockInHand   = row.CurrentStock;
             this.iliMrp           = row.mrp || 0;
             this.selectedProduct  = { Id: row.Product__c, Name: row.ProductName };
@@ -279,7 +267,6 @@ get overallDiscountActive() {
             this.iliDiscountInput = 0;
             this.iliStockInHand   = '';
             this.iliMrp           = 0;
-            this.iliSkuDiscountPercent = 0;
             this.selectedProduct  = null;
             this.searchQuery      = '';
             this.showModal        = true;
@@ -380,15 +367,6 @@ get overallDiscountActive() {
         } else {
             discountAmt = parseFloat(this.iliDiscountInput) || 0;
         }
-        const skuPct = parseFloat(this.iliSkuDiscountPercent) || 0;
-        if (skuPct < 0 || skuPct > 100) {
-            this.showToast('Error', 'SKU Discount % must be between 0 and 100.', 'error');
-            this.isProductSaving = false; return;
-        }
-        if (skuPct > 0 && Number(this.discount2Percent) > 0) {
-            this.showToast('Error', 'Overall Discount and SKU-wise Discount cannot be applied together. Please clear one before saving.', 'error');
-            this.isProductSaving = false; return;
-        }
 
         if (!this.iliProduct) {
             this.showToast('Error', 'Please select a product.', 'error');
@@ -424,7 +402,6 @@ get overallDiscountActive() {
                 Total_Amount__c: gross,
                 discountAmt:     discountAmt,
                 discountType:    this.iliDiscountType,
-                 SKU_Discount_Percent__c: skuPct,
                 netAmount:       parseFloat((gross - discountAmt).toFixed(2)),
                 CurrentStock:    this.iliStockInHand || 0,
                 hsn:             '21050000',
@@ -442,7 +419,6 @@ get overallDiscountActive() {
                         Total_Amount__c: gross,
                         discountAmt:     discountAmt,
                         discountType:    this.iliDiscountType,
-                        SKU_Discount_Percent__c: skuPct,
                         netAmount:       parseFloat((gross - discountAmt).toFixed(2))
                     };
                 }
@@ -456,9 +432,6 @@ get overallDiscountActive() {
         this.isProductSaving = false;
     }
 
-    handleSkuDiscountChange(event) {
-        this.iliSkuDiscountPercent = parseFloat(event.target.value) || 0;
-    }
     handleModalCancel() { this.showModal = false; }
 
     handleInvoiceDateChange(event) {
@@ -535,8 +508,7 @@ get overallDiscountActive() {
             Total_Amount__c: i.Total_Amount__c,
             MRP__c:         i.mrp || i.MRP__c || 0,
             Discount_1__c:  i.discountAmt || 0,
-            Discount_2__c:  i.discount2Amt || 0,
-            SKU_Discount_Percent__c: i.SKU_Discount_Percent__c || 0
+            Discount_2__c:  i.discount2Amt || 0
         }));
     }
 

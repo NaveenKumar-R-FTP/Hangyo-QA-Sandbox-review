@@ -18,7 +18,7 @@
             <assignToReference>$Record.Retailer_Location__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>Get_Retailer.Location_Text__c</elementReference>
+                <elementReference>Retailer_Billing_Address</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -36,8 +36,8 @@
         <locationY>431</locationY>
         <defaultConnectorLabel>No</defaultConnectorLabel>
         <rules>
-            <name>Yes_Return_Case</name>
-            <conditionLogic>and</conditionLogic>
+            <name>Needs_Hub_Location</name>
+            <conditionLogic>or</conditionLogic>
             <conditions>
                 <leftValueReference>Get_Case_Type.Name</leftValueReference>
                 <operator>EqualTo</operator>
@@ -45,14 +45,36 @@
                     <stringValue>Branding &amp; Marketing Asset transfer Request</stringValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>Get_Case_Type.Name</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Branding &amp; Marketing Asset Request</stringValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>Get_Retailer</targetReference>
             </connector>
-            <label>Yes</label>
+            <label>Needs Hub Location</label>
         </rules>
     </decisions>
-    <description>Branding Return Case: stamps the retailer&apos;s hub and location onto the case so Mahesh sees them on the approval page and the Vendor lookup filter can match vendors in the same hub. Before-save, so no extra DML. The case type is fetched rather than read from the Case_Type_Name__c formula, because a before-save flow cannot traverse the lookup.</description>
+    <description>Branding hub/location stamp. Serves both the Branding Return Case and the New Branding Request: stamps the retailer&apos;s hub and location onto the case so Mahesh sees them on the approval page and the Vendor lookup filter can match vendors in the same hub. Before-save, so no extra DML. The case type is fetched rather than read from the Case_Type_Name__c formula, because a before-save flow cannot traverse the lookup.</description>
     <environments>Default</environments>
+    <formulas>
+        <name>Outlet_Account_Id</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!$Record.Retailer__c}), {!$Record.Distributor__c}, {!$Record.Retailer__c})</expression>
+    </formulas>
+    <formulas>
+        <name>Retailer_Billing_Address</name>
+        <dataType>String</dataType>
+        <expression>LEFT(TRIM(
+  IF(ISBLANK({!Get_Retailer.BillingStreet}), &quot;&quot;, {!Get_Retailer.BillingStreet} &amp; &quot;, &quot;) &amp;
+  IF(ISBLANK({!Get_Retailer.BillingCity}), &quot;&quot;, {!Get_Retailer.BillingCity} &amp; &quot;, &quot;) &amp;
+  IF(ISBLANK({!Get_Retailer.BillingState}), &quot;&quot;, {!Get_Retailer.BillingState} &amp; &quot; &quot;) &amp;
+  IF(ISBLANK({!Get_Retailer.BillingPostalCode}), &quot;&quot;, {!Get_Retailer.BillingPostalCode})
+), 255)</expression>
+    </formulas>
     <interviewLabel>Case Copy Retailer Hub Location {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Case Copy Retailer Hub Location</label>
     <processMetadataValues>
@@ -105,14 +127,17 @@
             <field>Id</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>$Record.Retailer__c</elementReference>
+                <elementReference>Outlet_Account_Id</elementReference>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
         <object>Account</object>
         <queriedFields>Id</queriedFields>
         <queriedFields>Hub__c</queriedFields>
-        <queriedFields>Location_Text__c</queriedFields>
+        <queriedFields>BillingStreet</queriedFields>
+        <queriedFields>BillingCity</queriedFields>
+        <queriedFields>BillingState</queriedFields>
+        <queriedFields>BillingPostalCode</queriedFields>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <start>
@@ -123,7 +148,10 @@
         </connector>
         <filterFormula>AND(
   NOT(ISBLANK({!$Record.Case_Type__c})),
-  NOT(ISBLANK({!$Record.Retailer__c}))
+  OR(
+    NOT(ISBLANK({!$Record.Retailer__c})),
+    NOT(ISBLANK({!$Record.Distributor__c}))
+  )
 )</filterFormula>
         <object>Case__c</object>
         <recordTriggerType>CreateAndUpdate</recordTriggerType>

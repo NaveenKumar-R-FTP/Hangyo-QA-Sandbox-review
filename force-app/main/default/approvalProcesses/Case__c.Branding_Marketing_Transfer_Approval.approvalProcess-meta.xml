@@ -6,8 +6,11 @@
         <type>owner</type>
     </allowedSubmitters>
     <approvalPageFields>
+        <field>Name</field>
+        <field>Branding_Return_Status__c</field>
         <field>Retailer__c</field>
         <field>Distributor__c</field>
+        <field>Owner</field>
         <field>Branding_Asset__c</field>
         <field>Asset_ID__c</field>
         <field>Media_Type__c</field>
@@ -15,11 +18,8 @@
         <field>Condition__c</field>
         <field>Retailer_Hub__c</field>
         <field>Retailer_Location__c</field>
-        <field>Remarks__c</field>
         <field>Vendor__c</field>
-        <field>Branding_Return_Status__c</field>
-        <field>Name</field>
-        <field>Owner</field>
+        <field>Remarks__c</field>
     </approvalPageFields>
     <approvalStep>
         <allowDelegate>false</allowDelegate>
@@ -111,7 +111,7 @@
         </action>
     </initialSubmissionActions>
     <label>Branding Marketing Transfer Approval</label>
-    <processOrder>6</processOrder>
+    <processOrder>5</processOrder>
     <recordEditability>AdminOrCurrentApprover</recordEditability>
     <showApprovalHistory>true</showApprovalHistory>
 </ApprovalProcess>

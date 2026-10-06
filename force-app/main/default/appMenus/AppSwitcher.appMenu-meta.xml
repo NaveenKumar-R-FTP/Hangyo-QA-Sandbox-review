@@ -192,4 +192,8 @@
         <name>GitHub_Actions_CICD</name>
         <type>ExternalClientApplication</type>
     </appMenuItems>
+    <appMenuItems>
+        <name>Tally_Integration_Jagrut_Oil_Depot</name>
+        <type>ExternalClientApplication</type>
+    </appMenuItems>
 </AppMenu>

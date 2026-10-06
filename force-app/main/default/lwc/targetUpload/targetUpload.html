@@ -1,0 +1,44 @@
+<template>
+    <lightning-card title="Secondary Target Upload / Update" icon-name="standard:goals">
+        <div class="slds-p-around_medium">
+            <p class="slds-m-bottom_small">
+                1. Download the template. &nbsp; 2. Fill <b>Employee Code</b>, <b>Month</b> (1-12),
+                <b>Year</b> and <b>Secondary Target</b> (plain numbers, no commas). &nbsp;
+                3. Save as CSV and upload. Existing targets for the same employee &amp; month are
+                updated; new ones are created.
+            </p>
+
+            <a href={templateHref} download="Secondary_Target_Template.csv"
+               class="slds-button slds-button_brand slds-m-bottom_medium">
+                Download Template
+            </a>
+
+            <lightning-input type="file" label="Upload CSV" accept=".csv"
+                             onchange={handleFile}></lightning-input>
+            <template if:true={fileName}>
+                <p class="slds-m-top_xx-small slds-text-body_small">Selected: {fileName}</p>
+            </template>
+
+            <div class="slds-m-top_small">
+                <lightning-button variant="brand" label="Upload Targets"
+                                  onclick={handleUpload} disabled={uploadDisabled}></lightning-button>
+            </div>
+
+            <template if:true={loading}>
+                <lightning-spinner alternative-text="Uploading..." size="small"></lightning-spinner>
+            </template>
+
+            <template if:true={hasResult}>
+                <div class="slds-box slds-m-top_medium">
+                    <p class="slds-m-bottom_small">
+                        <b>Total:</b> {result.total} &nbsp;&nbsp;
+                        <lightning-badge label={result.success} class="slds-theme_success"></lightning-badge> Success &nbsp;&nbsp;
+                        <lightning-badge label={result.failed} class="slds-theme_error"></lightning-badge> Failed
+                    </p>
+                    <lightning-datatable key-field="rowNumber" data={result.rows}
+                                         columns={columns} hide-checkbox-column></lightning-datatable>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>

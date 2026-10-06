@@ -171,6 +171,16 @@
             <field>Is_Sunday__c</field>
             <table>Attendance__c</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Archived__c</field>
+            <table>Attendance__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Archived_Date__c</field>
+            <table>Attendance__c</table>
+        </columns>
         <masterLabel>Attendance</masterLabel>
     </sections>
 </ReportType>

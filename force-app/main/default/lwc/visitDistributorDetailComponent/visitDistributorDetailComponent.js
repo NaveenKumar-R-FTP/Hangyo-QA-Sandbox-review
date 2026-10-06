@@ -19,7 +19,6 @@ import searchUser from '@salesforce/apex/VisitController.searchUser';
 import removeCheckInDateTime from '@salesforce/apex/VisitController.removeCheckInDateTime';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import checkAllAssetsAudited from '@salesforce/apex/CaseScreenController.checkAllAssetsAudited';
-import checkAllBrandingAudited from '@salesforce/apex/CaseScreenController.checkAllBrandingAudited';
 import ACCOUNT_LOCATION_UNAVAILABLE from '@salesforce/label/c.Account_Location_Unavailable';
 import BEYOND_50 from '@salesforce/label/c.Beyong_50';
 import Retailer_Location_Update_Message from '@salesforce/label/c.Retailer_Location_Update_Message';
@@ -76,7 +75,6 @@ export default class VisitDistributorDetailComponent extends NavigationMixin(Lig
     @track isTransferDFCompleted = false;
     @track isCaseScreen = false;
     @track isAssetScreen = false;
-    @track isBrandingScreen = false;
     @track distributorId = '';
     videoStream = null;
     _accountId;
@@ -97,15 +95,7 @@ export default class VisitDistributorDetailComponent extends NavigationMixin(Lig
         return this.selectedReason === 'Other';
     }
     get showCaseOrAsset() {
-        return this.isCaseScreen || this.isAssetScreen || this.isBrandingScreen;
-    }
-
-    // Reason resolved the same way the retailer component does, so the branding
-    // panel applies the identical Shop closed / Joint Visit exemption.
-    get unproductiveReason() {
-        return (this.currentVisitTask && this.currentVisitTask.Unproductive_Reasons__c)
-            || this.selectedReason
-            || localStorage.getItem('selectedReason');
+        return this.isCaseScreen || this.isAssetScreen;
     }get showOtherReasonField() {
         return this.selectedReason === 'Other';
     }
@@ -403,30 +393,9 @@ export default class VisitDistributorDetailComponent extends NavigationMixin(Lig
             }
         }
         
-        // The freezer audit is still skipped for distributor visits, as before.
-        // The branding audit is gated the same way as on a retailer visit.
-        const reason = this.unproductiveReason;
-        if (reason === 'Shop closed' || reason === 'Joint Visit') {
-            this.isLoading = false;
-            this.verifyCheckoutLocation(this.visitId);
-            return;
-        }
-
-        checkAllBrandingAudited({ visitTaskId: this.visitId })
-            .then(result => {
-                this.isLoading = false;
-                if (result === 'VISIT_AUDITED') {
-                    this.verifyCheckoutLocation(this.visitId);
-                } else if (result === 'NOT_AUDITED') {
-                    this.showToast('Error', 'Please complete the Mapped Branding audit before check-out.', 'error');
-                } else {
-                    this.showToast('Error', 'Could not verify the Mapped Branding audit. Please try again.', 'error');
-                }
-            })
-            .catch(error => {
-                this.isLoading = false;
-                this.showToast('Error', 'Error checking audit status: ' + (error?.body?.message || ''), 'error');
-            });
+        // Skip audit check for all reasons in distributor visit
+        this.isLoading = false;
+        this.verifyCheckoutLocation(this.visitId);
     }
 
     async verifyCheckoutLocation(finalVisitId) {
@@ -805,22 +774,14 @@ export default class VisitDistributorDetailComponent extends NavigationMixin(Lig
     handleCreateCase() {
         this.isCaseScreen = true;
         this.isAssetScreen = false;
-        this.isBrandingScreen = false;
     }
     handleMappedAssets() {
         this.isAssetScreen = true;
         this.isCaseScreen = false;
-        this.isBrandingScreen = false;
-    }
-    handleOpenBranding() {
-        this.isBrandingScreen = true;
-        this.isCaseScreen = false;
-        this.isAssetScreen = false;
     }
     handleGoBack() {
         this.isCaseScreen = false;
         this.isAssetScreen = false;
-        this.isBrandingScreen = false;
     }
     handleBack() {
         const backEvent = new CustomEvent('back');

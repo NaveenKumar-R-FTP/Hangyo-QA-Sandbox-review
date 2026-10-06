@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Completed_At__c</fullName>
+    <description>When the count finished. Drives cache expiry: a completed count older than the freshness window is recounted, because later archival runs add rows.</description>
+    <label>Completed At</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>DateTime</type>
+</CustomField>

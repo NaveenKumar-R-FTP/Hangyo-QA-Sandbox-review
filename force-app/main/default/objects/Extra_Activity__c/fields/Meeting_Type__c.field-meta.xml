@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Meeting_Type__c</fullName>
+    <label>Meeting Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Meeting with Manager</fullName>
+                <default>false</default>
+                <label>Meeting with Manager</label>
+            </value>
+            <value>
+                <fullName>Daily Team Gate Meeting</fullName>
+                <default>false</default>
+                <label>Daily Team Gate Meeting</label>
+            </value>
+            <value>
+                <fullName>Meeting with Distributor</fullName>
+                <default>false</default>
+                <label>Meeting with Distributor</label>
+            </value>
+            <value>
+                <fullName>Meeting at Office</fullName>
+                <default>false</default>
+                <label>Meeting at Office</label>
+            </value>
+            <value>
+                <fullName>Attended Training</fullName>
+                <default>false</default>
+                <label>Attended Training</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

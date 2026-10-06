@@ -1,0 +1,40 @@
+:host {
+    display: block;
+}
+.invoice-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 8px 0;
+}
+.pink-btn {
+    background-color: #C1206B;
+    color: white;
+    padding: 7px 14px;
+    border: none;
+    border-radius: 1.5px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 14px;
+    line-height: normal;
+    display: inline-block;
+}
+.pink-btn:hover {
+    background-color: #a11a5a;
+    color: white;
+}
+.pink-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+.pink-btn-neutral {
+    background-color: #FFFFFF;
+    color: #C1206B;
+    padding: 7px 14px;
+    border: 1px solid #C1206B;
+    border-radius: 1.5px;
+    cursor: pointer;
+    margin-right: 8px;
+}

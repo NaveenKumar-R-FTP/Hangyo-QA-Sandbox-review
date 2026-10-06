@@ -1,0 +1,195 @@
+<template>
+    <div class="page">
+        <!-- Card 1: Header -->
+        <div class="header">
+            <div class="row between">
+                <div class="eyebrow">Performance</div>
+                <button class="refresh" onclick={handleRefresh} aria-label="Refresh">Refresh</button>
+            </div>
+            <div class="title">{title}</div>
+            <div class="subtle">{userName}</div>
+            <div class="row between gap">
+                <div class="row baseline gap-s">
+                    <div class="big">{directReports}</div>
+                    <div class="subtle">reporting to you</div>
+                </div>
+                <div class="toggle-wrap" role="group" aria-label="Period">
+                    <button class={mtdClass} onclick={handleMtd} aria-pressed={isMtd}>MTD</button>
+                    <button class={ytdClass} onclick={handleYtd}>YTD</button>
+                </div>
+            </div>
+            <div class="row between">
+                <div class="subtle small">{periodLabel}</div>
+                <div class="subtle small">{asOfLabel}</div>
+            </div>
+        </div>
+
+        <div class="body">
+            <template lwc:if={loadingSummary}>
+                <div class="card center"><lightning-spinner alternative-text="Loading" size="small"></lightning-spinner><div class="spacer"></div></div>
+            </template>
+            <template lwc:elseif={errorSummary}>
+                <div class="card error">{errorSummary}</div>
+            </template>
+            <template lwc:elseif={accessDenied}>
+                <div class="card center muted-text">The Performance Dashboard is not available for your role.</div>
+            </template>
+            <template lwc:elseif={ready}>
+
+                <!-- Card 2: Target vs Achievement -->
+                <template lwc:if={target}>
+                    <div class="card">
+                        <div class="label">Target vs Achievement - Secondary</div>
+                        <div class="row between end">
+                            <div><div class="caption">Achievement</div><div class="value xl">{target.achievement}</div></div>
+                            <div class="right"><div class="caption">Target</div><div class="value l">{target.target}</div></div>
+                        </div>
+                        <div class="bar"><div class={target.barClass} style={target.barStyle}></div></div>
+                        <div class="row between">
+                            <div class={target.tierClass}>{target.percent} - {target.tierLabel}</div>
+                            <div class="caption">Balance {target.balance}</div>
+                        </div>
+                        <div class="rrr row between">
+                            <div><div class="rrr-label">Required Run Rate</div><div class="caption">{target.daysLeft}</div></div>
+                            <div class="rrr-value">{target.rrr}</div>
+                        </div>
+                    </div>
+                </template>
+
+                <!-- Cards 3 + 4 -->
+                <div class="grid2">
+                    <template lwc:if={calls}>
+                        <div class="card">
+                            <div class="label">TC vs PC</div>
+                            <div class="value l">{calls.percent}</div>
+                            <div class="kv"><span>Total calls</span><strong>{calls.tc}</strong></div>
+                            <div class="kv"><span>Productive</span><strong>{calls.pc}</strong></div>
+                        </div>
+                    </template>
+                    <template lwc:if={growthCard}>
+                        <div class="card">
+                            <div class="label">Growth</div>
+                            <div class={growthCard.cls}>{growthCard.text}</div>
+                            <div class="kv"><span>Now</span><strong>{growthCard.current}</strong></div>
+                            <div class="kv"><span>Last year</span><strong>{growthCard.lastYear}</strong></div>
+                        </div>
+                    </template>
+                </div>
+            </template>
+
+            <!-- Card 5: Deep Freezer (own call) -->
+            <template lwc:if={ready}>
+                <div class="card">
+                    <div class="label">Deep Freezer vs Secondary Sale</div>
+                    <template lwc:if={loadingFreezer}>
+                        <div class="center"><lightning-spinner alternative-text="Loading" size="small"></lightning-spinner><div class="spacer"></div></div>
+                    </template>
+                    <template lwc:elseif={errorFreezer}>
+                        <div class="error">{errorFreezer}</div>
+                    </template>
+                    <template lwc:elseif={freezerCard}>
+                        <div class="grid2">
+                            <div class="tile"><div class="value l">{freezerCard.active}</div><div class="caption">Active freezers</div></div>
+                            <div class="tile tile-green"><div class="row baseline gap-s"><div class="value l tier-text tier-green">{freezerCard.billed}</div><div class="tier-text tier-green small">{freezerCard.billedPct}</div></div><div class="caption">Billed freezers</div></div>
+                        </div>
+                        <div class="bar thin"><div class="bar-fill tier-green" style={freezerCard.barStyle}></div></div>
+                        <div class="grid2">
+                            <div><div class="value m">{freezerCard.dfSale}</div><div class="caption">Sale at DF outlets</div></div>
+                            <div><div class="value m accent">{freezerCard.perFreezer}</div><div class="caption">Per freezer</div></div>
+                        </div>
+                    </template>
+                </div>
+            </template>
+
+            <template lwc:if={ready}>
+                <!-- Card 6: Attendance (MTD only) -->
+                <template lwc:if={showAttendance}>
+                    <div class="card">
+                        <div class="row between"><div class="label">Employees vs Attendance</div><div class="caption">Today</div></div>
+                        <div class="row baseline gap-s"><div class="value l">{attendance.total}</div><div class="caption">employees in team</div></div>
+                        <div class="grid4">
+                            <div class="tile tile-green"><div class="value m tier-green-text">{attendance.present}</div><div class="caption">Present</div></div>
+                            <div class="tile tile-amber"><div class="value m tier-amber-text">{attendance.leave}</div><div class="caption">Leave</div></div>
+                            <div class="tile tile-red"><div class="value m tier-red-text">{attendance.absent}</div><div class="caption">Absent</div></div>
+                            <div class="tile"><div class="value m muted-text">{attendance.notMarked}</div><div class="caption">Not marked</div></div>
+                        </div>
+                    </div>
+                </template>
+
+                <!-- Card 9: Today's Performance (MTD only) -->
+                <template lwc:if={showToday}>
+                    <div class="card">
+                        <div class="row between"><div class="label">Today's Performance</div><div class="pill">{todayLabel}</div></div>
+                        <div class="row between end">
+                            <div><div class="caption">Secondary Order</div><div class="value l">{today.orderValue}</div></div>
+                            <div class="caption">{today.orderCount}</div>
+                        </div>
+                        <div class="grid2">
+                            <div class="tile"><div class="caption">TC vs PC</div><div class="value m">{today.tc} / {today.pc}</div><div class="small strong">{today.pcPercent} productive</div></div>
+                            <div class="tile"><div class="caption">DF Through Put</div><div class="value m accent">{today.throughPut}</div></div>
+                        </div>
+                    </div>
+                </template>
+
+                <!-- Card 8: Primary Sales -->
+                <template lwc:if={primary}>
+                    <div class="card">
+                        <div class="label">Primary Sales</div>
+                        <div class="row between end">
+                            <div><div class="value xl">{primary.current}</div><div class="caption">Super Stockist + Direct Distributor</div></div>
+                            <div class="right"><div class={primary.cls}>{primary.text}</div><div class="caption">LY {primary.lastYear}</div></div>
+                        </div>
+                    </div>
+                </template>
+
+                <!-- Card 7: Region Performance (own call) -->
+                <div class="card flush">
+                    <div class="region-head row between"><div class="region-title">Region Performance</div><div class="subtle small">Tap a HUB</div></div>
+                    <template lwc:if={loadingRegion}>
+                        <div class="center pad"><lightning-spinner alternative-text="Loading" size="small"></lightning-spinner><div class="spacer"></div></div>
+                    </template>
+                    <template lwc:elseif={errorRegion}>
+                        <div class="error pad">{errorRegion}</div>
+                    </template>
+                    <template lwc:elseif={hasHubs}>
+                        <template for:each={hubs} for:item="h">
+                            <div key={h.key} class="hub">
+                                <button class="hub-btn" data-hub={h.key} onclick={handleHub} aria-expanded={h.isOpen}>
+                                    <div class="row between">
+                                        <div><div class="hub-name">{h.name}</div><div class="caption">{h.head}</div></div>
+                                        <div class="row gap-s"><div class={h.pctClass}>{h.percent}</div><div class="caption">{h.chevron}</div></div>
+                                    </div>
+                                    <div class="bar thin"><div class={h.barClass} style={h.barStyle}></div></div>
+                                    <div class="row between caption">
+                                        <span>{h.achievement} / {h.target}</span>
+                                        <span>Primary <strong class="ink">{h.primary}</strong></span>
+                                    </div>
+                                </button>
+                                <template lwc:if={h.isOpen}>
+                                    <div class="members">
+                                        <template lwc:if={h.hasMembers}>
+                                            <template for:each={h.members} for:item="m">
+                                                <div key={m.key} class="member row between">
+                                                    <div><div class="member-name">{m.name}</div><div class="caption">{m.designation} - {m.achievement} / {m.target}</div></div>
+                                                    <div class={m.pctClass}>{m.percent}</div>
+                                                </div>
+                                            </template>
+                                        </template>
+                                        <template lwc:else>
+                                            <div class="caption pad-s">No reporting managers in this HUB.</div>
+                                        </template>
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+                    </template>
+                    <template lwc:else>
+                        <div class="caption pad">No HUB data.</div>
+                    </template>
+                </div>
+            </template>
+
+            <div class="footnote">Achievement colours: 100%+ green - 90-99% teal - 70-89% amber - below 70% red</div>
+        </div>
+    </div>
+</template>

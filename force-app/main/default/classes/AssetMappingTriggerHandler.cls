@@ -130,22 +130,6 @@ public class AssetMappingTriggerHandler {
             update ssToUpdate;
         }
     }
-    /**
-     * Recalculates Is_Branded__c for every account these mappings touch. Passing
-     * oldMap matters: a freezer moved away from an outlet has to clear that
-     * outlet's flag, not just set the new one.
-     *
-     * Historic records are handled once by AccountBrandedBackfillBatch.
-     */
-    public static void setAccountsBranded(
-        List<Asset_Mapping__c> newMappings,
-        Map<Id, Asset_Mapping__c> oldMap
-    ) {
-        AccountBrandingService.recalculate(
-            AccountBrandingService.accountIdsFromMappings(newMappings, oldMap)
-        );
-    }
-
 public static void validateDuplicateMapping(List<Asset_Mapping__c> newMappings, Map<Id, Asset_Mapping__c> oldMap) {
         Set<Id> assetMasterIds = new Set<Id>();
         Set<Id> newMappingIds = new Set<Id>();

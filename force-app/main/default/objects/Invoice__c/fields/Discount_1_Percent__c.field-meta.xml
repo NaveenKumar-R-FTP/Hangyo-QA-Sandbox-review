@@ -6,7 +6,7 @@
     0
   )</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-    <label>Discount 1 Percent</label>
+    <label>TOD Percent</label>
     <precision>18</precision>
     <required>false</required>
     <scale>2</scale>

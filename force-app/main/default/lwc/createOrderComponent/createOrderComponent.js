@@ -207,7 +207,7 @@ percentSGST = 0;
         this.searchValue = '';
         this.fetchFocusedProducts();
     }
-        
+        //This method is used to fetch focsed products list
     fetchFocusedProducts() {
         const focusedProductIdsInCart = this.productAddedForCart
             .filter(product => product.focusProduct === true)
@@ -234,87 +234,86 @@ percentSGST = 0;
                         tabClass: brand === (this.activeTab || 'All') ? 'active-brand-tab' : ''
                     });
                 });
-                this.filterProductsByExactSearch();  
             })
             .catch(error => {
                 this.showToast('Error', error?.body?.message || 'Error in fetching focused products.','error' );
             });
     }
 
-    filterProductsByExactSearch() {
-        if (!this.searchValue || !this.data) {
-            return;
-        }
-
-        const searchTerm = this.searchValue.trim();
-        if (searchTerm === '') {
-            return;
-        }
-
-        const escapedSearchTerm = searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        const isNumeric = /^\d+$/.test(searchTerm);
-
-        this.data = this.data.filter(product => {
-            const productName = product.productShortDescription || '';
-            const mainNameMatch = productName.split('(')[0].trim();
-            const mainProductName = mainNameMatch || '';
-            const parenthesesMatch = productName.match(/\(([^)]+)\)/);
-            const parenthesesContent = parenthesesMatch ? parenthesesMatch[1] : '';
-
-            let matchesInMainName = false;
-            let matchesInParentheses = false;
-
-            if (isNumeric) {
-                if (mainProductName) {
-                    const regexMain = new RegExp(`(^|[^0-9])${escapedSearchTerm}([^0-9]|$)`, 'i');
-                    matchesInMainName = regexMain.test(mainProductName);
-                }
-                if (parenthesesContent) {
-                    const regexParentheses = new RegExp(`(^|[^0-9])${escapedSearchTerm}([^0-9]|$)`, 'i');
-                    matchesInParentheses = regexParentheses.test(parenthesesContent);
-                }
-            } else {
-                if (mainProductName) {
-                    matchesInMainName = mainProductName.toLowerCase().includes(searchTerm.toLowerCase());
-                }
-                if (parenthesesContent) {
-                    matchesInParentheses = parenthesesContent.toLowerCase().includes(searchTerm.toLowerCase());
-                }
-            }
-
-            return matchesInMainName || matchesInParentheses;
-        });
-    }
+        /*fetchFocusedProducts() {
+            const focusedProductIdsInCart = this.productAddedForCart
+            .filter(product => product.focusProduct === true)
+            .map(product => product.productId);
+       this.availableBrandsFocus=[];
+       const visitTaskIdToPass = this.visitTaskId;
+         fetchFocusedProducts({'searchValue':null,'brandFilter': null, excludedProductIds: focusedProductIdsInCart,visitTaskIdSelected: visitTaskIdToPass })
+               .then(result => {
+    
+                 this.data = JSON.parse(result);
+                 const brandsSet = new Set(['All']);
+                 this.updateProductQuantitiesFromCart(); 
+                 
+            this.data.forEach(product => {
+                   if (product.productBrand) {  // Assuming productBrand is mapped to 'Product_Brand__c'
+                       brandsSet.add(product.productBrand); // Add the brand to the Set
+                   }
+                   this.state=product.state;
+                   localStorage.setItem('Userstate', this.state);
+               });
+            
+       
+             
+       brandsSet.forEach(brand => {
+           this.availableBrandsFocus.push(brand);
+       }); 
+       
               
-    handleChangeSearchValue(event){
+           
+               })
+               .catch(error => {
+                this.showToast(
+                  'Error',
+                  error?.body?.message || 'Error in fetching focused products.',
+                  'error'
+              );
+              });
+       }*/
+              //This method is used for search bar to search products
+      handleChangeSearchValue(event){
+ 
         this.isLoading=true;
         this.searchValue = event.target.value;
-        this.loadProducts();
-    }
 
-    handleChangeFocusedSearchValue(event){
+        this.loadProducts();
+      }
+
+//This method is used for search bar to serach focused products
+      handleChangeFocusedSearchValue(event){
         this.isLoading=true;
         this.searchValue = event.target.value;
         this.loadFocusProducts();
-    }
+      }
+      loadFocusProducts() {
 
-    loadFocusProducts() {
-        const focusedProductIdsInCart = this.productAddedForCart
-            .filter(product => product.focusProduct === true)
-            .map(product => product.productId);
-        const visitTaskIdToPass = this.visitTaskId;
+         // Step 1: Extract the productIds of Focused products in the cart
+         const focusedProductIdsInCart = this.productAddedForCart
+         .filter(product => product.focusProduct === true)
+         .map(product => product.productId);
+         const visitTaskIdToPass = this.visitTaskId;
         fetchFocusedProducts({'searchValue':this.searchValue,'brandFilter': this.selectedBrands === 'All' ? '' : this.selectedBrands,
-            excludedProductIds: focusedProductIdsInCart ,visitTaskIdSelected: visitTaskIdToPass })
+          excludedProductIds: focusedProductIdsInCart ,visitTaskIdSelected: visitTaskIdToPass })
         .then(result => {
-            this.data = JSON.parse(result);
-            this.updateProductQuantitiesFromCart(); 
-            this.filterProductsByExactSearch();  
-            this.isLoading=false; 
+          this.data = JSON.parse(result);
+    
+          this.updateProductQuantitiesFromCart(); 
+          this.isLoading=false; 
+    
+    
         })
         .catch(error => {
         });
     }
-
+ //This method is used to update product quantity
     updateProductQuantitiesFromCart() {
         if (this.data && this.productAddedForCart) {
             this.data = this.data.map(product => {
@@ -329,7 +328,12 @@ percentSGST = 0;
             });
         }
       }
-
+//This method is used to search products by Tabs
+      /*handleTabChange(event) {
+        this.isLoading=true;
+          this.selectedBrands = event.target.value;
+          this.loadProducts();  
+      }*/
     handleTabChange(event) {
         this.isLoading = true;
         this.selectedBrands = event.target.dataset.brand;
@@ -337,20 +341,50 @@ percentSGST = 0;
         this.updateBrandTabClasses();
         this.loadProducts();
     }
-
-    loadProducts() {
+      //This method is used to load all products
+      loadProducts() {
         const visitTaskIdToPass = this.visitTaskId; 
         fetchProducts({'searchValue':this.searchValue,'brandFilter': this.selectedBrands === 'All' ? '' : this.selectedBrands,visitTaskIdSelected: visitTaskIdToPass  })
         .then(result => {
-            this.data = JSON.parse(result);
-            this.updateProductQuantitiesFromCart();
-            this.filterProductsByExactSearch();
-            this.isLoading=false; 
+          this.data = JSON.parse(result);
+          this.updateProductQuantitiesFromCart();
+          this.isLoading=false; 
         })
         .catch(error => {
-            this.showToast('Error', error?.body?.message || 'Error loading products.', 'error');   
-        });
+          this.showToast(
+            'Error',
+            error?.body?.message || 'Error loading products.',
+            'error'
+        );   
+           });
     }
+       //This method is used to load all products from callback
+    /*fetchProducts() {
+        const visitTaskIdToPass = this.visitTaskId; 
+          fetchProducts({'searchValue':this.searchValue,'brandFilter': this.selectedBrands,visitTaskIdSelected: visitTaskIdToPass })
+            .then(result => {
+              this.data = JSON.parse(result);
+              const brandsSet = new Set(['All']);
+              this.updateProductQuantitiesFromCart(); 
+            this.data.forEach(product => {
+                if (product.productBrand) {  // Assuming productBrand is mapped to 'Product_Brand__c'
+                    brandsSet.add(product.productBrand); // Add the brand to the Set
+                }
+                this.state=product.state;
+                localStorage.setItem('Userstate', this.state);
+            });
+      
+            // Convert the Set to an array and store it in availableBrands
+            this.availableBrands = [...brandsSet];
+            })
+            .catch(error => {
+              this.showToast(
+                'Error',
+                error?.body?.message || 'Error fetching product data.',
+                'error'
+            );            
+          });
+      }*/
 
     fetchProducts() {
         const visitTaskIdToPass = this.visitTaskId; 
@@ -367,14 +401,18 @@ percentSGST = 0;
                     localStorage.setItem('Userstate', this.state);
                 });
 
+                // ✅ CHANGED: store as objects with tabClass
                 this.availableBrands = [...brandsSet].map(brand => ({
                     brand,
                     tabClass: brand === (this.activeTab || 'All') ? 'active-brand-tab' : ''
                 }));
-                this.filterProductsByExactSearch();
             })
             .catch(error => {
-                this.showToast('Error',  error?.body?.message || 'Error fetching product data.', 'error');            
+                this.showToast(
+                    'Error',
+                    error?.body?.message || 'Error fetching product data.',
+                    'error'
+                );            
             });
     }
 

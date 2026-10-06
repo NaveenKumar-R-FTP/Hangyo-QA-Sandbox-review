@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Partial_Day_Cursors__c</fullName>
+    <description>Per-day first-seen cursors accumulated so far, as JSON of day to {pk, rk}. Carried alongside Partial Tally for the same reason: the walk spans many transactions and a day first seen in job 5 must still be publishable when job 108 finishes. Merged first-wins, never overwritten, because jobs walk the table in order so the earliest sighting is the lowest cursor. One entry per day on which archiving ran, not one per record.</description>
+    <label>Partial Day Cursors</label>
+    <length>131072</length>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>6</visibleLines>
+</CustomField>

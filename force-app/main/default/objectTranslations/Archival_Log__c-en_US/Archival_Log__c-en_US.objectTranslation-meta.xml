@@ -8,5 +8,12 @@
         <plural>true</plural>
         <value>Archival Logs</value>
     </caseValues>
+    <layouts>
+        <layout>Archival Log Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
     <startsWith>Consonant</startsWith>
 </CustomObjectTranslation>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Installation_Image_URL_2__c</fullName>
+    <description>Download URL of the second installation photo (Side 2), copied from the case when it reached Installed.</description>
+    <label>Installation Image URL Side 2</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Url</type>
+</CustomField>

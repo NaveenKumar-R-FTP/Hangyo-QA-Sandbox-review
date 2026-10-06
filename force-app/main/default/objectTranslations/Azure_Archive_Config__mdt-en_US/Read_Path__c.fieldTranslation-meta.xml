@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- GET path for reading this object&apos;s archived records, e.g. /OrderLineItems. Blank = use code default. --></help>
+    <label><!-- Read Path --></label>
+    <name>Read_Path__c</name>
+</CustomFieldTranslation>

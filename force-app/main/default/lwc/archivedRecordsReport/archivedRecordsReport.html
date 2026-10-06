@@ -1,0 +1,362 @@
+<template>
+    <lightning-card icon-name="standard:data_streams">
+        <h1 slot="title" class="slds-card__header-title">
+            <span class="slds-text-heading_small">Archived Data</span>
+            <span class="slds-text-body_small slds-text-color_weak slds-m-left_x-small">
+                Records archived out of Salesforce into the Azure archive
+            </span>
+        </h1>
+
+        <div slot="actions">
+            <div class="slds-grid slds-grid_vertical-align-center header-actions">
+                <lightning-button
+                    label="Refresh"
+                    icon-name="utility:refresh"
+                    disabled={isLoading}
+                    onclick={handleRefresh}
+                ></lightning-button>
+            </div>
+        </div>
+
+        <!-- Global filter bar -->
+        <div class="slds-box slds-box_small slds-m-horizontal_small slds-m-bottom_x-small filter-bar">
+            <!--
+                Row one holds every filter - Object, date range, From, To and, for
+                objects that have one, the parent search - on a single line.
+
+                A plain SLDS grid, not lightning-layout: each column's width comes
+                from a class getter, and a class binding re-renders whenever the
+                selected object changes. lightning-layout-item fixes its size
+                classes when it first renders - before the object list has even
+                loaded - so the widths never re-balanced and the search wrapped
+                onto a second line.
+
+                Row two holds Apply and Reset, centred.
+            -->
+            <div class="slds-grid slds-wrap slds-grid_vertical-align-end">
+                <div class={objectColumnClass}>
+                    <!-- One object at a time, so a standard single-select combobox. -->
+                    <lightning-combobox
+                        name="archivedObject"
+                        label="Object"
+                        placeholder="Select an object…"
+                        required
+                        value={selectedObject}
+                        options={objectOptions}
+                        onchange={handleObjectChange}
+                    ></lightning-combobox>
+                </div>
+
+                <div class={rangeColumnClass}>
+                    <!--
+                        Field-level help rather than a line under the bar: the cap
+                        needs explaining, but not at the cost of a row of height.
+                    -->
+                    <lightning-combobox
+                        label="Archived date range"
+                        value={selectedRange}
+                        options={rangeOptions}
+                        onchange={handleRangeChange}
+                        field-level-help={rangeHelpText}
+                    ></lightning-combobox>
+                </div>
+
+                <div class={dateColumnClass}>
+                    <lightning-input
+                        type="date"
+                        label="From"
+                        data-id="fromDate"
+                        value={fromDate}
+                        disabled={isCustomRangeDisabled}
+                        onchange={handleFromDateChange}
+                    ></lightning-input>
+                </div>
+
+                <div class={dateColumnClass}>
+                    <!-- Carries the range message: the To date is what a too-wide range is fixed by. -->
+                    <lightning-input
+                        type="date"
+                        label="To"
+                        data-id="toDate"
+                        value={toDate}
+                        disabled={isCustomRangeDisabled}
+                        onchange={handleToDateChange}
+                    ></lightning-input>
+                </div>
+
+                <!--
+                    Parent search: Order for Order Line Item, Invoice for Invoice
+                    Line Item, Visit for Visit Task. Same row as the other filters.
+                -->
+                <template lwc:if={showParentSearch}>
+                    <div class={searchColumnClass}>
+                        <lightning-input
+                            type="search"
+                            label={parentSearchLabel}
+                            placeholder={parentSearchPlaceholder}
+                            value={parentSearch}
+                            max-length="255"
+                            field-level-help={parentSearchHelpText}
+                            onchange={handleParentSearchChange}
+                            onkeyup={handleParentSearchKeyUp}
+                        ></lightning-input>
+                    </div>
+                </template>
+
+                <div class="slds-col slds-size_1-of-1 slds-p-horizontal_small filter-field">
+                    <div class="slds-grid slds-grid_align-center filter-actions">
+                        <lightning-button
+                            variant="brand"
+                            label="Apply"
+                            disabled={isApplyDisabled}
+                            onclick={handleApply}
+                            class="slds-m-right_small"
+                        ></lightning-button>
+                        <lightning-button label="Reset" onclick={handleReset}></lightning-button>
+                    </div>
+                </div>
+            </div>
+
+            <template lwc:if={filterSummary}>
+                <p class="slds-text-body_small slds-text-color_weak slds-p-horizontal_x-small slds-p-top_x-small">
+                    {filterSummary}
+                </p>
+            </template>
+        </div>
+
+        <!-- Degraded-source banner -->
+        <template lwc:if={isDegraded}>
+            <div class="slds-m-horizontal_small slds-m-bottom_x-small">
+                <div class="slds-scoped-notification slds-media slds-media_center slds-scoped-notification_light" role="status">
+                    <div class="slds-media__figure">
+                        <lightning-icon icon-name="utility:warning" variant="warning" size="small"></lightning-icon>
+                    </div>
+                    <div class="slds-media__body">
+                        <p class="slds-text-body_small">
+                            <strong>Showing the Archival Log index, not archive detail.</strong>&nbsp;{degradedReason}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <!-- Scan ran out of budget: an empty table here does NOT mean an empty archive -->
+        <template lwc:if={showScanIncompleteNotice}>
+            <div class="slds-m-horizontal_small slds-m-bottom_x-small">
+                <div class="slds-scoped-notification slds-media slds-media_center slds-scoped-notification_light" role="status">
+                    <div class="slds-media__figure">
+                        <lightning-icon icon-name="utility:clock" variant="warning" size="small"></lightning-icon>
+                    </div>
+                    <div class="slds-media__body">
+                        <p class="slds-text-body_small">
+                            <strong>Search incomplete.</strong>&nbsp;{scanIncompleteMessage}
+                        </p>
+                        <template lwc:if={showSearchFurther}>
+                            <lightning-button
+                                variant="base"
+                                label="Search further"
+                                icon-name="utility:chevronright"
+                                icon-position="right"
+                                onclick={handleNext}
+                            ></lightning-button>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <!-- Result truncated: the archive reports no row count, so the total is a floor -->
+        <template lwc:if={showCappedNotice}>
+            <div class="slds-m-horizontal_small slds-m-bottom_x-small">
+                <div class="slds-scoped-notification slds-media slds-media_center slds-scoped-notification_light" role="status">
+                    <div class="slds-media__figure">
+                        <lightning-icon icon-name="utility:info" variant="warning" size="small"></lightning-icon>
+                    </div>
+                    <div class="slds-media__body">
+                        <p class="slds-text-body_small">
+                            <strong>Partial result.</strong>&nbsp;{cappedMessage}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <!-- Objects the archive has no published read route for -->
+        <template lwc:if={hasUnavailableObjects}>
+            <div class="slds-m-horizontal_small slds-m-bottom_x-small">
+                <div class="slds-scoped-notification slds-media slds-media_center slds-scoped-notification_light" role="status">
+                    <div class="slds-media__figure">
+                        <lightning-icon icon-name="utility:warning" variant="warning" size="small"></lightning-icon>
+                    </div>
+                    <div class="slds-media__body">
+                        <p class="slds-text-body_small">{unavailableMessage}</p>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <!-- Error -->
+        <template lwc:if={errorMessage}>
+            <div class="slds-m-horizontal_small slds-m-bottom_x-small">
+                <div class="slds-scoped-notification slds-media slds-media_center slds-scoped-notification_light" role="alert">
+                    <div class="slds-media__figure">
+                        <lightning-icon icon-name="utility:error" variant="error" size="small"></lightning-icon>
+                    </div>
+                    <div class="slds-media__body">
+                        <p class="slds-text-body_small">{errorMessage}</p>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <!--
+            There is deliberately no pager above the table. There used to be one,
+            because the footer controls sat below the fold on a full page of rows -
+            but the table now sizes itself to the space actually available, so the
+            footer is always on screen and a second copy of the same count and the
+            same buttons only ate the height that fixing it gave back.
+        -->
+
+        <!--
+            The result-set total, between the filters and the table.
+
+            It is fetched on its own round trip rather than with the page, because
+            the archive publishes no row count and arriving at one means reading
+            the matching rows a thousand at a time. Kept separate, the table does
+            not wait for it - so this line is allowed to say "counting" while real
+            rows are already on screen underneath.
+        -->
+        <template lwc:if={showCountBar}>
+            <div class="slds-m-horizontal_small slds-m-bottom_x-small count-bar">
+                <template lwc:if={showCountSpinner}>
+                    <div class="slds-is-relative count-spinner">
+                        <lightning-spinner
+                            alternative-text="Counting archived records"
+                            size="x-small"
+                            variant="brand"
+                        ></lightning-spinner>
+                    </div>
+                </template>
+                <span class="slds-text-heading_small count-total">{countLabel}</span>
+                <template lwc:if={hasCountQualifier}>
+                    <span class="slds-text-body_small slds-text-color_weak">
+                        {countQualifier}
+                    </span>
+                </template>
+            </div>
+        </template>
+
+        <!-- Results -->
+        <div class="slds-is-relative table-wrapper">
+            <!-- Paging an existing table: keep it on screen under a light overlay -->
+            <template lwc:if={showInlineSpinner}>
+                <lightning-spinner alternative-text="Loading archived records" size="small"></lightning-spinner>
+            </template>
+
+            <!--
+                First run: a bare spinner over empty space says nothing, and this
+                read can legitimately take 30 seconds. Name the source, the scope,
+                and the elapsed time, and set expectations as the wait grows.
+            -->
+            <template lwc:if={showLoadingPanel}>
+                <div class="slds-p-around_xx-large slds-text-align_center loading-panel"
+                     role="status" aria-live="polite">
+                    <div class="slds-is-relative loading-spinner-holder">
+                        <lightning-spinner
+                            alternative-text="Retrieving archived records from Azure"
+                            size="medium"
+                            variant="brand"
+                        ></lightning-spinner>
+                    </div>
+
+                    <h3 class="slds-text-heading_small slds-m-top_large">{loadingTitle}</h3>
+
+                    <p class="slds-text-body_small slds-text-color_weak slds-m-top_xx-small">
+                        {loadingDetail}
+                    </p>
+
+                    <template lwc:if={loadingHint}>
+                        <p class="slds-text-body_small slds-m-top_small loading-hint">
+                            {loadingHint}
+                        </p>
+                    </template>
+
+                    <p class="slds-text-body_small slds-text-color_weak slds-m-top_x-small">
+                        {loadingElapsedLabel}
+                    </p>
+                </div>
+            </template>
+
+            <template lwc:if={hasRows}>
+                <lightning-datatable
+                    key-field="_rowKey"
+                    data={rows}
+                    columns={columns}
+                    hide-checkbox-column
+                    sorted-by={sortedBy}
+                    sorted-direction={sortedDirection}
+                    onsort={handleSort}
+                    default-sort-direction="desc"
+                ></lightning-datatable>
+            </template>
+
+            <template lwc:if={showEmptyState}>
+                <div class="slds-illustration slds-illustration_small slds-p-around_large slds-text-align_center">
+                    <lightning-icon icon-name="utility:search" size="large" class="slds-m-bottom_small"></lightning-icon>
+                    <h3 class="slds-text-heading_medium">No archived records found</h3>
+                    <p class="slds-text-body_regular slds-text-color_weak empty-state-detail">
+                        {emptyStateMessage}
+                    </p>
+                </div>
+            </template>
+
+            <template lwc:if={showInitialState}>
+                <div class="slds-illustration slds-illustration_small slds-p-around_large slds-text-align_center">
+                    <lightning-icon icon-name="utility:filterList" size="large" class="slds-m-bottom_small"></lightning-icon>
+                    <h3 class="slds-text-heading_medium">Choose an object and what to search for</h3>
+                    <p class="slds-text-body_regular slds-text-color_weak">
+                        Pick an archived date range, or enter an Order, Invoice or Visit to
+                        search by, then select Apply to run the report.
+                    </p>
+                </div>
+            </template>
+        </div>
+
+        <!-- Pagination -->
+        <template lwc:if={hasRows}>
+            <!--
+                Page label bottom-left, pager centred where it has always been.
+                Laid out by .table-footer-grid in the stylesheet - see there for
+                why it is a grid. The table-footer class stays: the table sizes
+                itself by measuring it.
+            -->
+            <div slot="footer" class="table-footer">
+                <div class="table-footer-grid">
+                    <div class="table-footer-label">
+                        <span class="slds-text-body_small slds-text-color_weak result-count">
+                            {paginationLabel}
+                        </span>
+                    </div>
+                    <div class="table-footer-pager">
+                        <lightning-button-group>
+                            <lightning-button
+                                label="Previous"
+                                icon-name="utility:chevronleft"
+                                disabled={isFirstPage}
+                                onclick={handlePrevious}
+                            ></lightning-button>
+                            <lightning-button
+                                label="Next"
+                                icon-name="utility:chevronright"
+                                icon-position="right"
+                                disabled={isLastPage}
+                                onclick={handleNext}
+                            ></lightning-button>
+                        </lightning-button-group>
+                    </div>
+                    <div aria-hidden="true"></div>
+                </div>
+            </div>
+        </template>
+    </lightning-card>
+</template>

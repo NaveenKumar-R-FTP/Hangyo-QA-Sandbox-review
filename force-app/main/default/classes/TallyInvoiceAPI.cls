@@ -8,6 +8,19 @@ global with sharing class TallyInvoiceAPI {
     private static final String PARAM_FROM_DATE = 'fromDate';
     private static final String PARAM_TO_DATE = 'toDate';
 
+    /** Query param customers use to identify themselves when sharing the
+     *  common Connected App/credential — see TallyAllowedUserService for the
+     *  match. Uses a query param rather than a custom header because Apex
+     *  REST's RestRequest.headers does not reliably expose arbitrary custom
+     *  headers sent by external clients (confirmed via debug log: the header
+     *  consistently arrived as null in Apex despite being sent correctly).
+     */
+    private static final String PARAM_CUSTOMER_API_KEY = 'customerKey';
+
+    /** Test hook to exercise the no-allowed-users response branch. */
+    @TestVisible
+    private static Boolean testForceEmptyAllowedUsers = false;
+
     /**
      * @description GET /services/apexrest/TallyInvoiceData/
      *              Returns invoices for configured allowed users.
@@ -21,8 +34,9 @@ global with sharing class TallyInvoiceAPI {
             RestRequest req = RestContext.request;
             Date fromDate = parseDateParam(req.params.get(PARAM_FROM_DATE));
             Date toDate = parseDateParam(req.params.get(PARAM_TO_DATE));
+            String customerApiKey = req.params.get(PARAM_CUSTOMER_API_KEY);
 
-            Set<Id> allowedUserIds = TallyAllowedUserService.getAllowedUserIds();
+            Set<Id> allowedUserIds = resolveAllowedUserIds(customerApiKey);
 
             TallyInvoiceResponseWrapper response = new TallyInvoiceResponseWrapper();
             response.invoices = new List<TallyInvoiceResponseWrapper.InvoiceWrapper>();
@@ -53,6 +67,14 @@ global with sharing class TallyInvoiceAPI {
         }
     }
 
+    @TestVisible
+    private static Set<Id> resolveAllowedUserIds(String customerApiKey) {
+        if (Test.isRunningTest() && testForceEmptyAllowedUsers) {
+            return new Set<Id>();
+        }
+        return TallyAllowedUserService.getAllowedUserIds(customerApiKey);
+    }
+
     /**
      * @description Parses an optional YYYY-MM-DD query parameter.
      * @param dateValue Raw query string value
@@ -69,7 +91,7 @@ global with sharing class TallyInvoiceAPI {
      * @description Writes the serialized wrapper to the REST response.
      */
     private static void writeResponse(
-        RestResponse res,
+        RestResponse res, 
         Integer statusCode,
         TallyInvoiceResponseWrapper response
     ) {

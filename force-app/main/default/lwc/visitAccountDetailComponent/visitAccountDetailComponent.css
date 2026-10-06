@@ -128,7 +128,6 @@
     text-align: center;
     width: 300px; /* Adjust width to control spacing */
     margin: 0 auto; /* Center the container */
-    
     }
 
     .buttons-wrapper3 {
@@ -240,9 +239,9 @@
     }
     .taggedbutton{
          flex: 1 1 calc(70% - 5px); /* Each button takes 50% width minus gap */
-         max-width: 400px; /* Adjust width as needed */
-         text-align: center;
-         padding: 0.5rem 1rem;
+    max-width: 400px; /* Adjust width as needed */
+    text-align: center;
+      padding: 0.5rem 1rem;
     
         font-weight: 600;
         border: none;
@@ -253,8 +252,6 @@
         background-color: #C1206B;
         font-family: amaranth regular;
         color: #fff;
-
-        
        
     }
     .taggedbutton:hover {

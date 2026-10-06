@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Running_Total__c</fullName>
+    <description>Rows counted so far. Equals the true total only once Status is Complete; while Running it is a floor that grows.</description>
+    <externalId>false</externalId>
+    <label>Running Total</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

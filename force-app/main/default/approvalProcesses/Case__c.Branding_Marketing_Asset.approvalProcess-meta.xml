@@ -18,6 +18,9 @@
         <field>Quantity__c</field>
         <field>Remarks__c</field>
         <field>Request_Photo__c</field>
+        <field>Retailer_Hub__c</field>
+        <field>Retailer_Location__c</field>
+        <field>Vendor__c</field>
         <field>Duplicate_Warning__c</field>
     </approvalPageFields>
     <approvalStep>
@@ -119,7 +122,7 @@ Branding &amp; Marketing Asset transfer Request</description>
         <useApproverFieldOfRecordOwner>false</useApproverFieldOfRecordOwner>
         <userHierarchyField>L1_Approver__c</userHierarchyField>
     </nextAutomatedApprover>
-    <processOrder>4</processOrder>
+    <processOrder>3</processOrder>
     <recordEditability>AdminOrCurrentApprover</recordEditability>
     <showApprovalHistory>true</showApprovalHistory>
 </ApprovalProcess>
